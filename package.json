@@ -1,0 +1,15 @@
+{
+  "name": "peri-systems-demo-frontend",
+  "version": "1.0.0",
+  "description": "Our Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.cardiff.ac.uk/c1843439/35-peri-systems-demo.git"
+  },
+  "author": "PERI Systems",
+  "license": "ISC"
+}
