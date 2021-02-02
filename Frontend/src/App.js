@@ -6,10 +6,14 @@ import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 // 2. Extend the theme to include custom colors, fonts, etc
 const colors = {
   brand: {
-    primary: "#1a365d",
-    secondary: "#153e75",
-    accents: "#2a69ac",
+    primary: "#f1f1f1",
+    secondary: "#dc0032",
+    tertiary: "#ffc300",
+    accents: "#554e44",
+  },
+  term: {
     open: "green",
+    warning: "yellow",
     closed: "red",
   },
 }
