@@ -27,11 +27,25 @@ app.use(router);
 server.listen(PORT, () => console.log(`Server has started on port ${PORT}`));
 
 //Mongoose
+
+//Schema Todo
+
+/**atlas
+ * username periGroup
+ * password password2021
+ * **/
+const MONGODB_URI = 'mongodb+srv://periGroup:password2021@pericluster.vn1i8.mongodb.net/periGroup?retryWrites=true&w=majority';
+
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/5000', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(MONGODB_URI || 'mongodb://localhost/peri_db', {useNewUrlParser: true, useUnifiedTopology: true});
+
+mongoose.connection.on('connected', () => {
+    console.log('Mongoose is connected!!!');
+});
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   // we're connected!
 });
+//
