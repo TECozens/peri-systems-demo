@@ -1,0 +1,158 @@
+[
+  {
+    "_id": {
+      "$oid": "601a8b773e3205f70dda2f74"
+    },
+    "role": "sales_engineer",
+    "name": {
+      "first": "Melanie",
+      "last": "Hudson"
+    },
+    "email": "melanie.hudson@peri.ltd.uk",
+    "password": "$2y$10$f8dMFFQ66Ys5OFgu/oOnZecBVGcgpDyDt/maKP78RV8BTDzJ7GVGK",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "601a8f8b3e3205f70dda2f76"
+    },
+    "role": "sales_engineer",
+    "name": {
+      "first": "Marco",
+      "last": "Santos"
+    },
+    "email": "marco.santos@peri.ltd.uk",
+    "password": "$2y$10$f8dMFFQ66Ys5OFgu/oOnZecBVGcgpDyDt/maKP78RV8BTDzJ7GVGK",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "601a8fcf3e3205f70dda2f77"
+    },
+    "role": "sales_engineer",
+    "name": {
+      "first": "Rob",
+      "last": "Jackson"
+    },
+    "email": "rob.jackson@peri.ltd.uk",
+    "password": "$2y$10$f8dMFFQ66Ys5OFgu/oOnZecBVGcgpDyDt/maKP78RV8BTDzJ7GVGK",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "601a90213e3205f70dda2f78"
+    },
+    "role": "design_engineer",
+    "name": {
+      "first": "Mark",
+      "last": "Polo"
+    },
+    "email": "mark.polo@peri.ltd.uk",
+    "password": "$2y$10$f8dMFFQ66Ys5OFgu/oOnZecBVGcgpDyDt/maKP78RV8BTDzJ7GVGK",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "601a908b3e3205f70dda2f79"
+    },
+    "role": "design_engineer",
+    "name": {
+      "first": "Helen",
+      "last": "Oliver"
+    },
+    "email": "helen.oliver@peri.ltd.uk",
+    "password": "$2y$10$f8dMFFQ66Ys5OFgu/oOnZecBVGcgpDyDt/maKP78RV8BTDzJ7GVGK",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "601a9e7a3e3205f70dda2f7a"
+    },
+    "role": "design_engineer",
+    "name": {
+      "first": "Joanne",
+      "last": "Hull"
+    },
+    "email": "joanne.hull@peri.ltd.uk",
+    "password": "$2y$10$f8dMFFQ66Ys5OFgu/oOnZecBVGcgpDyDt/maKP78RV8BTDzJ7GVGK",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "601a9f4e3e3205f70dda2f7c"
+    },
+    "role": "design_engineer",
+    "name": {
+      "first": "Mike",
+      "last": "Merchant"
+    },
+    "email": "mike.merchant@peri.ltd.uk",
+    "password": "$2y$12$yDe.hM4JVk4GonrtnX4WLeWTl3dcu0Lb4SWh7aWDeXAt1.20JABGu",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "601a9ffc3e3205f70dda2f7d"
+    },
+    "role": "design_engineer",
+    "name": {
+      "first": "Harvey",
+      "last": "Williams"
+    },
+    "email": "harvey.williams@peri.ltd.uk",
+    "password": "$2y$12$yDe.hM4JVk4GonrtnX4WLeWTl3dcu0Lb4SWh7aWDeXAt1.20JABGu",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "601aa0593e3205f70dda2f7e"
+    },
+    "role": "technical_team_leader",
+    "name": {
+      "first": "Alex",
+      "last": "Neville"
+    },
+    "email": "alex.neville@peri.ltd.uk",
+    "password": "$2y$12$yDe.hM4JVk4GonrtnX4WLeWTl3dcu0Lb4SWh7aWDeXAt1.20JABGu",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "601aa08b3e3205f70dda2f7f"
+    },
+    "role": "technical_team_leader",
+    "name": {
+      "first": "Jody",
+      "last": "Norris"
+    },
+    "email": "jody.norris@peri.ltd.uk",
+    "password": "$2y$12$yDe.hM4JVk4GonrtnX4WLeWTl3dcu0Lb4SWh7aWDeXAt1.20JABGu",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "601aa1843e3205f70dda2f81"
+    },
+    "role": "manager",
+    "name": {
+      "first": "Nick",
+      "last": "Mills"
+    },
+    "email": "nick.mills@peri.ltd.uk",
+    "password": "$2y$12$yDe.hM4JVk4GonrtnX4WLeWTl3dcu0Lb4SWh7aWDeXAt1.20JABGu",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "601aa2cf3e3205f70dda2f82"
+    },
+    "role": "manager",
+    "name": {
+      "first": "Stuart",
+      "last": "Davison"
+    },
+    "email": "stuart.davison@peri.ltd.uk",
+    "password": "$2y$12$yDe.hM4JVk4GonrtnX4WLeWTl3dcu0Lb4SWh7aWDeXAt1.20JABGu",
+    "__v": 0
+  }
+]
