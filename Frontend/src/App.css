@@ -6,3 +6,15 @@
 .PERI {
   color: crimson;
 }
+
+.Logo {
+  transform: scale(1.5);
+  height: 100px;
+  width: 100px;
+  padding: 5px;
+  margin-left: 15%;
+}
+
+.Info {
+  transform: scale(1);
+}

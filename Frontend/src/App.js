@@ -4,6 +4,7 @@ import './App.css';
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "./components/Login"
+import PeriNavbar from "./layout/PeriNavbar";
 
 // 2. Extend the theme to include custom colors, fonts, etc
 const colors = {
@@ -30,10 +31,11 @@ const theme = extendTheme({ colors })
 function App() {
   return (
   <ChakraProvider theme={theme}>
+      <PeriNavbar/>
       <Router>
-              <Switch>
-                  <Route exact path="/Login" component={Login} />
-              </Switch>
+          <Switch>
+              <Route exact path="/Login" component={Login} />
+          </Switch>
       </Router>
   </ChakraProvider>
   );

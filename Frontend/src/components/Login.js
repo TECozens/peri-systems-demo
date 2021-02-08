@@ -3,8 +3,9 @@ import { Box, Heading } from "@chakra-ui/react"
 import {FormControl, FormLabel} from "@chakra-ui/form-control";
 import {Input} from "@chakra-ui/input";
 import {Button} from "@chakra-ui/button";
-import {Flex, Grid, Text} from "@chakra-ui/layout";
+import {Center, Flex, Grid, GridItem, Square, Text, Wrap, WrapItem} from "@chakra-ui/layout";
 import '.././App.css';
+import {ReactComponent as ReactLogo} from "../icons/Perinfo.svg"
 
 
 const Login = () => {
@@ -12,33 +13,44 @@ const Login = () => {
     const [passWord, setPassWord] = React.useState("");
 
     return (
-        <div>
-            <Grid width="full" align="center" justifyContent="center">
-                <Box my={30} color="brand.txtColP" bg="brand.background" p={8} maxWidth="780px" borderWidth={1} boxShadow="md">
-                    <Box textAlign="center">
-                        <Heading>Sign into your <span className="PERI">PERI</span> Dashboard</Heading>
-                    </Box>
-
-                    <Box my={15} textAlign="left">
-                        <form>
-                            <FormControl>
-                                <FormLabel>Email</FormLabel>
-                                <Input borderRadius={5} type="email" id="email" name="email" placeholder="yourEmail@peri.ltd" />
-                            </FormControl>
-
-                            <FormControl mt={6}>
-                                <FormLabel>Password</FormLabel>
-                                <Input type="password" id="password" name="password" placeholder="*******" />
-                            </FormControl>
-
-                            <Button bg="brand.secondary" color="brand.background" width="full" mt={4} type="submit">
-                                Sign In
-                            </Button>
-                        </form>
-                    </Box>
+    <Flex justifyContent="center"
+          align="center"
+          width="full"
+          my={30}
+    >
+        <Flex align="center" p={8}  borderWidth={1} boxShadow="md" bg="brand.background" maxWidth="75%">
+            <Flex flexDir="column">
+                <Box>
+                    <Heading>Sign into your <span className="PERI">PERI</span> Dashboard</Heading>
                 </Box>
-            </Grid>
-        </div>
+
+                <Box mt="25%">
+                    <FormControl>
+                        <FormLabel>Email</FormLabel>
+                        <Input borderRadius={15} borderColor="brand.accents" focusBorderColor="brand.secondary" size="lg"
+                               isRequired type="email" id="email" name="email" placeholder="yourEmail@peri.ltd" />
+                    </FormControl>
+
+                    <FormControl>
+                        <FormLabel >Password</FormLabel>
+                        <Input borderRadius={15} borderColor="brand.accents" focusBorderColor="brand.secondary" size="lg"
+                            isRequired type="password" id="password" name="password" placeholder="*******" />
+                    </FormControl>
+
+                    <Button
+                        width="full" bg="brand.accents" color="brand.background" _hover={{ bg: "crimson" }} borderRadius={15}
+                        my={10} size="lg" type="submit">
+                        Sign In
+                    </Button>
+                </Box>
+            </Flex>
+
+
+            <Box>
+                <ReactLogo className="Info"/>
+            </Box>
+        </Flex>
+    </Flex>
     );
 };
 
