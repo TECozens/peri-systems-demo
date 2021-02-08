@@ -12,6 +12,8 @@ const colors = {
     secondary: "#dc0032",
     tertiary: "#ffc300",
     accents: "#554e44",
+    background: "white",
+    txtColP: "#3F3D56",
   },
   term: {
     open: "green",
@@ -29,9 +31,9 @@ function App() {
   return (
   <ChakraProvider theme={theme}>
       <Router>
-          <Switch>
-              <Route exact path="/Login" component={Login} />
-          </Switch>
+              <Switch>
+                  <Route exact path="/Login" component={Login} />
+              </Switch>
       </Router>
   </ChakraProvider>
   );
