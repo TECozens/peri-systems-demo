@@ -93,7 +93,7 @@ function initial() {
                     console.log("error", err);
                 }
 
-                console.log("added 'user' to roles collection");
+                console.log("added 'designer' to roles collection");
             });
 
             new Role({
@@ -103,7 +103,7 @@ function initial() {
                     console.log("error", err);
                 }
 
-                console.log("added 'moderator' to roles collection");
+                console.log("added 'technical' to roles collection");
             });
 
             new Role({

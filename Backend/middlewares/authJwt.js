@@ -51,7 +51,7 @@ isAdmin = (req, res, next) => {
     });
 };
 
-isModerator = (req, res, next) => {
+isTechnical = (req, res, next) => {
     User.findById(req.userId).exec((err, user) => {
         if (err) {
             res.status(500).send({ message: err });
@@ -69,13 +69,13 @@ isModerator = (req, res, next) => {
                 }
 
                 for (let i = 0; i < roles.length; i++) {
-                    if (roles[i].username === "moderator") {
+                    if (roles[i].username === "technical") {
                         next();
                         return;
                     }
                 }
 
-                res.status(403).send({ message: "Require Moderator Role!" });
+                res.status(403).send({ message: "Require technical Role!" });
                 return;
             }
         );
@@ -85,6 +85,6 @@ isModerator = (req, res, next) => {
 const authJwt = {
     verifyToken,
     isAdmin,
-    isModerator
+    isTechnical
 };
 module.exports = authJwt;
