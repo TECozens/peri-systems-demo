@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const employees = require("./employeesSchema");
-const projects = require("./projectsSchema");
+const employees = require("./models/employeeModel");
+const projects = require("./models/projectModel");
 const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
 
