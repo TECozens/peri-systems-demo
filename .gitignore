@@ -91,7 +91,7 @@ jspm_packages/
 
 # Optional npm cache directory
 .npm
-
+Frontend/.eslintcache
 # Optional eslint cache
 .eslintcache
 
@@ -100,7 +100,7 @@ jspm_packages/
 
 # Output of 'npm pack'
 *.tgz
-
+package-lock.json
 # Yarn Integrity file
 .yarn-integrity
 
