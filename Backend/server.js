@@ -74,11 +74,6 @@ mdb.once('open', function() {
     // we're connected!
 });
 
-
-
-
-
-
 app.use(router);
 
 require('./routes/auth.routes')(app);

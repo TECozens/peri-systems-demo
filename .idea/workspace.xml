@@ -20,33 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dc7dfceb-6841-4b7f-b857-8b3ca9827992" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Backend/config/auth.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/controllers/auth.controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/controllers/user.controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/middlewares/authJwt.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/middlewares/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/middlewares/verifySignUp.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/models/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/models/role.model.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/models/user.model.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/routes/auth.routes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/routes/user.routes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Frontend/src/components/Auth.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/controllers/auth.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/employeesSchema.js" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/models/employeesSchema.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/projectsSchema.js" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/models/projectsSchema.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/routes/router.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/controllers/auth.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/controllers/auth.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/middlewares/verifySignUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/middlewares/verifySignUp.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/utils/auth.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/.eslintcache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/components/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/components/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +69,7 @@
       <workItem from="1612313079440" duration="15000" />
       <workItem from="1612362298887" duration="25000" />
       <workItem from="1612837257659" duration="277000" />
-      <workItem from="1612887692591" duration="25705000" />
+      <workItem from="1612887692591" duration="27268000" />
     </task>
     <servers />
   </component>
