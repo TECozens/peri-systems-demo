@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const employees = require("./employeesSchema");
-const projects = require("./projectsSchema");
+const employees = require("../models/employeesSchema");
+const projects = require("../models/projectsSchema");
 const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
 
@@ -49,9 +49,5 @@ router.post('/addProject',jsonParser, (req, res) => {
 
 });
 
-const { signup, signin } = require('./controllers/auth');
-
-router.post('/signup', signup);
-router.post('/signin', signin);
 
 module.exports = router;

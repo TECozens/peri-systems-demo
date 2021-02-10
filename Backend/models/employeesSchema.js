@@ -5,13 +5,18 @@ const Schema = mongoose.Schema;
 const employeeSchema = new Schema(
     {
         _id: Schema.Types.ObjectId,
-        role: String,
         name: {
             first: String,
             last: String,
         },
         email: String,
-        password: String
+        password: String,
+        roles: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Role"
+            }
+        ]
     },
 );
 

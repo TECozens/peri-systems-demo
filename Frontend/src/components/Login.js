@@ -6,11 +6,13 @@ import {Button} from "@chakra-ui/button";
 import {Center, Flex, Grid, GridItem, Square, Text, Wrap, WrapItem} from "@chakra-ui/layout";
 import '.././App.css';
 import {ReactComponent as ReactLogo} from "../icons/Perinfo.svg"
+import Axios from "axios";
 
 
 const Login = () => {
-    const [Email, setEmail] = React.useState("");
-    const [passWord, setPassWord] = React.useState("");
+    const [email, setEmail] = React.useState("");
+    const [password, setPassword] = React.useState("");
+
 
     return (
     <Flex justifyContent="center"
