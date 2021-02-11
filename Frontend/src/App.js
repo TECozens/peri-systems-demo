@@ -1,9 +1,9 @@
-import React from 'react'
-import ExampleComponent from './components/ExampleComponent';
-import './App.css';
+import React from "react";
+import ExampleComponent from "./components/ExampleComponent";
+import "./App.css";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Login from "./components/Login"
+import Login from "./components/Login";
 import DesignDashboard from "./components/DesignDashboard";
 import PeriNavbar from "./layout/PeriNavbar";
 
@@ -22,24 +22,28 @@ const colors = {
     warning: "yellow",
     closed: "red",
   },
-}
+};
 
-const theme = extendTheme({ colors })
-
+const theme = extendTheme({ colors });
 
 function App() {
   return (
-  <ChakraProvider theme={theme}>
-      <PeriNavbar/>
+    <ChakraProvider theme={theme}>
+      <PeriNavbar />
       <Router>
-          <Switch>
-              <Route exact path="/Login" component={Login} />
-          </Switch>
-          <Switch>
-              <Route exact path="/DesignDashboard" component={DesignDashboard} />
-          </Switch>
+        <Switch>
+          <Route key="login" exact path="/Login" component={Login} />
+        </Switch>
+        <Switch>
+          <Route
+            key="designDashboard"
+            exact
+            path="/DesignDashboard"
+            component={DesignDashboard}
+          />
+        </Switch>
       </Router>
-  </ChakraProvider>
+    </ChakraProvider>
   );
 }
 
