@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import axios from "axios";
+import {BrowserRouter} from "react-router-dom";
 
 axios.defaults.baseURL = 'https://zany-periodic-fisherman.glitch.me/api';
 let userData = JSON.parse(localStorage.getItem("userData"))
@@ -29,9 +30,9 @@ axios.interceptors.response.use(response => {
 
 
 ReactDOM.render(
-  <React.StrictMode>
+  <BrowserRouter>
     <App />
-  </React.StrictMode>,
+  </BrowserRouter>,
   document.getElementById('root')
 );
 
