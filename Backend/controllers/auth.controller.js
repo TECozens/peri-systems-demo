@@ -47,7 +47,7 @@ exports.signup = (req, res) => {
                 }
             );
         } else {
-            Role.findOne({ name: "user" }, (err, role) => {
+            Role.findOne({ name: "designer" }, (err, role) => {
                 if (err) {
                     res.status(500).send({ message: err });
                     return;
@@ -110,6 +110,25 @@ exports.signin = (req, res) => {
                 email: user.email,
                 roles: authorities,
                 accessToken: token
+            });
+        });
+};
+
+exports.saveuser = (req, res) => {
+    let toBeAdded = new User();
+    toBeAdded.role = Role.findOne({ name: "designer" }, (err, role) => {
+        if (err) {
+            res.status(500).send({message: err});
+            return;
+        }
+            //toBeAdded.role = [role._id]
+            toBeAdded.firstname = "req.body.firstname";
+            toBeAdded.lastname = "req.body.lastname";
+            toBeAdded.email = "req.body.email";
+            toBeAdded.password = "req.body.password";
+            toBeAdded.save((err) => {
+                if (err) return res.json({success: false, error: err});
+                return res.json({success: true});
             });
         });
 };
