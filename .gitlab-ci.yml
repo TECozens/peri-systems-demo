@@ -1,9 +1,8 @@
-image: node:11.10.1
+image: latest
  
 stages:
     - test
 
- 
 test:
     stage: test
     script:
