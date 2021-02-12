@@ -38,7 +38,7 @@ isAdmin = (req, res, next) => {
                 }
 
                 for (let i = 0; i < roles.length; i++) {
-                    if (roles[i].username === "admin") {
+                    if (roles[i].name === "admin") {
                         next();
                         return;
                     }
@@ -51,7 +51,7 @@ isAdmin = (req, res, next) => {
     });
 };
 
-isModerator = (req, res, next) => {
+isTechnical = (req, res, next) => {
     User.findById(req.userId).exec((err, user) => {
         if (err) {
             res.status(500).send({ message: err });
@@ -69,22 +69,56 @@ isModerator = (req, res, next) => {
                 }
 
                 for (let i = 0; i < roles.length; i++) {
-                    if (roles[i].username === "moderator") {
+                    if (roles[i].name === "technical") {
                         next();
                         return;
                     }
                 }
 
-                res.status(403).send({ message: "Require Moderator Role!" });
+                res.status(403).send({ message: "Require technical Role!" });
                 return;
             }
         );
     });
 };
 
+isDesigner = (req, res, next) => {
+    User.findById(req.userId).exec((err, user) => {
+        if (err) {
+            res.status(500).send({ message: err });
+            return;
+        }
+
+        Role.find(
+            {
+                _id: { $in: user.roles }
+            },
+            (err, roles) => {
+                if (err) {
+                    res.status(500).send({ message: err });
+                    return;
+                }
+
+                for (let i = 0; i < roles.length; i++) {
+                    if (roles[i].name === "designer") {
+                        next();
+                        return;
+                    }
+                }
+
+                res.status(403).send({ message: "Require Designer Role!" });
+                return;
+            }
+        );
+    });
+};
+
+
+
 const authJwt = {
     verifyToken,
     isAdmin,
-    isModerator
+    isTechnical,
+    isDesigner
 };
 module.exports = authJwt;
