@@ -11,11 +11,14 @@ exports.signup = (req, res) => {
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         email: req.body.email,
-        password: bcrypt.hashSync(req.body.password, 8)
-        // username: "req.body.username",
-        // email: "req.body.email",
-        // password: "password",
-        // roles: ["user","moderator"]
+        password: bcrypt.hashSync(req.body.password, 8),
+
+        // Used to add mockdata
+        // firstname: "David",
+        // lastname: "Tek",
+        // email: "davidtek@peri.ltd.uk",
+        // password: bcrypt.hashSync("password", 8)
+
     });
 
     user.save((err, user) => {
@@ -23,11 +26,13 @@ exports.signup = (req, res) => {
             res.status(500).send({ message: err });
             return;
         }
-
+        //change the if to add mockdata
         if (req.body.roles) {
+            let mockRoles = ["designer", "technical"];
             Role.find(
                 {
                     name: { $in: req.body.roles }
+                    // name: { $in: mockRoles }
                 },
                 (err, roles) => {
                     if (err) {
