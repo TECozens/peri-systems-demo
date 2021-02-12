@@ -2,7 +2,7 @@
 import axios from "axios";
 
 // The Port that the Frontend connects to send to backend "5000", authorises users.
-const API_URL = "http://localhost:5000/api/auth/";
+const API_URL = "http://localhost:8081/api/auth/";
 
 //TODO Client Register Function, Not Yet Implemented on Backend
 const register = (firstname, lastname, email, password) => {

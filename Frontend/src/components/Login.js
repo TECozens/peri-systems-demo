@@ -19,16 +19,6 @@ const required = value => {
     }
 };
 
-const email = value => {
-    if(!isEmail(value)) {
-        return (
-            <Box classname="alert alert-danger" role="alert">
-                This isn't a valid email!
-            </Box>
-        );
-    }
-};
-
 const Login = (props) => {
     const form = useRef();
     const checkBtn = useRef();
@@ -118,12 +108,25 @@ const Login = (props) => {
                             />
                         </FormControl>
 
+                        {message && (
+                            <Box mt={15} align="center" width="full" className="alert alert-danger PERI" role="alert">
+                                <b>{message}</b>
+                            </Box>
+                        )}
+                        <CheckButton style={{display: "none"}} ref={checkBtn}/>
+
                         <Button
+                            type="submit"
+                            _disabled={loading}
                             width="full" bg="brand.accents" color="brand.background" _hover={{ bg: "crimson" }} borderRadius={15}
-                            my={10} size="lg" type="submit"
+                            my={10} size="lg"
                         >
-                            Sign In
+                            {loading && (
+                                <span>Loading...</span>
+                            )}
+                            <span>Sign In</span>
                         </Button>
+
 
                     </Form>
                 </Box>
