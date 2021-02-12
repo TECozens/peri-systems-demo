@@ -1,11 +1,21 @@
 image: node:11.10.1
  
 stages:
+    - build
     - test
+
+
+build:
+  stage: build
+  script:
+    - echo "Start Building App"
+    - npm ci
+    - npm build
+    - echo "Build successful!"
+
  
 run-unit-test:
     stage: test
     script:
         - cd Frontend
-        - npm ci
         - npm test 
