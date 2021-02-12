@@ -29,7 +29,7 @@ const Login = () => {
                 <Box mt="25%">
                     <FormControl>
                         <FormLabel>Email</FormLabel>
-                        <Input borderRadius={15} borderColor="brand.accents" focusBorderColor="brand.secondary" size="lg"
+                        <Input autoFocus borderRadius={15} borderColor="brand.accents" focusBorderColor="brand.secondary" size="lg"
                                isRequired type="email" id="email" name="email" placeholder="yourEmail@peri.ltd" />
                     </FormControl>
 
