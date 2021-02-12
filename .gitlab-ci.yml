@@ -8,6 +8,6 @@ test:
     stage: test
     script:
         - pwd
-        - npm i
         - cd Frontend
+        - npm install
         - CI=true npm test 
