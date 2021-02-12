@@ -3,7 +3,7 @@ const express = require('express');
 const socketio = require('socket.io');
 const http = require('http');
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8081;
 
 const app = express();
 const server = http.createServer(app);
@@ -13,7 +13,7 @@ const bodyParser = require('body-parser');
 // require('dotenv').config();
 
 var corsOptions = {
-    origin: "http://localhost:8081"
+    origin: "http://localhost:3000"
 };
 
 // routes
@@ -87,7 +87,7 @@ function initial() {
     Role.estimatedDocumentCount((err, count) => {
         if (!err && count === 0) {
             new Role({
-                name: "user"
+                name: "designer"
             }).save(err => {
                 if (err) {
                     console.log("error", err);
@@ -97,7 +97,7 @@ function initial() {
             });
 
             new Role({
-                name: "moderator"
+                name: "technical"
             }).save(err => {
                 if (err) {
                     console.log("error", err);
