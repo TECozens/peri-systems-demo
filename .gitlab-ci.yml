@@ -1,12 +1,12 @@
 image: node:11.10.1
  
 stages:
-    - build
-    - run-unit-test
+    - test
 
  
 run-unit-test:
     stage: test
     script:
+        - pwd
         - cd Frontend
-        - npm test 
+        - CI=true npm test 
