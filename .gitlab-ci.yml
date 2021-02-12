@@ -1,4 +1,4 @@
-image: node:latest
+image: 6.14.8
  
 stages:
     - test
