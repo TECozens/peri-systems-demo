@@ -6,9 +6,9 @@ const Dashboard = () => {
     const currentUser = AuthService.getCurrentUser();
 
     return (
-        <Box>
+        <Box bg="brand.background" m={10} p={20} boxShadow={"dark-lg"}>
             <Heading>
-                You've logged in as: {currentUser.email} | Your role is: {currentUser.role}
+                You've logged in as: {currentUser.email} Your Details are Below
             </Heading>
             <p>
                 <strong>Token:</strong> {currentUser.accessToken.substring(0, 20)} ...{" "}

@@ -4,6 +4,7 @@ import {ReactComponent as ReactLogo} from "../icons/Pericon.svg";
 import '.././App.css';
 import AuthService from "../services/auth.service";
 import {Link} from "react-router-dom";
+import {Menu, MenuButton, MenuGroup, MenuItem, MenuList} from "@chakra-ui/menu";
 
 
 const PeriNavbar = () => {
@@ -35,23 +36,59 @@ const PeriNavbar = () => {
             </Box>
             <Spacer/>
             <Box mr="10%">
-            {currentUser ? (
 
-                    <Button bg="brand.secondary" color="brand.background">
+
+                {currentUser ? (
+                <div>
+                    <Menu>
+                        <MenuButton mr={10} as={Button} bg="brand.accents" color="brand.primary">
+                            Menu
+                        </MenuButton>
+                        <MenuList>
+                            <MenuGroup title="Access">
+                                <MenuItem>
+                                    <a href="/profile">
+                                        Profile
+                                    </a>
+                                </MenuItem>
+                                {showDesignerBoard && (
+                                    <MenuItem>
+                                        <a href="/designer">
+                                            Designer
+                                        </a>
+                                    </MenuItem>
+                                )}
+                                {showTechnicalBoard && (
+                                    <MenuItem>
+                                        <a href="/technical">
+                                            Technical
+                                        </a>
+                                    </MenuItem>
+                                )}
+                                {showAdminBoard && (
+                                    <MenuItem>
+                                        <a href="/admin">
+                                            Admin
+                                        </a>
+                                    </MenuItem>
+                                )}
+                            </MenuGroup>
+                        </MenuList>
+                    </Menu>
+
+                    <Button bg="brand.accents" color="brand.primary">
                         <a href="/Login" onClick={logOut}>
                             LogOut
                         </a>
                     </Button>
-
-            ) : (
-
-                    <Button bg="brand.secondary" color="brand.background">
-                        <Link to={"/Login"}>
-                            Login
-                        </Link>
-                    </Button>
-
-            )}
+                </div>
+                ) : (
+                <Button bg="brand.secondary" color="brand.primary">
+                    <Link to={"/Login"}>
+                        Login
+                    </Link>
+                </Button>
+                )}
             </Box>
 
         </Flex>

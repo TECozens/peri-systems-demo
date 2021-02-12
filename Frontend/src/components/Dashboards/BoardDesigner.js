@@ -8,6 +8,7 @@ const BoardDesigner = () => {
     useEffect(() => {
         UserService.getDesignerBoard().then(
             (response) => {
+                console.log("User Service got a Response!", response.data)
                 setContent(response.data);
             },
             (error) => {
@@ -17,7 +18,7 @@ const BoardDesigner = () => {
                         error.response.data.message) ||
                     error.message ||
                     error.toString();
-
+                console.log("There was an Issue with the User Service", _content)
                 setContent(_content);
             }
         );
