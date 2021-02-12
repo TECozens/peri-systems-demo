@@ -4,7 +4,7 @@ stages:
     - test
 
  
-run-unit-test:
+test:
     stage: test
     script:
         - pwd
