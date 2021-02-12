@@ -1,4 +1,5 @@
-image: 6.14.8
+default:
+    image: node:latest
  
 stages:
     - test
@@ -8,5 +9,6 @@ test:
     script:
         - pwd
         - cd Frontend
+        - pwd
         - npm install
         - CI=true npm test 
