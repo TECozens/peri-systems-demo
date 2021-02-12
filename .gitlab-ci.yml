@@ -1,0 +1,11 @@
+image: node:11.10.1
+ 
+stages:
+    - test
+ 
+run-unit-test:
+    stage: test
+    script:
+        - cd Frontend
+        - npm install
+        - npm test 

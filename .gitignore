@@ -1,6 +1,10 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
+Backend/node_modules
+Backend/node_modules/
+Frontend/node_modules
+Frontend/node_modules/
 /node_modules
 /.pnp
 .pnp.js
@@ -10,6 +14,9 @@
 
 # production
 /build
+Backend/package-lock.json
+Frontend/package-lock.json
+package-lock.json
 
 # misc
 .DS_Store
@@ -18,6 +25,8 @@
 .env.test.local
 .env.production.local
 .eslintcache
+Frontend/.eslintcache
+.idea/workspace.xml
 
 npm-debug.log*
 yarn-debug.log*
@@ -89,6 +98,7 @@ jspm_packages/
 # Optional npm cache directory
 .npm
 
+Frontend/.eslintcache
 # Optional eslint cache
 .eslintcache
 
@@ -97,6 +107,7 @@ jspm_packages/
 
 # Output of 'npm pack'
 *.tgz
+package-lock.json
 
 # Yarn Integrity file
 .yarn-integrity
