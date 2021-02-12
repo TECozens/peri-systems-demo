@@ -1,5 +1,5 @@
 default:
-    image: node:default
+    image: node:14
  
 stages:
     - test
