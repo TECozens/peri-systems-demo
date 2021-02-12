@@ -7,6 +7,9 @@ stages:
 test:
     stage: test
     script:
+        - npm -v
+        - echo "NODE VERSION"
+        - node -v
         - pwd
         - cd Frontend
         - pwd
