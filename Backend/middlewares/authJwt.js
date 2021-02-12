@@ -38,7 +38,7 @@ isAdmin = (req, res, next) => {
                 }
 
                 for (let i = 0; i < roles.length; i++) {
-                    if (roles[i].username === "admin") {
+                    if (roles[i].email === "admin") {
                         next();
                         return;
                     }
@@ -69,7 +69,7 @@ isTechnical = (req, res, next) => {
                 }
 
                 for (let i = 0; i < roles.length; i++) {
-                    if (roles[i].username === "technical") {
+                    if (roles[i].email === "technical") {
                         next();
                         return;
                     }
@@ -82,9 +82,11 @@ isTechnical = (req, res, next) => {
     });
 };
 
+
 const authJwt = {
     verifyToken,
     isAdmin,
     isTechnical
 };
+
 module.exports = authJwt;
