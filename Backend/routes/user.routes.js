@@ -12,7 +12,10 @@ module.exports = function(app) {
 
     app.get("/api/auth/all", controller.allAccess);
 
-    app.get("/api/auth/designer", [authJwt.verifyToken], controller.designerBoard);
+    app.get(
+        "/api/auth/designer",
+        [authJwt.verifyToken, authJwt.isDesigner],
+        controller.designerBoard);
 
     app.get(
         "/api/auth/technical",

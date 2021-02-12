@@ -14,9 +14,9 @@ exports.signup = (req, res) => {
         password: bcrypt.hashSync(req.body.password, 8),
 
         // Used to add mockdata
-        // firstname: "David",
-        // lastname: "Tek",
-        // email: "davidtek@peri.ltd.uk",
+        // firstname: "Adrian",
+        // lastname: "Adams",
+        // email: "adrian@peri.ltd.uk",
         // password: bcrypt.hashSync("password", 8)
 
     });
@@ -26,9 +26,9 @@ exports.signup = (req, res) => {
             res.status(500).send({ message: err });
             return;
         }
-        //change the if to add mockdata
+        //change the if to add mockdata req.body.roles
         if (req.body.roles) {
-            let mockRoles = ["designer", "technical"];
+            let mockRoles = ["admin"];
             Role.find(
                 {
                     name: { $in: req.body.roles }
