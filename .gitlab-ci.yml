@@ -12,5 +12,5 @@ test:
         - pwd
         - cd Frontend
         - pwd
-        - npm install
+        - npm ci
         - CI=true npm test 
