@@ -51,7 +51,7 @@ const Login = (props) => {
         if (checkBtn.current.context._errors.length === 0) {
             AuthService.login(email, password).then( () => {
                 props.history.push("/Dashboard");
-                // window.location.reload();
+                window.location.reload();
             },(error) => {
                 const resMessage =
                     (error.response && error.response.data && error.response.message)

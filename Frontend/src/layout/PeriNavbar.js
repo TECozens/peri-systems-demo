@@ -26,6 +26,7 @@ const PeriNavbar = () => {
 
     const logOut = () => {
         AuthService.logout();
+        window.location.reload();
     };
 
     return (
@@ -36,8 +37,6 @@ const PeriNavbar = () => {
             </Box>
             <Spacer/>
             <Box mr="10%">
-
-
                 {currentUser ? (
                 <div>
                     <Menu>
