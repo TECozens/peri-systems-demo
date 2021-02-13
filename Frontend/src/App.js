@@ -33,16 +33,14 @@ const theme = extendTheme({ colors })
 function App() {
 
 
+  //TODO dashboard needs to redirect unauthenticated users
   return (
   <ChakraProvider theme={theme}>
       <PeriNavbar/>
       <Router>
           <Switch>
               <Route exact path="/Login" component={Login} />
-              <Route exact path="/profile" component={Dashboard} />
-              <Route path="/designer" component={BoardDesigner} />
-              <Route path="/technical" component={BoardTechnical} />
-              <Route path="/admin" component={BoardAdmin} />
+              <Route exact path="/dashboard" component={Dashboard} />
           </Switch>
       </Router>
   </ChakraProvider>
