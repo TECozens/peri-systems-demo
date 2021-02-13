@@ -10,5 +10,5 @@ test:
     stage: test
     script:
         - cd Frontend
-        - npm install
-        - npm test 
+        - yarn install
+        - yarn test 
