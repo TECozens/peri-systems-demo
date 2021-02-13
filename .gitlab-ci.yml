@@ -1,7 +1,7 @@
-# image: node:11.10.1
+image: node:11.10.1
  
-# variables:
-#   GIT_STRATEGY: clone
+variables:
+  GIT_STRATEGY: fetch
 
 stages:
     - test
@@ -10,5 +10,7 @@ test:
     stage: test
     script:
         - cd Frontend
+        - node -v
+        - npm -v
         - npm install
-        - npm test 
+        - npm run test 
