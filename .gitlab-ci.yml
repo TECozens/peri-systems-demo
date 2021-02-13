@@ -12,6 +12,7 @@ test:
     stage: test
     script:
         - cd Frontend
+        - npm i express -g
         - node -v
         - npm -v
         - npm install
