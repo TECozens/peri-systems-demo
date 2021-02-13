@@ -1,4 +1,4 @@
-job:
+linux job:
   tags:
     general-docker
 
