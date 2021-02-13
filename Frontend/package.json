@@ -17,6 +17,7 @@
     "react-scripts": "4.0.1",
     "react-validation": "^3.0.7",
     "validator": "^13.5.2",
+    "wait-on": "^5.2.1",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
@@ -24,7 +25,8 @@
     "build": "react-scripts build",
     "test": "start-server-and-test start http-get://localhost:3030 cy:run",
     "eject": "react-scripts eject",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "cy:run": "cypress run"
   },
   "eslintConfig": {
     "extends": [
