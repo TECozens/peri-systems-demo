@@ -1,11 +1,16 @@
-image: node:11.10.1
+default:
+    image: node:14
  
 stages:
     - test
- 
-run-unit-test:
+
+test:
     stage: test
     script:
+        - npm -v
+        - node -v
+        - pwd
         - cd Frontend
-        - npm install
-        - npm test 
+        - pwd
+        - npm ci
+        - CI=true npm test 
