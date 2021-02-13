@@ -40,7 +40,7 @@ function App() {
       <Router>
           <Switch>
               <Route exact path="/Login" component={Login} />
-              <Route exact path="/dashboard" component={Dashboard} />
+              <Route exact path="/Dashboard" component={Dashboard} />
           </Switch>
       </Router>
   </ChakraProvider>
