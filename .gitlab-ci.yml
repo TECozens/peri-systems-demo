@@ -11,10 +11,8 @@ test:
     tags: [general-docker]
     stage: test
     script:
-        - npm -v
-        - node -v
-        - pwd
         - cd Frontend
-        - pwd
-        - npm ci
-        - CI=true npm test 
+        - node -v
+        - npm -v
+        - npm install
+        - npm run test 
