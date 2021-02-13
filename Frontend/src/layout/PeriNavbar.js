@@ -48,30 +48,9 @@ const PeriNavbar = () => {
                             <MenuGroup title="Access">
                                 <MenuItem>
                                     <a href="/profile">
-                                        Profile
+                                        Dashboard
                                     </a>
                                 </MenuItem>
-                                {showDesignerBoard && (
-                                    <MenuItem>
-                                        <a href="/designer">
-                                            Designer
-                                        </a>
-                                    </MenuItem>
-                                )}
-                                {showTechnicalBoard && (
-                                    <MenuItem>
-                                        <a href="/technical">
-                                            Technical
-                                        </a>
-                                    </MenuItem>
-                                )}
-                                {showAdminBoard && (
-                                    <MenuItem>
-                                        <a href="/admin">
-                                            Admin
-                                        </a>
-                                    </MenuItem>
-                                )}
                             </MenuGroup>
                         </MenuList>
                     </Menu>

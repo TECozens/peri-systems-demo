@@ -1,8 +1,9 @@
-import React from "react";
-import "./App.css";
+import React from 'react'
+import ExampleComponent from './components/ExampleComponent';
+import './App.css';
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Login from "./components/Login";
+import Login from "./components/Login"
 import PeriNavbar from "./layout/PeriNavbar";
 import Dashboard from "./components/Dashboard";
 import BoardDesigner from "./components/Dashboards/BoardDesigner";
@@ -29,19 +30,19 @@ const colors = {
 const theme = extendTheme({ colors });
 
 function App() {
+
+
+  //TODO dashboard needs to redirect unauthenticated users
   return (
-    <ChakraProvider theme={theme}>
-      <PeriNavbar />
+  <ChakraProvider theme={theme}>
+      <PeriNavbar/>
       <Router>
-        <Switch>
-          <Route exact path="/Login" component={Login} />
-          <Route exact path="/profile" component={Dashboard} />
-          <Route path="/designer" component={BoardDesigner} />
-          <Route path="/technical" component={BoardTechnical} />
-          <Route path="/admin" component={BoardAdmin} />
-        </Switch>
+          <Switch>
+              <Route exact path="/Login" component={Login} />
+              <Route exact path="/dashboard" component={Dashboard} />
+          </Switch>
       </Router>
-    </ChakraProvider>
+  </ChakraProvider>
   );
 }
 

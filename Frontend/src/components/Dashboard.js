@@ -1,31 +1,40 @@
-import React from "react";
-import {Box, Heading} from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { Box, Heading } from "@chakra-ui/react";
 import AuthService from "../services/auth.service";
+import { MenuGroup, MenuItem } from "@chakra-ui/menu";
+import BoardDesigner from "./Dashboards/BoardDesigner";
+import BoardAdmin from "./Dashboards/BoardAdmin";
+import BoardTechnical from "./Dashboards/BoardTechnical";
 
 const Dashboard = () => {
-    const currentUser = AuthService.getCurrentUser();
+  const [showTechnicalBoard, setShowTechnicalBoard] = useState(false);
+  const [showAdminBoard, setShowAdminBoard] = useState(false);
+  const [showDesignerBoard, setShowDesignerBoard] = useState(false);
+  const [currentUser, setCurrentUser] = useState(undefined);
 
-    return (
+  useEffect(() => {
+    const user = AuthService.getCurrentUser();
+
+    if (user) {
+      setCurrentUser(user);
+      setShowTechnicalBoard(user.roles.includes("ROLE_TECHNICAL"));
+      setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
+      setShowDesignerBoard(user.roles.includes("ROLE_DESIGNER"));
+    }
+  }, []);
+
+  return (
+    <div>
+      {currentUser ? (
         <Box bg="brand.background" m={10} p={20} boxShadow={"dark-lg"}>
-            <Heading>
-                You've logged in as: {currentUser.email} Your Details are Below
-            </Heading>
-            <p>
-                <strong>Token:</strong> {currentUser.accessToken.substring(0, 20)} ...{" "}
-                {currentUser.accessToken.substr(currentUser.accessToken.length - 20)}
-            </p>
-            <p>
-                <strong>Id:</strong> {currentUser.id}
-            </p>
-            <p>
-                <strong>Email:</strong> {currentUser.email}
-            </p>
-            <strong>Authorities:</strong>
-            <ul>
-                {currentUser.roles &&
-                currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
-            </ul>
+          {showDesignerBoard && <BoardDesigner />}
+          {showTechnicalBoard && <BoardTechnical />}
+          {showAdminBoard && <BoardAdmin />}
         </Box>
-    )
-}
+      ) : (
+        <div>Not Logged in</div>
+      )}
+    </div>
+  );
+};
 export default Dashboard;
