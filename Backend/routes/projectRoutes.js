@@ -26,15 +26,19 @@ router.post("/addProject", jsonParser, (req, res) => {
   });
 });
 
-router.get("/getProjectsByDesigner/:designerID", jsonParser, (req, res) => {
-  let designerId = new mongoose.Types.ObjectId(req.params.designerID);
-  projects.find({ "engineers.designer_id": designerId }, (err, data) => {
-    if (err) {
-      return res.json({ success: false, error: err });
-    } else {
-      return res.json({ success: true, data: data });
-    }
-  });
-});
+router.get(
+  "/api/projects/getProjectsByDesigner/:designerID",
+  jsonParser,
+  (req, res) => {
+    let designerId = new mongoose.Types.ObjectId(req.params.designerID);
+    projects.find({ "engineers.designer_id": designerId }, (err, data) => {
+      if (err) {
+        return res.json({ success: false, error: err });
+      } else {
+        return res.json({ success: true, data: data });
+      }
+    });
+  }
+);
 
 module.exports = router;

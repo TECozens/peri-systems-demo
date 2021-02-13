@@ -77,6 +77,7 @@ mdb.once("open", function () {
 });
 
 app.use(router);
+app.use(projectRouter);
 
 require("./routes/auth.routes")(app);
 require("./routes/user.routes")(app);

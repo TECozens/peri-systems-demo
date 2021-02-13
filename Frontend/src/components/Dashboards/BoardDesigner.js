@@ -1,34 +1,75 @@
-import React, { useState, useEffect } from "react";
-import {Box} from "@chakra-ui/react";
-import UserService from "../../services/user.service";
+import React, { useEffect, useState } from "react";
+import { Box, Heading } from "@chakra-ui/react";
+import { Table, Tbody, Td, Tfoot, Th, Thead, Tr } from "@chakra-ui/table";
+import { Text } from "@chakra-ui/layout";
+import getProjects from "../../services/project.service";
+import AuthService from "../../services/auth.service";
 
 const BoardDesigner = () => {
-    const [content, setContent] = useState("");
+  let authenticatedUser = AuthService.getCurrentUser();
+  const [projects, setProjects] = useState([]);
 
-    useEffect(() => {
-        UserService.getDesignerBoard().then(
-            (response) => {
-                console.log("User Service got a Response!", response.data)
-                setContent(response.data);
-            },
-            (error) => {
-                const _content =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                    error.message ||
-                    error.toString();
-                console.log("There was an Issue with the User Service", _content)
-                setContent(_content);
-            }
-        );
-    }, []);
+  useEffect(() => {
+    getProjects(authenticatedUser.id).then((projects) => setProjects(projects));
+  }, []);
 
-    return (
-        <Box>
-            <h3>{content}</h3>
-        </Box>
-    );
+  function displayProjects() {
+    if (projects.length >= 1) {
+      return projects.map((data) => (
+        <Tr>
+          <Td>{data.name}</Td>
+          <Td>{data.number}</Td>
+          <Td>------</Td>
+          <Td>{data.status[data.status.length - 1].value}</Td>
+        </Tr>
+      ));
+    } else {
+      return (
+        <Tr>
+          <Th></Th>
+          <Th></Th>
+          <Th> No projects</Th>
+          <Th></Th>
+        </Tr>
+      );
+    }
+  }
+
+  return (
+    <div>
+      <Box m="10px">
+        <Heading>Welcome back {authenticatedUser.firstname}!</Heading>
+      </Box>
+      <Box m="10px">
+        <Table
+          variant="simple"
+          size="md"
+          borderWidth="2px"
+          borderColor="#463E39"
+          borderRadius="mg"
+          bg="brand.background"
+        >
+          <Thead bg="brand.tertiary">
+            <Tr color="#463E39">
+              <Th>
+                <Text fontSize="lg">Name </Text>
+              </Th>
+              <Th>
+                <Text fontSize="lg">Number </Text>
+              </Th>
+              <Th>
+                <Text fontSize="lg">Technical Deliverables</Text>
+              </Th>
+              <Th>
+                <Text fontSize="lg">Status</Text>
+              </Th>
+            </Tr>
+          </Thead>
+          <Tbody>{displayProjects()}</Tbody>
+        </Table>
+      </Box>
+    </div>
+  );
 };
 
 export default BoardDesigner;
