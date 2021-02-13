@@ -1,7 +1,7 @@
 image: node:11.10.1
  
 variables:
-  GIT_STRATEGY: clone
+  GIT_STRATEGY: fetch
 
 stages:
     - test
