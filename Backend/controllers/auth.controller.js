@@ -8,13 +8,17 @@ var bcrypt = require("bcryptjs");
 
 exports.signup = (req, res) => {
     const user = new User({
-        username: req.body.username,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
         email: req.body.email,
-        password: bcrypt.hashSync(req.body.password, 8)
-        // username: "req.body.username",
-        // email: "req.body.email",
-        // password: "password",
-        // roles: ["user","moderator"]
+        password: bcrypt.hashSync(req.body.password, 8),
+
+        // Used to add mockdata
+        // firstname: "Adrian",
+        // lastname: "Adams",
+        // email: "adrian@peri.ltd.uk",
+        // password: bcrypt.hashSync("password", 8)
+
     });
 
     user.save((err, user) => {
@@ -22,11 +26,13 @@ exports.signup = (req, res) => {
             res.status(500).send({ message: err });
             return;
         }
-
+        //change the if to add mockdata req.body.roles
         if (req.body.roles) {
+            let mockRoles = ["admin"];
             Role.find(
                 {
                     name: { $in: req.body.roles }
+                    // name: { $in: mockRoles }
                 },
                 (err, roles) => {
                     if (err) {
@@ -46,7 +52,7 @@ exports.signup = (req, res) => {
                 }
             );
         } else {
-            Role.findOne({ name: "user" }, (err, role) => {
+            Role.findOne({ name: "designer" }, (err, role) => {
                 if (err) {
                     res.status(500).send({ message: err });
                     return;
@@ -68,7 +74,7 @@ exports.signup = (req, res) => {
 
 exports.signin = (req, res) => {
     User.findOne({
-        username: req.body.username
+        email: req.body.email
     })
         .populate("roles", "-__v")
         .exec((err, user) => {
@@ -104,10 +110,30 @@ exports.signin = (req, res) => {
             }
             res.status(200).send({
                 id: user._id,
-                username: user.username,
+                firstname: user.firstname,
+                lastname: user.lastname,
                 email: user.email,
                 roles: authorities,
                 accessToken: token
+            });
+        });
+};
+
+exports.saveuser = (req, res) => {
+    let toBeAdded = new User();
+    toBeAdded.role = Role.findOne({ name: "designer" }, (err, role) => {
+        if (err) {
+            res.status(500).send({message: err});
+            return;
+        }
+            //toBeAdded.role = [role._id]
+            toBeAdded.firstname = "req.body.firstname";
+            toBeAdded.lastname = "req.body.lastname";
+            toBeAdded.email = "req.body.email";
+            toBeAdded.password = "req.body.password";
+            toBeAdded.save((err) => {
+                if (err) return res.json({success: false, error: err});
+                return res.json({success: true});
             });
         });
 };

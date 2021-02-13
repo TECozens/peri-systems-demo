@@ -10,18 +10,21 @@ module.exports = function(app) {
         next();
     });
 
-    app.get("/api/test/all", controller.allAccess);
-
-    app.get("/api/test/user", [authJwt.verifyToken], controller.userBoard);
+    app.get("/api/auth/all", controller.allAccess);
 
     app.get(
-        "/api/test/mod",
-        [authJwt.verifyToken, authJwt.isModerator],
-        controller.moderatorBoard
+        "/api/auth/designer",
+        [authJwt.verifyToken, authJwt.isDesigner],
+        controller.designerBoard);
+
+    app.get(
+        "/api/auth/technical",
+        [authJwt.verifyToken, authJwt.isTechnical],
+        controller.technicalBoard
     );
 
     app.get(
-        "/api/test/admin",
+        "/api/auth/admin",
         [authJwt.verifyToken, authJwt.isAdmin],
         controller.adminBoard
     );
