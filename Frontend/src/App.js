@@ -33,18 +33,19 @@ function App() {
 
   //TODO dashboard needs to redirect unauthenticated users
   return (
-    <ChakraProvider theme={theme}>
-      <PeriNavbar/>
       <Router>
-        <Switch>
-          <Route exact path="/">
-            {isAuthenticated ? <Redirect to="/Dashboard" /> : <Redirect to="/Login"/>}
-          </Route>
-          <Private exact authed={isAuthenticated} component={Dashboard} path="/dashboard"/>
-          <Route exact path="/Login" component={Login}/>
-        </Switch>
-      </Router>
-    </ChakraProvider>
+        <ChakraProvider theme={theme}>
+        <PeriNavbar/>
+          <Switch>
+            <Route exact path="/">
+              {isAuthenticated ? <Redirect to="/Dashboard" /> : <Redirect to="/Login"/>}
+            </Route>
+            <Private exact authed={isAuthenticated} component={Dashboard} path="/dashboard"/>
+            <Route exact path="/Login" component={Login}/>
+
+          </Switch>
+      </ChakraProvider>
+    </Router>
   );
 }
 
