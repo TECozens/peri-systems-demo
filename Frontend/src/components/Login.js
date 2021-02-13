@@ -3,7 +3,6 @@ import { Box, Heading, Input, Button, FormControl, FormLabel, Flex } from "@chak
 import '.././App.css';
 import {ReactComponent as ReactLogo} from "../icons/Perinfo.svg"
 import Form from "react-validation/build/form";
-// import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import isEmail from 'validator';
 import AuthService from "../services/auth.service";
@@ -51,8 +50,8 @@ const Login = (props) => {
         //TODO Change to dashboard later on, Log outputs for issues
         if (checkBtn.current.context._errors.length === 0) {
             AuthService.login(email, password).then( () => {
-                props.history.push("/dashboard");
-                window.location.reload();
+                props.history.push("/Dashboard");
+                // window.location.reload();
             },(error) => {
                 const resMessage =
                     (error.response && error.response.data && error.response.message)

@@ -47,7 +47,7 @@ const PeriNavbar = () => {
                         <MenuList>
                             <MenuGroup title="Access">
                                 <MenuItem>
-                                    <a href="/profile">
+                                    <a href="/Dashboard">
                                         Dashboard
                                     </a>
                                 </MenuItem>

@@ -43,6 +43,10 @@ function App() {
           <Private exact authed={isAuthenticated} component={Dashboard} path="/dashboard"/>
           <Route exact path="/Login" component={Login}/>
         </Switch>
+          <Switch>
+              <Route exact path="/Login" component={Login} />
+              <Route exact path="/Dashboard" component={Dashboard} />
+          </Switch>
       </Router>
     </ChakraProvider>
   );
