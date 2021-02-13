@@ -12,7 +12,7 @@ test:
     stage: test
     script:
         - cd Frontend
-        - npm i cypress -g
+        - npm i cypress
         - node -v
         - npm -v
         - npm install
