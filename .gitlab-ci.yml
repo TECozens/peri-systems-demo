@@ -1,6 +1,3 @@
-tags:
-  general-docker
-
 default:
     image: node:14
 
@@ -11,6 +8,7 @@ stages:
     - test
 
 test:
+    tags: [general-docker]
     stage: test
     script:
         - npm -v
