@@ -6,7 +6,7 @@
 stages:
     - test
  
-run-unit-test:
+test:
     stage: test
     script:
         - cd Frontend
