@@ -11,5 +11,6 @@ test:
     script:
         - cd Frontend
         - node -v
+        - npm -v
         - npm install
         - npm run test 
