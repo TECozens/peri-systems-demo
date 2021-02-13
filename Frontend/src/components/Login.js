@@ -87,6 +87,7 @@ const Login = (props) => {
                 <FormControl mb={4}>
                   <FormLabel>Email</FormLabel>
                   <Input
+                    autofocus
                     type="email"
                     id="email"
                     name="email"
