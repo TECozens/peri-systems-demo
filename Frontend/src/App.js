@@ -16,7 +16,10 @@ const colors = {
     tertiary: "#ffc300",
     accents: "#554e44",
     background: "white",
-    txtColP: "#3F3D56",
+    primaryText: "#3F3D56",
+
+    // Hover states
+    primaryHover: "#caddd2"
   },
   term: {
     open: "green",
@@ -39,7 +42,7 @@ function App() {
         <Switch>
           <Private exact authed={isAuthenticated} component={Dashboard} path="/dashboard"/>
           <Route exact path="/Login" component={Login}/>
-          </Switch>
+        </Switch>
       </Router>
     </ChakraProvider>
   );
