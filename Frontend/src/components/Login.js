@@ -1,19 +1,17 @@
 import React, { useRef, useState } from "react";
 import {
   Box,
-  Heading,
-  Input,
   Button,
+  Flex,
   FormControl,
   FormLabel,
-  Flex,
+  Heading,
+  Input,
 } from "@chakra-ui/react";
 import ".././App.css";
 import { ReactComponent as ReactLogo } from "../icons/Perinfo.svg";
 import Form from "react-validation/build/form";
-// import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-import isEmail from "validator";
 import AuthService from "../services/auth.service";
 
 //NOTE Could be Unnecessary
@@ -54,7 +52,6 @@ const Login = (props) => {
     setLoading(true);
 
     form.current.validateAll();
-    // props.current.validateAll();
 
     //TODO Change to dashboard later on, Log outputs for issues
     if (checkBtn.current.context._errors.length === 0) {

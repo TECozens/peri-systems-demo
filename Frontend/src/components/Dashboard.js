@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Box, Heading } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import AuthService from "../services/auth.service";
-import { MenuGroup, MenuItem } from "@chakra-ui/menu";
 import BoardDesigner from "./Dashboards/BoardDesigner";
 import BoardAdmin from "./Dashboards/BoardAdmin";
 import BoardTechnical from "./Dashboards/BoardTechnical";

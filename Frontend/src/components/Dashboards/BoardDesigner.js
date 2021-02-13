@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Heading } from "@chakra-ui/react";
-import { Table, Tbody, Td, Tfoot, Th, Thead, Tr } from "@chakra-ui/table";
+import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
 import { Text } from "@chakra-ui/layout";
 import getProjects from "../../services/project.service";
 import AuthService from "../../services/auth.service";
