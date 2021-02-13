@@ -25,14 +25,11 @@ const colors = {
   },
 }
 
-// TODO change this with new
-const USER_ROLES = ['normal', 'technical', 'admin']
 const theme = extendTheme({colors})
-const isAuthenticated = AuthService.getCurrentUser() !== null
+const isAuthenticated = AuthService.isUserAuthenticated()
 
 function App() {
 
-  console.log(isAuthenticated)
 
   //TODO dashboard needs to redirect unauthenticated users
   return (
@@ -42,10 +39,6 @@ function App() {
         <Switch>
           <Private exact authed={isAuthenticated} component={Dashboard} path="/dashboard"/>
           <Route exact path="/Login" component={Login}/>
-        </Switch>
-          <Switch>
-              <Route exact path="/Login" component={Login} />
-              <Route exact path="/Dashboard" component={Dashboard} />
           </Switch>
       </Router>
     </ChakraProvider>
