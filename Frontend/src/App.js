@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css';
 import {ChakraProvider, extendTheme} from "@chakra-ui/react";
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import Login from "./components/Login"
 import PeriNavbar from "./layout/PeriNavbar";
 import Dashboard from "./components/Dashboard";
@@ -36,15 +36,19 @@ function App() {
 
   //TODO dashboard needs to redirect unauthenticated users
   return (
-    <ChakraProvider theme={theme}>
-      <PeriNavbar/>
       <Router>
-        <Switch>
-          <Private exact authed={isAuthenticated} component={Dashboard} path="/dashboard"/>
-          <Route exact path="/Login" component={Login}/>
-        </Switch>
-      </Router>
-    </ChakraProvider>
+        <ChakraProvider theme={theme}>
+        <PeriNavbar/>
+          <Switch>
+            <Route exact path="/">
+              {isAuthenticated ? <Redirect to="/Dashboard" /> : <Redirect to="/Login"/>}
+            </Route>
+            <Private exact authed={isAuthenticated} component={Dashboard} path="/dashboard"/>
+            <Route exact path="/Login" component={Login}/>
+
+          </Switch>
+      </ChakraProvider>
+    </Router>
   );
 }
 
