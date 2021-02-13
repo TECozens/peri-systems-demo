@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { Box, Heading } from "@chakra-ui/react";
+import React, { useEffect, useRef, useState } from "react";
+import { Box, Heading, Input, HStack, Button } from "@chakra-ui/react";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
 import { Text } from "@chakra-ui/layout";
 import getProjects from "../../services/project.service";
 import AuthService from "../../services/auth.service";
+import { Search2Icon } from "@chakra-ui/icons";
 
 const BoardDesigner = () => {
   let authenticatedUser = AuthService.getCurrentUser();
+  let unfilteredProjects = useRef();
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    getProjects(authenticatedUser.id).then((projects) => setProjects(projects));
+    getProjects(authenticatedUser.id).then((projects) => {
+      unfilteredProjects.current = projects;
+      setProjects(unfilteredProjects.current);
+    });
   }, []);
 
   function displayProjects() {
@@ -35,11 +40,50 @@ const BoardDesigner = () => {
     }
   }
 
+  function handleProjectNameChange(event) {
+    setProjects(
+      unfilteredProjects.current.filter((project) =>
+        project.name.toLowerCase().includes(event.target.value.toLowerCase())
+      )
+    );
+  }
+
+  function handleProjectNumberChange(event) {
+    setProjects(
+      unfilteredProjects.current.filter((project) =>
+        project.name.includes(event.target.value)
+      )
+    );
+  }
+
+  function handleTechnicalDeliverableChange() {}
+
+  function handleStatusChange() {}
+
   return (
     <div>
       <Box m="10px">
         <Heading>Welcome back {authenticatedUser.firstname}!</Heading>
       </Box>
+      <HStack m="10px">
+        <Input
+          size="sm"
+          onChange={handleProjectNameChange}
+          placeholder="Project Name"
+        />
+        <Input
+          size="sm"
+          onChange={handleProjectNumberChange}
+          placeholder="Project Number"
+        />
+        <Input
+          size="sm"
+          onChange={handleTechnicalDeliverableChange}
+          placeholder="Technical Deliverables"
+        />
+        <Input size="sm" onChange={handleStatusChange} placeholder="Status" />
+        <Search2Icon />
+      </HStack>
       <Box m="10px">
         <Table
           variant="simple"
