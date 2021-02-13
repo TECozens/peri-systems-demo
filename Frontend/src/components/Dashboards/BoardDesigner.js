@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Box, Heading, Input, HStack, Button } from "@chakra-ui/react";
+import { Box, Heading, HStack, Input } from "@chakra-ui/react";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
 import { Text } from "@chakra-ui/layout";
 import getProjects from "../../services/project.service";
@@ -10,6 +10,7 @@ const BoardDesigner = () => {
   let authenticatedUser = AuthService.getCurrentUser();
   let unfilteredProjects = useRef();
   const [projects, setProjects] = useState([]);
+  let filters = useRef({});
 
   useEffect(() => {
     getProjects(authenticatedUser.id).then((projects) => {
@@ -40,25 +41,58 @@ const BoardDesigner = () => {
     }
   }
 
+  function filterProjects() {
+    let displayedProjects = unfilteredProjects.current;
+
+    for (const [key, value] of Object.entries(filters.current)) {
+      if (key === "name") {
+        displayedProjects = displayedProjects.filter((project) =>
+          project.name.toLowerCase().includes(value.toLowerCase())
+        );
+      }
+      if (key === "number") {
+        displayedProjects = displayedProjects.filter((project) =>
+          project.number.includes(value)
+        );
+      }
+
+      if (key === "status") {
+        displayedProjects = displayedProjects.filter((project) =>
+          project.status[project.status.length - 1].value
+            .toLowerCase()
+            .includes(value.toLowerCase())
+        );
+      }
+    }
+
+    setProjects(displayedProjects);
+  }
+
   function handleProjectNameChange(event) {
-    setProjects(
-      unfilteredProjects.current.filter((project) =>
-        project.name.toLowerCase().includes(event.target.value.toLowerCase())
-      )
-    );
+    let textEntered = event.target.value;
+    if (textEntered !== "") {
+      filters.current.name = textEntered;
+    }
+    filterProjects();
   }
 
   function handleProjectNumberChange(event) {
-    setProjects(
-      unfilteredProjects.current.filter((project) =>
-        project.name.includes(event.target.value)
-      )
-    );
+    let numberEntered = event.target.value;
+    if (numberEntered !== "") {
+      filters.current.number = numberEntered;
+    }
+    filterProjects();
   }
 
   function handleTechnicalDeliverableChange() {}
 
-  function handleStatusChange() {}
+  function handleStatusChange(event) {
+    let statusEntered = event.target.value;
+    if (statusEntered !== "") {
+      filters.current.status = statusEntered;
+    }
+    filterProjects();
+  }
 
   return (
     <div>
