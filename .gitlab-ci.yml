@@ -1,6 +1,5 @@
-linux job:
-  tags:
-    general-docker
+tags:
+  general-docker
 
 default:
     image: node:14
