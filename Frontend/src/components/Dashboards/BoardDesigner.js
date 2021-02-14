@@ -6,6 +6,7 @@ import {
     Input,
     NumberInput,
     NumberInputField,
+    Select,
 } from "@chakra-ui/react";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
 import { Text } from "@chakra-ui/layout";
@@ -93,10 +94,7 @@ const BoardDesigner = () => {
     function handleTechnicalDeliverableChange() {}
 
     function handleStatusChange(event) {
-        let statusEntered = event.target.value;
-        if (statusEntered !== "") {
-            filters.current.status = statusEntered;
-        }
+        filters.current.status = event.target.value;
         filterProjects();
     }
 
@@ -106,6 +104,7 @@ const BoardDesigner = () => {
                 <Heading>Welcome back {authenticatedUser.firstname}!</Heading>
             </Box>
             <HStack m="10px">
+                <Search2Icon />
                 <Input
                     size="sm"
                     onChange={handleProjectNameChange}
@@ -122,12 +121,33 @@ const BoardDesigner = () => {
                     onChange={handleTechnicalDeliverableChange}
                     placeholder="Technical Deliverables"
                 />
-                <Input
+                <Select
                     size="sm"
+                    placeholder="Select a status"
                     onChange={handleStatusChange}
-                    placeholder="Status"
-                />
-                <Search2Icon />
+                >
+                    <option value="Design Pending">Design Pending</option>
+                    <option value="Preliminary Design Ongoing">
+                        Preliminary Design Ongoing
+                    </option>
+                    <option value="Preliminary Design Complete">
+                        Preliminary Design Complete
+                    </option>
+                    <option value="Awaiting Customer Approval">
+                        Awaiting Customer Approval
+                    </option>
+                    <option value="Detailed Design Pending​">
+                        Detailed Design Pending​
+                    </option>
+                    <option value="Detailed Design Ongoing​">
+                        Detailed Design Ongoing​
+                    </option>
+                    <option value="Design Complete">Design Complete​​</option>
+                    <option value="Project Complete">Project Complete</option>
+                    <option value="Project Cancelled​">
+                        Project Cancelled​
+                    </option>
+                </Select>
             </HStack>
             <Box m="10px">
                 <Table
