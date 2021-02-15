@@ -1,11 +1,10 @@
 import React, {useRef, useState} from "react";
-import {Box, Button, Flex, FormControl, FormLabel, Heading, Input} from "@chakra-ui/react"
+import {Box, Button, Flex, FormControl, FormLabel, Heading, Input, SimpleGrid, Image} from "@chakra-ui/react"
 import '.././App.css';
+import Info from  '.././icons/Perinfo.png'
 import Form from "react-validation/build/form";
 import CheckButton from "react-validation/build/button";
 import AuthService from "../services/auth.service";
-import {SimpleGrid} from "@chakra-ui/layout";
-import {Image} from "@chakra-ui/image";
 
 //NOTE Could be Unnecessary
 const required = value => {
@@ -45,15 +44,15 @@ const Login = (props) => {
     setLoading(true);
 
     form.current.validateAll();
-    // props.current.validateAll();
 
     //TODO Change to dashboard later on, Log outputs for issues
     if (checkBtn.current.context._errors.length === 0) {
       AuthService.login(email, password).then(() => {
         setTimeout(() => {
-          props.history.push("/Dashboard");
           window.location.reload();
-        }, 2000)
+        }, 1000)
+        // window.location.reload();
+
       }, (error) => {
         const resMessage =
           (error.response && error.response.data && error.response.message)
@@ -67,7 +66,6 @@ const Login = (props) => {
     }
   };
 
-
   return (
     <Flex justifyContent="center" align="center" my={30}>
       <Box p={8} boxShadow="sm" borderRadius={8} bg="brand.background" maxWidth={1000} width="100%" mx={20}>
@@ -78,7 +76,8 @@ const Login = (props) => {
         </Box>
         <SimpleGrid minChildWidth="300px" spacing="0px">
           <div className="info-container">
-            <Image src="https://thumbs.dreamstime.com/b/people-register-online-set-registration-sign-up-user-interface-users-use-secure-login-password-ui-design-collection-198777651.jpg"/>
+            <Image src={Info}/>
+
           </div>
           <Flex flexDir="column">
             <Box mt={8}>

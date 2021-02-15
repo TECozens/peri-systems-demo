@@ -43,9 +43,8 @@ function App() {
             <Route exact path="/">
               {isAuthenticated ? <Redirect to="/Dashboard" /> : <Redirect to="/Login"/>}
             </Route>
-            <Private exact authed={isAuthenticated} component={Dashboard} path="/dashboard"/>
-            <Route exact path="/Login" component={Login}/>
-
+            <Private exact authed={isAuthenticated} component={Dashboard} path="/Dashboard"/>
+            {isAuthenticated ? <Redirect to="/Dashboard" /> : <Route exact path="/Login" component={Login}/>}
           </Switch>
       </ChakraProvider>
     </Router>
