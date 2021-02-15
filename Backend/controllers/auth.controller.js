@@ -11,8 +11,8 @@ exports.signup = (req, res) => {
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         email: req.body.email,
-        password: bcrypt.hashSync(req.body.password, 8),
-
+        password: bcrypt.hashSync("password", 8),
+        //req.body.password
         // Used to add mockdata
         // firstname: "Adrian",
         // lastname: "Adams",
