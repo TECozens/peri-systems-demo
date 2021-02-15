@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
     Box,
+    Button,
     Heading,
     HStack,
     Input,
-    NumberInput,
-    NumberInputField,
+    InputGroup,
+    InputLeftElement,
     Select,
 } from "@chakra-ui/react";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
@@ -76,18 +77,12 @@ const BoardDesigner = () => {
     }
 
     function handleProjectNameChange(event) {
-        let textEntered = event.target.value;
-        if (textEntered !== "") {
-            filters.current.name = textEntered;
-        }
+        filters.current.name = event.target.value;
         filterProjects();
     }
 
     function handleProjectNumberChange(event) {
-        let numberEntered = event.target.value;
-        if (numberEntered !== "") {
-            filters.current.number = numberEntered;
-        }
+        filters.current.number = event.target.value;
         filterProjects();
     }
 
@@ -98,33 +93,78 @@ const BoardDesigner = () => {
         filterProjects();
     }
 
+    function handleKeyPress(event) {
+        // checking if the key pressed is a letter and if so it prevents the
+        // letter from being typed in
+        let key = event.keyCode || event.which;
+        key = String.fromCharCode(key);
+
+        let regex = /[0-9]|\./;
+        if (!regex.test(key)) {
+            event.returnValue = false;
+            if (event.preventDefault) event.preventDefault();
+        }
+    }
+
+    function clearFilters() {
+        //resetting filter values
+        filters.current.name = "";
+        filters.current.number = "";
+        filters.current.technicalDeliverable = "";
+        filters.current.status = "";
+
+        setProjects(unfilteredProjects.current);
+    }
+
     return (
         <div>
             <Box m="10px">
                 <Heading>Welcome back {authenticatedUser.firstname}!</Heading>
             </Box>
             <HStack m="10px">
-                <Search2Icon />
-                <Input
-                    size="sm"
-                    onChange={handleProjectNameChange}
-                    placeholder="Project Name"
-                />
-                <NumberInput size="sm" w="55%">
-                    <NumberInputField
+                <InputGroup size="sm" w={"104%"}>
+                    <InputLeftElement
+                        pointerEvents="none"
+                        children={<Search2Icon color="gray.300" />}
+                    />
+                    <Input
+                        onChange={handleProjectNameChange}
+                        placeholder="Project Name"
+                        value={filters.current.name}
+                    />
+                </InputGroup>
+                <InputGroup size="sm" w={"50%"}>
+                    <InputLeftElement
+                        pointerEvents="none"
+                        children={<Search2Icon color="gray.300" />}
+                    />
+                    <Input
+                        name="project_number"
+                        value={filters.current.number}
                         placeholder="Number"
+                        onKeyPress={handleKeyPress}
                         onChange={handleProjectNumberChange}
                     />
-                </NumberInput>
-                <Input
-                    size="sm"
-                    onChange={handleTechnicalDeliverableChange}
-                    placeholder="Technical Deliverables"
-                />
+                </InputGroup>
+                <InputGroup size="sm" w={"110%"}>
+                    <InputLeftElement
+                        pointerEvents="none"
+                        children={<Search2Icon color="gray.300" />}
+                    />
+                    <Input
+                        name="technical_deliverables"
+                        value={filters.current.technicalDeliverable}
+                        onChange={handleTechnicalDeliverableChange}
+                        placeholder="Technical Deliverables"
+                    />
+                </InputGroup>
+
                 <Select
+                    w="70%"
                     size="sm"
                     placeholder="Select a status"
                     onChange={handleStatusChange}
+                    value={filters.current.status}
                 >
                     <option value="Design Pending">Design Pending</option>
                     <option value="Preliminary Design Ongoing">
@@ -148,6 +188,14 @@ const BoardDesigner = () => {
                         Project Cancelled​
                     </option>
                 </Select>
+                <Button
+                    size="sm"
+                    w="20%"
+                    colorScheme="red"
+                    onClick={clearFilters}
+                >
+                    Clear All
+                </Button>
             </HStack>
             <Box m="10px">
                 <Table
