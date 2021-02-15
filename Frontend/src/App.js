@@ -4,6 +4,7 @@ import './App.css';
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "./components/Login"
+import Register from "./components/Register"
 import PeriNavbar from "./layout/PeriNavbar";
 import Dashboard from "./components/Dashboard";
 import BoardDesigner from "./components/Dashboards/BoardDesigner";
@@ -43,6 +44,7 @@ function App() {
               <Route path="/designer" component={BoardDesigner} />
               <Route path="/technical" component={BoardTechnical} />
               <Route path="/admin" component={BoardAdmin} />
+              <Route exact path="/register" component={Register} />
           </Switch>
       </Router>
   </ChakraProvider>

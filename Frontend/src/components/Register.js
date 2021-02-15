@@ -86,12 +86,12 @@ const Register = (props) => {
 
     const onChangeFirstname = (e) => {
         const firstname = e.target.value;
-        setUsername(firstname);
+        setFirstname(firstname);
     };
 
     const onChangeLastname = (e) => {
         const lastname = e.target.value;
-        setUsername(lastname);
+        setLastname(lastname);
     };
 
     const onChangeEmail = (e) => {
@@ -147,25 +147,25 @@ const Register = (props) => {
                         <div>
 
                             <div className="form-group">
-                                <label htmlFor="username">Username</label>
+                                <label htmlFor="firstname">Firstname</label>
                                 <Input
                                     type="text"
                                     className="form-control"
                                     name="firstname"
                                     value={firstname}
-                                    onChange={onChangeFirstname()}
+                                    onChange={onChangeFirstname}
                                     validations={[required, vfirstname]}
                                 />
                             </div>
 
                             <div className="form-group">
-                                <label htmlFor="lastname">Username</label>
+                                <label htmlFor="lastname">Lastname</label>
                                 <Input
                                     type="text"
                                     className="form-control"
-                                    name="username"
+                                    name="lastname"
                                     value={lastname}
-                                    onChange={onChangeLastname()}
+                                    onChange={onChangeLastname}
                                     validations={[required, vlastname]}
                                 />
                             </div>
