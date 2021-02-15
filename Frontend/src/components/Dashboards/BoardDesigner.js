@@ -76,20 +76,20 @@ const BoardDesigner = () => {
         setProjects(displayedProjects);
     }
 
-    function handleProjectNameChange(event) {
-        filters.current.name = event.target.value;
-        filterProjects();
-    }
+    function handleChange(event) {
+        let inputChanged = event.target.name;
+        let value = event.target.value;
 
-    function handleProjectNumberChange(event) {
-        filters.current.number = event.target.value;
-        filterProjects();
-    }
+        if (inputChanged === "project_name") {
+            filters.current.name = value;
+        } else if (inputChanged === "project_number") {
+            filters.current.number = event.target.value;
+        } else if (inputChanged === "project_technical_deliverables") {
+            filters.current.technicalDeliverable = value;
+        } else if (inputChanged === "project_status") {
+            filters.current.status = value;
+        }
 
-    function handleTechnicalDeliverableChange() {}
-
-    function handleStatusChange(event) {
-        filters.current.status = event.target.value;
         filterProjects();
     }
 
@@ -128,7 +128,8 @@ const BoardDesigner = () => {
                         children={<Search2Icon color="gray.300" />}
                     />
                     <Input
-                        onChange={handleProjectNameChange}
+                        name="project_name"
+                        onChange={handleChange}
                         placeholder="Project Name"
                         value={filters.current.name}
                     />
@@ -143,7 +144,7 @@ const BoardDesigner = () => {
                         value={filters.current.number}
                         placeholder="Number"
                         onKeyPress={handleKeyPress}
-                        onChange={handleProjectNumberChange}
+                        onChange={handleChange}
                     />
                 </InputGroup>
                 <InputGroup size="sm" w={"110%"}>
@@ -152,9 +153,9 @@ const BoardDesigner = () => {
                         children={<Search2Icon color="gray.300" />}
                     />
                     <Input
-                        name="technical_deliverables"
+                        name="project_technical_deliverables"
                         value={filters.current.technicalDeliverable}
-                        onChange={handleTechnicalDeliverableChange}
+                        onChange={handleChange}
                         placeholder="Technical Deliverables"
                     />
                 </InputGroup>
@@ -163,7 +164,8 @@ const BoardDesigner = () => {
                     w="70%"
                     size="sm"
                     placeholder="Select a status"
-                    onChange={handleStatusChange}
+                    name="project_status"
+                    onChange={handleChange}
                     value={filters.current.status}
                 >
                     <option value="Design Pending">Design Pending</option>
