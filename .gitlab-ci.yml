@@ -1,15 +1,21 @@
-image: node:14.15.0
+default:
+    image: node:14
+
+variables:
+  GIT_STRATEGY: fetch
  
 variables:
   GIT_STRATEGY: clone
 
 stages:
     - test
- 
+
 test:
+    tags: [general-docker]
     stage: test
     script:
         - cd Frontend
+        - npm i cypress
         - node -v
         - npm -v
         - npm install
