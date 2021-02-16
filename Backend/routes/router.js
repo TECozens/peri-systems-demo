@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const employees = require("../models/employeeModel");
-const projects = require("../models/projectModel");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
@@ -9,7 +8,7 @@ urlencodedParser = bodyParser.urlencoded({ extended: false });
 jsonParser = bodyParser.json();
 
 router.get("/", (req, res) => {
-  res.send("Server is up and running");
+    res.send("Server is up and running");
 });
 
 router.post("/addEmployee", jsonParser, (req, res) => {
@@ -25,6 +24,5 @@ router.post("/addEmployee", jsonParser, (req, res) => {
     return res.json({ success: true });
   });
 });
-
 
 module.exports = router;
