@@ -11,8 +11,8 @@ exports.signup = (req, res) => {
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         email: req.body.email,
-        password: bcrypt.hashSync(req.body.password, 8),
-
+        password: bcrypt.hashSync("password", 8),
+        //req.body.password
         // Used to add mockdata
         // firstname: "Adrian",
         // lastname: "Adams",
@@ -27,7 +27,7 @@ exports.signup = (req, res) => {
             return;
         }
         //change the if to add mockdata req.body.roles
-        if (req.body.roles) {
+        if (req.body.roles && req.body.roles.length !== 0) {
             let mockRoles = ["admin"];
             Role.find(
                 {
