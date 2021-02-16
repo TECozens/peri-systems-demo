@@ -29,6 +29,9 @@ yarn-error.log*
 /tmp
 /out-tsc
 
+#env folder(passwords)
+.env
+
 # Runtime data
 pids
 *.pid
