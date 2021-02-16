@@ -26,7 +26,8 @@
     "eject": "react-scripts eject",
     "cypress:open": "cypress open",
     "cy:run": "cypress run",
-    "test": "start-server-and-test start http://localhost:3000 cy:run"
+    "test": "start-server-and-test start http://localhost:3000 cy:run",
+    "mocha-test": "mocha"
   },
   "eslintConfig": {
     "extends": [
@@ -49,6 +50,7 @@
   "devDependencies": {
     "cypress": "^6.4.0",
     "cypress-react-unit-test": "^4.17.2",
+    "mocha": "^8.3.0",
     "start-server-and-test": "^1.12.0"
   }
 }
