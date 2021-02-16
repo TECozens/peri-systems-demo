@@ -26,16 +26,6 @@ const validEmail = (value) => {
     }
 };
 
-const vusername = (value) => {
-    if (value.length < 3 || value.length > 20) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                The username must be between 3 and 20 characters.
-            </div>
-        );
-    }
-};
-
 const vfirstname = (value) => {
     if (value.length < 3 || value.length > 20) {
         return (
@@ -73,20 +63,10 @@ const Register = (props) => {
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
     const [roles, setRoles] = useState([]);
-    const [designerCb, setDesignerCb] = useState();
-    const [technicalCb, setTechnicalCb] = useState();
-    const [adminCb, setAdminCb] = useState();
-
-    const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [successful, setSuccessful] = useState(false);
     const [message, setMessage] = useState("");
-
-    const onChangeUsername = (e) => {
-        const username = e.target.value;
-        setUsername(username);
-    };
 
     const onChangeFirstname = (e) => {
         const firstname = e.target.value;
@@ -189,18 +169,6 @@ const Register = (props) => {
                                     validations={[required, vlastname]}
                                 />
                             </div>
-
-                            {/*<div className="form-group">*/}
-                            {/*    <label htmlFor="username">Username</label>*/}
-                            {/*    <Input*/}
-                            {/*        type="text"*/}
-                            {/*        className="form-control"*/}
-                            {/*        name="username"*/}
-                            {/*        value={username}*/}
-                            {/*        onChange={onChangeUsername}*/}
-                            {/*        validations={[required, vusername]}*/}
-                            {/*    />*/}
-                            {/*</div>*/}
 
                             <div className="form-group">
                                 <label htmlFor="email">Email</label>

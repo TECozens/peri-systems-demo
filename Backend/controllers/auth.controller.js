@@ -27,7 +27,7 @@ exports.signup = (req, res) => {
             return;
         }
         //change the if to add mockdata req.body.roles
-        if (req.body.roles) {
+        if (req.body.roles && req.body.roles.length !== 0) {
             let mockRoles = ["admin"];
             Role.find(
                 {
