@@ -184,7 +184,7 @@ const Register = (props) => {
                                         <Input
                                             type="text"
                                             className="form-control"
-                                            name="email"
+                                            name="new-user-email"
                                             value={email}
                                             onChange={onChangeEmail}
                                             validations={[required, validEmail]}
@@ -196,7 +196,7 @@ const Register = (props) => {
                                         <Input
                                             type="password"
                                             className="form-control"
-                                            name="password"
+                                            name="new-user-password"
                                             value={password}
                                             onChange={onChangePassword}
                                             validations={[required, vpassword]}
