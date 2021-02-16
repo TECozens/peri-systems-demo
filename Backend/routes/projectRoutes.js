@@ -50,7 +50,7 @@ router.get(
     jsonParser,
     (req, res) => {
         let technicalLeadId = new mongoose.Types.ObjectId(req.params.technicalLeadID);
-        projects.find({ "technical.lead_id": technicalLeadId }, (err, data) => {
+        projects.find({ "engineers.technical_lead_id": technicalLeadId }, (err, data) => {
             if (err) {
                return res.json({ success: false, error: err });
             } else {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Heading } from "@chakra-ui/react";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
 import { Text } from "@chakra-ui/layout";
-import getProjects from "../../services/project.service";
+import ProjectService from "../../services/project.service";
 import AuthService from "../../services/auth.service";
 
 const BoardTechnical = () => {
@@ -10,9 +10,11 @@ const BoardTechnical = () => {
     const [projects, setProjects] = useState([]);
 
     useEffect(() => {
-        getProjects(authenticatedUser.id).then((projects) =>
-            setProjects(projects)
-        );
+        ProjectService.getTechnicalProjects(authenticatedUser.id).then((data) => {
+            setProjects(data)
+        }, (error) => {
+            console.log(error)
+        });
     }, []);
 
     function displayProjects() {
