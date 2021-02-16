@@ -4,6 +4,9 @@ default:
 variables:
   GIT_STRATEGY: fetch
  
+variables:
+  GIT_STRATEGY: clone
+
 stages:
     - test
 
