@@ -19,7 +19,7 @@ test:
         - node -v
         - npm -v
         - npm install
-        - npm run test 
+        - npm run mocha-test 
         - cd ../Backend
         - npm install
         - npm run test
