@@ -26,7 +26,7 @@ const colors = {
     warning: "yellow",
     closed: "red",
   },
-}
+};
 
 const theme = extendTheme({colors})
 const isAuthenticated = AuthService.isUserAuthenticated()
