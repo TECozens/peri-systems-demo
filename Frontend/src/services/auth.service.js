@@ -37,10 +37,17 @@ const getCurrentUser = () => {
     return JSON.parse(localStorage.getItem("user"));
 };
 
+const isUserAuthenticated = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    return !!user;
+}
+
 //TODO Implement Register in week 6
 export default {
     register,
     login,
     logout,
     getCurrentUser,
+    isUserAuthenticated,
 };

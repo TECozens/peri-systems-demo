@@ -3,8 +3,10 @@ import { Box, Heading, Flex, Button, Spacer } from "@chakra-ui/react";
 import {ReactComponent as ReactLogo} from "../icons/Pericon.svg";
 import '.././App.css';
 import AuthService from "../services/auth.service";
-import {Link} from "react-router-dom";
+import {Link, Router, Switch, Route} from "react-router-dom";
 import {Menu, MenuButton, MenuGroup, MenuItem, MenuList} from "@chakra-ui/menu";
+import Dashboard from "../components/Dashboard";
+import Private from "../components/Private";
 
 
 const PeriNavbar = () => {
@@ -26,6 +28,7 @@ const PeriNavbar = () => {
 
     const logOut = () => {
         AuthService.logout();
+        window.location.reload();
     };
 
     return (
@@ -35,9 +38,8 @@ const PeriNavbar = () => {
                 <ReactLogo className="Logo"/>
             </Box>
             <Spacer/>
+
             <Box mr="10%">
-
-
                 {currentUser ? (
                 <div>
                     <Menu>
@@ -47,49 +49,29 @@ const PeriNavbar = () => {
                         <MenuList>
                             <MenuGroup title="Access">
                                 <MenuItem>
-                                    <a href="/profile">
-                                        Profile
-                                    </a>
+                                    <Link to="/Dashboard">
+                                        Dashboard
+                                    </Link>
                                 </MenuItem>
-                                {showDesignerBoard && (
-                                    <MenuItem>
-                                        <a href="/designer">
-                                            Designer
-                                        </a>
-                                    </MenuItem>
-                                )}
-                                {showTechnicalBoard && (
-                                    <MenuItem>
-                                        <a href="/technical">
-                                            Technical
-                                        </a>
-                                    </MenuItem>
-                                )}
-                                {showAdminBoard && (
-                                    <MenuItem>
-                                        <a href="/admin">
-                                            Admin
-                                        </a>
-                                    </MenuItem>
-                                )}
                             </MenuGroup>
                         </MenuList>
                     </Menu>
 
-                    <Button bg="brand.accents" color="brand.primary">
-                        <a href="/Login" onClick={logOut}>
+                    <Button bg="brand.accents" color="brand.primary" onClick={logOut}>
+                        <Link to="/Login" >
                             LogOut
-                        </a>
+                        </Link>
                     </Button>
                 </div>
                 ) : (
                 <Button bg="brand.secondary" color="brand.primary">
-                    <Link to={"/Login"}>
+                    <Link to="/Login">
                         Login
                     </Link>
                 </Button>
                 )}
             </Box>
+
 
         </Flex>
 
