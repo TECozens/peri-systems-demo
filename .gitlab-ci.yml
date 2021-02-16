@@ -13,7 +13,7 @@ test:
     script:
         - cd Frontend
         - npm i cypress
-        - npm i mocha
+        - npm i mocha -g
         - mocha
         - node -v
         - npm -v
