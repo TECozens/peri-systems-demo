@@ -1,16 +1,19 @@
 default:
     image: node:14
+
+variables:
+  GIT_STRATEGY: fetch
  
 stages:
     - test
 
 test:
+    tags: [general-docker]
     stage: test
     script:
-        - npm -v
-        - node -v
-        - pwd
         - cd Frontend
-        - pwd
-        - npm ci
-        - CI=true npm test 
+        - npm i cypress
+        - node -v
+        - npm -v
+        - npm install
+        - npm run test 
