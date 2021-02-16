@@ -72,6 +72,10 @@ const Register = (props) => {
 
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
+    const [roles, setRoles] = useState([]);
+    const [designerCb, setDesignerCb] = useState();
+    const [technicalCb, setTechnicalCb] = useState();
+    const [adminCb, setAdminCb] = useState();
 
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -104,6 +108,22 @@ const Register = (props) => {
         setPassword(password);
     };
 
+    const onChangeRole = (e) => {
+        let index;
+        // check if the check box is checked or unchecked
+        if (e.target.checked) {
+            // add the numerical value of the checkbox to options array
+            roles.push(e.target.value)
+        } else {
+            // or remove the value from the unchecked checkbox from the array
+            index = roles.indexOf(e.target.value)
+            roles.splice(index, 1)
+        }
+        console.log(roles);
+        setRoles(roles);
+
+    };
+
     const handleRegister = (e) => {
         e.preventDefault();
 
@@ -113,7 +133,7 @@ const Register = (props) => {
         form.current.validateAll();
 
         if (checkBtn.current.context._errors.length === 0) {
-            AuthService.register(firstname, lastname, email, password).then(
+            AuthService.register(firstname, lastname, email, password, roles).then(
                 (response) => {
                     setMessage(response.data.message);
                     setSuccessful(true);
@@ -204,6 +224,12 @@ const Register = (props) => {
                                     onChange={onChangePassword}
                                     validations={[required, vpassword]}
                                 />
+                            </div>
+
+                            <div>
+                                <input type="checkbox" name="role" value="designer" onChange={onChangeRole}/> designer
+                                <input type="checkbox" name="role" value="technical" onChange={onChangeRole}/> technical
+                                <input type="checkbox" name="role" value="admin" onChange={onChangeRole}/> admin
                             </div>
 
                             <div className="form-group">
