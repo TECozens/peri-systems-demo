@@ -4,6 +4,9 @@ default:
 variables:
   GIT_STRATEGY: fetch
  
+variables:
+  GIT_STRATEGY: clone
+
 stages:
     - test
 
@@ -18,4 +21,7 @@ test:
         - node -v
         - npm -v
         - npm install
-        # - npm run test 
+        - npm run mocha-test 
+        - cd ../Backend
+        - npm install
+        - npm run test

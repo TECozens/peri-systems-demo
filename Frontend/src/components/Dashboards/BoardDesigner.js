@@ -10,8 +10,8 @@ import {
     Select,
 } from "@chakra-ui/react";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
-import { Spacer, Text } from "@chakra-ui/layout";
-import getProjects from "../../services/project.service";
+import { Text } from "@chakra-ui/layout";
+import ProjectService from "../../services/project.service";
 import AuthService from "../../services/auth.service";
 import { Search2Icon } from "@chakra-ui/icons";
 import DatePicker from "react-datepicker";
@@ -24,13 +24,14 @@ const BoardDesigner = () => {
     let filters = useRef({});
 
     useEffect(() => {
-        getProjects(authenticatedUser.id).then((projects) => {
-            unfilteredProjects.current = projects;
-            setProjects(unfilteredProjects.current);
+        ProjectService.getDesignerProjects(authenticatedUser.id).then((data) => {
+            setProjects(data)
+        }, (error) => {
+            console.log(error)
         });
     }, []);
 
-    function displayProjects() {
+    const displayDesignerProjects = () => {
         if (projects.length >= 1) {
             return projects.map((data) => (
                 <Tr>
@@ -282,7 +283,7 @@ const BoardDesigner = () => {
                             </Th>
                         </Tr>
                     </Thead>
-                    <Tbody>{displayProjects()}</Tbody>
+                    <Tbody>{displayDesignerProjects()}</Tbody>
                 </Table>
             </Box>
         </div>
