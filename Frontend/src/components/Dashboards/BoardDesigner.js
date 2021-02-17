@@ -31,6 +31,13 @@ const BoardDesigner = () => {
         });
     }, []);
 
+    function handleStatusChange() {
+        ProjectService.getProjects(authenticatedUser.id).then((projects) => {
+            unfilteredProjects.current = projects;
+            setProjects(unfilteredProjects.current);
+        });
+    }
+
     function displayProjects() {
         if (projects.length >= 1) {
             return projects.map((data) => (
@@ -41,7 +48,13 @@ const BoardDesigner = () => {
                     <Td>{new Date(data.date_required).toLocaleDateString()}</Td>
                     <Td>{data.status[data.status.length - 1].value}</Td>
                     <Td isNumeric>
-                        <UpdateStatusButton />
+                        <UpdateStatusButton
+                            projectStatus={
+                                data.status[data.status.length - 1].value
+                            }
+                            projectId={data._id}
+                            updateParent={handleStatusChange}
+                        />
                     </Td>
                 </Tr>
             ));
@@ -51,6 +64,7 @@ const BoardDesigner = () => {
                     <Th />
                     <Th />
                     <Th> No projects</Th>
+                    <Th />
                     <Th />
                     <Th />
                 </Tr>
@@ -168,7 +182,7 @@ const BoardDesigner = () => {
                     <Input
                         name="project_number"
                         value={filters.current.number}
-                        placeholder="Number"
+                        placeholder="Project Number"
                         onKeyPress={handleKeyPress}
                         onChange={handleChange}
                     />
