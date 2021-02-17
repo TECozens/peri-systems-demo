@@ -16,7 +16,7 @@ import AuthService from "../../services/auth.service";
 import { Search2Icon } from "@chakra-ui/icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import UpdateStatusButton from "./UpdateStatusButton";
+import UpdateStatus from "./UpdateStatus";
 
 const BoardDesigner = () => {
     let authenticatedUser = AuthService.getCurrentUser();
@@ -48,7 +48,7 @@ const BoardDesigner = () => {
                     <Td>{new Date(data.date_required).toLocaleDateString()}</Td>
                     <Td>{data.status[data.status.length - 1].value}</Td>
                     <Td isNumeric>
-                        <UpdateStatusButton
+                        <UpdateStatus
                             projectStatus={
                                 data.status[data.status.length - 1].value
                             }

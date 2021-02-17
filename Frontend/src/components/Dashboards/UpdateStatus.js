@@ -15,7 +15,7 @@ import { useDisclosure } from "@chakra-ui/hooks";
 import { VStack } from "@chakra-ui/layout";
 import ProjectService from "../../services/project.service";
 
-const UpdateStatusButton = (props) => {
+const UpdateStatus = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [statusSelected, setStatusSelected] = useState(
         props.projectStatus.trim()
@@ -100,4 +100,4 @@ const UpdateStatusButton = (props) => {
     );
 };
 
-export default UpdateStatusButton;
+export default UpdateStatus;
