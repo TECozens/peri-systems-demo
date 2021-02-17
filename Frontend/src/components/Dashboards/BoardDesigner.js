@@ -54,6 +54,7 @@ const BoardDesigner = () => {
         }
     }
 
+
     function filterProjects() {
         let displayedProjects = unfilteredProjects.current;
 
