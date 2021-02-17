@@ -39,6 +39,9 @@ const BoardDesigner = () => {
                     <Td>{data.client}</Td>
                     <Td>{new Date(data.date_required).toLocaleDateString()}</Td>
                     <Td>{data.status[data.status.length - 1].value}</Td>
+                    <Td isNumeric>
+                        <Button>Update Status</Button>
+                    </Td>
                 </Tr>
             ));
         } else {
@@ -156,7 +159,7 @@ const BoardDesigner = () => {
                 <Heading>Welcome back {authenticatedUser.firstname}!</Heading>
             </Box>
             <HStack m="10px">
-                <InputGroup size="sm">
+                <InputGroup size="sm" w="70%">
                     <InputLeftElement
                         pointerEvents="none"
                         children={<Search2Icon color="gray.300" />}
@@ -169,7 +172,7 @@ const BoardDesigner = () => {
                         onChange={handleChange}
                     />
                 </InputGroup>
-                <InputGroup size="sm">
+                <InputGroup size="sm" w="90%">
                     <InputLeftElement
                         pointerEvents="none"
                         children={<Search2Icon color="gray.300" />}
@@ -181,7 +184,7 @@ const BoardDesigner = () => {
                         value={filters.current.name}
                     />
                 </InputGroup>
-                <InputGroup size="sm">
+                <InputGroup size="sm" w="90%">
                     <InputLeftElement
                         pointerEvents="none"
                         children={<Search2Icon color="gray.300" />}
@@ -194,21 +197,19 @@ const BoardDesigner = () => {
                     />
                 </InputGroup>
 
-                <InputGroup size="sm" w={"200%"}>
-                    <Text color={"brand.accents"}> Date Required from </Text>
-                    <Spacer />
+                <InputGroup size="sm" w="180%">
+                    <Text color={"brand.accents"}>Date from &nbsp;</Text>
                     <DatePicker
                         name="from_date"
-                        placeholderText="choose a date"
+                        placeholderText="Choose a date"
                         selected={filters.current.from_date}
                         onSelect={handleDate}
                         dateFormat={"dd/MM/yyyy"}
                     />
-                    <Text color={"brand.accents"}> to </Text>
-                    <Spacer />
+                    <Text color={"brand.accents"}>to &nbsp;</Text>
                     <DatePicker
                         name="to_date"
-                        placeholderText="choose a date"
+                        placeholderText="Choose a date"
                         selected={filters.current.to_date}
                         onSelect={handleDate}
                         dateFormat={"dd/MM/yyyy"}
@@ -268,10 +269,10 @@ const BoardDesigner = () => {
                             <Th>
                                 <Text fontSize="lg">Number </Text>
                             </Th>
-                            <Th>
+                            <Th w="17%">
                                 <Text fontSize="lg">Name </Text>
                             </Th>
-                            <Th>
+                            <Th w="17%">
                                 <Text fontSize="lg">Client</Text>
                             </Th>
                             <Th>
@@ -280,6 +281,7 @@ const BoardDesigner = () => {
                             <Th>
                                 <Text fontSize="lg">Status</Text>
                             </Th>
+                            <Th />
                         </Tr>
                     </Thead>
                     <Tbody>{displayProjects()}</Tbody>
