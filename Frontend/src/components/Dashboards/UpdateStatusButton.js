@@ -34,7 +34,9 @@ const UpdateStatusButton = (props) => {
 
     return (
         <div>
-            <Button onClick={onOpen}>Update Status</Button>
+            <Button colorScheme={"green"} onClick={onOpen}>
+                Update Status
+            </Button>
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
@@ -85,10 +87,12 @@ const UpdateStatusButton = (props) => {
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme="blue" mr={3} onClick={handleClose}>
-                            Close
+                        <Button colorScheme="red" mr={3} onClick={handleClose}>
+                            Cancel
                         </Button>
-                        <Button onClick={handleSubmit}>Submit</Button>
+                        <Button colorScheme="green" onClick={handleSubmit}>
+                            Submit
+                        </Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
