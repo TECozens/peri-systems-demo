@@ -22,4 +22,3 @@ function getTechnicalProjects(userId) {
 
 
 export default {getDesignerProjects, getTechnicalProjects};
-
