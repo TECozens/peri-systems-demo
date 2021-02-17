@@ -47,4 +47,25 @@ router.get(
     }
 );
 
+router.put(
+    "/api/projects/updateProjectStatus/:projectID/:aStatus",
+    jsonParser,
+    (req, res) => {
+        let designerId = new mongoose.Types.ObjectId(req.params.projectID);
+        projects.findById(designerId, (err, data) => {
+            if (err) {
+                return res.json({ success: false, error: err });
+            } else {
+                let project = data;
+                project.status.push({
+                    time_set: new Date(),
+                    value: req.params.aStatus,
+                });
+                project.save();
+                return res.json({ success: true, data: data });
+            }
+        });
+    }
+);
+
 module.exports = router;

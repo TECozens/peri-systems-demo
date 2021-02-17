@@ -10,12 +10,13 @@ import {
     Select,
 } from "@chakra-ui/react";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
-import { Spacer, Text } from "@chakra-ui/layout";
-import getProjects from "../../services/project.service";
+import { Text } from "@chakra-ui/layout";
+import ProjectService from "../../services/project.service";
 import AuthService from "../../services/auth.service";
 import { Search2Icon } from "@chakra-ui/icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import UpdateStatusButton from "./UpdateStatusButton";
 
 const BoardDesigner = () => {
     let authenticatedUser = AuthService.getCurrentUser();
@@ -24,7 +25,7 @@ const BoardDesigner = () => {
     let filters = useRef({});
 
     useEffect(() => {
-        getProjects(authenticatedUser.id).then((projects) => {
+        ProjectService.getProjects(authenticatedUser.id).then((projects) => {
             unfilteredProjects.current = projects;
             setProjects(unfilteredProjects.current);
         });
@@ -40,7 +41,7 @@ const BoardDesigner = () => {
                     <Td>{new Date(data.date_required).toLocaleDateString()}</Td>
                     <Td>{data.status[data.status.length - 1].value}</Td>
                     <Td isNumeric>
-                        <Button>Update Status</Button>
+                        <UpdateStatusButton />
                     </Td>
                 </Tr>
             ));
