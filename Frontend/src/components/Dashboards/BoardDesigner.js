@@ -8,6 +8,7 @@ import {
     InputGroup,
     InputLeftElement,
     Select,
+    Spacer,
 } from "@chakra-ui/react";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
 import { Text } from "@chakra-ui/layout";
