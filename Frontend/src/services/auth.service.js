@@ -5,12 +5,13 @@ import axios from "axios";
 const API_URL = "http://localhost:8081/api/auth/";
 
 //TODO Client Register Function, Not Yet Implemented on Backend
-const register = (firstname, lastname, email, password) => {
+const register = (firstname, lastname, email, password, roles) => {
     return axios.post(API_URL + "signup", {
         firstname,
         lastname,
         email,
         password,
+        roles,
     });
 };
 

@@ -8,10 +8,12 @@ Frontend/node_modules/
 /node_modules
 /.pnp
 .pnp.js
-
+.yarn
+.yarn/
+/yarn.lock
 # testing
 /coverage
-
+yarn.lock
 # production
 /build
 Backend/package-lock.json
