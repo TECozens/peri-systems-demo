@@ -43,11 +43,37 @@ const isUserAuthenticated = () => {
     return !!user;
 }
 
+const isAdmin = () => {
+    const user = getCurrentUser();
+    try {
+        return user.roles.includes("ROLE_ADMIN")
+    } catch(err) {
+        return false
+    }
+}
+const isTechnical = () => {
+    const user = getCurrentUser();
+    try {
+        return user.roles.includes("ROLE_TECHNICAL")
+    } catch(err) {
+        return false
+    }
+}
+const isDesigner = () => {
+    const user = getCurrentUser();
+    try {
+        return user.roles.includes("ROLE_DESIGNER")
+    } catch(err) {
+        return false
+    }
+}
+
 //TODO Implement Register in week 6
 export default {
     register,
     login,
     logout,
     getCurrentUser,
+    isAdmin,
     isUserAuthenticated,
 };

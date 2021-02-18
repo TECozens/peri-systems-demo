@@ -1,8 +1,9 @@
 default:
     image: node:14
- 
+
 variables:
-  GIT_STRATEGY: clone
+  GIT_STRATEGY: fetch
+
 
 stages:
     - test
@@ -14,7 +15,7 @@ test:
         - npm set progress=false
         - cd Frontend
         - npm i mocha -g
-        - npm run mocha-test
+        - mocha
         - npm install
         - npm run mocha-test 
         - cd ../Backend
