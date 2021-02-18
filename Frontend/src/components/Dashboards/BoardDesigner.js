@@ -32,7 +32,8 @@ const BoardDesigner = () => {
         });
     }, []);
 
-    const displayDesignerProjects = () => {
+
+    function displayProjects() {
         if (projects.length >= 1) {
             return projects.map((data) => (
                 <Tr>
@@ -55,6 +56,7 @@ const BoardDesigner = () => {
             );
         }
     }
+
 
     function filterProjects() {
         let displayedProjects = unfilteredProjects.current;
