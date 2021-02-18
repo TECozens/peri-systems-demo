@@ -14,7 +14,7 @@ test:
         - npm set progress=false
         - cd Frontend
         - npm i mocha -g
-        - mocha
+        - npm run mocha-test
         - node -v
         - npm -v
         - npm install
