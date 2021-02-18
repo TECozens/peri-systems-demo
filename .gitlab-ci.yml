@@ -12,6 +12,7 @@ test:
     tags: [general-docker]
     stage: test
     script:
+        - npm set progress=false
         - cd Frontend
         - npm i mocha -g
         - mocha
