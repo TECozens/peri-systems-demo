@@ -23,17 +23,16 @@ const BoardDesigner = () => {
     let unfilteredProjects = useRef();
     const [projects, setProjects] = useState([]);
     let filters = useRef({});
+    let statusOptions = useRef();
 
     useEffect(() => {
-        ProjectService.getProjects(authenticatedUser.id).then((projects) => {
-            unfilteredProjects.current = projects;
-            setProjects(unfilteredProjects.current);
-        });
+        getProjectsAndSetStatusOptions();
     }, []);
 
-    function handleStatusChange() {
+    function getProjectsAndSetStatusOptions() {
         ProjectService.getProjects(authenticatedUser.id).then((projects) => {
             unfilteredProjects.current = projects;
+            getUniqueStatusFromProjects();
             setProjects(unfilteredProjects.current);
         });
     }
@@ -53,7 +52,7 @@ const BoardDesigner = () => {
                                 data.status[data.status.length - 1].value
                             }
                             projectId={data._id}
-                            updateParent={handleStatusChange}
+                            updateParent={getProjectsAndSetStatusOptions}
                         />
                     </Td>
                 </Tr>
@@ -167,6 +166,19 @@ const BoardDesigner = () => {
 
         setProjects(unfilteredProjects.current);
     }
+    function getUniqueStatusFromProjects() {
+        statusOptions.current = unfilteredProjects.current
+            .map((project) => project.status[project.status.length - 1].value)
+            .filter((value, index, self) => self.indexOf(value) === index);
+    }
+
+    function createSelectionOptions() {
+        if (statusOptions.current !== undefined) {
+            return statusOptions.current.map((aStatus) => (
+                <option value={aStatus}>{aStatus}</option>
+            ));
+        }
+    }
 
     return (
         <div>
@@ -239,27 +251,7 @@ const BoardDesigner = () => {
                     onChange={handleChange}
                     value={filters.current.status}
                 >
-                    <option value="Design Pending">Design Pending</option>
-                    <option value="Preliminary Design Ongoing">
-                        Preliminary Design Ongoing
-                    </option>
-                    <option value="Preliminary Design Complete">
-                        Preliminary Design Complete
-                    </option>
-                    <option value="Awaiting Customer Approval">
-                        Awaiting Customer Approval
-                    </option>
-                    <option value="Detailed Design Pending​">
-                        Detailed Design Pending​
-                    </option>
-                    <option value="Detailed Design Ongoing​">
-                        Detailed Design Ongoing​
-                    </option>
-                    <option value="Design Complete">Design Complete​​</option>
-                    <option value="Project Complete">Project Complete</option>
-                    <option value="Project Cancelled​">
-                        Project Cancelled​
-                    </option>
+                    {createSelectionOptions()}
                 </Select>
                 <Button
                     size="sm"
