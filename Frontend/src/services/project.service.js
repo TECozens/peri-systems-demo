@@ -1,8 +1,7 @@
 import axios from "axios";
 
-export default function getProjects(userId) {
-  return axios
-    .get("http://localhost:8081/api/projects/getProjectsByDesigner/" + userId)
+function getDesignerProjects(userId) {
+  return axios.get("http://localhost:8081/api/projects/getProjectsByDesigner/" + userId)
     .then(function (response) {
       return response.data.data;
     })
@@ -10,3 +9,17 @@ export default function getProjects(userId) {
       console.log(error);
     });
 }
+
+function getTechnicalProjects(userId) {
+  return axios.get("http://localhost:8081/api/projects/getProjectsByTechnicalLead/" + userId)
+    .then(function (response) {
+      return response.data.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
+
+export default {getDesignerProjects, getTechnicalProjects};
+
