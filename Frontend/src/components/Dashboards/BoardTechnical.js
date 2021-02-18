@@ -1,13 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
-import {Box, Button, Heading, HStack, Input, InputGroup, InputLeftElement, Select } from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Heading,
+    HStack,
+    Input,
+    InputGroup,
+    InputLeftElement,
+    Select,
+    Spacer,
+} from "@chakra-ui/react";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
-import { Spacer, Text } from "@chakra-ui/layout";
+import { Text } from "@chakra-ui/layout";
 import ProjectService from "../../services/project.service";
 import AuthService from "../../services/auth.service";
 import { Search2Icon } from "@chakra-ui/icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
 
 const BoardTechnical = () => {
     let authenticatedUser = AuthService.getCurrentUser();
@@ -16,11 +25,14 @@ const BoardTechnical = () => {
     let filters = useRef({});
 
     useEffect(() => {
-        ProjectService.getTechnicalProjects(authenticatedUser.id).then((data) => {
-            setProjects(data)
-        }, (error) => {
-            console.log(error)
-        });
+        ProjectService.getTechnicalProjects(authenticatedUser.id).then(
+            (data) => {
+                setProjects(data);
+            },
+            (error) => {
+                console.log(error);
+            }
+        );
     }, []);
 
     function displayProjects() {
@@ -48,7 +60,6 @@ const BoardTechnical = () => {
     }
 
     //Filter
-
     function filterProjects() {
         let displayedProjects = unfilteredProjects.current;
 
