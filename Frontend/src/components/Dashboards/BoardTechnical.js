@@ -25,14 +25,10 @@ const BoardTechnical = () => {
     let filters = useRef({});
 
     useEffect(() => {
-        ProjectService.getTechnicalProjects(authenticatedUser.id).then(
-            (data) => {
-                setProjects(data);
-            },
-            (error) => {
-                console.log(error);
-            }
-        );
+        ProjectService.getTechnicalProjects(authenticatedUser.id).then((projects) => {
+            unfilteredProjects.current = projects;
+            setProjects(unfilteredProjects.current);
+        });
     }, []);
 
     function displayProjects() {
