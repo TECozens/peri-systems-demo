@@ -76,40 +76,50 @@ const BoardDesigner = () => {
     function filterProjects() {
         let displayedProjects = unfilteredProjects.current;
 
-        for (const [key, value] of Object.entries(filters.current)) {
-            if (key === "name") {
+        for (const [filterName, filterValue] of Object.entries(
+            filters.current
+        )) {
+            if (filterName === "name") {
                 displayedProjects = displayedProjects.filter((project) =>
-                    project.name.toLowerCase().includes(value.toLowerCase())
-                );
-            }
-            if (key === "number") {
-                displayedProjects = displayedProjects.filter((project) =>
-                    project.number.includes(value)
-                );
-            }
-            if (key === "client") {
-                displayedProjects = displayedProjects.filter((project) =>
-                    project.client.toLowerCase().includes(value.toLowerCase())
-                );
-            }
-            if (key === "from_date") {
-                displayedProjects = displayedProjects.filter(
-                    (project) =>
-                        Date.parse(project.date_required) >= Date.parse(value)
-                );
-            }
-            if (key === "to_date") {
-                displayedProjects = displayedProjects.filter(
-                    (project) =>
-                        Date.parse(project.date_required) <= Date.parse(value)
-                );
-            }
-            if (key === "status") {
-                displayedProjects = displayedProjects.filter((project) =>
-                    project.status[project.status.length - 1].value
+                    project.name
                         .toLowerCase()
-                        .includes(value.toLowerCase())
+                        .includes(filterValue.toLowerCase())
                 );
+            }
+            if (filterName === "number") {
+                displayedProjects = displayedProjects.filter((project) =>
+                    project.number.includes(filterValue)
+                );
+            }
+            if (filterName === "client") {
+                displayedProjects = displayedProjects.filter((project) =>
+                    project.client
+                        .toLowerCase()
+                        .includes(filterValue.toLowerCase())
+                );
+            }
+            if (filterName === "from_date") {
+                displayedProjects = displayedProjects.filter(
+                    (project) =>
+                        Date.parse(project.date_required) >=
+                        Date.parse(filterValue)
+                );
+            }
+            if (filterName === "to_date") {
+                displayedProjects = displayedProjects.filter(
+                    (project) =>
+                        Date.parse(project.date_required) <=
+                        Date.parse(filterValue)
+                );
+            }
+            if (filterName === "status") {
+                if (filterValue !== "") {
+                    displayedProjects = displayedProjects.filter(
+                        (project) =>
+                            project.status[project.status.length - 1].value ===
+                            filterValue
+                    );
+                }
             }
         }
 
