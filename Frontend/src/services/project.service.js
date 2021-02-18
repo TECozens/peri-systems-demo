@@ -1,16 +1,23 @@
 import axios from "axios";
 
-function getProjects(userId) {
-    return axios
-        .get(
-            "http://localhost:8081/api/projects/getProjectsByDesigner/" + userId
-        )
-        .then(function (response) {
-            return response.data.data;
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+function getDesignerProjects(userId) {
+  return axios.get("http://localhost:8081/api/projects/getProjectsByDesigner/" + userId)
+    .then(function (response) {
+      return response.data.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
+function getTechnicalProjects(userId) {
+  return axios.get("http://localhost:8081/api/projects/getProjectsByTechnicalLead/" + userId)
+    .then(function (response) {
+      return response.data.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 }
 
 function updateProjectStatus(projectId, status) {
@@ -29,4 +36,4 @@ function updateProjectStatus(projectId, status) {
         });
 }
 
-export default { getProjects, updateProjectStatus };
+export default {getDesignerProjects, getTechnicalProjects, updateProjectStatus};

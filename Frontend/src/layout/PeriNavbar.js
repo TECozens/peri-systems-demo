@@ -7,12 +7,12 @@ import {Link, Router, Switch, Route} from "react-router-dom";
 import {Menu, MenuButton, MenuGroup, MenuItem, MenuList} from "@chakra-ui/menu";
 import Dashboard from "../components/Dashboard";
 import Private from "../components/Private";
+import BoardAdmin from "../components/Dashboards/BoardAdmin";
 
 
 const PeriNavbar = () => {
     const [showTechnicalBoard, setShowTechnicalBoard] = useState(false);
     const [showAdminBoard, setShowAdminBoard] = useState(false);
-    const [showDesignerBoard, setShowDesignerBoard] = useState(false);
     const [currentUser, setCurrentUser] = useState(undefined);
 
     useEffect(() => {
@@ -22,7 +22,6 @@ const PeriNavbar = () => {
             setCurrentUser(user);
             setShowTechnicalBoard(user.roles.includes("ROLE_TECHNICAL"));
             setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
-            setShowDesignerBoard(user.roles.includes("ROLE_DESIGNER"));
         }
     }, []);
 
@@ -53,6 +52,13 @@ const PeriNavbar = () => {
                                         Dashboard
                                     </Link>
                                 </MenuItem>
+                                {showAdminBoard && (
+                                    <MenuItem>
+                                        <Link to="/Register">
+                                            Register
+                                        </Link>
+                                    </MenuItem>
+                                )}
                             </MenuGroup>
                         </MenuList>
                     </Menu>

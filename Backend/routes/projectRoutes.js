@@ -16,10 +16,8 @@ router.post("/addProject", jsonParser, (req, res) => {
     newProject.sector = req.body.sector;
     newProject.description = req.body.description;
     newProject.client = req.body.client;
-    newProject.engineers.sales_engineer_id =
-        req.body.engineers.sales_engineer_id;
-    newProject.engineers.technical_lead_id =
-        req.body.engineers.technical_lead_id;
+    newProject.engineers.sales_engineer_id = req.body.engineers.sales_engineer_id;
+    newProject.engineers.technical_lead_id = req.body.engineers.technical_lead_id;
     newProject.engineers.designer_id = req.body.engineers.designer_id;
     newProject.engineers.design_checker_id = req.body.design_checker_id;
     newProject.date_required = req.body.date_required;
@@ -38,6 +36,21 @@ router.get(
     (req, res) => {
         let designerId = new mongoose.Types.ObjectId(req.params.designerID);
         projects.find({ "engineers.designer_id": designerId }, (err, data) => {
+            if (err) {
+                return res.json({ success: false, error: err });
+            } else {
+                return res.json({ success: true, data: data });
+            }
+        });
+    }
+);
+
+router.get(
+    "/api/projects/getProjectsByTechnicalLead/:technicalLeadID",
+    jsonParser,
+    (req, res) => {
+        let technicalLeadId = new mongoose.Types.ObjectId(req.params.technicalLeadID);
+        projects.find({ "engineers.technical_lead_id": technicalLeadId }, (err, data) => {
             if (err) {
                 return res.json({ success: false, error: err });
             } else {

@@ -30,12 +30,12 @@ const BoardDesigner = () => {
     }, []);
 
     function getProjectsAndSetStatusOptions() {
-        ProjectService.getProjects(authenticatedUser.id).then((projects) => {
+        ProjectService.getDesignerProjects(authenticatedUser.id).then((projects) => {
             unfilteredProjects.current = projects;
             getUniqueStatusFromProjects();
             setProjects(unfilteredProjects.current);
         });
-    }
+    };
 
     function displayProjects() {
         if (projects.length >= 1) {

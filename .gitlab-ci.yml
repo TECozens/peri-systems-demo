@@ -3,7 +3,8 @@ default:
 
 variables:
   GIT_STRATEGY: fetch
- 
+
+
 stages:
     - test
 
@@ -12,10 +13,10 @@ test:
     stage: test
     script:
         - cd Frontend
-        - npm i cypress
         - npm i mocha -g
         - mocha
-        - node -v
-        - npm -v
         - npm install
-        # - npm run test 
+        - npm run mocha-test 
+        - cd ../Backend
+        - npm install
+        - npm run test
