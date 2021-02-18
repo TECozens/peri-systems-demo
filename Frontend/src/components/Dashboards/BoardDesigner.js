@@ -8,10 +8,9 @@ import {
     InputGroup,
     InputLeftElement,
     Select,
-    Spacer,
 } from "@chakra-ui/react";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
-import { Text } from "@chakra-ui/layout";
+import { Spacer, Text } from "@chakra-ui/layout";
 import ProjectService from "../../services/project.service";
 import AuthService from "../../services/auth.service";
 import { Search2Icon } from "@chakra-ui/icons";
@@ -25,15 +24,14 @@ const BoardDesigner = () => {
     let filters = useRef({});
 
     useEffect(() => {
-        ProjectService.getDesignerProjects(authenticatedUser.id).then((data) => {
-            setProjects(data)
-        }, (error) => {
-            console.log(error)
+        ProjectService.getDesignerProjects(authenticatedUser.id).then((projects) => {
+            unfilteredProjects.current = projects;
+            setProjects(unfilteredProjects.current);
         });
     }, []);
 
 
-    function displayProjects() {
+    const displayProjects = () => {
         if (projects.length >= 1) {
             return projects.map((data) => (
                 <Tr>
@@ -286,7 +284,7 @@ const BoardDesigner = () => {
                             </Th>
                         </Tr>
                     </Thead>
-                    <Tbody>{displayDesignerProjects()}</Tbody>
+                    <Tbody>{displayProjects()}</Tbody>
                 </Table>
             </Box>
         </div>
