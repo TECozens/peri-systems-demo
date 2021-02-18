@@ -14,9 +14,9 @@ describe("Server tests", () => {
     })
   })
 
-  it("Index has a plain white background", () => {
-    request('http://localhost:5000/', (error, body, response) => {
-      expect(body).to.equal("ffffff");
-    })
-  })
+  // it("Index has a plain white background", () => {
+  //   request('http://localhost:5000/', (error, body, response) => {
+  //     expect(body).to.equal("ffffff");
+  //   })
+  // })
 })
