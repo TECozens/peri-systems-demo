@@ -32,6 +32,23 @@ const UpdateStatus = (props) => {
         setStatusSelected(props.projectStatus.trim());
     }
 
+    function createRadioButtons() {
+        let statusOptions = [
+            "Design Pending",
+            "Preliminary Design Ongoing",
+            "Preliminary Design Complete​",
+            "Awaiting Customer Approval",
+            "Detailed Design Pending",
+            "Detailed Design Ongoing",
+            "Design Complete​​",
+            "Project Cancelled​",
+        ];
+
+        return statusOptions.map((aStatus) => (
+            <Radio value={aStatus}>{aStatus}</Radio>
+        ));
+    }
+
     return (
         <div>
             <Button colorScheme={"green"} onClick={onOpen}>
@@ -55,33 +72,7 @@ const UpdateStatus = (props) => {
                                 align="left"
                                 textAlign={"right"}
                             >
-                                <Radio value="Design Pending">
-                                    Design Pending
-                                </Radio>
-                                <Radio value="Preliminary Design Ongoing">
-                                    Preliminary Design Ongoing
-                                </Radio>
-                                <Radio value="Preliminary Design Complete">
-                                    Preliminary Design Complete​
-                                </Radio>
-                                <Radio value="Awaiting Customer Approval">
-                                    Awaiting Customer Approval
-                                </Radio>
-                                <Radio value="Detailed Design Pending​">
-                                    Detailed Design Pending
-                                </Radio>
-                                <Radio value="Detailed Design Ongoing​">
-                                    Detailed Design Ongoing​
-                                </Radio>
-                                <Radio value="Design Complete">
-                                    Design Complete​​
-                                </Radio>
-                                <Radio value="Project Complete">
-                                    Project Complete
-                                </Radio>
-                                <Radio value="Project Cancelled​">
-                                    Project Cancelled​
-                                </Radio>
+                                {createRadioButtons()}
                             </VStack>
                         </RadioGroup>
                     </ModalBody>
