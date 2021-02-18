@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 app.use(cors(corsOptions));
 
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 /**
  * IO is here as i have read it can allow us to send
  * emails to client with updates on the jobs
@@ -119,3 +119,5 @@ function initial() {
     }
   });
 }
+
+module.exports = app
