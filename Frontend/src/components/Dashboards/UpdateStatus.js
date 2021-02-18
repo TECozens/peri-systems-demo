@@ -22,8 +22,10 @@ const UpdateStatus = (props) => {
     );
 
     function handleSubmit() {
-        ProjectService.updateProjectStatus(props.projectId, statusSelected);
-        props.updateParent();
+        ProjectService.updateProjectStatus(
+            props.projectId,
+            statusSelected
+        ).then(props.updateParent());
         onClose();
     }
 
