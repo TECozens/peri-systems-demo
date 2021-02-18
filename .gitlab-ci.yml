@@ -1,8 +1,5 @@
 default:
     image: node:14
-
-variables:
-  GIT_STRATEGY: fetch
  
 variables:
   GIT_STRATEGY: clone
@@ -14,12 +11,10 @@ test:
     tags: [general-docker]
     stage: test
     script:
+        - npm set progress=false
         - cd Frontend
-        - npm i cypress
         - npm i mocha -g
-        - mocha
-        - node -v
-        - npm -v
+        - npm run mocha-test
         - npm install
         - npm run mocha-test 
         - cd ../Backend
