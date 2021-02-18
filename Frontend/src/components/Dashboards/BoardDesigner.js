@@ -31,7 +31,7 @@ const BoardDesigner = () => {
     }, []);
 
 
-    const displayProjects = () => {
+    function displayProjects() {
         if (projects.length >= 1) {
             return projects.map((data) => (
                 <Tr>
