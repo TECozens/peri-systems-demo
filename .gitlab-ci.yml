@@ -15,8 +15,6 @@ test:
         - cd Frontend
         - npm i mocha -g
         - npm run mocha-test
-        - node -v
-        - npm -v
         - npm install
         - npm run mocha-test 
         - cd ../Backend
