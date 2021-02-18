@@ -30,6 +30,7 @@ const BoardDesigner = () => {
         });
     }, []);
 
+
     function displayProjects() {
         if (projects.length >= 1) {
             return projects.map((data) => (
