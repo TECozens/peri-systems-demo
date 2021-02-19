@@ -21,7 +21,7 @@ function getTechnicalProjects(userId) {
 }
 
 function getProjectByID(projectId) {
-    return axios.get("http://localhost:8081/api/projects/getProjectsByDesigner/" + userId)
+    return axios.get("/api/projects/getProjectByID/" + projectId)
         .then(function (response) {
             return response.data.data;
         })
@@ -31,5 +31,5 @@ function getProjectByID(projectId) {
 }
 
 
-export default {getDesignerProjects, getTechnicalProjects};
+export default {getDesignerProjects, getTechnicalProjects, getProjectByID};
 
