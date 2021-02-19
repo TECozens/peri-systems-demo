@@ -21,7 +21,7 @@ function getTechnicalProjects(userId) {
 }
 
 function getProjectByID(projectId) {
-    return axios.get("/api/projects/getProjectByID/" + projectId)
+    return axios.get("http://localhost:8081/api/projects/getProjectByID/" + projectId)
         .then(function (response) {
             return response.data.data;
         })
