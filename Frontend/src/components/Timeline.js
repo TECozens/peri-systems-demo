@@ -1,13 +1,13 @@
 import React, {useEffect, useRef, useState} from "react";
 import ProjectService from "../services/project.service";
-import {Td, Th, Tr} from "@chakra-ui/table";
 import AuthService from "../services/auth.service";
 
 
 const Timeline = () => {
     let aProject = useRef();
     const [projects, setProjects] = useState();
-    
+
+
 
     useEffect(() => {
         ProjectService.getProjectByID("601aaab03e3205f70dda2f86").then((projects) => {
@@ -20,16 +20,27 @@ const Timeline = () => {
 
 
 
-
     function displayStatus() {
-
+        if (typeof projects !== 'undefined') {
+            return (
+                <div>
+                    <h1>{projects.name}</h1>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <h1>project does not exist</h1>
+                </div>
+            )
+        }
     }
 
 
 
     return (
         <div>
-            {projects.name}
+            {displayStatus()}
             Hello <br/>
         </div>
     );
