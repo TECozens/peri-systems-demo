@@ -6,6 +6,8 @@ import AuthService from "../services/auth.service";
 const Timeline = () => {
     let aProject = useRef();
     const [projects, setProjects] = useState();
+    const allProjectStages = ["Design Pending", "Preliminary Design Ongoing", "Preliminary Design Complete", "Awaiting Customer Approval",
+        "Detailed Design Pending", "Detailed Design Ongoing", "Design Complete", "Project Complete"]
 
 
 
@@ -24,7 +26,11 @@ const Timeline = () => {
         if (typeof projects !== 'undefined') {
             return (
                 <div>
-                    <h1>{projects.name}</h1>
+                    {projects.status.map(status => (
+                        <p>{status.value}</p>
+                    ))}
+
+                    {/*{projects.status[0].}*/}
                 </div>
             )
         } else {
