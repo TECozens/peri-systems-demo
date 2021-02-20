@@ -1,11 +1,13 @@
 import React, {useEffect, useRef, useState} from "react";
 import ProjectService from "../services/project.service";
 import circle_outline from "../icons/outline_circle.png"
-import red_tick from "../icons/red_tick.png"
-import in_progress from "../icons/inprogress_icon.png"
+import red_tick from "../icons/red_tick.png";
+import in_progress from "../icons/inprogress_icon.png";
+import gray_line from "../icons/grey_line.png";
 import "../style/timeline.css";
 import AuthService from "../services/auth.service";
-import {Grid, GridItem, Box, Text } from "@chakra-ui/react"
+import {Grid, GridItem, Box, Text, Center } from "@chakra-ui/react";
+
 
 const Timeline = (props) => {
     const { projectId } = props.match.params;
@@ -113,7 +115,8 @@ const Timeline = (props) => {
 
     return (
         <div>
-            <Grid templateColumns="repeat(8, 1fr)" gap={0}>
+            <div className="line"></div>
+            <Grid templateColumns="repeat(12, 1fr)" gap={0}>
                 <Box w="100%"> {isStatusComplete(0)}</Box>
                 <Box w="100%"> {isStatusComplete(1)}</Box>
                 <Box w="100%"> {isStatusComplete(2)}</Box>
