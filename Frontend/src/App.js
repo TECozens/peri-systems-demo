@@ -50,7 +50,7 @@ function App() {
               <Route exact path="/">
                 {isAuthenticated ? <Redirect to="/Dashboard" /> : <Redirect to="/Login"/>}
               </Route>
-              <Route exact path="/Timeline" component={Timeline} />
+              <Route exact path="/Timeline/:projectId" component={Timeline} />
               <IsLoggedIn exact authed={isAuthenticated} path="/Login" component={Login}/>
               <Private exact authed={isAuthenticated} component={Dashboard} path="/Dashboard"/>
               <Private exact authed={isAdmin} component={Register} path="/Register" />

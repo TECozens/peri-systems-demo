@@ -7,7 +7,8 @@ import "../style/timeline.css";
 import AuthService from "../services/auth.service";
 
 
-const Timeline = () => {
+const Timeline = (props) => {
+    const { projectId } = props.match.params;
     let aProject = useRef();
     const [projects, setProjects] = useState();
     const allProjectStages = ["Design Pending", "Preliminary Design Ongoing", "Preliminary Design Complete", "Awaiting Customer Approval",
@@ -16,7 +17,7 @@ const Timeline = () => {
 
 
     useEffect(() => {
-        ProjectService.getProjectByID("601aaab03e3205f70dda2f86").then((projects) => {
+        ProjectService.getProjectByID(projectId).then((projects) => {
             aProject.current = projects;
             setProjects(aProject.current)
             console.log("project");
@@ -28,7 +29,7 @@ const Timeline = () => {
 
     function isStatusComplete (index) {
         if (typeof projects !== 'undefined') {
-            if (index === projects.status.length + 1) {
+            if (index === projects.status.length) {
                 return (
                     <div>
                         <img src={in_progress} alt="Logo" width="88" height="84"/>
@@ -36,7 +37,7 @@ const Timeline = () => {
                     </div>
                 );
             }
-            if (index > projects.status.length) {
+            if (index >= projects.status.length) {
                     return (
                         <div>
                             <img src={circle_outline} alt="Logo" width="88" height="84"/>
@@ -92,6 +93,7 @@ const Timeline = () => {
         <div>
             {isStatusComplete(0)}
             {isStatusComplete(1)}
+            {isStatusComplete(2)}
             {isStatusComplete(3)}
             {isStatusComplete(4)}
             {isStatusComplete(5)}
