@@ -34,6 +34,7 @@ const Timeline = (props) => {
                     <div>
                         <img src={in_progress} alt="Logo" width="88" height="84"/>
                         <p>{allProjectStages[index]}</p>
+                        <p>In progress...</p>
                     </div>
                 );
             }
@@ -42,14 +43,30 @@ const Timeline = (props) => {
                         <div>
                             <img src={circle_outline} alt="Logo" width="88" height="84"/>
                             <p>{allProjectStages[index]}</p>
+                            <p>Waiting...</p>
                         </div>
                     );
                 }
             if (projects.status[index].value.indexOf(allProjectStages[index]) > -1) {
+                    let i;
+                    let date = projects.status[index].time_set;
+                    let dateAndTime = date.substring(0, date.length - 8);
+                    let dateToDisplay = date.slice(8, 10) + "/" + date.slice(5, 7) + "/" + date.slice(0, 4);
+                    let minute = date.slice(14, 16);
+                    let hour = date.slice(11, 13);
+                    let meridiem;
+                    if (hour > 12) {
+                        meridiem = "PM"
+                        hour = hour - 12;
+                    } else if (hour < 12) {
+                        meridiem = "AM"
+                    }
                     return (
                         <div>
                             <img src={red_tick} alt="Logo" width="88" height="84"/>
                             <p>{allProjectStages[index]}</p>
+                            <p>Date: {dateToDisplay}</p>
+                            <p>Time: {hour}:{minute} {meridiem}</p>
                         </div>
                     );
             } else {
