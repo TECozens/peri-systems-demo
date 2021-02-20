@@ -25,26 +25,39 @@ const Timeline = () => {
 
 
 
-    function isStatusComplete (status) {
-        let i;
+    function isStatusComplete (index) {
         if (typeof projects !== 'undefined') {
-            for (i = 0; i < allProjectStages.length; i++) {
-                if (projects.status.indexOf(allProjectStages[i]) > -1 && allProjectStages[i] === status) {
+                if (index >= projects.status.length) {
+                    return (
+                        <div>
+                            <img src={circle_outline} alt="Logo" width="88" height="84"/>
+                            <p>{allProjectStages[index]}</p>
+                        </div>
+                    );
+                }
+            if (index === projects.status.length) {
+                return (
+                    <div>
+                        <img src={circle_outline} alt="Logo" width="88" height="84"/>
+                        <p>{allProjectStages[index]}</p>
+                    </div>
+                );
+            }
+                if (projects.status[index].value.indexOf(allProjectStages[index]) > -1) {
                     return (
                         <div>
                             <img src={red_tick} alt="Logo" width="88" height="84"/>
-                            <p>{allProjectStages[i]}</p>
+                            <p>{allProjectStages[index]}</p>
                         </div>
                     );
                 } else {
                     return (
                         <div>
-                            <img src={red_tick} alt="Logo" width="88" height="84"/>
-                            <p>{allProjectStages[i]}</p>
+                            <img src={circle_outline} alt="Logo" width="88" height="84"/>
+                            <p>{allProjectStages[index]}</p>
                         </div>
                     );
                 }
-            }
         } else {
             return (
                 <div>Project Not Found</div>
@@ -52,204 +65,28 @@ const Timeline = () => {
         }
     }
 
-    function isDesignPending() {
-        isStatusComplete("Design Pending");
+    function isDesignPending(index) {
     }
 
     function isPreDesignOnGoing() {
-        let i;
-        if (typeof projects !== 'undefined') {
-            for (i = 0; i < allProjectStages.length; i++) {
-                if (projects.status.indexOf(allProjectStages[i]) > -1 && i === 1) {
-                    return (
-                        <div>
-                            <img src={red_tick} alt="Logo" width="88" height="84"/>
-                            <p>{allProjectStages[i]}</p>
-                        </div>
-                    );
-                } else {
-                    return (
-                        <div>
-                            <img src={circle_outline} alt="Logo" width="88" height="84"/>
-                            <p>{allProjectStages[i]}</p>
-                        </div>
-                    );
-                }
-            }
-        } else {
-            return (
-                <div>gfdfd</div>
-            );
-        }
-
     }
 
     function isPreDesignComplete() {
-        let i;
-        if (typeof projects !== 'undefined') {
-            for (i = 0; i < allProjectStages.length; i++) {
-                if (projects.status.indexOf(allProjectStages[i]) > -1 && i === 2) {
-                    return (
-                        <div>
-                            <img src={red_tick} alt="Logo" width="88" height="84"/>
-                            <p>{allProjectStages[i]}</p>
-                        </div>
-                    );
-                } else {
-                    return (
-                        <div>
-                            <img src={red_tick} alt="Logo" width="88" height="84"/>
-                            <p>{allProjectStages[i]}</p>
-                        </div>
-                    );
-                }
-            }
-        } else {
-            return (
-                <div>gfdfd</div>
-            );
-        }
-
     }
 
     function isAwaitingCustomerApproval() {
-        let i;
-        if (typeof projects !== 'undefined') {
-            for (i = 0; i < allProjectStages.length; i++) {
-                if (projects.status.indexOf(allProjectStages[i]) > -1 && i === 3) {
-                    return (
-                        <div>
-                            <img src={red_tick} alt="Logo" width="88" height="84"/>
-                            <p>{allProjectStages[i]}</p>
-                        </div>
-                    );
-                } else {
-                    return (
-                        <div>
-                            <img src={red_tick} alt="Logo" width="88" height="84"/>
-                            <p>{allProjectStages[i]}</p>
-                        </div>
-                    );
-                }
-            }
-        } else {
-            return (
-                <div>gfdfd</div>
-            );
-        }
-
     }
 
     function isDetailedDesignPending() {
-        let i;
-        if (typeof projects !== 'undefined') {
-            for (i = 0; i < allProjectStages.length; i++) {
-                if (projects.status.indexOf(allProjectStages[i]) > -1 && i === 4) {
-                    return (
-                        <div>
-                            <img src={red_tick} alt="Logo" width="88" height="84"/>
-                            <p>{allProjectStages[i]}</p>
-                        </div>
-                    );
-                } else {
-                    return (
-                        <div>
-                            <img src={red_tick} alt="Logo" width="88" height="84"/>
-                            <p>{allProjectStages[i]}</p>
-                        </div>
-                    );
-                }
-            }
-        } else {
-            return (
-                <div>gfdfd</div>
-            );
-        }
-
     }
 
     function isDetailedDesignOngoing() {
-        let i;
-        if (typeof projects !== 'undefined') {
-            for (i = 0; i < allProjectStages.length; i++) {
-                if (projects.status.indexOf(allProjectStages[i]) > -1 && i === 5) {
-                    return (
-                        <div>
-                            <img src={red_tick} alt="Logo" width="88" height="84"/>
-                            <p>{allProjectStages[i]}</p>
-                        </div>
-                    );
-                } else {
-                    return (
-                        <div>
-                            <img src={red_tick} alt="Logo" width="88" height="84"/>
-                            <p>{allProjectStages[i]}</p>
-                        </div>
-                    );
-                }
-            }
-        } else {
-            return (
-                <div>gfdfd</div>
-            );
-        }
-
     }
 
     function isDesignComplete() {
-        let i;
-        if (typeof projects !== 'undefined') {
-            for (i = 0; i < allProjectStages.length; i++) {
-                if (projects.status.indexOf(allProjectStages[i]) > -1 && i === 6) {
-                    return (
-                        <div>
-                            <img src={red_tick} alt="Logo" width="88" height="84"/>
-                            <p>{allProjectStages[i]}</p>
-                        </div>
-                    );
-                } else {
-                    return (
-                        <div>
-                            <img src={red_tick} alt="Logo" width="88" height="84"/>
-                            <p>{allProjectStages[i]}</p>
-                        </div>
-                    );
-                }
-            }
-        } else {
-            return (
-                <div>gfdfd</div>
-            );
-        }
-
     }
 
     function isProjectComplete() {
-        let i;
-        if (typeof projects !== 'undefined') {
-            for (i = 0; i < allProjectStages.length; i++) {
-                if (projects.status.indexOf(allProjectStages[i]) > -1 && i === 7) {
-                    return (
-                        <div>
-                            <img src={red_tick} alt="Logo" width="88" height="84"/>
-                            <p>{allProjectStages[i]}</p>
-                        </div>
-                    );
-                } else {
-                    return (
-                        <div>
-                            <img src={red_tick} alt="Logo" width="88" height="84"/>
-                            <p>{allProjectStages[i]}</p>
-                        </div>
-                    );
-                }
-            }
-        } else {
-            return (
-                <div>gfdfd</div>
-            );
-        }
-
     }
 
 
@@ -277,14 +114,13 @@ const Timeline = () => {
 
     return (
         <div>
-            {isDesignPending()}
-            {isPreDesignOnGoing()}
-            {isPreDesignComplete()}
-            {isAwaitingCustomerApproval()}
-            {isDetailedDesignPending()}
-            {isDetailedDesignOngoing()}
-            {isDesignComplete()}
-            {isProjectComplete()}
+            {isStatusComplete(0)}
+            {isStatusComplete(1)}
+            {isStatusComplete(3)}
+            {isStatusComplete(4)}
+            {isStatusComplete(5)}
+            {isStatusComplete(6)}
+            {isStatusComplete(7)}
             Hello <br/>
         </div>
     );
