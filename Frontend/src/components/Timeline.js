@@ -29,7 +29,8 @@ const Timeline = (props) => {
 
     let logoWidth = 68;
     let logoHeight = 64;
-    let timeTextSize = "sm"
+    let timeTextSize = "xs"
+    let statusTextSize = "sm"
 
     function isStatusComplete (index) {
         if (typeof projects !== 'undefined') {
@@ -37,7 +38,7 @@ const Timeline = (props) => {
                 return (
                     <div>
                         <img src={in_progress} alt="Logo" width={logoWidth} height={logoHeight}/>
-                        <Text fontSize="lg">{allProjectStages[index]}</Text>
+                        <b> <Text fontSize={statusTextSize}>{allProjectStages[index]}</Text> </b>
                         <Text fontSize={timeTextSize}>In progress...</Text>
                     </div>
                 );
@@ -46,7 +47,7 @@ const Timeline = (props) => {
                     return (
                         <div>
                             <img src={circle_outline} alt="Logo" width={logoWidth} height={logoHeight}/>
-                            <Text fontSize="lg">{allProjectStages[index]}</Text>
+                            <b><Text fontSize={statusTextSize}>{allProjectStages[index]}</Text></b>
                             <Text fontSize={timeTextSize}>Waiting...</Text>
                         </div>
                     );
@@ -68,7 +69,7 @@ const Timeline = (props) => {
                     return (
                         <div>
                             <img src={red_tick} alt="Logo" width={logoWidth} height={logoHeight}/>
-                            <Text fontSize="lg">{allProjectStages[index]}</Text>
+                            <b> <Text fontSize={statusTextSize}>{allProjectStages[index]}</Text> </b>
                             <Text fontSize={timeTextSize}>Date: {dateToDisplay}</Text>
                             <Text fontSize={timeTextSize}>Time: {hour}:{minute} {meridiem}</Text>
                         </div>
@@ -112,7 +113,7 @@ const Timeline = (props) => {
 
     return (
         <div>
-            <Grid templateColumns="repeat(7, 1fr)" gap={0}>
+            <Grid templateColumns="repeat(8, 1fr)" gap={0}>
                 <Box w="100%"> {isStatusComplete(0)}</Box>
                 <Box w="100%"> {isStatusComplete(1)}</Box>
                 <Box w="100%"> {isStatusComplete(2)}</Box>
