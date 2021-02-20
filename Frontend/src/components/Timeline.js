@@ -5,7 +5,7 @@ import red_tick from "../icons/red_tick.png"
 import in_progress from "../icons/inprogress_icon.png"
 import "../style/timeline.css";
 import AuthService from "../services/auth.service";
-
+import {Grid, GridItem, Box, Text } from "@chakra-ui/react"
 
 const Timeline = (props) => {
     const { projectId } = props.match.params;
@@ -27,23 +27,27 @@ const Timeline = (props) => {
 
 
 
+    let logoWidth = 68;
+    let logoHeight = 64;
+    let timeTextSize = "sm"
+
     function isStatusComplete (index) {
         if (typeof projects !== 'undefined') {
             if (index === projects.status.length) {
                 return (
                     <div>
-                        <img src={in_progress} alt="Logo" width="88" height="84"/>
-                        <p>{allProjectStages[index]}</p>
-                        <p>In progress...</p>
+                        <img src={in_progress} alt="Logo" width={logoWidth} height={logoHeight}/>
+                        <Text fontSize="lg">{allProjectStages[index]}</Text>
+                        <Text fontSize={timeTextSize}>In progress...</Text>
                     </div>
                 );
             }
             if (index >= projects.status.length) {
                     return (
                         <div>
-                            <img src={circle_outline} alt="Logo" width="88" height="84"/>
-                            <p>{allProjectStages[index]}</p>
-                            <p>Waiting...</p>
+                            <img src={circle_outline} alt="Logo" width={logoWidth} height={logoHeight}/>
+                            <Text fontSize="lg">{allProjectStages[index]}</Text>
+                            <Text fontSize={timeTextSize}>Waiting...</Text>
                         </div>
                     );
                 }
@@ -63,17 +67,17 @@ const Timeline = (props) => {
                     }
                     return (
                         <div>
-                            <img src={red_tick} alt="Logo" width="88" height="84"/>
-                            <p>{allProjectStages[index]}</p>
-                            <p>Date: {dateToDisplay}</p>
-                            <p>Time: {hour}:{minute} {meridiem}</p>
+                            <img src={red_tick} alt="Logo" width={logoWidth} height={logoHeight}/>
+                            <Text fontSize="lg">{allProjectStages[index]}</Text>
+                            <Text fontSize={timeTextSize}>Date: {dateToDisplay}</Text>
+                            <Text fontSize={timeTextSize}>Time: {hour}:{minute} {meridiem}</Text>
                         </div>
                     );
             } else {
                     return (
                         <div>
-                            <img src={circle_outline} alt="Logo" width="88" height="84"/>
-                            <p>{allProjectStages[index]}</p>
+                            <img src={circle_outline} alt="Logo" width={logoWidth} height={logoHeight}/>
+                            <Text fontSize={timeTextSize}>{allProjectStages[index]}</Text>
                         </div>
                     );
                 }
@@ -108,15 +112,18 @@ const Timeline = (props) => {
 
     return (
         <div>
-            {isStatusComplete(0)}
-            {isStatusComplete(1)}
-            {isStatusComplete(2)}
-            {isStatusComplete(3)}
-            {isStatusComplete(4)}
-            {isStatusComplete(5)}
-            {isStatusComplete(6)}
-            {isStatusComplete(7)}
+            <Grid templateColumns="repeat(7, 1fr)" gap={0}>
+                <Box w="100%"> {isStatusComplete(0)}</Box>
+                <Box w="100%"> {isStatusComplete(1)}</Box>
+                <Box w="100%"> {isStatusComplete(2)}</Box>
+                <Box w="100%"> {isStatusComplete(3)}</Box>
+                <Box w="100%"> {isStatusComplete(4)}</Box>
+                <Box w="100%"> {isStatusComplete(5)}</Box>
+                <Box w="100%"> {isStatusComplete(6)}</Box>
+                <Box w="100%"> {isStatusComplete(7)}</Box>
+        </Grid>
         </div>
+
     );
 };
 
