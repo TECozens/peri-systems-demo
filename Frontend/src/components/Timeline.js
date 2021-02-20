@@ -67,6 +67,8 @@ const Timeline = (props) => {
                         hour = hour - 12;
                     } else if (hour < 12) {
                         meridiem = "AM"
+                    } else if (hour === 12) {
+                        meridiem = "PM"
                     }
                     return (
                         <div>
