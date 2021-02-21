@@ -1,6 +1,6 @@
 import React from "react";
 import CRUDTable, {CreateForm, DeleteForm, Field, Fields, Pagination, UpdateForm} from "react-crud-table";
-import './Register.css'
+import './Register.scss'
 
 let users = [
   {
