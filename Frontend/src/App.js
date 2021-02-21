@@ -3,7 +3,7 @@ import './App.css';
 import {ChakraProvider, extendTheme} from "@chakra-ui/react";
 import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import Login from "./components/Login"
-import Register from "./components/Register"
+import Register from "./components/Register/Register"
 import PeriNavbar from "./layout/PeriNavbar";
 import Dashboard from "./components/Dashboard";
 import Private from "./components/Private"
