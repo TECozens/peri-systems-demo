@@ -1,8 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Button,
-    Radio,
-    RadioGroup,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -10,6 +8,8 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay,
+    Radio,
+    RadioGroup,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { VStack } from "@chakra-ui/layout";
@@ -17,9 +17,11 @@ import ProjectService from "../../services/project.service";
 
 const UpdateStatus = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [statusSelected, setStatusSelected] = useState(
-        props.projectStatus.trim()
-    );
+    const [statusSelected, setStatusSelected] = useState();
+
+    useEffect(() => {
+        setStatusSelected(props.projectStatus.trim());
+    }, [props.projectStatus]);
 
     function handleSubmit() {
         ProjectService.updateProjectStatus(props.projectId, statusSelected)
