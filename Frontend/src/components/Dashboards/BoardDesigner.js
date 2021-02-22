@@ -26,15 +26,18 @@ const BoardDesigner = () => {
     let statusOptions = useRef();
 
     useEffect(() => {
-        getProjectsAndSetStatusOptions();
+        getProjectsSetStatusOptionsAndFilterIfNeeded();
     }, []);
 
-    function getProjectsAndSetStatusOptions() {
+    function getProjectsSetStatusOptionsAndFilterIfNeeded() {
         ProjectService.getDesignerProjects(authenticatedUser.id).then(
             (projects) => {
                 unfilteredProjects.current = projects;
                 getUniqueStatusFromProjects();
                 setProjects(unfilteredProjects.current);
+                if (Object.keys(filters.current).length > 0) {
+                    filterProjects();
+                }
             }
         );
     }
@@ -54,7 +57,9 @@ const BoardDesigner = () => {
                                 data.status[data.status.length - 1].value
                             }
                             projectId={data._id}
-                            updateParent={getProjectsAndSetStatusOptions}
+                            updateParent={
+                                getProjectsSetStatusOptionsAndFilterIfNeeded
+                            }
                         />
                     </Td>
                 </Tr>
