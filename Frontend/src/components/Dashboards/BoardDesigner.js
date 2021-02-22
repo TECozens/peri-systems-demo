@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
     Box,
     Button,
@@ -24,12 +24,9 @@ const BoardDesigner = () => {
     const [projects, setProjects] = useState([]);
     let filters = useRef({});
     let statusOptions = useRef();
+    let count = 0;
 
-    useEffect(() => {
-        getProjectsSetStatusOptionsAndFilterIfNeeded();
-    }, []);
-
-    function getProjectsSetStatusOptionsAndFilterIfNeeded() {
+    const getProjectsSetStatusOptionsAndFilterIfNeeded = useCallback(() => {
         ProjectService.getDesignerProjects(authenticatedUser.id).then(
             (projects) => {
                 unfilteredProjects.current = projects;
@@ -40,12 +37,16 @@ const BoardDesigner = () => {
                 }
             }
         );
-    }
+    }, [authenticatedUser.id]);
+
+    useEffect(() => {
+        getProjectsSetStatusOptionsAndFilterIfNeeded();
+    }, [getProjectsSetStatusOptionsAndFilterIfNeeded]);
 
     function displayProjects() {
         if (projects.length >= 1) {
             return projects.map((data) => (
-                <Tr>
+                <Tr key={data.name}>
                     <Td>{data.number}</Td>
                     <Td>{data.name}</Td>
                     <Td>{data.client}</Td>
@@ -53,6 +54,7 @@ const BoardDesigner = () => {
                     <Td>{data.status[data.status.length - 1].value}</Td>
                     <Td isNumeric>
                         <UpdateStatus
+                            count={count}
                             projectStatus={
                                 data.status[data.status.length - 1].value
                             }
@@ -192,13 +194,15 @@ const BoardDesigner = () => {
     function createSelectionOptions() {
         if (statusOptions.current !== undefined) {
             return statusOptions.current.map((aStatus) => (
-                <option value={aStatus}>{aStatus}</option>
+                <option key={count++} value={aStatus}>
+                    {aStatus}
+                </option>
             ));
         }
     }
 
     return (
-        <div>
+        <div key={count++}>
             <Box m="10px">
                 <Heading>Welcome back {authenticatedUser.firstname}!</Heading>
             </Box>
@@ -210,7 +214,7 @@ const BoardDesigner = () => {
                     />
                     <Input
                         name="project_number"
-                        value={filters.current.number}
+                        value={filters.current.number || ""}
                         placeholder="Project Number"
                         onKeyPress={handleKeyPress}
                         onChange={handleFilterInputChange}
@@ -225,7 +229,7 @@ const BoardDesigner = () => {
                         name="project_name"
                         onChange={handleFilterInputChange}
                         placeholder="Project Name"
-                        value={filters.current.name}
+                        value={filters.current.name || ""}
                     />
                 </InputGroup>
                 <InputGroup size="sm" w="90%">
@@ -235,7 +239,7 @@ const BoardDesigner = () => {
                     />
                     <Input
                         name="project_client"
-                        value={filters.current.client}
+                        value={filters.current.client || ""}
                         onChange={handleFilterInputChange}
                         placeholder="Client"
                     />
@@ -246,7 +250,7 @@ const BoardDesigner = () => {
                     <DatePicker
                         name="from_date"
                         placeholderText="Choose a date"
-                        selected={filters.current.from_date}
+                        selected={filters.current.from_date || ""}
                         onSelect={handleDateInput}
                         dateFormat={"dd/MM/yyyy"}
                     />
@@ -254,7 +258,7 @@ const BoardDesigner = () => {
                     <DatePicker
                         name="to_date"
                         placeholderText="Choose a date"
-                        selected={filters.current.to_date}
+                        selected={filters.current.to_date || ""}
                         onSelect={handleDateInput}
                         dateFormat={"dd/MM/yyyy"}
                     />
