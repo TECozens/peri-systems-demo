@@ -126,7 +126,7 @@ const BoardDesigner = () => {
         setProjects(displayedProjects);
     }
 
-    function handleChange(event) {
+    function handleFilterInputChange(event) {
         let inputChanged = event.target.name;
         let value = event.target.value;
 
@@ -143,7 +143,7 @@ const BoardDesigner = () => {
         filterProjects();
     }
 
-    function handleDate(event) {
+    function handleDateInput(event) {
         if (this.name === "from_date") {
             filters.current.from_date = new Date(event);
         }
@@ -208,7 +208,7 @@ const BoardDesigner = () => {
                         value={filters.current.number}
                         placeholder="Project Number"
                         onKeyPress={handleKeyPress}
-                        onChange={handleChange}
+                        onChange={handleFilterInputChange}
                     />
                 </InputGroup>
                 <InputGroup size="sm" w="90%">
@@ -218,7 +218,7 @@ const BoardDesigner = () => {
                     />
                     <Input
                         name="project_name"
-                        onChange={handleChange}
+                        onChange={handleFilterInputChange}
                         placeholder="Project Name"
                         value={filters.current.name}
                     />
@@ -231,7 +231,7 @@ const BoardDesigner = () => {
                     <Input
                         name="project_client"
                         value={filters.current.client}
-                        onChange={handleChange}
+                        onChange={handleFilterInputChange}
                         placeholder="Client"
                     />
                 </InputGroup>
@@ -242,7 +242,7 @@ const BoardDesigner = () => {
                         name="from_date"
                         placeholderText="Choose a date"
                         selected={filters.current.from_date}
-                        onSelect={handleDate}
+                        onSelect={handleDateInput}
                         dateFormat={"dd/MM/yyyy"}
                     />
                     <Text color={"brand.accents"}>to &nbsp;</Text>
@@ -250,7 +250,7 @@ const BoardDesigner = () => {
                         name="to_date"
                         placeholderText="Choose a date"
                         selected={filters.current.to_date}
-                        onSelect={handleDate}
+                        onSelect={handleDateInput}
                         dateFormat={"dd/MM/yyyy"}
                     />
                 </InputGroup>
@@ -260,7 +260,7 @@ const BoardDesigner = () => {
                     size="sm"
                     placeholder="Select a status"
                     name="project_status"
-                    onChange={handleChange}
+                    onChange={handleFilterInputChange}
                     value={filters.current.status}
                 >
                     {createSelectionOptions()}
