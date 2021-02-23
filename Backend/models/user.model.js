@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const User = mongoose.model(
     "User",
     new mongoose.Schema({
-        _id: Schema.Types.ObjectId,
+        _id: mongoose.Schema.Types.ObjectId,
         firstname: String,
         lastname: String,
         email: String,
