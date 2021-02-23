@@ -315,3 +315,4 @@ const BoardTechnical = () => {
 };
 
 export default BoardTechnical;
+//TODO refactor code
