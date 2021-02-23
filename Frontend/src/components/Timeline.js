@@ -35,7 +35,22 @@ const Timeline = (props) => {
     let timeTextSize = "xs"
     let statusTextSize = "sm"
 
+    let statusArray = [];
+    function retrieveProjectStatusArray() {
+        let i;
+        let tempStatusArray= [];
+        if (typeof projects !== 'undefined') {
+            for (i = 0; i < projects.status.length; i++) {
+                tempStatusArray.push(projects.status[i].value);
+            }
+            statusArray = tempStatusArray;
+        }
+    }
+
+
     function isStatusComplete (index) {
+        retrieveProjectStatusArray();
+        console.log(statusArray);
         if (typeof projects !== 'undefined') {
             if (index === projects.status.length) {
                 return (
@@ -55,9 +70,7 @@ const Timeline = (props) => {
                         </div>
                     );
                 }
-            let j;
-            for (j = 0 ; j < projects.status.length; j++) {
-                if (projects.status[j].value.indexOf(allProjectStages[index]) > -1) {
+            if (statusArray.lastIndexOf(allProjectStages[index]) > -1) {
                     let i;
                     let date = projects.status[index].time_set;
                     let dateAndTime = date.substring(0, date.length - 8);
@@ -70,7 +83,7 @@ const Timeline = (props) => {
                         hour = hour - 12;
                     } else if (hour < 12) {
                         meridiem = "AM"
-                    } else if (hour === 12) {
+                    } else if (hour == 12) {
                         meridiem = "PM"
                     }
                     return (
@@ -81,7 +94,6 @@ const Timeline = (props) => {
                             <Text fontSize={timeTextSize}>Time: {hour}:{minute} {meridiem}</Text>
                         </div>
                     );
-                }
             }
             if (projects.status[index].value === "Project Cancelled") {
                 let date = projects.status[index].time_set;
@@ -95,7 +107,7 @@ const Timeline = (props) => {
                     hour = hour - 12;
                 } else if (hour < 12) {
                     meridiem = "AM"
-                } else if (hour === 12) {
+                } else if (hour == 12) {
                     meridiem = "PM"
                 }
                 return (
@@ -124,24 +136,6 @@ const Timeline = (props) => {
 
     function displayStatus() {
         if (typeof projects !== 'undefined') {
-            if (projects.status.length < 9) {
-                return (
-                    <div>
-                        <div className="line"></div>
-                        <Grid templateColumns="repeat(12, 1fr)" gap={0}>
-                            <Box w="100%"> {isStatusComplete(0)}</Box>
-                            <Box w="100%"> {isStatusComplete(1)}</Box>
-                            <Box w="100%"> {isStatusComplete(2)}</Box>
-                            <Box w="100%"> {isStatusComplete(3)}</Box>
-                            <Box w="100%"> {isStatusComplete(4)}</Box>
-                            <Box w="100%"> {isStatusComplete(5)}</Box>
-                            <Box w="100%"> {isStatusComplete(6)}</Box>
-                            <Box w="100%"> {isStatusComplete(7)}</Box>
-                        </Grid>
-                    </div>
-
-                );
-            }
             return (
                 <div>
                     {projects.status.map(status => (
