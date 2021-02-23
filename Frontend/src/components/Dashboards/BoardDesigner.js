@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import {Box, Button, Heading, HStack, Input, InputGroup, InputLeftElement, Select,} from "@chakra-ui/react";
-import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
-import { Text } from "@chakra-ui/layout";
+import {Table, Tbody, Td, Th, Thead, Tr} from "@chakra-ui/table";
+import {Text} from "@chakra-ui/layout";
 import ProjectService from "../../services/project.service";
 import AuthService from "../../services/auth.service";
-import { Search2Icon } from "@chakra-ui/icons";
+import {Search2Icon} from "@chakra-ui/icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import UpdateStatus from "./UpdateStatus";
@@ -62,12 +62,12 @@ const BoardDesigner = () => {
         } else {
             return (
                 <Tr>
-                    <Th />
-                    <Th />
+                    <Th/>
+                    <Th/>
                     <Th> No projects</Th>
-                    <Th />
-                    <Th />
-                    <Th />
+                    <Th/>
+                    <Th/>
+                    <Th/>
                 </Tr>
             );
         }
@@ -178,6 +178,7 @@ const BoardDesigner = () => {
 
         setProjects(unfilteredProjects.current);
     }
+
     function getUniqueStatusFromProjects() {
         statusOptions.current = unfilteredProjects.current
             .map((project) => project.status[project.status.length - 1].value)
@@ -203,7 +204,7 @@ const BoardDesigner = () => {
                 <InputGroup size="sm" w="70%">
                     <InputLeftElement
                         pointerEvents="none"
-                        children={<Search2Icon color="gray.300" />}
+                        children={<Search2Icon color="gray.300"/>}
                     />
                     <Input
                         name="project_number"
@@ -216,7 +217,7 @@ const BoardDesigner = () => {
                 <InputGroup size="sm" w="90%">
                     <InputLeftElement
                         pointerEvents="none"
-                        children={<Search2Icon color="gray.300" />}
+                        children={<Search2Icon color="gray.300"/>}
                     />
                     <Input
                         name="project_name"
@@ -228,7 +229,7 @@ const BoardDesigner = () => {
                 <InputGroup size="sm" w="90%">
                     <InputLeftElement
                         pointerEvents="none"
-                        children={<Search2Icon color="gray.300" />}
+                        children={<Search2Icon color="gray.300"/>}
                     />
                     <Input
                         name="project_client"
@@ -302,7 +303,7 @@ const BoardDesigner = () => {
                             <Th>
                                 <Text fontSize="lg">Status</Text>
                             </Th>
-                            <Th />
+                            <Th/>
                         </Tr>
                     </Thead>
                     <Tbody>{displayProjects()}</Tbody>
