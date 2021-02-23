@@ -9,7 +9,6 @@ import Dashboard from "./components/Dashboard";
 import Private from "./components/Private"
 import AuthService from "./services/auth.service";
 import IsLoggedIn from "./components/IsLoggedIn";
-import Timeline from "./components/Timeline";
 
 // 2. Extend the theme to include custom colors, fonts, etc
 const colors = {
@@ -50,7 +49,6 @@ function App() {
               <Route exact path="/">
                 {isAuthenticated ? <Redirect to="/Dashboard" /> : <Redirect to="/Login"/>}
               </Route>
-              <Route exact path="/Timeline/:projectId" component={Timeline} />
               <IsLoggedIn exact authed={isAuthenticated} path="/Login" component={Login}/>
               <Private exact authed={isAuthenticated} component={Dashboard} path="/Dashboard"/>
               <Private exact authed={isAdmin} component={Register} path="/Register" />
