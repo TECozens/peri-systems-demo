@@ -1,14 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import {
-    Box,
-    Button,
-    Heading,
-    HStack,
-    Input,
-    InputGroup,
-    InputLeftElement,
-    Select,
-} from "@chakra-ui/react";
+import {Box, Button, Heading, HStack, Input, InputGroup, InputLeftElement, Select,} from "@chakra-ui/react";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
 import { Text } from "@chakra-ui/layout";
 import ProjectService from "../../services/project.service";
@@ -17,6 +8,7 @@ import { Search2Icon } from "@chakra-ui/icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import UpdateStatus from "./UpdateStatus";
+import ProjectView from "../Project/ProjectView"
 
 const BoardDesigner = () => {
     let authenticatedUser = AuthService.getCurrentUser();
@@ -63,6 +55,7 @@ const BoardDesigner = () => {
                                 getProjectsSetStatusOptionsAndFilterIfNeeded
                             }
                         />
+                        <ProjectView project={data}/>
                     </Td>
                 </Tr>
             ));
