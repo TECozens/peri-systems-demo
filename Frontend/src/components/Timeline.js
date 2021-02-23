@@ -47,7 +47,7 @@ const Timeline = (props) => {
         }
     }
 
-
+    // TODO: Redo Current in Progress Status
     function isStatusComplete (index) {
         retrieveProjectStatusArray();
         console.log(statusArray);
@@ -61,7 +61,7 @@ const Timeline = (props) => {
                     </div>
                 );
             }
-            if (index >= projects.status.length) {
+            if (index >= projects.status.length || statusArray.lastIndexOf(allProjectStages[index]) == -1) {
                     return (
                         <div>
                             <img src={circle_outline} alt="Logo" width={logoWidth} height={logoHeight}/>
@@ -71,8 +71,9 @@ const Timeline = (props) => {
                     );
                 }
             if (statusArray.lastIndexOf(allProjectStages[index]) > -1) {
+                    let currentStatusIndex = statusArray.lastIndexOf(allProjectStages[index]);
                     let i;
-                    let date = projects.status[index].time_set;
+                    let date = projects.status[currentStatusIndex].time_set;
                     let dateAndTime = date.substring(0, date.length - 8);
                     let dateToDisplay = date.slice(8, 10) + "/" + date.slice(5, 7) + "/" + date.slice(0, 4);
                     let minute = date.slice(14, 16);
@@ -95,7 +96,7 @@ const Timeline = (props) => {
                         </div>
                     );
             }
-            if (projects.status[index].value === "Project Cancelled") {
+            if (statusArray.lastIndexOf("Project Cancelled") > -1) {
                 let date = projects.status[index].time_set;
                 let dateAndTime = date.substring(0, date.length - 8);
                 let dateToDisplay = date.slice(8, 10) + "/" + date.slice(5, 7) + "/" + date.slice(0, 4);
