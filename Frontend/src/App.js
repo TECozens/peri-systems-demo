@@ -44,19 +44,20 @@ function App() {
         <Router>
             <ChakraProvider theme={theme}>
                 <PeriNavbar/>
-
-                {/*{isAuthenticated ? <Redirect to="/Dashboard" component={Dashboard}/> : <Route exact path="/Login" component={Login}/>}*/}
-
                 <Switch>
                     <Route exact path="/">
                         {isAuthenticated ? <Redirect to="/Dashboard"/> : <Redirect to="/Login"/>}
                     </Route>
-                    <IsLoggedIn exact authed={isAuthenticated} path="/Login" component={Login}/>
-                    <Private exact authed={isAuthenticated} component={Dashboard} path="/Dashboard"/>
-                    <Private exact authed={isAdmin} component={Register} path="/Register"/>
-                    <Private exact authed={isAuthenticated} component={ProjectDetails}
-                             path="/ProjectDetails/:projectId"/>
-                    <Route exact path="/Timeline/:projectId" component={Timeline} />
+                    <IsLoggedIn exact authed={isAuthenticated}
+                                component={Login} path="/Login"/>
+                    <Private exact authed={isAuthenticated}
+                             component={Dashboard} path="/Dashboard"/>
+                    <Private exact authed={isAdmin}
+                             component={Register} path="/Register"/>
+                    <Private exact authed={isAuthenticated}
+                             component={ProjectDetails} path="/ProjectDetails/:projectId"/>
+                    <Private exact authed={isAuthenticated}
+                             component={Timeline} path="/Timeline/:projectId"/>
                 </Switch>
             </ChakraProvider>
         </Router>
