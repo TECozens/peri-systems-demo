@@ -36,4 +36,8 @@ function updateProjectStatus(projectId, status) {
         });
 }
 
+function updateProjectEngineers(projectId, engineers) {
+    //Todo need to add function to do this
+}
+
 export default {getDesignerProjects, getTechnicalProjects, updateProjectStatus};

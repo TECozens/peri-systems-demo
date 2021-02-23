@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const User = mongoose.model(
     "User",
     new mongoose.Schema({
+        _id: Schema.Types.ObjectId,
         firstname: String,
         lastname: String,
         email: String,
@@ -10,9 +11,9 @@ const User = mongoose.model(
         roles: [
             {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "Role"
-            }
-        ]
+                ref: "Role",
+            },
+        ],
     })
 );
 

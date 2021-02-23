@@ -17,6 +17,7 @@ import AuthService from "../../services/auth.service";
 import { Search2Icon } from "@chakra-ui/icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import AssignEngineer from "./AssignEngineer";
 
 const BoardTechnical = () => {
     let authenticatedUser = AuthService.getCurrentUser();
@@ -25,10 +26,12 @@ const BoardTechnical = () => {
     let filters = useRef({});
 
     useEffect(() => {
-        ProjectService.getTechnicalProjects(authenticatedUser.id).then((projects) => {
-            unfilteredProjects.current = projects;
-            setProjects(unfilteredProjects.current);
-        });
+        ProjectService.getTechnicalProjects(authenticatedUser.id).then(
+            (projects) => {
+                unfilteredProjects.current = projects;
+                setProjects(unfilteredProjects.current);
+            }
+        );
     }, []);
 
     function displayProjects() {
@@ -40,6 +43,10 @@ const BoardTechnical = () => {
                     <Td>{data.client}</Td>
                     <Td>{new Date(data.date_required).toLocaleDateString()}</Td>
                     <Td>{data.status[data.status.length - 1].value}</Td>
+                    <Td />
+                    <Td>
+                        <AssignEngineer project_id={data._id} />
+                    </Td>
                 </Tr>
             ));
         } else {
@@ -47,7 +54,9 @@ const BoardTechnical = () => {
                 <Tr>
                     <Th />
                     <Th />
+                    <Th />
                     <Th> No projects</Th>
+                    <Th />
                     <Th />
                     <Th />
                 </Tr>
@@ -282,6 +291,8 @@ const BoardTechnical = () => {
                             <Th>
                                 <Text fontSize="lg">Status</Text>
                             </Th>
+                            <Th />
+                            <Th />
                         </Tr>
                     </Thead>
                     <Tbody>{displayProjects()}</Tbody>
