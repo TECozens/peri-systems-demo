@@ -10,6 +10,7 @@ import Private from "./components/Private"
 import AuthService from "./services/auth.service";
 import IsLoggedIn from "./components/IsLoggedIn";
 import ProjectDetails from "./components/Project/ProjectDetails";
+import Timeline from "./components/Timeline";
 
 // 2. Extend the theme to include custom colors, fonts, etc
 const colors = {
@@ -55,6 +56,7 @@ function App() {
                     <Private exact authed={isAdmin} component={Register} path="/Register"/>
                     <Private exact authed={isAuthenticated} component={ProjectDetails}
                              path="/ProjectDetails/:projectId"/>
+                    <Route exact path="/Timeline/:projectId" component={Timeline} />
                 </Switch>
             </ChakraProvider>
         </Router>
