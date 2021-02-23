@@ -41,15 +41,13 @@ const BoardTechnical = () => {
     }, [authenticatedUser.id]);
 
     useEffect(() => {
-        getProjectsSetStatusOptionsAndFilterIfNeeded();
-    }, [getProjectsSetStatusOptionsAndFilterIfNeeded]);
-
-    useEffect(() => {
         ProjectService.getTechnicalProjects(authenticatedUser.id).then((projects) => {
             unfilteredProjects.current = projects;
             setProjects(unfilteredProjects.current);
         });
-    }, []);
+        // console can be removed
+        console.log("USE EFFECT RAN")
+    }, [unfilteredProjects.current]);
 
     function displayProjects() {
         if (projects.length >= 1) {
@@ -320,10 +318,10 @@ const BoardTechnical = () => {
                             <Th>
                                 <Text fontSize="lg">Number </Text>
                             </Th>
-                            <Th>
+                            <Th w="17%">
                                 <Text fontSize="lg">Name </Text>
                             </Th>
-                            <Th>
+                            <Th w="17%">
                                 <Text fontSize="lg">Client</Text>
                             </Th>
                             <Th>
@@ -332,6 +330,7 @@ const BoardTechnical = () => {
                             <Th>
                                 <Text fontSize="lg">Status</Text>
                             </Th>
+                            <Th />
                         </Tr>
                     </Thead>
                     <Tbody>{displayProjects()}</Tbody>
