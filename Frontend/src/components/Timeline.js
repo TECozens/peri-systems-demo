@@ -3,6 +3,7 @@ import ProjectService from "../services/project.service";
 import circle_outline from "../icons/outline_circle.png"
 import red_tick from "../icons/red_tick.png";
 import in_progress from "../icons/inprogress_icon.png";
+import cross_circle from "../icons/cross_circle.png"
 import gray_line from "../icons/grey_line.png";
 import "../style/timeline.css";
 import AuthService from "../services/auth.service";
@@ -78,11 +79,36 @@ const Timeline = (props) => {
                             <Text fontSize={timeTextSize}>Time: {hour}:{minute} {meridiem}</Text>
                         </div>
                     );
-            } else {
+            }
+            if (projects.status[index].value === "Project Cancelled") {
+                let date = projects.status[index].time_set;
+                let dateAndTime = date.substring(0, date.length - 8);
+                let dateToDisplay = date.slice(8, 10) + "/" + date.slice(5, 7) + "/" + date.slice(0, 4);
+                let minute = date.slice(14, 16);
+                let hour = date.slice(11, 13);
+                let meridiem;
+                if (hour > 12) {
+                    meridiem = "PM"
+                    hour = hour - 12;
+                } else if (hour < 12) {
+                    meridiem = "AM"
+                } else if (hour === 12) {
+                    meridiem = "PM"
+                }
+                return (
+                    <div>
+                        <img src={cross_circle} alt="Logo" width={logoWidth} height={logoHeight}/>
+                        <b> <Text fontSize={statusTextSize}>{allProjectStages[index]}</Text> </b>
+                        <Text fontSize={timeTextSize}>Date: {dateToDisplay}</Text>
+                        <Text fontSize={timeTextSize}>Time: {hour}:{minute} {meridiem}</Text>
+                    </div>
+                );
+            }
+            else {
                     return (
                         <div>
-                            <img src={circle_outline} alt="Logo" width={logoWidth} height={logoHeight}/>
-                            <Text fontSize={timeTextSize}>{allProjectStages[index]}</Text>
+                            <img src={red_tick} alt="Logo" width={logoWidth} height={logoHeight}/>
+                            <b><Text fontSize={statusTextSize}>{allProjectStages[index]}</Text></b>
                         </div>
                     );
                 }
