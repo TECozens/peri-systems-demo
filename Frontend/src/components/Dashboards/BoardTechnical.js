@@ -8,7 +8,7 @@ import {
     InputGroup,
     InputLeftElement,
     Select,
-    Spacer
+    Spacer,
 } from "@chakra-ui/react";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
 import { Text } from "@chakra-ui/layout";
@@ -28,7 +28,7 @@ const BoardTechnical = () => {
     let count = 0;
 
     const getProjectsSetStatusOptionsAndFilterIfNeeded = useCallback(() => {
-        ProjectService.getDesignerProjects(authenticatedUser.id).then(
+        ProjectService.getTechnicalProjects(authenticatedUser.id).then(
             (projects) => {
                 unfilteredProjects.current = projects;
                 getUniqueStatusFromProjects();
@@ -41,13 +41,8 @@ const BoardTechnical = () => {
     }, [authenticatedUser.id]);
 
     useEffect(() => {
-        ProjectService.getTechnicalProjects(authenticatedUser.id).then((projects) => {
-            unfilteredProjects.current = projects;
-            setProjects(unfilteredProjects.current);
-        });
-        // console can be removed
-        console.log("USE EFFECT RAN")
-    }, [unfilteredProjects.current]);
+        getProjectsSetStatusOptionsAndFilterIfNeeded();
+    }, [getProjectsSetStatusOptionsAndFilterIfNeeded]);
 
     function displayProjects() {
         if (projects.length >= 1) {
@@ -272,27 +267,6 @@ const BoardTechnical = () => {
                     onChange={handleChange}
                     value={filters.current.status}
                 >
-                    <option value="Design Pending">Design Pending</option>
-                    <option value="Preliminary Design Ongoing">
-                        Preliminary Design Ongoing
-                    </option>
-                    <option value="Preliminary Design Complete">
-                        Preliminary Design Complete
-                    </option>
-                    <option value="Awaiting Customer Approval">
-                        Awaiting Customer Approval
-                    </option>
-                    <option value="Detailed Design Pending​">
-                        Detailed Design Pending​
-                    </option>
-                    <option value="Detailed Design Ongoing​">
-                        Detailed Design Ongoing​
-                    </option>
-                    <option value="Design Complete">Design Complete​​</option>
-                    <option value="Project Complete">Project Complete</option>
-                    <option value="Project Cancelled​">
-                        Project Cancelled​
-                    </option>
                     {createSelectionOptions()}
                 </Select>
                 <Button
