@@ -20,15 +20,15 @@ function getTechnicalProjects(userId) {
     });
 }
     
-function getProjectByID(projectId) {​​​​​
+function getProjectByID(projectId) {
     return axios.get("http://localhost:8081/api/projects/getProjectByID/" + projectId)
-        .then(function (response) {​​​​​
+        .then(function (response) {
             return response.data.data;
-        }​​​​​)
-        .catch(function (error) {​​​​​
+        })
+        .catch(function (error) {
             console.log(error);
-        }​​​​​);
-    }​​​​​
+        });
+    }
 
 function updateProjectStatus(projectId, status) {
     return axios
