@@ -18,8 +18,10 @@ const ProjectList = () => {
     return (
         <ul>
             {
-                projects.map((p) => (
-                    <Project key={p._id} project={p} />
+                projects.map((project) => (
+                    <div>
+
+                    </div>
                 ))
             }
         </ul>

@@ -9,6 +9,7 @@ import Dashboard from "./components/Dashboard";
 import Private from "./components/Private"
 import AuthService from "./services/auth.service";
 import IsLoggedIn from "./components/IsLoggedIn";
+import ProjectDetails from "./components/Project/ProjectDetails";
 
 // 2. Extend the theme to include custom colors, fonts, etc
 const colors = {
@@ -52,6 +53,7 @@ function App() {
               <IsLoggedIn exact authed={isAuthenticated} path="/Login" component={Login}/>
               <Private exact authed={isAuthenticated} component={Dashboard} path="/Dashboard"/>
               <Private exact authed={isAdmin} component={Register} path="/Register" />
+              <Private exact authed={isAuthenticated} component={ProjectDetails} path="/ProjectDetails/:projectId"/>
             </Switch>
       </ChakraProvider>
     </Router>

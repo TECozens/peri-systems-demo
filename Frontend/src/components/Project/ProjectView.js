@@ -1,19 +1,23 @@
 import React, {useContext} from "react"
 import * as UI from "@chakra-ui/react"
+import {Link} from "react-router-dom";
+import ProjectDetails from "./ProjectDetails";
 
-const Project = ({project}) => {
-
-    const handleOnClick = () => {
-
-    }
-
-
+const ProjectView = (props) => {
+    const projectId = props.project._id;
 
     return (
-        <UI.Button mt={5} width="full" bg="brand.tertiary" onClick={handleOnClick}>
-            View
-        </UI.Button>
+        <Link
+            to={{
+                pathname: "/ProjectDetails/"+ projectId,
+                state: { project: props.project }
+            }}
+        >
+            <UI.Button mt={5} width="full" bg="brand.tertiary">
+                View
+            </UI.Button>
+        </Link>
     )
 }
 
-export default Project;
+export default ProjectView;
