@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
     Box,
     Button,
@@ -8,7 +8,7 @@ import {
     InputGroup,
     InputLeftElement,
     Select,
-    Spacer,
+    Spacer
 } from "@chakra-ui/react";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
 import { Text } from "@chakra-ui/layout";
@@ -17,12 +17,32 @@ import AuthService from "../../services/auth.service";
 import { Search2Icon } from "@chakra-ui/icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import UpdateStatus from "./UpdateStatus";
 
 const BoardTechnical = () => {
     let authenticatedUser = AuthService.getCurrentUser();
     let unfilteredProjects = useRef();
     const [projects, setProjects] = useState([]);
     let filters = useRef({});
+    let statusOptions = useRef();
+    let count = 0;
+
+    const getProjectsSetStatusOptionsAndFilterIfNeeded = useCallback(() => {
+        ProjectService.getDesignerProjects(authenticatedUser.id).then(
+            (projects) => {
+                unfilteredProjects.current = projects;
+                getUniqueStatusFromProjects();
+                setProjects(unfilteredProjects.current);
+                if (Object.keys(filters.current).length > 0) {
+                    filterProjects();
+                }
+            }
+        );
+    }, [authenticatedUser.id]);
+
+    useEffect(() => {
+        getProjectsSetStatusOptionsAndFilterIfNeeded();
+    }, [getProjectsSetStatusOptionsAndFilterIfNeeded]);
 
     useEffect(() => {
         ProjectService.getTechnicalProjects(authenticatedUser.id).then((projects) => {
@@ -34,12 +54,24 @@ const BoardTechnical = () => {
     function displayProjects() {
         if (projects.length >= 1) {
             return projects.map((data) => (
-                <Tr>
+                <Tr key={data.name}>
                     <Td>{data.number}</Td>
                     <Td>{data.name}</Td>
                     <Td>{data.client}</Td>
                     <Td>{new Date(data.date_required).toLocaleDateString()}</Td>
                     <Td>{data.status[data.status.length - 1].value}</Td>
+                    <Td isNumeric>
+                        <UpdateStatus
+                            count={count}
+                            projectStatus={
+                                data.status[data.status.length - 1].value
+                            }
+                            projectId={data._id}
+                            updateParent={
+                                getProjectsSetStatusOptionsAndFilterIfNeeded
+                            }
+                        />
+                    </Td>
                 </Tr>
             ));
         } else {
@@ -48,6 +80,7 @@ const BoardTechnical = () => {
                     <Th />
                     <Th />
                     <Th> No projects</Th>
+                    <Th />
                     <Th />
                     <Th />
                 </Tr>
@@ -152,6 +185,22 @@ const BoardTechnical = () => {
         setProjects(unfilteredProjects.current);
     }
 
+    function getUniqueStatusFromProjects() {
+        statusOptions.current = unfilteredProjects.current
+            .map((project) => project.status[project.status.length - 1].value)
+            .filter((value, index, self) => self.indexOf(value) === index);
+    }
+
+    function createSelectionOptions() {
+        if (statusOptions.current !== undefined) {
+            return statusOptions.current.map((aStatus) => (
+                <option key={count++} value={aStatus}>
+                    {aStatus}
+                </option>
+            ));
+        }
+    }
+
     return (
         <div>
             <Box m="10px">
@@ -246,6 +295,7 @@ const BoardTechnical = () => {
                     <option value="Project Cancelled​">
                         Project Cancelled​
                     </option>
+                    {createSelectionOptions()}
                 </Select>
                 <Button
                     size="sm"
