@@ -19,6 +19,16 @@ function getTechnicalProjects(userId) {
       console.log(error);
     });
 }
+    
+function getProjectByID(projectId) {​​​​​
+    return axios.get("http://localhost:8081/api/projects/getProjectByID/" + projectId)
+        .then(function (response) {​​​​​
+            return response.data.data;
+        }​​​​​)
+        .catch(function (error) {​​​​​
+            console.log(error);
+        }​​​​​);
+    }​​​​​
 
 function updateProjectStatus(projectId, status) {
     return axios
@@ -36,4 +46,4 @@ function updateProjectStatus(projectId, status) {
         });
 }
 
-export default {getDesignerProjects, getTechnicalProjects, updateProjectStatus};
+export default {getDesignerProjects, getTechnicalProjects, updateProjectStatus, getProjectByID};
