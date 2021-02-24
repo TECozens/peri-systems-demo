@@ -1,6 +1,15 @@
 import React from "react";
-import CRUDTable, {CreateForm, DeleteForm, Field, Fields, Pagination, UpdateForm} from "react-crud-table";
+import CRUDTable, {CreateForm, DeleteForm, Field, Fields, UpdateForm} from "react-crud-table";
 import './Register.scss'
+
+
+// import React, { useState, useRef, useEffect } from "react";
+// import Form from "react-validation/build/form";
+// import Input from "react-validation/build/input";
+// import CheckButton from "react-validation/build/button";
+// import { isEmail } from "validator";
+//
+import AuthService from "../../services/auth.service";
 
 let users = [
   {
@@ -15,20 +24,7 @@ let users = [
   }
 ]
 
-const DescriptionRenderer = ({ field }) => <textarea {...field} />;
-
-let tasks = [
-  {
-    id: 1,
-    title: 'Create an example',
-    description: 'Create an example of how to use the component',
-  },
-  {
-    id: 2,
-    title: 'Improve',
-    description: 'Improve the component!',
-  },
-];
+// const DescriptionRenderer = ({ field }) => <textarea {...field} />;
 
 const SORTERS = {
   NUMBER_ASCENDING: mapper => (a, b) => mapper(a) - mapper(b),
@@ -53,37 +49,53 @@ const getSorter = (data) => {
 };
 
 
-let count = tasks.length;
+let count = users.length;
 const service = {
   fetchItems: (payload) => {
-    let result = Array.from(tasks);
+    let result = Array.from(users);
     result = result.sort(getSorter(payload.sort));
     return Promise.resolve(result);
   },
-  create: (task) => {
+  create: (user) => {
     count += 1;
-    tasks.push({
-      ...task,
+    AuthService.registerUser(user).then(
+      (response) => {
+        // setMessage(response.data.message);
+        // setSuccessful(true);
+      },
+      (error) => {
+        // const resMessage =
+        //   (error.response &&
+        //     error.response.data &&
+        //     error.response.data.message) ||
+        //   error.message ||
+        //   error.toString();
+
+        // setMessage(resMessage);
+        // setSuccessful(false);
+      }
+    );
+    users.push({
+      ...user,
       id: count,
     });
-    return Promise.resolve(task);
+    return Promise.resolve(user);
   },
   update: (data) => {
-    console.log("data", data)
-    const task = tasks.find(t => t.id === data.id);
-    task.title = data.title;
-    task.description = data.description;
-    return Promise.resolve(task);
+    const user = users.find(t => t.id === data.id);
+    user.firstName = data.firstName;
+    user.lastName = data.lastName;
+    return Promise.resolve(user);
   },
   delete: (data) => {
-    const task = tasks.find(t => t.id === data.id);
-    tasks = tasks.filter(t => t.id !== task.id);
-    return Promise.resolve(task);
+    const user = users.find(t => t.id === data.id);
+    users = users.filter(t => t.id !== user.id);
+    return Promise.resolve(user);
   },
 };
 
 const styles = {
-  container: { margin: 'auto', width: 'fit-content' },
+  container: {margin: 'auto', width: 'fit-content'},
 };
 
 
@@ -91,7 +103,7 @@ const Register = props => {
   return (
     <div style={styles.container}>
       <CRUDTable
-        caption="Tasks"
+        caption="Users"
         fetchItems={payload => service.fetchItems(payload)}
       >
         <Fields>
@@ -102,30 +114,31 @@ const Register = props => {
             readOnly
           />
           <Field
-            name="title"
-            label="Title"
-            placeholder="Title"
+            name="firstName"
+            label="First Name"
+            placeholder="First Name"
           />
           <Field
-            name="description"
-            label="Description"
-            render={DescriptionRenderer}
+            name="lastName"
+            label="Last Name"
+            placeholder="Last Name"
+            // render={DescriptionRenderer}
           />
         </Fields>
         <CreateForm
-          title="Task Creation"
-          message="Create a new task!"
-          trigger="Create Task"
-          onSubmit={task => service.create(task)}
+          title="User Creation"
+          message="Create a new user!"
+          trigger="Create User"
+          onSubmit={user => service.create(user)}
           submitText="Create"
           validate={(values) => {
             const errors = {};
-            if (!values.title) {
-              errors.title = 'Please, provide task\'s title';
+            if (!values.firstName) {
+              errors.firstName = 'Please, provide the user\'s first name';
             }
 
-            if (!values.description) {
-              errors.description = 'Please, provide task\'s description';
+            if (!values.lastName) {
+              errors.lastName = 'Please, provide the user\'s last name';
             }
 
             return errors;
@@ -133,10 +146,10 @@ const Register = props => {
         />
 
         <UpdateForm
-          title="Task Update Process"
-          message="Update task"
+          title="User Update Process"
+          message="Update User"
           trigger="Update"
-          onSubmit={task => service.update(task)}
+          onSubmit={user => service.update(user)}
           submitText="Update"
           validate={(values) => {
             const errors = {};
@@ -145,12 +158,12 @@ const Register = props => {
               errors.id = 'Please, provide id';
             }
 
-            if (!values.title) {
-              errors.title = 'Please, provide task\'s title';
+            if (!values.firstName) {
+              errors.firstName = 'Please, provide the user\'s first name';
             }
 
-            if (!values.description) {
-              errors.description = 'Please, provide task\'s description';
+            if (!values.lastName) {
+              errors.lastName = 'Please, provide the user\'s last name';
             }
 
             return errors;
@@ -158,10 +171,10 @@ const Register = props => {
         />
 
         <DeleteForm
-          title="Task Delete Process"
-          message="Are you sure you want to delete the task?"
+          title="User Delete Process"
+          message="Are you sure you want to delete the user?"
           trigger="Delete"
-          onSubmit={task => service.delete(task)}
+          onSubmit={user => service.delete(user)}
           submitText="Delete"
           validate={(values) => {
             const errors = {};
@@ -179,16 +192,6 @@ const Register = props => {
 Register.propTypes = {}
 
 export default Register;
-
-
-// import React, { useState, useRef, useEffect } from "react";
-// import Form from "react-validation/build/form";
-// import Input from "react-validation/build/input";
-// import CheckButton from "react-validation/build/button";
-// import { isEmail } from "validator";
-//
-// import AuthService from "../services/auth.service";
-// import UserService from "../services/user.service";
 //
 //
 // const required = (value) => {
@@ -298,26 +301,7 @@ export default Register;
 //
 //         form.current.validateAll();
 //
-//         if (checkBtn.current.context._errors.length === 0) {
-//             AuthService.register(firstname, lastname, email, password, roles).then(
-//                 (response) => {
-//                     setMessage(response.data.message);
-//                     setSuccessful(true);
-//                 },
-//                 (error) => {
-//                     const resMessage =
-//                         (error.response &&
-//                             error.response.data &&
-//                             error.response.data.message) ||
-//                         error.message ||
-//                         error.toString();
-//
-//                     setMessage(resMessage);
-//                     setSuccessful(false);
-//                 }
-//             );
-//         }
-//     };
+// };
 //
 //     const [content, setContent] = useState("");
 //

@@ -5,7 +5,7 @@ import axios from "axios";
 const API_URL = "http://localhost:8081/api/auth/";
 
 //TODO Client Register Function, Not Yet Implemented on Backend
-const register = (firstname, lastname, email, password, roles) => {
+const register = (firstname: string, lastname: string, email: string, password: string, roles: string[]) => {
     return axios.post(API_URL + "signup", {
         firstname,
         lastname,
@@ -15,14 +15,29 @@ const register = (firstname, lastname, email, password, roles) => {
     });
 };
 
+interface User {
+    firstname: string,
+    lastname: string,
+    email: string,
+    password: string,
+    roles: string[]
+}
+
+const registerUser = (user: User) => {
+    console.log("user", {...user})
+    return axios.post(`${API_URL}signup`, {
+        ...user
+    })
+}
+
 //NOTE We want users to Login with their Emails and PW
 //TODO Tidy up naming convention
-const login = (email, password) => {
+const login = (email: string, password: string) => {
     return axios.post(API_URL + "signin", {
         email,
         password,
     }).then((response) => {
-        if(response.data.accessToken) {
+        if (response.data.accessToken) {
             localStorage.setItem("user", JSON.stringify(response.data));
         }
         return response.data;
@@ -34,11 +49,11 @@ const logout = () => {
 };
 
 const getCurrentUser = () => {
-    return JSON.parse(localStorage.getItem("user"));
+    return JSON.parse(<string>localStorage.getItem("user"));
 };
 
 const isUserAuthenticated = () => {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user = JSON.parse(<string>localStorage.getItem("user"));
 
     return !!user;
 }
@@ -47,7 +62,7 @@ const isAdmin = () => {
     const user = getCurrentUser();
     try {
         return user.roles.includes("ROLE_ADMIN")
-    } catch(err) {
+    } catch (err) {
         return false
     }
 }
@@ -55,7 +70,7 @@ const isTechnical = () => {
     const user = getCurrentUser();
     try {
         return user.roles.includes("ROLE_TECHNICAL")
-    } catch(err) {
+    } catch (err) {
         return false
     }
 }
@@ -63,7 +78,7 @@ const isDesigner = () => {
     const user = getCurrentUser();
     try {
         return user.roles.includes("ROLE_DESIGNER")
-    } catch(err) {
+    } catch (err) {
         return false
     }
 }
@@ -71,6 +86,7 @@ const isDesigner = () => {
 //TODO Implement Register in week 6
 export default {
     register,
+    registerUser,
     login,
     logout,
     getCurrentUser,
