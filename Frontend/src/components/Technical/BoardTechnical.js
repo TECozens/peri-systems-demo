@@ -17,7 +17,7 @@ import AuthService from "../../services/auth.service";
 import { Search2Icon } from "@chakra-ui/icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import UpdateStatus from "./UpdateStatus";
+import UpdateStatus from "../Events/UpdateStatus";
 import ProjectView from "../Project/ProjectView";
 
 const BoardTechnical = () => {

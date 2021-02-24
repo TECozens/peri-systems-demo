@@ -1,12 +1,12 @@
 import React, {useEffect, useRef, useState} from "react";
-import ProjectService from "../services/project.service";
-import circle_outline from "../icons/outline_circle.png"
-import red_tick from "../icons/red_tick.png";
-import in_progress from "../icons/inprogress_icon.png";
-import cross_circle from "../icons/cross_circle.png"
-import gray_line from "../icons/grey_line.png";
-import "../style/timeline.css";
-import AuthService from "../services/auth.service";
+import ProjectService from "../../services/project.service";
+import circle_outline from "../../icons/outline_circle.png"
+import red_tick from "../../icons/red_tick.png";
+import in_progress from "../../icons/inprogress_icon.png";
+import cross_circle from "../../icons/cross_circle.png"
+import gray_line from "../../icons/grey_line.png";
+import "../../style/timeline.css";
+import AuthService from "../../services/auth.service";
 import {Box, Text, Button, Flex} from "@chakra-ui/react";
 import {CloseIcon} from "@chakra-ui/icons";
 import {Link} from "react-router-dom";

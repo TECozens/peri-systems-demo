@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from "react"
 import * as UI from "@chakra-ui/react"
-import projectContext from "../../context/project/projectContext";
+import projectContext from "../../context/project/projectsContext";
 import Project from "./ProjectView";
 
 const ProjectList = () => {

@@ -2,9 +2,11 @@ import React from "react";
 import * as UI from "@chakra-ui/react";
 import * as Icon from "@chakra-ui/icons";
 import {Link} from "react-router-dom";
-import UpdateStatus from "../Dashboards/UpdateStatus";
+import UpdateStatus from "../Events/UpdateStatus";
 import ProjectService from "../../services/project.service";
 
+
+//TODO Redundant
 const ProjectDetails = (props) => {
     const project = props.location.state.project;
 

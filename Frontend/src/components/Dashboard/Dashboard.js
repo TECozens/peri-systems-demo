@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Box } from "@chakra-ui/react";
-import AuthService from "../services/auth.service";
-import BoardDesigner from "./Dashboards/BoardDesigner";
-import BoardAdmin from "./Dashboards/BoardAdmin";
-import BoardTechnical from "./Dashboards/BoardTechnical";
+import AuthService from "../../services/auth.service";
+import BoardDesigner from "../Designer/BoardDesigner";
+import BoardAdmin from "../Admin/BoardAdmin";
+import BoardTechnical from "../Technical/BoardTechnical";
 
 const Dashboard = () => {
     const [showTechnicalBoard, setShowTechnicalBoard] = useState(false);
