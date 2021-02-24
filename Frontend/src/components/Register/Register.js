@@ -24,7 +24,13 @@ let users = [
   }
 ]
 
-// const DescriptionRenderer = ({ field }) => <textarea {...field} />;
+const DescriptionRenderer = ({ field }) => <textarea {...field} />;
+const rolesRenderer = ({field}) =>
+  <select {...field}>
+      <option value='designer'>Designer</option>
+      <option value='technical'>Technical</option>
+      <option value='admin'>Admin</option>
+  </select>;
 
 const SORTERS = {
   NUMBER_ASCENDING: mapper => (a, b) => mapper(a) - mapper(b),
@@ -57,8 +63,10 @@ const service = {
     return Promise.resolve(result);
   },
   create: (user) => {
-    count += 1;
-    AuthService.registerUser(user).then(
+    let tempUser = user;
+    tempUser.roles = [user.roles]
+    console.log("TEMP", tempUser)
+    AuthService.registerUser(tempUser).then(
       (response) => {
         // setMessage(response.data.message);
         // setSuccessful(true);
@@ -122,8 +130,23 @@ const Register = props => {
             name="lastName"
             label="Last Name"
             placeholder="Last Name"
-            // render={DescriptionRenderer}
+            render={DescriptionRenderer}
           />
+          <Field
+            name="email"
+            label="Email"
+            placeholder="Email"
+          />
+          <Field
+            name="password"
+            label="Password"
+            placeholder="Password"
+          />
+          <Field
+            name="roles"
+            label="Role"
+            placeholder="role"
+            render={rolesRenderer}/>
         </Fields>
         <CreateForm
           title="User Creation"
