@@ -48,12 +48,12 @@ const AssignEngineers = (props) => {
         onClose();
     }
 
-    function handleDesignEngineerSelection(event) {
-        selectedDesignEngineerId.current = event;
+    function handleDesignEngineerSelection(selectedID) {
+        selectedDesignEngineerId.current = selectedID;
     }
 
-    function handleDesignCheckerSelection(event) {
-        selectedDesignCheckerId.current = event;
+    function handleDesignCheckerSelection(selectedID) {
+        selectedDesignCheckerId.current = selectedID;
     }
 
     return (
@@ -71,10 +71,16 @@ const AssignEngineers = (props) => {
                             <EngineerSelection
                                 type={"Design Engineer"}
                                 onChange={handleDesignEngineerSelection}
+                                currentEngineer={
+                                    props.project.engineers.designer_id
+                                }
                             />
                             <EngineerSelection
                                 type={"Design Checker"}
                                 onChange={handleDesignCheckerSelection}
+                                currentEngineer={
+                                    props.project.engineers.design_checker_id
+                                }
                             />
                         </VStack>
                     </ModalBody>

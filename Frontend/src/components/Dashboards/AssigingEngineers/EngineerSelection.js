@@ -5,6 +5,7 @@ import UsersService from "../../../services/users.service";
 const EngineerSelection = (props) => {
     const [allEngineers, setAllEngineers] = useState([]);
     let typeOfEngineerSelection = props.type;
+    let selectValue = props.currentEngineer;
 
     useEffect(() => {
         getAndSetEngineers();
@@ -12,7 +13,6 @@ const EngineerSelection = (props) => {
 
     const getAndSetEngineers = useCallback(() => {
         getDesigners.then((designEngineers) => {
-            console.log(designEngineers);
             if (typeOfEngineerSelection === "Design Checker") {
                 getTechnicalLeads.then((technicalLeads) => {
                     setAllEngineers(designEngineers.concat(technicalLeads));
@@ -50,7 +50,7 @@ const EngineerSelection = (props) => {
     function createDesignEngineerSelectionOptions() {
         if (allEngineers !== undefined) {
             return allEngineers.map((aDesigner) => (
-                <option key={aDesigner._id} size={"md"} value={aDesigner._id}>
+                <option key={aDesigner._id} value={aDesigner._id}>
                     {aDesigner.firstname + " " + aDesigner.lastname}
                 </option>
             ));
@@ -58,11 +58,13 @@ const EngineerSelection = (props) => {
     }
 
     function handleOnChange(event) {
-        props.onChange(event.target.value);
+        let newIdSelected = event.target.value;
+        selectValue = newIdSelected;
+        props.onChange(newIdSelected);
     }
 
     return (
-        <div align="left" key={"assign_design_engineer_selection"}>
+        <div align="left" key={props.currentEngineer}>
             <Text>{typeOfEngineerSelection}:</Text>
             <Select
                 w="70%"
@@ -70,6 +72,7 @@ const EngineerSelection = (props) => {
                 placeholder="Select an engineer"
                 name="design_engineers"
                 onChange={handleOnChange}
+                value={selectValue}
             >
                 {createDesignEngineerSelectionOptions()}
             </Select>
