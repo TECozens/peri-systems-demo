@@ -108,4 +108,19 @@ router.put(
     }
 );
 
+router.get(
+    "/api/projects/getProjectByID/:projectId",
+    jsonParser,
+    (req, res) => {
+        let projectId = new mongoose.Types.ObjectId(req.params.projectId);
+        projects.findById({ _id: projectId }, (err, data) => {
+            if (err) {
+                return res.json({ success: false, error: err });
+            } else {
+                return res.json({ success: true, data: data });
+            }
+        });
+    }
+);
+
 module.exports = router;
