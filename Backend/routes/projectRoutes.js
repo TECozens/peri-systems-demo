@@ -89,7 +89,7 @@ router.put(
 );
 
 router.put(
-    "/api/projects/updateProjectDesignEngineers/:projectID/:anEngineerId",
+    "/api/projects/updateProjectDesignEngineer/:projectID/:anEngineerId",
     jsonParser,
     (req, res) => {
         let projectID = new mongoose.Types.ObjectId(req.params.projectID);
@@ -101,6 +101,25 @@ router.put(
             } else {
                 let project = data;
                 project.engineers.designer_id = engineerID;
+                project.save();
+                return res.json({ success: true, data: data });
+            }
+        });
+    }
+);
+router.put(
+    "/api/projects/updateProjectDesignChecker/:projectID/:anEngineerId",
+    jsonParser,
+    (req, res) => {
+        let projectID = new mongoose.Types.ObjectId(req.params.projectID);
+        let engineerID = new mongoose.Types.ObjectId(req.params.anEngineerId);
+
+        projects.findById(projectID, (err, data) => {
+            if (err) {
+                return res.json({ success: false, error: err });
+            } else {
+                let project = data;
+                project.engineers.design_checker_id = engineerID;
                 project.save();
                 return res.json({ success: true, data: data });
             }

@@ -54,10 +54,26 @@ function updateProjectStatus(projectId, status) {
         });
 }
 
-function updateProjectEngineers(projectId, engineerId) {
+function updateProjectDesignEngineer(projectId, engineerId) {
     return axios
         .put(
-            "http://localhost:8081/api/projects/updateProjectDesignEngineers/" +
+            "http://localhost:8081/api/projects/updateProjectDesignEngineer/" +
+                projectId +
+                "/" +
+                engineerId
+        )
+        .then(function (response) {
+            return response.data.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+function updateProjectDesignChecker(projectId, engineerId) {
+    return axios
+        .put(
+            "http://localhost:8081/api/projects/updateProjectDesignChecker/" +
                 projectId +
                 "/" +
                 engineerId
@@ -75,5 +91,5 @@ export default {
     getTechnicalProjects,
     updateProjectStatus,
     getProjectByID,
-    updateProjectEngineers,
+    updateProjectDesignEngineer,
 };
