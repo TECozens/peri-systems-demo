@@ -68,7 +68,7 @@ const BoardTechnical = () => {
                         >
                             <Button colorScheme={"green"}>Update Status</Button>
                         </UpdateStatus>
-                        <AssignEngineers project_id={data._id} />
+                        <AssignEngineers project={data} />
                         <ProjectView project={data} />
                     </Td>
                 </Tr>

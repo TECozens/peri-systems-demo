@@ -21,17 +21,27 @@ const AssignEngineers = (props) => {
     const selectedDesignCheckerId = useRef();
 
     function handleSubmit() {
-        ProjectService.updateProjectDesignEngineer(
-            props.project_id,
+        if (
+            props.project.engineers.designer_id !==
             selectedDesignEngineerId.current
-        )
-            .then(
-                ProjectService.updateProjectDesignChecker(
-                    props.project_id,
-                    selectedDesignCheckerId.current
-                )
-            )
-            .then(onClose);
+        ) {
+            ProjectService.updateProjectDesignEngineer(
+                props.project_id,
+                selectedDesignEngineerId.current
+            );
+        }
+
+        if (
+            props.project.engineers.design_checker_id !==
+            selectedDesignCheckerId.current
+        ) {
+            ProjectService.updateProjectDesignChecker(
+                props.project_id,
+                selectedDesignCheckerId.current
+            );
+        }
+
+        onClose();
     }
 
     function handleClose() {
