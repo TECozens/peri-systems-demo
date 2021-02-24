@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
     Box,
     Button,
@@ -17,29 +17,60 @@ import AuthService from "../../services/auth.service";
 import { Search2Icon } from "@chakra-ui/icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import UpdateStatus from "./UpdateStatus";
+import ProjectView from "../Project/ProjectView";
 
 const BoardTechnical = () => {
     let authenticatedUser = AuthService.getCurrentUser();
     let unfilteredProjects = useRef();
     const [projects, setProjects] = useState([]);
     let filters = useRef({});
+    let statusOptions = useRef();
+    let count = 0;
+
+    const getProjectsSetStatusOptionsAndFilterIfNeeded = useCallback(() => {
+        ProjectService.getTechnicalProjects(authenticatedUser.id).then(
+            (projects) => {
+                unfilteredProjects.current = projects;
+                getUniqueStatusFromProjects();
+                setProjects(unfilteredProjects.current);
+                if (Object.keys(filters.current).length > 0) {
+                    filterProjects();
+                }
+            }
+        );
+    }, [authenticatedUser.id]);
 
     useEffect(() => {
-        ProjectService.getTechnicalProjects(authenticatedUser.id).then((projects) => {
-            unfilteredProjects.current = projects;
-            setProjects(unfilteredProjects.current);
-        });
-    }, []);
+        getProjectsSetStatusOptionsAndFilterIfNeeded();
+    }, [getProjectsSetStatusOptionsAndFilterIfNeeded]);
 
     function displayProjects() {
         if (projects.length >= 1) {
             return projects.map((data) => (
-                <Tr>
+                <Tr key={data.name}>
                     <Td>{data.number}</Td>
                     <Td>{data.name}</Td>
                     <Td>{data.client}</Td>
                     <Td>{new Date(data.date_required).toLocaleDateString()}</Td>
                     <Td>{data.status[data.status.length - 1].value}</Td>
+                    <Td isNumeric>
+                        <UpdateStatus
+                            count={count}
+                            projectStatus={
+                                data.status[data.status.length - 1].value
+                            }
+                            projectId={data._id}
+                            updateParent={
+                                getProjectsSetStatusOptionsAndFilterIfNeeded
+                            }
+                        >
+                            <Button colorScheme={"green"}>
+                                Update Status
+                            </Button>
+                        </UpdateStatus>
+                        <ProjectView project={data}/>
+                    </Td>
                 </Tr>
             ));
         } else {
@@ -48,6 +79,7 @@ const BoardTechnical = () => {
                     <Th />
                     <Th />
                     <Th> No projects</Th>
+                    <Th />
                     <Th />
                     <Th />
                 </Tr>
@@ -152,6 +184,22 @@ const BoardTechnical = () => {
         setProjects(unfilteredProjects.current);
     }
 
+    function getUniqueStatusFromProjects() {
+        statusOptions.current = unfilteredProjects.current
+            .map((project) => project.status[project.status.length - 1].value)
+            .filter((value, index, self) => self.indexOf(value) === index);
+    }
+
+    function createSelectionOptions() {
+        if (statusOptions.current !== undefined) {
+            return statusOptions.current.map((aStatus) => (
+                <option key={count++} value={aStatus}>
+                    {aStatus}
+                </option>
+            ));
+        }
+    }
+
     return (
         <div>
             <Box m="10px">
@@ -225,27 +273,7 @@ const BoardTechnical = () => {
                     onChange={handleChange}
                     value={filters.current.status}
                 >
-                    <option value="Design Pending">Design Pending</option>
-                    <option value="Preliminary Design Ongoing">
-                        Preliminary Design Ongoing
-                    </option>
-                    <option value="Preliminary Design Complete">
-                        Preliminary Design Complete
-                    </option>
-                    <option value="Awaiting Customer Approval">
-                        Awaiting Customer Approval
-                    </option>
-                    <option value="Detailed Design Pending​">
-                        Detailed Design Pending​
-                    </option>
-                    <option value="Detailed Design Ongoing​">
-                        Detailed Design Ongoing​
-                    </option>
-                    <option value="Design Complete">Design Complete​​</option>
-                    <option value="Project Complete">Project Complete</option>
-                    <option value="Project Cancelled​">
-                        Project Cancelled​
-                    </option>
+                    {createSelectionOptions()}
                 </Select>
                 <Button
                     size="sm"
@@ -270,10 +298,10 @@ const BoardTechnical = () => {
                             <Th>
                                 <Text fontSize="lg">Number </Text>
                             </Th>
-                            <Th>
+                            <Th w="17%">
                                 <Text fontSize="lg">Name </Text>
                             </Th>
-                            <Th>
+                            <Th w="17%">
                                 <Text fontSize="lg">Client</Text>
                             </Th>
                             <Th>
@@ -282,6 +310,7 @@ const BoardTechnical = () => {
                             <Th>
                                 <Text fontSize="lg">Status</Text>
                             </Th>
+                            <Th />
                         </Tr>
                     </Thead>
                     <Tbody>{displayProjects()}</Tbody>
@@ -292,3 +321,4 @@ const BoardTechnical = () => {
 };
 
 export default BoardTechnical;
+//TODO refactor code
