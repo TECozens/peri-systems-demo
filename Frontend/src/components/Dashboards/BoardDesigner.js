@@ -1,56 +1,77 @@
-import React, { useEffect, useRef, useState } from "react";
-import {
-    Box,
-    Button,
-    Heading,
-    HStack,
-    Input,
-    InputGroup,
-    InputLeftElement,
-    Select,
-    Spacer,
-} from "@chakra-ui/react";
-import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
-import { Text } from "@chakra-ui/layout";
+import React, {useCallback, useEffect, useRef, useState} from "react";
+import {Box, Button, Heading, HStack, Input, InputGroup, InputLeftElement, Select,} from "@chakra-ui/react";
+import {Table, Tbody, Td, Th, Thead, Tr} from "@chakra-ui/table";
+import {Text} from "@chakra-ui/layout";
 import ProjectService from "../../services/project.service";
 import AuthService from "../../services/auth.service";
-import { Search2Icon } from "@chakra-ui/icons";
+import {Search2Icon} from "@chakra-ui/icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import UpdateStatus from "./UpdateStatus";
+import ProjectView from "../Project/ProjectView"
 
 const BoardDesigner = () => {
     let authenticatedUser = AuthService.getCurrentUser();
     let unfilteredProjects = useRef();
     const [projects, setProjects] = useState([]);
     let filters = useRef({});
+    let statusOptions = useRef();
+    let count = 0;
+
+    const getProjectsSetStatusOptionsAndFilterIfNeeded = useCallback(() => {
+        ProjectService.getDesignerProjects(authenticatedUser.id).then(
+            (projects) => {
+                unfilteredProjects.current = projects;
+                getUniqueStatusFromProjects();
+                setProjects(unfilteredProjects.current);
+                if (Object.keys(filters.current).length > 0) {
+                    filterProjects();
+                }
+            }
+        );
+    }, [authenticatedUser.id]);
 
     useEffect(() => {
-        ProjectService.getDesignerProjects(authenticatedUser.id).then((data) => {
-            setProjects(data)
-        }, (error) => {
-            console.log(error)
-        });
-    }, []);
+        getProjectsSetStatusOptionsAndFilterIfNeeded();
+    }, [getProjectsSetStatusOptionsAndFilterIfNeeded]);
 
-    const displayDesignerProjects = () => {
+    function displayProjects() {
         if (projects.length >= 1) {
             return projects.map((data) => (
-                <Tr>
+                <Tr key={data.name}>
                     <Td>{data.number}</Td>
                     <Td>{data.name}</Td>
                     <Td>{data.client}</Td>
                     <Td>{new Date(data.date_required).toLocaleDateString()}</Td>
                     <Td>{data.status[data.status.length - 1].value}</Td>
+                    <Td isNumeric>
+                        <UpdateStatus
+                            count={count}
+                            projectStatus={
+                                data.status[data.status.length - 1].value
+                            }
+                            projectId={data._id}
+                            updateParent={
+                                getProjectsSetStatusOptionsAndFilterIfNeeded
+                            }
+                        >
+                            <Button colorScheme={"green"}>
+                                Update Status
+                            </Button>
+                        </UpdateStatus>
+                        <ProjectView project={data}/>
+                    </Td>
                 </Tr>
             ));
         } else {
             return (
                 <Tr>
-                    <Th />
-                    <Th />
+                    <Th/>
+                    <Th/>
                     <Th> No projects</Th>
-                    <Th />
-                    <Th />
+                    <Th/>
+                    <Th/>
+                    <Th/>
                 </Tr>
             );
         }
@@ -59,47 +80,57 @@ const BoardDesigner = () => {
     function filterProjects() {
         let displayedProjects = unfilteredProjects.current;
 
-        for (const [key, value] of Object.entries(filters.current)) {
-            if (key === "name") {
+        for (const [filterName, filterValue] of Object.entries(
+            filters.current
+        )) {
+            if (filterName === "name") {
                 displayedProjects = displayedProjects.filter((project) =>
-                    project.name.toLowerCase().includes(value.toLowerCase())
-                );
-            }
-            if (key === "number") {
-                displayedProjects = displayedProjects.filter((project) =>
-                    project.number.includes(value)
-                );
-            }
-            if (key === "client") {
-                displayedProjects = displayedProjects.filter((project) =>
-                    project.client.toLowerCase().includes(value.toLowerCase())
-                );
-            }
-            if (key === "from_date") {
-                displayedProjects = displayedProjects.filter(
-                    (project) =>
-                        Date.parse(project.date_required) >= Date.parse(value)
-                );
-            }
-            if (key === "to_date") {
-                displayedProjects = displayedProjects.filter(
-                    (project) =>
-                        Date.parse(project.date_required) <= Date.parse(value)
-                );
-            }
-            if (key === "status") {
-                displayedProjects = displayedProjects.filter((project) =>
-                    project.status[project.status.length - 1].value
+                    project.name
                         .toLowerCase()
-                        .includes(value.toLowerCase())
+                        .includes(filterValue.toLowerCase())
                 );
+            }
+            if (filterName === "number") {
+                displayedProjects = displayedProjects.filter((project) =>
+                    project.number.includes(filterValue)
+                );
+            }
+            if (filterName === "client") {
+                displayedProjects = displayedProjects.filter((project) =>
+                    project.client
+                        .toLowerCase()
+                        .includes(filterValue.toLowerCase())
+                );
+            }
+            if (filterName === "from_date") {
+                displayedProjects = displayedProjects.filter(
+                    (project) =>
+                        Date.parse(project.date_required) >=
+                        Date.parse(filterValue)
+                );
+            }
+            if (filterName === "to_date") {
+                displayedProjects = displayedProjects.filter(
+                    (project) =>
+                        Date.parse(project.date_required) <=
+                        Date.parse(filterValue)
+                );
+            }
+            if (filterName === "status") {
+                if (filterValue !== "") {
+                    displayedProjects = displayedProjects.filter(
+                        (project) =>
+                            project.status[project.status.length - 1].value ===
+                            filterValue
+                    );
+                }
             }
         }
 
         setProjects(displayedProjects);
     }
 
-    function handleChange(event) {
+    function handleFilterInputChange(event) {
         let inputChanged = event.target.name;
         let value = event.target.value;
 
@@ -116,7 +147,7 @@ const BoardDesigner = () => {
         filterProjects();
     }
 
-    function handleDate(event) {
+    function handleDateInput(event) {
         if (this.name === "from_date") {
             filters.current.from_date = new Date(event);
         }
@@ -152,67 +183,81 @@ const BoardDesigner = () => {
         setProjects(unfilteredProjects.current);
     }
 
+    function getUniqueStatusFromProjects() {
+        statusOptions.current = unfilteredProjects.current
+            .map((project) => project.status[project.status.length - 1].value)
+            .filter((value, index, self) => self.indexOf(value) === index);
+    }
+
+    function createSelectionOptions() {
+        if (statusOptions.current !== undefined) {
+            return statusOptions.current.map((aStatus) => (
+                <option key={count++} value={aStatus}>
+                    {aStatus}
+                </option>
+            ));
+        }
+    }
+
     return (
-        <div>
+        <div key={count++}>
             <Box m="10px">
                 <Heading>Welcome back {authenticatedUser.firstname}!</Heading>
             </Box>
             <HStack m="10px">
-                <InputGroup size="sm">
+                <InputGroup size="sm" w="70%">
                     <InputLeftElement
                         pointerEvents="none"
-                        children={<Search2Icon color="gray.300" />}
+                        children={<Search2Icon color="gray.300"/>}
                     />
                     <Input
                         name="project_number"
-                        value={filters.current.number}
-                        placeholder="Number"
+                        value={filters.current.number || ""}
+                        placeholder="Project Number"
                         onKeyPress={handleKeyPress}
-                        onChange={handleChange}
+                        onChange={handleFilterInputChange}
                     />
                 </InputGroup>
-                <InputGroup size="sm">
+                <InputGroup size="sm" w="90%">
                     <InputLeftElement
                         pointerEvents="none"
-                        children={<Search2Icon color="gray.300" />}
+                        children={<Search2Icon color="gray.300"/>}
                     />
                     <Input
                         name="project_name"
-                        onChange={handleChange}
+                        onChange={handleFilterInputChange}
                         placeholder="Project Name"
-                        value={filters.current.name}
+                        value={filters.current.name || ""}
                     />
                 </InputGroup>
-                <InputGroup size="sm">
+                <InputGroup size="sm" w="90%">
                     <InputLeftElement
                         pointerEvents="none"
-                        children={<Search2Icon color="gray.300" />}
+                        children={<Search2Icon color="gray.300"/>}
                     />
                     <Input
                         name="project_client"
-                        value={filters.current.client}
-                        onChange={handleChange}
+                        value={filters.current.client || ""}
+                        onChange={handleFilterInputChange}
                         placeholder="Client"
                     />
                 </InputGroup>
 
-                <InputGroup size="sm" w={"200%"}>
-                    <Text color={"brand.accents"}> Date Required from </Text>
-                    <Spacer />
+                <InputGroup size="sm" w="180%">
+                    <Text color={"brand.accents"}>Date from &nbsp;</Text>
                     <DatePicker
                         name="from_date"
-                        placeholderText="choose a date"
-                        selected={filters.current.from_date}
-                        onSelect={handleDate}
+                        placeholderText="Choose a date"
+                        selected={filters.current.from_date || ""}
+                        onSelect={handleDateInput}
                         dateFormat={"dd/MM/yyyy"}
                     />
-                    <Text color={"brand.accents"}> to </Text>
-                    <Spacer />
+                    <Text color={"brand.accents"}>to &nbsp;</Text>
                     <DatePicker
                         name="to_date"
-                        placeholderText="choose a date"
-                        selected={filters.current.to_date}
-                        onSelect={handleDate}
+                        placeholderText="Choose a date"
+                        selected={filters.current.to_date || ""}
+                        onSelect={handleDateInput}
                         dateFormat={"dd/MM/yyyy"}
                     />
                 </InputGroup>
@@ -222,30 +267,10 @@ const BoardDesigner = () => {
                     size="sm"
                     placeholder="Select a status"
                     name="project_status"
-                    onChange={handleChange}
+                    onChange={handleFilterInputChange}
                     value={filters.current.status}
                 >
-                    <option value="Design Pending">Design Pending</option>
-                    <option value="Preliminary Design Ongoing">
-                        Preliminary Design Ongoing
-                    </option>
-                    <option value="Preliminary Design Complete">
-                        Preliminary Design Complete
-                    </option>
-                    <option value="Awaiting Customer Approval">
-                        Awaiting Customer Approval
-                    </option>
-                    <option value="Detailed Design Pending​">
-                        Detailed Design Pending​
-                    </option>
-                    <option value="Detailed Design Ongoing​">
-                        Detailed Design Ongoing​
-                    </option>
-                    <option value="Design Complete">Design Complete​​</option>
-                    <option value="Project Complete">Project Complete</option>
-                    <option value="Project Cancelled​">
-                        Project Cancelled​
-                    </option>
+                    {createSelectionOptions()}
                 </Select>
                 <Button
                     size="sm"
@@ -270,10 +295,10 @@ const BoardDesigner = () => {
                             <Th>
                                 <Text fontSize="lg">Number </Text>
                             </Th>
-                            <Th>
+                            <Th w="17%">
                                 <Text fontSize="lg">Name </Text>
                             </Th>
-                            <Th>
+                            <Th w="17%">
                                 <Text fontSize="lg">Client</Text>
                             </Th>
                             <Th>
@@ -282,9 +307,10 @@ const BoardDesigner = () => {
                             <Th>
                                 <Text fontSize="lg">Status</Text>
                             </Th>
+                            <Th/>
                         </Tr>
                     </Thead>
-                    <Tbody>{displayDesignerProjects()}</Tbody>
+                    <Tbody>{displayProjects()}</Tbody>
                 </Table>
             </Box>
         </div>
