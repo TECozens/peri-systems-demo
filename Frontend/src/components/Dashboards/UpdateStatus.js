@@ -41,7 +41,7 @@ const UpdateStatus = (props) => {
             "Preliminary Design Ongoing",
             "Preliminary Design Complete",
             "Awaiting Customer Approval",
-            "Detailed Design Pending​",
+            "Detailed Design Pending",
             "Detailed Design Ongoing",
             "Design Complete",
             "Project Complete",
@@ -57,9 +57,10 @@ const UpdateStatus = (props) => {
 
     return (
         <div key={count++}>
-            <Button colorScheme={"green"} onClick={onOpen}>
-                Update Status
-            </Button>
+            <div onClick={onOpen}>
+                {props.children}
+            </div>
+
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
