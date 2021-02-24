@@ -17,7 +17,9 @@ import AuthService from "../../services/auth.service";
 import { Search2Icon } from "@chakra-ui/icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import AssignEngineer from "./AssignEngineer";
+import AssignEngineers from "./AssigingEngineers/AssignEngineers";
+import ProjectView from "../Project/ProjectView";
+import UpdateStatus from "./UpdateStatus";
 
 const BoardTechnical = () => {
     let authenticatedUser = AuthService.getCurrentUser();
@@ -66,10 +68,8 @@ const BoardTechnical = () => {
                         >
                             <Button colorScheme={"green"}>Update Status</Button>
                         </UpdateStatus>
+                        <AssignEngineers project_id={data._id} />
                         <ProjectView project={data} />
-                    </Td>
-                    <Td>
-                        <AssignEngineer project_id={data._id} />
                     </Td>
                 </Tr>
             ));
@@ -80,7 +80,6 @@ const BoardTechnical = () => {
                     <Th />
                     <Th />
                     <Th> No projects</Th>
-                    <Th />
                     <Th />
                     <Th />
                 </Tr>
@@ -311,7 +310,6 @@ const BoardTechnical = () => {
                             <Th>
                                 <Text fontSize="lg">Status</Text>
                             </Th>
-                            <Th />
                             <Th />
                         </Tr>
                     </Thead>
