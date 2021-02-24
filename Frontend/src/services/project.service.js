@@ -92,4 +92,5 @@ export default {
     updateProjectStatus,
     getProjectByID,
     updateProjectDesignEngineer,
+    updateProjectDesignChecker,
 };

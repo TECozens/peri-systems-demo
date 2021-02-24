@@ -13,17 +13,25 @@ import {
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/hooks";
 import ProjectService from "../../../services/project.service";
-import DesignEngineerSelection from "./DesignEngineerSelection";
+import EngineerSelection from "./EngineerSelection";
 
 const AssignEngineers = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const selectedDesignEngineerId = useRef();
+    const selectedDesignCheckerId = useRef();
 
     function handleSubmit() {
-        ProjectService.updateProjectEngineers(
+        ProjectService.updateProjectDesignEngineer(
             props.project_id,
             selectedDesignEngineerId.current
-        ).then(onClose);
+        )
+            .then(
+                ProjectService.updateProjectDesignChecker(
+                    props.project_id,
+                    selectedDesignCheckerId.current
+                )
+            )
+            .then(onClose);
     }
 
     function handleClose() {
@@ -32,6 +40,10 @@ const AssignEngineers = (props) => {
 
     function handleDesignEngineerSelection(event) {
         selectedDesignEngineerId.current = event;
+    }
+
+    function handleDesignCheckerSelection(event) {
+        selectedDesignCheckerId.current = event;
     }
 
     return (
@@ -46,8 +58,13 @@ const AssignEngineers = (props) => {
                     <ModalCloseButton />
                     <ModalBody>
                         <VStack align="left">
-                            <DesignEngineerSelection
+                            <EngineerSelection
+                                type={"Design Engineer"}
                                 onChange={handleDesignEngineerSelection}
+                            />
+                            <EngineerSelection
+                                type={"Design Checker"}
+                                onChange={handleDesignCheckerSelection}
                             />
                         </VStack>
                     </ModalBody>

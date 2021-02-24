@@ -22,9 +22,21 @@ function getDesignerRoleID() {
         });
 }
 
+function getTechnicalLeadRoleID() {
+    return axios
+        .get("http://localhost:8081/api/users/getTechnicalLeadRoleID")
+        .then(function (response) {
+            return response.data.data[0]._id;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
 const UserService = {
     getUsersWithRoleID,
     getDesignerRoleID,
+    getTechnicalLeadRoleID,
 };
 
 export default UserService;
