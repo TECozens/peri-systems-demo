@@ -33,4 +33,14 @@ UserRouter.get("/api/users/getDesignerRoleID", jsonParser, (req, res) => {
     });
 });
 
+UserRouter.get("/api/users/getTechnicalLeadRoleID", jsonParser, (req, res) => {
+    role.find({ name: "technical" }, (err, data) => {
+        if (err) {
+            return res.json({ success: false, error: err });
+        } else {
+            return res.json({ success: true, data: data });
+        }
+    });
+});
+
 module.exports = UserRouter;
