@@ -7,10 +7,8 @@ import cross_circle from "../icons/cross_circle.png"
 import gray_line from "../icons/grey_line.png";
 import "../style/timeline.css";
 import AuthService from "../services/auth.service";
-import {Grid, GridItem, Box, Text, Center, Button, Flex} from "@chakra-ui/react";
-import * as UI from "@chakra-ui/react";
+import {Box, Text, Button, Flex} from "@chakra-ui/react";
 import {CloseIcon} from "@chakra-ui/icons";
-import {Spacer} from "@chakra-ui/layout";
 import {Link} from "react-router-dom";
 
 
@@ -23,9 +21,6 @@ const Timeline = (props) => {
     const allProjectStages = ["Design Pending", "Preliminary Design Ongoing", "Preliminary Design Complete", "Awaiting Customer Approval",
         "Detailed Design Pending", "Detailed Design Ongoing", "Design Complete", "Project Complete"]
 
-    const style = {
-        zIndex: "-200",
-    };
 
     useEffect(() => {
         ProjectService.getProjectByID(projectId).then((projects) => {
@@ -42,7 +37,23 @@ const Timeline = (props) => {
     let timeTextSize = "xs"
     let statusTextSize = "sm"
 
+    let statusArray = [];
+
+    function retrieveProjectStatusArray() {
+        let i;
+        let tempStatusArray = [];
+        if (typeof projects !== 'undefined') {
+            for (i = 0; i < projects.status.length; i++) {
+                tempStatusArray.push(projects.status[i].value);
+            }
+            statusArray = tempStatusArray;
+        }
+    }
+
+    // TODO: Redo Current in Progress Status
     function isStatusComplete(index) {
+        retrieveProjectStatusArray();
+        console.log(statusArray);
         if (typeof projects !== 'undefined') {
             if (index === projects.status.length) {
                 return (
@@ -53,7 +64,7 @@ const Timeline = (props) => {
                     </div>
                 );
             }
-            if (index >= projects.status.length) {
+            if (index >= projects.status.length || statusArray.lastIndexOf(allProjectStages[index]) == -1) {
                 return (
                     <div>
                         <img src={circle_outline} alt="Logo" width={logoWidth} height={logoHeight}/>
@@ -62,9 +73,10 @@ const Timeline = (props) => {
                     </div>
                 );
             }
-            if (projects.status[index].value.indexOf(allProjectStages[index]) > -1) {
+            if (statusArray.lastIndexOf(allProjectStages[index]) > -1) {
+                let currentStatusIndex = statusArray.lastIndexOf(allProjectStages[index]);
                 let i;
-                let date = projects.status[index].time_set;
+                let date = projects.status[currentStatusIndex].time_set;
                 let dateAndTime = date.substring(0, date.length - 8);
                 let dateToDisplay = date.slice(8, 10) + "/" + date.slice(5, 7) + "/" + date.slice(0, 4);
                 let minute = date.slice(14, 16);
@@ -75,7 +87,7 @@ const Timeline = (props) => {
                     hour = hour - 12;
                 } else if (hour < 12) {
                     meridiem = "AM"
-                } else if (hour === 12) {
+                } else if (hour == 12) {
                     meridiem = "PM"
                 }
                 return (
@@ -87,7 +99,7 @@ const Timeline = (props) => {
                     </div>
                 );
             }
-            if (projects.status[index].value === "Project Cancelled") {
+            if (statusArray.lastIndexOf("Project Cancelled") > -1) {
                 let date = projects.status[index].time_set;
                 let dateAndTime = date.substring(0, date.length - 8);
                 let dateToDisplay = date.slice(8, 10) + "/" + date.slice(5, 7) + "/" + date.slice(0, 4);
@@ -99,7 +111,7 @@ const Timeline = (props) => {
                     hour = hour - 12;
                 } else if (hour < 12) {
                     meridiem = "AM"
-                } else if (hour === 12) {
+                } else if (hour == 12) {
                     meridiem = "PM"
                 }
                 return (
@@ -153,14 +165,14 @@ const Timeline = (props) => {
                 state: {project: project}
             }}>
                 <Button m={10} color="brand.background" bg="brand.pink" size="sm" _hover={{bg: "brand.accents"}}>
-                    <CloseIcon />
+                    <CloseIcon/>
                     <Text ml={2}>
                         Close
                     </Text>
                 </Button>
             </Link>
 
-            <Box  bg="brand.background" className="line" width="80%" m={20} boxShadow="lg" style={style}>
+            <Box bg="brand.background" className="line" width="80%" m={20} boxShadow="lg">
                 {/*<Grid templateColumns="repeat(12, 1fr)" gap={1}>*/}
                 <Flex>
                     <Box w="100%"> {isStatusComplete(0)}</Box>
@@ -177,8 +189,8 @@ const Timeline = (props) => {
                 {/*</Grid>*/}
             </Box>
         </Box>
-            );
-            };
+    );
+};
 
 
-            export default Timeline;
+export default Timeline;
