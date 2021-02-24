@@ -17,6 +17,7 @@ import AuthService from "../../services/auth.service";
 import { Search2Icon } from "@chakra-ui/icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import AssignEngineer from "./AssignEngineer";
 import UpdateStatus from "./UpdateStatus";
 import ProjectView from "../Project/ProjectView";
 
@@ -42,8 +43,13 @@ const BoardTechnical = () => {
     }, [authenticatedUser.id]);
 
     useEffect(() => {
-        getProjectsSetStatusOptionsAndFilterIfNeeded();
-    }, [getProjectsSetStatusOptionsAndFilterIfNeeded]);
+        ProjectService.getTechnicalProjects(authenticatedUser.id).then(
+            (projects) => {
+                unfilteredProjects.current = projects;
+                setProjects(unfilteredProjects.current);
+            }
+        );
+    }, []);
 
     function displayProjects() {
         if (projects.length >= 1) {
@@ -54,28 +60,16 @@ const BoardTechnical = () => {
                     <Td>{data.client}</Td>
                     <Td>{new Date(data.date_required).toLocaleDateString()}</Td>
                     <Td>{data.status[data.status.length - 1].value}</Td>
-                    <Td isNumeric>
-                        <UpdateStatus
-                            count={count}
-                            projectStatus={
-                                data.status[data.status.length - 1].value
-                            }
-                            projectId={data._id}
-                            updateParent={
-                                getProjectsSetStatusOptionsAndFilterIfNeeded
-                            }
-                        >
-                            <Button colorScheme={"green"}>
-                                Update Status
-                            </Button>
-                        </UpdateStatus>
-                        <ProjectView project={data}/>
+                    <Td />
+                    <Td>
+                        <AssignEngineer project_id={data._id} />
                     </Td>
                 </Tr>
             ));
         } else {
             return (
                 <Tr>
+                    <Th />
                     <Th />
                     <Th />
                     <Th> No projects</Th>
@@ -311,6 +305,7 @@ const BoardTechnical = () => {
                                 <Text fontSize="lg">Status</Text>
                             </Th>
                             <Th />
+                            <Th />
                         </Tr>
                     </Thead>
                     <Tbody>{displayProjects()}</Tbody>
@@ -321,4 +316,3 @@ const BoardTechnical = () => {
 };
 
 export default BoardTechnical;
-//TODO refactor code

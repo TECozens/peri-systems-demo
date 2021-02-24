@@ -16,8 +16,10 @@ router.post("/addProject", jsonParser, (req, res) => {
     newProject.sector = req.body.sector;
     newProject.description = req.body.description;
     newProject.client = req.body.client;
-    newProject.engineers.sales_engineer_id = req.body.engineers.sales_engineer_id;
-    newProject.engineers.technical_lead_id = req.body.engineers.technical_lead_id;
+    newProject.engineers.sales_engineer_id =
+        req.body.engineers.sales_engineer_id;
+    newProject.engineers.technical_lead_id =
+        req.body.engineers.technical_lead_id;
     newProject.engineers.designer_id = req.body.engineers.designer_id;
     newProject.engineers.design_checker_id = req.body.design_checker_id;
     newProject.date_required = req.body.date_required;
@@ -49,14 +51,19 @@ router.get(
     "/api/projects/getProjectsByTechnicalLead/:technicalLeadID",
     jsonParser,
     (req, res) => {
-        let technicalLeadId = new mongoose.Types.ObjectId(req.params.technicalLeadID);
-        projects.find({ "engineers.technical_lead_id": technicalLeadId }, (err, data) => {
-            if (err) {
-                return res.json({ success: false, error: err });
-            } else {
-                return res.json({ success: true, data: data });
+        let technicalLeadId = new mongoose.Types.ObjectId(
+            req.params.technicalLeadID
+        );
+        projects.find(
+            { "engineers.technical_lead_id": technicalLeadId },
+            (err, data) => {
+                if (err) {
+                    return res.json({ success: false, error: err });
+                } else {
+                    return res.json({ success: true, data: data });
+                }
             }
-        });
+        );
     }
 );
 
@@ -81,22 +88,24 @@ router.put(
     }
 );
 
-router.get(
-    "/api/projects/getProjectByID/:projectId",
+router.put(
+    "/api/projects/updateProjectDesignEngineers/:projectID/:anEngineerId",
     jsonParser,
     (req, res) => {
-        let projectId = new mongoose.Types.ObjectId(req.params.projectId);
-        // let projectId = "601aaab03e3205f70dda2f86"
-        projects.findById({"_id": projectId }, (err, data) => {
+        let projectID = new mongoose.Types.ObjectId(req.params.projectID);
+        let engineerID = new mongoose.Types.ObjectId(req.params.anEngineerId);
+
+        projects.findById(projectID, (err, data) => {
             if (err) {
                 return res.json({ success: false, error: err });
             } else {
+                let project = data;
+                project.engineers.designer_id = engineerID;
+                project.save();
                 return res.json({ success: true, data: data });
             }
         });
     }
 );
-
-
 
 module.exports = router;
