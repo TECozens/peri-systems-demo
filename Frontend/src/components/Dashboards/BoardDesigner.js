@@ -54,7 +54,11 @@ const BoardDesigner = () => {
                             updateParent={
                                 getProjectsSetStatusOptionsAndFilterIfNeeded
                             }
-                        />
+                        >
+                            <Button colorScheme={"green"}>
+                                Update Status
+                            </Button>
+                        </UpdateStatus>
                         <ProjectView project={data}/>
                     </Td>
                 </Tr>

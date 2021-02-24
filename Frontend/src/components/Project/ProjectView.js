@@ -1,7 +1,6 @@
 import React, {useContext} from "react"
 import * as UI from "@chakra-ui/react"
 import {Link} from "react-router-dom";
-import ProjectDetails from "./ProjectDetails";
 
 const ProjectView = (props) => {
     const projectId = props.project._id;

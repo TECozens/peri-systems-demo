@@ -21,6 +21,8 @@ const colors = {
         accents: "#554e44",
         background: "white",
         primaryText: "#3F3D56",
+        pink: "#e5445f",
+        grey: "rgba(85, 85, 85, 1)",
 
         // Hover states
         primaryHover: "#caddd2"
