@@ -247,7 +247,7 @@ const BoardTechnical = () => {
                 <Heading>Welcome back {authenticatedUser.firstname}!</Heading>
             </Box>
             <HStack m="10px">
-                <InputGroup size="sm">
+                <InputGroup size="sm" w="50%">
                     <InputLeftElement
                         pointerEvents="none"
                         children={<Search2Icon color="gray.300" />}
@@ -260,7 +260,7 @@ const BoardTechnical = () => {
                         onChange={handleChange}
                     />
                 </InputGroup>
-                <InputGroup size="sm">
+                <InputGroup size="sm" w="90%">
                     <InputLeftElement
                         pointerEvents="none"
                         children={<Search2Icon color="gray.300" />}
@@ -272,7 +272,7 @@ const BoardTechnical = () => {
                         value={filters.current.name}
                     />
                 </InputGroup>
-                <InputGroup size="sm">
+                <InputGroup size="sm" w="90%">
                     <InputLeftElement
                         pointerEvents="none"
                         children={<Search2Icon color="gray.300" />}
@@ -285,7 +285,7 @@ const BoardTechnical = () => {
                     />
                 </InputGroup>
 
-                <InputGroup size="sm" w={"200%"}>
+                <InputGroup size="sm" w={"210%"}>
                     <Text color={"brand.accents"}> Date Required from </Text>
                     <Spacer />
                     <DatePicker
