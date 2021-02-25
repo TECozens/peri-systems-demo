@@ -5,12 +5,13 @@ import axios from "axios";
 const API_URL = "http://localhost:8081/api/auth/";
 
 //TODO Client Register Function, Not Yet Implemented on Backend
-const register = (firstname, lastname, email, password) => {
+const register = (firstname, lastname, email, password, roles) => {
     return axios.post(API_URL + "signup", {
         firstname,
         lastname,
         email,
         password,
+        roles,
     });
 };
 
@@ -42,11 +43,37 @@ const isUserAuthenticated = () => {
     return !!user;
 }
 
+const isAdmin = () => {
+    const user = getCurrentUser();
+    try {
+        return user.roles.includes("ROLE_ADMIN")
+    } catch(err) {
+        return false
+    }
+}
+const isTechnical = () => {
+    const user = getCurrentUser();
+    try {
+        return user.roles.includes("ROLE_TECHNICAL")
+    } catch(err) {
+        return false
+    }
+}
+const isDesigner = () => {
+    const user = getCurrentUser();
+    try {
+        return user.roles.includes("ROLE_DESIGNER")
+    } catch(err) {
+        return false
+    }
+}
+
 //TODO Implement Register in week 6
 export default {
     register,
     login,
     logout,
     getCurrentUser,
+    isAdmin,
     isUserAuthenticated,
 };
