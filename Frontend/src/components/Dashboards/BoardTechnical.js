@@ -83,7 +83,9 @@ const BoardTechnical = () => {
                                 getProjectsSetStatusOptionsAndFilterIfNeeded
                             }
                         >
-                            <Button colorScheme={"green"}>Update Status</Button>
+                            <Button width="full" colorScheme={"green"}>
+                                Update Status
+                            </Button>
                         </UpdateStatus>
                         <AssignEngineers
                             updateParent={
