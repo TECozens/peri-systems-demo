@@ -23,6 +23,17 @@ UserRouter.get(
     }
 );
 
+UserRouter.get("/api/users/getUserByID/:userID", jsonParser, (req, res) => {
+    let userId = new mongoose.Types.ObjectId(req.params.userID);
+    user.findById(userId, (err, data) => {
+        if (err) {
+            return res.json({ success: false, error: err });
+        } else {
+            return res.json({ success: true, data: data });
+        }
+    });
+});
+
 UserRouter.get("/api/users/getDesignerRoleID", jsonParser, (req, res) => {
     role.find({ name: "designer" }, (err, data) => {
         if (err) {
