@@ -4,9 +4,9 @@ import * as UI from "@chakra-ui/react"
 const ProjectsSection = (props) => {
 
     return (
-        <UI.Box>
+        <UI.Flex>
             Headings, Info, ProjectList
-        </UI.Box>
+        </UI.Flex>
     )
 }
 

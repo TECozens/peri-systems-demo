@@ -2,10 +2,10 @@ import React from "react";
 import * as UI from "@chakra-ui/react"
 import ProjectsSection from "../Project/ProjectsSection"
 
-const DesignerBoard = (props) => {
+const TechnicalBoard = (props) => {
 
     return (
-        <UI.Box width="100%" p={15}>
+        <UI.Flex>
             Projects Section
 
 
@@ -13,8 +13,8 @@ const DesignerBoard = (props) => {
 
             {/*   TODO Projects Section*/}
             {/*   <ProjectsSection/>*/}
-        </UI.Box>
+        </UI.Flex>
     )
 }
 
-export default DesignerBoard;
+export default TechnicalBoard;

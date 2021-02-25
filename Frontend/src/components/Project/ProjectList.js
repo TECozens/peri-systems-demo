@@ -5,10 +5,10 @@ import Project from "./ProjectView";
 
 const ProjectList = () => {
     const projectsContext = useContext(projectContext);
-    const {projects, getProject} = projectsContext;
+    const {projects, getProjects} = projectsContext;
 
     useEffect(() => {
-        getProject();
+        getProjects();
     }, [projects])
 
     if(projects.length === 0) {
@@ -16,7 +16,7 @@ const ProjectList = () => {
     }
 
     return (
-        <ul>
+        <>
             {
                 projects.map((project) => (
                     <div>
@@ -24,6 +24,6 @@ const ProjectList = () => {
                     </div>
                 ))
             }
-        </ul>
+        </>
     )
 }

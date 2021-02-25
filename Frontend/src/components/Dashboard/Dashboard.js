@@ -4,6 +4,7 @@ import AuthService from "../../services/auth.service";
 import BoardDesigner from "../Designer/BoardDesigner";
 import BoardAdmin from "../Admin/BoardAdmin";
 import BoardTechnical from "../Technical/BoardTechnical";
+import DesignerBoard from "../Designer/DesignerBoard";
 
 const Dashboard = () => {
     const [showTechnicalBoard, setShowTechnicalBoard] = useState(false);
@@ -26,7 +27,7 @@ const Dashboard = () => {
         <div>
             {currentUser ? (
                 <Box bg="brand.background" m={10} p={20} boxShadow={"dark-lg"}>
-                    {showDesignerBoard && <BoardDesigner />}
+                    {showDesignerBoard && <DesignerBoard />}
                     {showTechnicalBoard && <BoardTechnical />}
                     {showAdminBoard && <BoardAdmin />}
                 </Box>
