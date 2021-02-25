@@ -23,6 +23,7 @@ const AssignEngineers = (props) => {
     const selectedDesignCheckerId = useRef(props.project.engineers.designer_id);
 
     async function handleSubmit() {
+        let updateWasMade = false;
         if (
             props.project.engineers.designer_id !==
             selectedDesignEngineerId.current
@@ -30,7 +31,7 @@ const AssignEngineers = (props) => {
             await ProjectService.updateProjectDesignEngineer(
                 props.project._id,
                 selectedDesignEngineerId.current
-            );
+            ).then(() => (updateWasMade = true));
         }
 
         if (
@@ -40,10 +41,14 @@ const AssignEngineers = (props) => {
             await ProjectService.updateProjectDesignChecker(
                 props.project._id,
                 selectedDesignCheckerId.current
-            );
+            ).then(() => (updateWasMade = true));
         }
 
         onClose();
+
+        if (updateWasMade) {
+            props.updateParent();
+        }
     }
 
     function handleClose() {

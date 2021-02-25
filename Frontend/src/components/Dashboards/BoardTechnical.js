@@ -1,5 +1,15 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Box, Button, Heading, HStack, Input, InputGroup, InputLeftElement, Select, Spacer } from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Heading,
+    HStack,
+    Input,
+    InputGroup,
+    InputLeftElement,
+    Select,
+    Spacer,
+} from "@chakra-ui/react";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
 import { Text } from "@chakra-ui/layout";
 import ProjectService from "../../services/project.service";
@@ -58,7 +68,7 @@ const BoardTechnical = () => {
                         {
                             designersNameAndId.current[
                                 data.engineers.design_checker_id
-                                ]
+                            ]
                         }
                     </Td>
                     <Td>{data.status[data.status.length - 1].value}</Td>
@@ -75,7 +85,12 @@ const BoardTechnical = () => {
                         >
                             <Button colorScheme={"green"}>Update Status</Button>
                         </UpdateStatus>
-                        <AssignEngineers project={data} />
+                        <AssignEngineers
+                            updateParent={
+                                getProjectsSetStatusOptionsAndFilterIfNeeded
+                            }
+                            project={data}
+                        />
                         <ProjectView project={data} />
                     </Td>
                 </Tr>
