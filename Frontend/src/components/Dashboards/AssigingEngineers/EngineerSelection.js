@@ -5,11 +5,11 @@ import UsersService from "../../../services/users.service";
 const EngineerSelection = (props) => {
     const [allEngineers, setAllEngineers] = useState([]);
     let typeOfEngineerSelection = props.type;
-    let selectValue = props.currentEngineer;
+    let [selectValue, setSelectValue] = useState(props.currentEngineer);
 
     useEffect(() => {
         getAndSetEngineers();
-    });
+    }, [props.currentEngineer]);
 
     const getAndSetEngineers = useCallback(() => {
         getDesigners.then((designEngineers) => {
@@ -59,7 +59,7 @@ const EngineerSelection = (props) => {
 
     function handleOnChange(event) {
         let newIdSelected = event.target.value;
-        selectValue = newIdSelected;
+        setSelectValue(newIdSelected);
         props.onChange(newIdSelected);
     }
 

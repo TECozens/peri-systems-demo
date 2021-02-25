@@ -17,16 +17,18 @@ import EngineerSelection from "./EngineerSelection";
 
 const AssignEngineers = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const selectedDesignEngineerId = useRef();
-    const selectedDesignCheckerId = useRef();
+    const selectedDesignEngineerId = useRef(
+        props.project.engineers.designer_id
+    );
+    const selectedDesignCheckerId = useRef(props.project.engineers.designer_id);
 
-    function handleSubmit() {
+    async function handleSubmit() {
         if (
             props.project.engineers.designer_id !==
             selectedDesignEngineerId.current
         ) {
-            ProjectService.updateProjectDesignEngineer(
-                props.project_id,
+            await ProjectService.updateProjectDesignEngineer(
+                props.project._id,
                 selectedDesignEngineerId.current
             );
         }
@@ -35,8 +37,8 @@ const AssignEngineers = (props) => {
             props.project.engineers.design_checker_id !==
             selectedDesignCheckerId.current
         ) {
-            ProjectService.updateProjectDesignChecker(
-                props.project_id,
+            await ProjectService.updateProjectDesignChecker(
+                props.project._id,
                 selectedDesignCheckerId.current
             );
         }
