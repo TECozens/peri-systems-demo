@@ -9,7 +9,7 @@ const ProjectView = (props) => {
     return (
         <Link
             to={{
-                pathname: "/ProjectTimeline/" + projectId,
+                pathname: "/Timeline/" + projectId,
                 state: {project: props.project},
             }}
         >

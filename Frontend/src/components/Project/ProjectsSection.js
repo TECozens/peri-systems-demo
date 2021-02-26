@@ -38,12 +38,13 @@ const ProjectsSection = (props) => {
                     <ProjectFilter projectsToFilter={unfilteredProjects.current}/>
                 </Box>
 
-                <Box borderTopLeftRadius={25} borderBottomRightRadius={25} m={10} bg="brand.background">
+                <Flex borderTopLeftRadius={25} borderBottomRightRadius={25} m={10} bg="brand.background">
                     <ProjectList
                         projectsToDisplay={projectsDisplayed}
                         count={count}
                         authenticatedRole={authenticatedUser.roles}/>
-                </Box>
+                </Flex>
+
             </Box>
         </Flex>
     );

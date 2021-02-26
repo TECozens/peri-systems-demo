@@ -12,8 +12,7 @@ const ProjectList = (props) => {
 
     if (props.projectsToDisplay.length > 0) {
         return (
-            <Flex>
-                <Table variant="none" size="sm">
+                <Table variant="none" size="md">
                     <Thead>
                         <Tr>
                             <Th bg="brand.pink" borderTopLeftRadius={25}>
@@ -91,7 +90,6 @@ const ProjectList = (props) => {
                     </Tbody>
 
                 </Table>
-            </Flex>
         );
     } else {
         return <p>No projects available</p>;
