@@ -67,6 +67,31 @@ router.get(
     }
 );
 
+router.get(
+    "/api/projects/getProjectByEngineerID/:engineerID",
+    jsonParser,
+    (req, res) => {
+        let engineerId = new mongoose.Types.ObjectId(req.params.engineerID);
+        projects.find(
+            {
+                $or: [
+                    { "engineers.sales_engineer_id": engineerId },
+                    { "engineers.technical_lead_id": engineerId },
+                    { "engineers.designer_id": engineerId },
+                    { "engineers.design_checker_id": engineerId },
+                ],
+            },
+            (err, data) => {
+                if (err) {
+                    return res.json({ success: false, error: err });
+                } else {
+                    return res.json({ success: true, data: data });
+                }
+            }
+        );
+    }
+);
+
 router.put(
     "/api/projects/updateProjectStatus/:projectID/:aStatus",
     jsonParser,
