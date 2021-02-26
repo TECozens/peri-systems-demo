@@ -160,10 +160,7 @@ const Timeline = (props) => {
 
     return (
         <Box width="100%">
-            <Link to={{
-                pathname: "/ProjectDetails/" + projectId,
-                state: {project: project}
-            }}>
+            <Link to="/Dashboard">
                 <Button m={10} color="brand.background" bg="brand.pink" size="sm" _hover={{bg: "brand.accents"}}>
                     <CloseIcon/>
                     <Text ml={2}>

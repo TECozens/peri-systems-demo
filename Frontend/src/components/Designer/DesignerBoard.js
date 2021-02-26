@@ -1,15 +1,20 @@
 import React from "react";
-import * as UI from "@chakra-ui/react";
 import ProjectsSection from "../Project/ProjectsSection";
+import {Box, Flex, Spacer} from "@chakra-ui/layout";
 
 const DesignerBoard = (props) => {
     return (
-        <UI.Box width="100%" p={15}>
-            <ProjectsSection />
+        <Flex p={20}>
+            <Box width="full">
+                <ProjectsSection />
+            </Box>
 
-            {/*   TODO Projects Section*/}
-            {/*   <ProjectsSection/>*/}
-        </UI.Box>
+            <Spacer m={20} />
+
+            <Box bg="brand.background" width="35%"  boxShadow="lg">
+                TODO Next Feature: Pending Requests
+            </Box>
+        </Flex>
     );
 };
 

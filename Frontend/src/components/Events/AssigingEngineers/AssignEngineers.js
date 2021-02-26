@@ -65,9 +65,11 @@ const AssignEngineers = (props) => {
 
     return (
         <div key={"assign_engineer_modal"}>
-            <Button mt={2} onClick={onOpen}>
-                Assign engineer
-            </Button>
+
+            <div onClick={onOpen}>
+                {props.children}
+            </div>
+
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>

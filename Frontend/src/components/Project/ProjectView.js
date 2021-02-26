@@ -1,6 +1,7 @@
 import React from "react";
-import * as UI from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
+import {Button} from "@chakra-ui/react";
+import UpdateStatus from "../Events/UpdateStatus";
 
 const ProjectView = (props) => {
     const projectId = props.project._id;
@@ -8,13 +9,16 @@ const ProjectView = (props) => {
     return (
         <Link
             to={{
-                pathname: "/ProjectDetails/" + projectId,
-                state: { project: props.project },
+                pathname: "/ProjectTimeline/" + projectId,
+                state: {project: props.project},
             }}
         >
-            <UI.Button mt={2} width="full" bg="brand.tertiary">
+            <Button m={2} border="2px"
+                    color="brand.background"
+                    bg="brand.grey" borderColor="brand.pink"
+                    _hover={{bg: "brand.pink", borderColor: "brand.grey"}}>
                 View
-            </UI.Button>
+            </Button>
         </Link>
     );
 };

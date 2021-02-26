@@ -1,19 +1,21 @@
 import React from "react";
-import * as UI from "@chakra-ui/react"
 import ProjectsSection from "../Project/ProjectsSection"
+import {Box, Flex, Spacer} from "@chakra-ui/layout";
 
 const TechnicalBoard = (props) => {
 
     return (
-        <UI.Flex>
-            Projects Section
+        <Flex p={20}>
+            <Box width="full">
+                <ProjectsSection />
+            </Box>
 
+            <Spacer m={20} />
 
-
-
-            {/*   TODO Projects Section*/}
-            {/*   <ProjectsSection/>*/}
-        </UI.Flex>
+            <Box bg="brand.background" width="35%"  boxShadow="lg">
+                TODO Next Feature: Pending Requests
+            </Box>
+        </Flex>
     )
 }
 
