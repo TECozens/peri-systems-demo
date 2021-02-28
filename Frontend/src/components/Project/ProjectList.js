@@ -12,7 +12,7 @@ const ProjectList = (props) => {
 
     if (props.projectsToDisplay.length > 0) {
         return (
-                <Table variant="none" size="md">
+                <Table flexShrink={10} variant="none" size="md" bg="brand.background" borderTopLeftRadius={25} borderBottomRightRadius={25} boxShadow="dark-lg">
                     <Thead>
                         <Tr>
                             <Th bg="brand.pink" borderTopLeftRadius={25}>
@@ -48,7 +48,7 @@ const ProjectList = (props) => {
                                     {project.status[project.status.length - 1].value}
                                 </Td>
                                 <Td isNumeric>
-                                    <Flex alignItems="center" justifyContent="center">
+                                    <Flex flexShrink="auto">
                                     <UpdateStatus
                                         count={count}
                                         projectStatus={
@@ -60,7 +60,7 @@ const ProjectList = (props) => {
                                             "update parent function"
                                         )}
                                     >
-                                        <Button m={2} border="2px"
+                                        <Button size="md" m={2} border="2px"
                                                 color="brand.background"
                                                 bg="brand.grey" borderColor="brand.pink"
                                                 _hover={{bg: "brand.pink", borderColor: "brand.grey"}}>
