@@ -1,17 +1,59 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
 import UpdateStatus from "../Events/UpdateStatus";
 import { Button } from "@chakra-ui/react";
 import ProjectView from "./ProjectView";
 import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
 import { Flex, Text } from "@chakra-ui/layout";
+import UserService from "../../services/users.service";
 
 const ProjectList = (props) => {
     let count = props.count;
     const [projects, setProjects] = useState([]);
+    const designersNameAndId = useRef({});
+
+    const getProjectsDesignEngineersAndDesignCheckers = async (projects) => {
+        return Promise.all(
+            projects.map(async (project) => {
+                let designEngineerId = project.engineers.designer_id;
+                let designCheckerId = project.engineers.design_checker_id;
+                //getting design engineers
+                await UserService.getUserByID(designEngineerId)
+                    .then((user) => {
+                        let name;
+                        if (user !== undefined) {
+                            name = user.firstname + " " + user.lastname;
+                        } else {
+                            name = "Unknown";
+                        }
+                        designersNameAndId.current[designEngineerId] = name;
+                    })
+                    //getting design checkers
+                    .then(
+                        await UserService.getUserByID(designCheckerId).then(
+                            (user) => {
+                                let name;
+                                if (user !== undefined) {
+                                    name = user.firstname + " " + user.lastname;
+                                } else {
+                                    name = "Unknown";
+                                }
+                                designersNameAndId.current[
+                                    designCheckerId
+                                ] = name;
+                            }
+                        )
+                    );
+            })
+        );
+    };
 
     useEffect(() => {
-        setProjects(props.projectsToDisplay);
+        if (props.projectsToDisplay.length !== 0) {
+            getProjectsDesignEngineersAndDesignCheckers(
+                props.projectsToDisplay
+            ).then(() => setProjects(props.projectsToDisplay));
+        }
     }, [props.projectsToDisplay]);
 
     if (projects.length > 0) {
@@ -52,6 +94,16 @@ const ProjectList = (props) => {
                                 Status
                             </Text>
                         </Th>
+                        <Th bg="brand.pink">
+                            <Text color="brand.background" fontSize="lg">
+                                Design Engineer
+                            </Text>
+                        </Th>
+                        <Th bg="brand.pink">
+                            <Text color="brand.background" fontSize="lg">
+                                Design Checker
+                            </Text>
+                        </Th>
                         <Th bg="brand.pink" />
                     </Tr>
                 </Thead>
@@ -74,6 +126,20 @@ const ProjectList = (props) => {
                                 {
                                     project.status[project.status.length - 1]
                                         .value
+                                }
+                            </Td>
+                            <Td>
+                                {
+                                    designersNameAndId.current[
+                                        project.engineers.designer_id
+                                    ]
+                                }
+                            </Td>
+                            <Td>
+                                {
+                                    designersNameAndId.current[
+                                        project.engineers.design_checker_id
+                                    ]
                                 }
                             </Td>
                             <Td isNumeric>
