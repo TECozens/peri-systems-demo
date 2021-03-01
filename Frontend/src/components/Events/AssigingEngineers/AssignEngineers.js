@@ -23,7 +23,7 @@ const AssignEngineers = (props) => {
     const selectedDesignCheckerId = useRef(props.project.engineers.designer_id);
 
     async function handleSubmit() {
-        let updateWasMade = false;
+        let updatedProject;
         if (
             props.project.engineers.designer_id !==
             selectedDesignEngineerId.current
@@ -31,7 +31,9 @@ const AssignEngineers = (props) => {
             await ProjectService.updateProjectDesignEngineer(
                 props.project._id,
                 selectedDesignEngineerId.current
-            ).then(() => (updateWasMade = true));
+            ).then((project) => {
+                updatedProject = project;
+            });
         }
 
         if (
@@ -41,13 +43,15 @@ const AssignEngineers = (props) => {
             await ProjectService.updateProjectDesignChecker(
                 props.project._id,
                 selectedDesignCheckerId.current
-            ).then(() => (updateWasMade = true));
+            ).then((project) => {
+                updatedProject = project;
+            });
         }
 
         onClose();
 
-        if (updateWasMade) {
-            props.updateParent();
+        if (updatedProject !== undefined) {
+            props.updateParent(updatedProject);
         }
     }
 
@@ -65,10 +69,7 @@ const AssignEngineers = (props) => {
 
     return (
         <div key={"assign_engineer_modal"}>
-
-            <div onClick={onOpen}>
-                {props.children}
-            </div>
+            <div onClick={onOpen}>{props.children}</div>
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />

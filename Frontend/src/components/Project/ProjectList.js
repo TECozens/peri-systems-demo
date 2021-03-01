@@ -108,9 +108,7 @@ const ProjectList = (props) => {
                                         "ROLE_TECHNICAL"
                                     ) && (
                                         <AssignEngineers
-                                            updateParent={console.log(
-                                                "updateProjectSection"
-                                            )}
+                                            updateParent={props.updateParent}
                                             project={project}
                                         >
                                             <Button
