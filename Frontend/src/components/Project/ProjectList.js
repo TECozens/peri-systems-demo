@@ -1,16 +1,20 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { Td, Tr, Tbody, Thead, Th, Table } from "@chakra-ui/table";
+import React, { useEffect, useState } from "react";
+import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
 import UpdateStatus from "../Events/UpdateStatus";
 import { Button } from "@chakra-ui/react";
 import ProjectView from "./ProjectView";
 import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
-import { Flex, Box, Text, Spacer } from "@chakra-ui/layout";
-import * as UI from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/layout";
 
 const ProjectList = (props) => {
     let count = props.count;
+    const [projects, setProjects] = useState([]);
 
-    if (props.projectsToDisplay.length > 0) {
+    useEffect(() => {
+        setProjects(props.projectsToDisplay);
+    }, [props.projectsToDisplay]);
+
+    if (projects.length > 0) {
         return (
             <Table
                 flexShrink={10}
@@ -52,7 +56,7 @@ const ProjectList = (props) => {
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {props.projectsToDisplay.map((project) => (
+                    {projects.map((project) => (
                         <Tr
                             topBorder="1px"
                             borderColor="#E2DCCD"
@@ -82,9 +86,7 @@ const ProjectList = (props) => {
                                             ].value
                                         }
                                         projectId={project._id}
-                                        updateParent={console.log(
-                                            "update parent function"
-                                        )}
+                                        updateParent={props.updateParent}
                                     >
                                         <Button
                                             size="md"

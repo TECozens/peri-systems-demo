@@ -1,12 +1,11 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import AuthService from "../../services/auth.service";
 import ProjectFilter from "./ProjectFilter";
 import ProjectList from "./ProjectList";
 import ProjectService from "../../services/project.service";
-import {Table, Tbody, Th, Thead, Tr} from "@chakra-ui/table";
-import {Text, Flex, Box} from "@chakra-ui/layout";
+import { Box, Flex, Text } from "@chakra-ui/layout";
 
-const ProjectsSection = (props) => {
+const ProjectsSection = () => {
     let authenticatedUser = AuthService.getCurrentUser();
     let unfilteredProjects = useRef();
     const [projectsDisplayed, setProjectsDisplayed] = useState([]);
@@ -19,6 +18,14 @@ const ProjectsSection = (props) => {
                 setProjectsDisplayed(projects);
             }
         );
+    };
+
+    const updateUnfilteredProjects = (projectUpdated) => {
+        let indexOfItemToUpdate = unfilteredProjects.current.findIndex(
+            (x) => x._id === projectUpdated._id
+        );
+        unfilteredProjects.current[indexOfItemToUpdate] = projectUpdated;
+        setProjectsDisplayed([...unfilteredProjects.current]);
     };
 
     useEffect(() => {
@@ -35,16 +42,26 @@ const ProjectsSection = (props) => {
                 </Box>
 
                 <Box>
-                    <ProjectFilter projectsToFilter={unfilteredProjects.current}/>
+                    <ProjectFilter
+                        projectsToFilter={unfilteredProjects.current}
+                    />
                 </Box>
 
-                <Box height="auto" width="auto" borderTopLeftRadius={25} borderBottomRightRadius={25} m={10} bg="brand.background">
+                <Box
+                    height="auto"
+                    width="auto"
+                    borderTopLeftRadius={25}
+                    borderBottomRightRadius={25}
+                    m={10}
+                    bg="brand.background"
+                >
                     <ProjectList
                         projectsToDisplay={projectsDisplayed}
                         count={count}
-                        authenticatedRole={authenticatedUser.roles}/>
+                        authenticatedRole={authenticatedUser.roles}
+                        updateParent={updateUnfilteredProjects}
+                    />
                 </Box>
-
             </Box>
         </Flex>
     );
