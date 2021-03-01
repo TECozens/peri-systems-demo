@@ -90,11 +90,6 @@ const ProjectList = (props) => {
                         </Th>
                         <Th bg="brand.pink">
                             <Text color="brand.background" fontSize="lg">
-                                Status
-                            </Text>
-                        </Th>
-                        <Th bg="brand.pink">
-                            <Text color="brand.background" fontSize="lg">
                                 Design Engineer
                             </Text>
                         </Th>
@@ -103,6 +98,12 @@ const ProjectList = (props) => {
                                 Design Checker
                             </Text>
                         </Th>
+                        <Th bg="brand.pink">
+                            <Text color="brand.background" fontSize="lg">
+                                Status
+                            </Text>
+                        </Th>
+
                         <Th bg="brand.pink" />
                     </Tr>
                 </Thead>
@@ -123,12 +124,6 @@ const ProjectList = (props) => {
                             </Td>
                             <Td>
                                 {
-                                    project.status[project.status.length - 1]
-                                        .value
-                                }
-                            </Td>
-                            <Td>
-                                {
                                     designersNameAndId.current[
                                         project.engineers.designer_id
                                     ]
@@ -139,6 +134,12 @@ const ProjectList = (props) => {
                                     designersNameAndId.current[
                                         project.engineers.design_checker_id
                                     ]
+                                }
+                            </Td>
+                            <Td>
+                                {
+                                    project.status[project.status.length - 1]
+                                        .value
                                 }
                             </Td>
                             <Td isNumeric>
