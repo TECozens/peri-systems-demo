@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
 import UpdateStatus from "../Events/UpdateStatus";
-import { Button } from "@chakra-ui/react";
 import ProjectView from "./ProjectView";
 import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
 import { Flex, Text } from "@chakra-ui/layout";
@@ -153,22 +152,7 @@ const ProjectList = (props) => {
                                         }
                                         projectId={project._id}
                                         updateParent={props.updateParent}
-                                    >
-                                        <Button
-                                            size="md"
-                                            m={2}
-                                            border="2px"
-                                            color="brand.background"
-                                            bg="brand.grey"
-                                            borderColor="brand.pink"
-                                            _hover={{
-                                                bg: "brand.pink",
-                                                borderColor: "brand.grey",
-                                            }}
-                                        >
-                                            Update Status
-                                        </Button>
-                                    </UpdateStatus>
+                                    />
 
                                     {props.authenticatedRole.includes(
                                         "ROLE_TECHNICAL"
@@ -176,21 +160,7 @@ const ProjectList = (props) => {
                                         <AssignEngineers
                                             updateParent={props.updateParent}
                                             project={project}
-                                        >
-                                            <Button
-                                                m={2}
-                                                border="2px"
-                                                color="brand.background"
-                                                bg="brand.grey"
-                                                borderColor="brand.pink"
-                                                _hover={{
-                                                    bg: "brand.pink",
-                                                    borderColor: "brand.grey",
-                                                }}
-                                            >
-                                                Assign Engineers
-                                            </Button>
-                                        </AssignEngineers>
+                                        />
                                     )}
                                     <ProjectView project={project} />
                                 </Flex>
