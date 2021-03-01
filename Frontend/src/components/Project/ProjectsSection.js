@@ -38,7 +38,7 @@ const ProjectsSection = (props) => {
                     <ProjectFilter projectsToFilter={unfilteredProjects.current}/>
                 </Box>
 
-                <Box height="auto" width="auto" borderTopLeftRadius={25} borderBottomRightRadius={25} m={10} bg="brand.background">
+                <Box height="auto" width="auto"  m={0} bg="brand.background">
                     <ProjectList
                         projectsToDisplay={projectsDisplayed}
                         count={count}
