@@ -9,7 +9,7 @@ import UserService from "../../services/users.service";
 const ProjectList = (props) => {
     let count = props.count;
     const [projects, setProjects] = useState([]);
-    const designersNameAndId = useRef({});
+    const designerEngineersAndCheckers = useRef({});
 
     const extractUserNames = (user) => {
         let name;
@@ -29,7 +29,7 @@ const ProjectList = (props) => {
                 //getting design engineers
                 await UserService.getUserByID(designEngineerId)
                     .then((user) => {
-                        designersNameAndId.current[
+                        designerEngineersAndCheckers.current[
                             designEngineerId
                         ] = extractUserNames(user);
                     })
@@ -37,7 +37,7 @@ const ProjectList = (props) => {
                     .then(
                         await UserService.getUserByID(designCheckerId).then(
                             (user) => {
-                                designersNameAndId.current[
+                                designerEngineersAndCheckers.current[
                                     designCheckerId
                                 ] = extractUserNames(user);
                             }
@@ -124,14 +124,14 @@ const ProjectList = (props) => {
                             </Td>
                             <Td>
                                 {
-                                    designersNameAndId.current[
+                                    designerEngineersAndCheckers.current[
                                         project.engineers.designer_id
                                     ]
                                 }
                             </Td>
                             <Td>
                                 {
-                                    designersNameAndId.current[
+                                    designerEngineersAndCheckers.current[
                                         project.engineers.design_checker_id
                                     ]
                                 }
