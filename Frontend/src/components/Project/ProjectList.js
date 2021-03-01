@@ -12,6 +12,16 @@ const ProjectList = (props) => {
     const [projects, setProjects] = useState([]);
     const designersNameAndId = useRef({});
 
+    const extractUserNames = (user) => {
+        let name;
+        if (user !== undefined) {
+            name = user.firstname + " " + user.lastname;
+        } else {
+            name = "Unknown";
+        }
+        return name;
+    };
+
     const getProjectsDesignEngineersAndDesignCheckers = async (projects) => {
         return Promise.all(
             projects.map(async (project) => {
@@ -20,27 +30,17 @@ const ProjectList = (props) => {
                 //getting design engineers
                 await UserService.getUserByID(designEngineerId)
                     .then((user) => {
-                        let name;
-                        if (user !== undefined) {
-                            name = user.firstname + " " + user.lastname;
-                        } else {
-                            name = "Unknown";
-                        }
-                        designersNameAndId.current[designEngineerId] = name;
+                        designersNameAndId.current[
+                            designEngineerId
+                        ] = extractUserNames(user);
                     })
                     //getting design checkers
                     .then(
                         await UserService.getUserByID(designCheckerId).then(
                             (user) => {
-                                let name;
-                                if (user !== undefined) {
-                                    name = user.firstname + " " + user.lastname;
-                                } else {
-                                    name = "Unknown";
-                                }
                                 designersNameAndId.current[
                                     designCheckerId
-                                ] = name;
+                                ] = extractUserNames(user);
                             }
                         )
                     );
