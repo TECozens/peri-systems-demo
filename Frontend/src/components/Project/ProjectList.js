@@ -56,6 +56,9 @@ const ProjectList = (props) => {
     }, [props.projectsToDisplay]);
 
     if (projects.length > 0) {
+        let latestProjectStatus =
+            project.status[project.status.length - 1].value;
+
         return (
             <Table
                 flexShrink={10}
@@ -136,21 +139,12 @@ const ProjectList = (props) => {
                                     ]
                                 }
                             </Td>
-                            <Td>
-                                {
-                                    project.status[project.status.length - 1]
-                                        .value
-                                }
-                            </Td>
+                            <Td>{latestProjectStatus}</Td>
                             <Td isNumeric>
                                 <Flex flexShrink="auto">
                                     <UpdateStatus
                                         count={count}
-                                        projectStatus={
-                                            project.status[
-                                                project.status.length - 1
-                                            ].value
-                                        }
+                                        projectStatus={latestProjectStatus}
                                         projectId={project._id}
                                         updateParent={props.updateParent}
                                     />
