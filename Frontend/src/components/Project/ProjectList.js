@@ -14,6 +14,7 @@ const ProjectList = (props) => {
     const resultsPerPage = 10
     const [currPage, setCurrPage] = useState(1)
     const tableSizing = useBreakpoint("")
+    const projects = props.projectsToDisplay;
 
     useEffect(() => {
 
@@ -52,7 +53,7 @@ const ProjectList = (props) => {
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {props.projectsToDisplay.map((project) => (
+                    {projects.map((project) => (
                         <Tr topBorder="1px" borderColor="#E2DCCD" key={project.name}>
                             <Td>{project.number}</Td>
                             <Td>{project.name}</Td>
