@@ -18,14 +18,16 @@ import EngineerSelection from "./EngineerSelection";
 const AssignEngineers = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const selectedDesignEngineerId = useRef(
-        props.project.engineers.designer_id
+        props.project.engineers.designer_id._id
     );
-    const selectedDesignCheckerId = useRef(props.project.engineers.designer_id);
+    const selectedDesignCheckerId = useRef(
+        props.project.engineers.designer_id._id
+    );
 
     async function handleSubmit() {
         let updatedProject;
         if (
-            props.project.engineers.designer_id !==
+            props.project.engineers.designer_id._id !==
             selectedDesignEngineerId.current
         ) {
             await ProjectService.updateProjectDesignEngineer(
@@ -95,7 +97,7 @@ const AssignEngineers = (props) => {
                                 type={"Design Engineer"}
                                 onChange={handleDesignEngineerSelection}
                                 currentEngineer={
-                                    props.project.engineers.designer_id
+                                    props.project.engineers.designer_id._id
                                 }
                             />
                             <EngineerSelection
@@ -103,6 +105,7 @@ const AssignEngineers = (props) => {
                                 onChange={handleDesignCheckerSelection}
                                 currentEngineer={
                                     props.project.engineers.design_checker_id
+                                        ._id
                                 }
                             />
                         </VStack>
