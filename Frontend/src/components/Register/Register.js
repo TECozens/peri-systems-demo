@@ -1,218 +1,293 @@
-import React from "react";
-import CRUDTable, {CreateForm, DeleteForm, Field, Fields, UpdateForm} from "react-crud-table";
-import './Register.scss'
-
-
-// import React, { useState, useRef, useEffect } from "react";
-// import Form from "react-validation/build/form";
-// import Input from "react-validation/build/input";
-// import CheckButton from "react-validation/build/button";
-// import { isEmail } from "validator";
+// import React from "react";
+// import CRUDTable, {CreateForm, DeleteForm, Field, Fields, UpdateForm} from "react-crud-table";
+// import './Register.scss'
 //
-import AuthService from "../../services/auth.service";
+//
+// // import React, { useState, useRef, useEffect } from "react";
+// // import Form from "react-validation/build/form";
+// // import Input from "react-validation/build/input";
+// // import CheckButton from "react-validation/build/button";
+// // import { isEmail } from "validator";
+// //
+//
+// import AuthService from "../../services/auth.service";
+// import UserService from "../../services/users.service"
+//
+// let users = UserService.getUsers().then(res => res)
+//
+// // let users = [
+// //   {
+// //     id: 1,
+// //     firstname: 'Jon',
+// //     lastname: 'Champ'
+// //   },
+// //   {
+// //     id: 2,
+// //     firstname: 'Mike',
+// //     lastname: 'Ehrmantraut'
+// //   }
+// // ]
+//
+// const DescriptionRenderer = ({ field }) => <textarea {...field} />;
+// const rolesRenderer = ({field}) =>
+//   <select {...field}>
+//       <option value='designer'>Designer</option>
+//       <option value='technical'>Technical</option>
+//       <option value='admin'>Admin</option>
+//   </select>;
+//
+// const SORTERS = {
+//   NUMBER_ASCENDING: mapper => (a, b) => mapper(a) - mapper(b),
+//   NUMBER_DESCENDING: mapper => (a, b) => mapper(b) - mapper(a),
+//   STRING_ASCENDING: mapper => (a, b) => mapper(a).localeCompare(mapper(b)),
+//   STRING_DESCENDING: mapper => (a, b) => mapper(b).localeCompare(mapper(a)),
+// };
+//
+// const getSorter = (data) => {
+//   const mapper = x => x[data.field];
+//   let sorter = SORTERS.STRING_ASCENDING(mapper);
+//
+//   if (data.field === 'id') {
+//     sorter = data.direction === 'ascending' ?
+//       SORTERS.NUMBER_ASCENDING(mapper) : SORTERS.NUMBER_DESCENDING(mapper);
+//   } else {
+//     sorter = data.direction === 'ascending' ?
+//       SORTERS.STRING_ASCENDING(mapper) : SORTERS.STRING_DESCENDING(mapper);
+//   }
+//
+//   return sorter;
+// };
+//
+//
+// let count = users.length;
+// const service = {
+//   fetchItems: async (payload) => {
+//     let result = Array.from(await users);
+//     result = result.sort(getSorter(payload.sort));
+//     return Promise.resolve(result);
+//   },
+//   create: (user) => {
+//     let tempUser = user;
+//     tempUser.roles = [user.roles]
+//     console.log("TEMP", tempUser)
+//     AuthService.registerUser(tempUser).then(
+//       (response) => {
+//         // setMessage(response.data.message);
+//         // setSuccessful(true);
+//       },
+//       (error) => {
+//         // const resMessage =
+//         //   (error.response &&
+//         //     error.response.data &&
+//         //     error.response.data.message) ||
+//         //   error.message ||
+//         //   error.toString();
+//
+//         // setMessage(resMessage);
+//         // setSuccessful(false);
+//       }
+//     );
+//     users.push({
+//       ...user,
+//       id: count,
+//     });
+//     return Promise.resolve(user);
+//   },
+//   update: (data) => {
+//     const user = users.find(t => t.id === data.id);
+//     user.firstname = data.firstname;
+//     user.lastname = data.lastname;
+//     return Promise.resolve(user);
+//   },
+//   delete: (data) => {
+//     const user = users.find(t => t.id === data.id);
+//     users = users.filter(t => t.id !== user.id);
+//     return Promise.resolve(user);
+//   },
+// };
+//
+// const styles = {
+//   container: {margin: 'auto', width: 'fit-content'},
+// };
+//
+//
+// const Register = props => {
+//   return (
+//     <div style={styles.container}>
+//       <CRUDTable
+//         caption="Users"
+//         fetchItems={payload => service.fetchItems(payload)}
+//       >
+//         <Fields>
+//           <Field
+//             name="id"
+//             label="Id"
+//             hideInCreateForm
+//             readOnly
+//           />
+//           <Field
+//             name="firstname"
+//             label="First Name"
+//             placeholder="First Name"
+//           />
+//           <Field
+//             name="lastname"
+//             label="Last Name"
+//             placeholder="Last Name"
+//             render={DescriptionRenderer}
+//           />
+//           <Field
+//             name="email"
+//             label="Email"
+//             placeholder="Email"
+//           />
+//           <Field
+//             name="password"
+//             label="Password"
+//             placeholder="Password"
+//           />
+//           <Field
+//             name="roles"
+//             label="Role"
+//             placeholder="role"
+//             render={rolesRenderer}/>
+//         </Fields>
+//         <CreateForm
+//           title="User Creation"
+//           message="Create a new user!"
+//           trigger="Create User"
+//           onSubmit={user => service.create(user)}
+//           submitText="Create"
+//           validate={(values) => {
+//             const errors = {};
+//             if (!values.firstname) {
+//               errors.firstname = 'Please, provide the user\'s first name';
+//             }
+//
+//             if (!values.lastname) {
+//               errors.lastname = 'Please, provide the user\'s last name';
+//             }
+//
+//             return errors;
+//           }}
+//         />
+//
+//         <UpdateForm
+//           title="User Update Process"
+//           message="Update User"
+//           trigger="Update"
+//           onSubmit={user => service.update(user)}
+//           submitText="Update"
+//           validate={(values) => {
+//             const errors = {};
+//
+//             if (!values.id) {
+//               errors.id = 'Please, provide id';
+//             }
+//
+//             if (!values.firstname) {
+//               errors.firstname = 'Please, provide the user\'s first name';
+//             }
+//
+//             if (!values.lastname) {
+//               errors.lastname = 'Please, provide the user\'s last name';
+//             }
+//
+//             return errors;
+//           }}
+//         />
+//
+//         <DeleteForm
+//           title="User Delete Process"
+//           message="Are you sure you want to delete the user?"
+//           trigger="Delete"
+//           onSubmit={user => service.delete(user)}
+//           submitText="Delete"
+//           validate={(values) => {
+//             const errors = {};
+//             if (!values.id) {
+//               errors.id = 'Please, provide id';
+//             }
+//             return errors;
+//           }}
+//         />
+//       </CRUDTable>
+//     </div>
+//   )
+// }
+//
+// Register.propTypes = {}
 
-let users = [
-  {
-    id: 1,
-    firstName: 'Jon',
-    lastName: 'Champ'
-  },
-  {
-    id: 2,
-    firstName: 'Mike',
-    lastName: 'Ehrmantraut'
-  }
-]
-
-const DescriptionRenderer = ({ field }) => <textarea {...field} />;
-const rolesRenderer = ({field}) =>
-  <select {...field}>
-      <option value='designer'>Designer</option>
-      <option value='technical'>Technical</option>
-      <option value='admin'>Admin</option>
-  </select>;
-
-const SORTERS = {
-  NUMBER_ASCENDING: mapper => (a, b) => mapper(a) - mapper(b),
-  NUMBER_DESCENDING: mapper => (a, b) => mapper(b) - mapper(a),
-  STRING_ASCENDING: mapper => (a, b) => mapper(a).localeCompare(mapper(b)),
-  STRING_DESCENDING: mapper => (a, b) => mapper(b).localeCompare(mapper(a)),
-};
-
-const getSorter = (data) => {
-  const mapper = x => x[data.field];
-  let sorter = SORTERS.STRING_ASCENDING(mapper);
-
-  if (data.field === 'id') {
-    sorter = data.direction === 'ascending' ?
-      SORTERS.NUMBER_ASCENDING(mapper) : SORTERS.NUMBER_DESCENDING(mapper);
-  } else {
-    sorter = data.direction === 'ascending' ?
-      SORTERS.STRING_ASCENDING(mapper) : SORTERS.STRING_DESCENDING(mapper);
-  }
-
-  return sorter;
-};
-
-
-let count = users.length;
-const service = {
-  fetchItems: (payload) => {
-    let result = Array.from(users);
-    result = result.sort(getSorter(payload.sort));
-    return Promise.resolve(result);
-  },
-  create: (user) => {
-    let tempUser = user;
-    tempUser.roles = [user.roles]
-    console.log("TEMP", tempUser)
-    AuthService.registerUser(tempUser).then(
-      (response) => {
-        // setMessage(response.data.message);
-        // setSuccessful(true);
-      },
-      (error) => {
-        // const resMessage =
-        //   (error.response &&
-        //     error.response.data &&
-        //     error.response.data.message) ||
-        //   error.message ||
-        //   error.toString();
-
-        // setMessage(resMessage);
-        // setSuccessful(false);
-      }
-    );
-    users.push({
-      ...user,
-      id: count,
-    });
-    return Promise.resolve(user);
-  },
-  update: (data) => {
-    const user = users.find(t => t.id === data.id);
-    user.firstName = data.firstName;
-    user.lastName = data.lastName;
-    return Promise.resolve(user);
-  },
-  delete: (data) => {
-    const user = users.find(t => t.id === data.id);
-    users = users.filter(t => t.id !== user.id);
-    return Promise.resolve(user);
-  },
-};
-
-const styles = {
-  container: {margin: 'auto', width: 'fit-content'},
-};
-
+import React, {useEffect, useState} from "react";
+import {useAsync} from 'react-async';
+import UserService from "../../services/users.service";
+import {Box, Container, Flex, Grid, GridItem} from "@chakra-ui/layout";
+import {Input, useBreakpointValue} from "@chakra-ui/react"
+import './Register.scss'
+import UserCount from "./UserCount/UserCount";
+import UserTable from "./UserTable/UserTable";
+import {looseIncludes} from '../../services/util.service'
+import {InputGroup, InputRightElement} from "@chakra-ui/input";
+import {AddIcon, SearchIcon} from "@chakra-ui/icons";
 
 const Register = props => {
-  return (
-    <div style={styles.container}>
-      <CRUDTable
-        caption="Users"
-        fetchItems={payload => service.fetchItems(payload)}
-      >
-        <Fields>
-          <Field
-            name="id"
-            label="Id"
-            hideInCreateForm
-            readOnly
-          />
-          <Field
-            name="firstName"
-            label="First Name"
-            placeholder="First Name"
-          />
-          <Field
-            name="lastName"
-            label="Last Name"
-            placeholder="Last Name"
-            render={DescriptionRenderer}
-          />
-          <Field
-            name="email"
-            label="Email"
-            placeholder="Email"
-          />
-          <Field
-            name="password"
-            label="Password"
-            placeholder="Password"
-          />
-          <Field
-            name="roles"
-            label="Role"
-            placeholder="role"
-            render={rolesRenderer}/>
-        </Fields>
-        <CreateForm
-          title="User Creation"
-          message="Create a new user!"
-          trigger="Create User"
-          onSubmit={user => service.create(user)}
-          submitText="Create"
-          validate={(values) => {
-            const errors = {};
-            if (!values.firstName) {
-              errors.firstName = 'Please, provide the user\'s first name';
+  const {data, error, isLoading} = useAsync({promiseFn: UserService.example})
+  const [userSearch, setUserSearch] = useState('')
+  const [filteredUsers, setFilteredUsers] = useState([])
+  const showUserCount = useBreakpointValue({base: false, 'md': true})
+
+  const handleUserInputChange = (event) => {
+    setUserSearch(event.target.value)
+  }
+
+  useEffect(() => {
+    console.log('happy')
+    const d = UserService.example()
+  }, [])
+
+  useEffect(() => {
+    if (data) {
+      return (userSearch !== '')
+        ? setFilteredUsers(looseIncludes(data.data, ['firstname', 'lastname', 'email'], userSearch))
+        : setFilteredUsers(data.data)
+    }
+  }, [data, userSearch])
+
+
+  if (isLoading) return "Loading..."
+  if (error) return `Something went wrong: ${error.message}`
+  if (data)
+    return (
+      <Container maxW="3xl" marginTop={12} marginBottom={12}>
+        <Flex direction='column'>
+          <Box mb={2}>
+            <Flex>
+              <InputGroup>
+              <Input autoFocus={true} value={userSearch} onChange={handleUserInputChange}
+                     placeholder='Search users by name or email'
+                     bg={'white'}/>
+                     <InputRightElement children={<SearchIcon />} />
+              </InputGroup>
+            </Flex>
+          </Box>
+          {/*<Divider mt={4} mb={2} />*/}
+          {/*gap={4} templateColumns="repeat(7, 1fr)"*/}
+          <Grid templateColumns={showUserCount ? 'repeat(6, 1fr)' : 'repeat(5, 1fr)'}>
+            {showUserCount ?
+              <GridItem colSpan={1} >
+                <UserCount filteredUsers={filteredUsers}/>
+              </GridItem>
+              :
+              <></>
             }
-
-            if (!values.lastName) {
-              errors.lastName = 'Please, provide the user\'s last name';
-            }
-
-            return errors;
-          }}
-        />
-
-        <UpdateForm
-          title="User Update Process"
-          message="Update User"
-          trigger="Update"
-          onSubmit={user => service.update(user)}
-          submitText="Update"
-          validate={(values) => {
-            const errors = {};
-
-            if (!values.id) {
-              errors.id = 'Please, provide id';
-            }
-
-            if (!values.firstName) {
-              errors.firstName = 'Please, provide the user\'s first name';
-            }
-
-            if (!values.lastName) {
-              errors.lastName = 'Please, provide the user\'s last name';
-            }
-
-            return errors;
-          }}
-        />
-
-        <DeleteForm
-          title="User Delete Process"
-          message="Are you sure you want to delete the user?"
-          trigger="Delete"
-          onSubmit={user => service.delete(user)}
-          submitText="Delete"
-          validate={(values) => {
-            const errors = {};
-            if (!values.id) {
-              errors.id = 'Please, provide id';
-            }
-            return errors;
-          }}
-        />
-      </CRUDTable>
-    </div>
-  )
+            <GridItem colSpan={5} >
+              <UserTable filteredUsers={filteredUsers}/>
+            </GridItem>
+          </Grid>
+        </Flex>
+      </Container>
+    )
 }
-
-Register.propTypes = {}
 
 export default Register;
 //
@@ -272,22 +347,22 @@ export default Register;
 //     const checkBtn = useRef();
 //
 //
-//     const [firstname, setFirstname] = useState("");
-//     const [lastname, setLastname] = useState("");
+//     const [firstname, setfirstname] = useState("");
+//     const [lastname, setlastname] = useState("");
 //     const [roles, setRoles] = useState([]);
 //     const [email, setEmail] = useState("");
 //     const [password, setPassword] = useState("");
 //     const [successful, setSuccessful] = useState(false);
 //     const [message, setMessage] = useState("");
 //
-//     const onChangeFirstname = (e) => {
+//     const onChangefirstname = (e) => {
 //         const firstname = e.target.value;
-//         setFirstname(firstname);
+//         setfirstname(firstname);
 //     };
 //
-//     const onChangeLastname = (e) => {
+//     const onChangelastname = (e) => {
 //         const lastname = e.target.value;
-//         setLastname(lastname);
+//         setlastname(lastname);
 //     };
 //
 //     const onChangeEmail = (e) => {
@@ -346,25 +421,25 @@ export default Register;
 //                                 <div>
 //
 //                                     <div className="form-group">
-//                                         <label htmlFor="firstname">Firstname</label>
+//                                         <label htmlFor="firstname">firstname</label>
 //                                         <Input
 //                                             type="text"
 //                                             className="form-control"
 //                                             name="firstname"
 //                                             value={firstname}
-//                                             onChange={onChangeFirstname}
+//                                             onChange={onChangefirstname}
 //                                             validations={[required, vfirstname]}
 //                                         />
 //                                     </div>
 //
 //                                     <div className="form-group">
-//                                         <label htmlFor="lastname">Lastname</label>
+//                                         <label htmlFor="lastname">lastname</label>
 //                                         <Input
 //                                             type="text"
 //                                             className="form-control"
 //                                             name="lastname"
 //                                             value={lastname}
-//                                             onChange={onChangeLastname}
+//                                             onChange={onChangelastname}
 //                                             validations={[required, vlastname]}
 //                                         />
 //                                     </div>
@@ -447,25 +522,25 @@ export default Register;
 //                         <div>
 //
 //                             <div className="form-group">
-//                                 <label htmlFor="firstname">Firstname</label>
+//                                 <label htmlFor="firstname">firstname</label>
 //                                 <Input
 //                                     type="text"
 //                                     className="form-control"
 //                                     name="firstname"
 //                                     value={firstname}
-//                                     onChange={onChangeFirstname}
+//                                     onChange={onChangefirstname}
 //                                     validations={[required, vfirstname]}
 //                                 />
 //                             </div>
 //
 //                             <div className="form-group">
-//                                 <label htmlFor="lastname">Lastname</label>
+//                                 <label htmlFor="lastname">lastname</label>
 //                                 <Input
 //                                     type="text"
 //                                     className="form-control"
 //                                     name="lastname"
 //                                     value={lastname}
-//                                     onChange={onChangeLastname}
+//                                     onChange={onChangelastname}
 //                                     validations={[required, vlastname]}
 //                                 />
 //                             </div>
