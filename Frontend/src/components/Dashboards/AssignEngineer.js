@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useState, useRef } from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import {
     Button,
+    HStack,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -11,14 +12,13 @@ import {
     Select,
     Text,
     VStack,
-    HStack,
 } from "@chakra-ui/react";
-import { useDisclosure } from "@chakra-ui/hooks";
+import {useDisclosure} from "@chakra-ui/hooks";
 import UsersService from "../../services/users.service";
 import ProjectService from "../../services/project.service";
 
 const AssignEngineer = (props) => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    const {isOpen, onOpen, onClose} = useDisclosure();
     const [allDesigners, setAllDesigners] = useState([]);
     const checkedDesigners = useRef();
 
@@ -65,10 +65,10 @@ const AssignEngineer = (props) => {
         <div>
             <Button onClick={onOpen}>Assign engineer</Button>
             <Modal isOpen={isOpen} onClose={onClose}>
-                <ModalOverlay />
+                <ModalOverlay/>
                 <ModalContent>
                     <ModalHeader>Assigning engineers to projects</ModalHeader>
-                    <ModalCloseButton />
+                    <ModalCloseButton/>
                     <ModalBody>
                         <VStack align="left">
                             <Text>Design Engineer:</Text>
