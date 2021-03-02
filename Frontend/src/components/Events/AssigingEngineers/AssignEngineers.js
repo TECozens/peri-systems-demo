@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import {
     Button,
     HStack,
@@ -17,19 +17,30 @@ import EngineerSelection from "./EngineerSelection";
 
 const AssignEngineers = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const selectedDesignEngineerId = useRef(
-        props.project.engineers.designer_id._id
-    );
-    const selectedDesignCheckerId = useRef(
-        props.project.engineers.designer_id._id
-    );
+    const selectedDesignEngineerId = useRef();
+    const selectedDesignCheckerId = useRef();
+    const initialDesigner = useRef();
+    const initialDesignChecker = useRef();
+
+    useEffect(() => {
+        if (props.project.engineers.designer_id !== null) {
+            initialDesigner.current = props.project.engineers.designer_id._id;
+            selectedDesignEngineerId.current = initialDesigner;
+        }
+
+        if (props.project.engineers.design_checker_id !== null) {
+            initialDesignChecker.current =
+                props.project.engineers.design_checker_id._id;
+            selectedDesignCheckerId.current = initialDesignChecker;
+        }
+    }, [
+        props.project.engineers.designer_id,
+        props.project.engineers.design_checker_id,
+    ]);
 
     async function handleSubmit() {
         let updatedProject;
-        if (
-            props.project.engineers.designer_id._id !==
-            selectedDesignEngineerId.current
-        ) {
+        if (initialDesigner.current !== selectedDesignEngineerId.current) {
             await ProjectService.updateProjectDesignEngineer(
                 props.project._id,
                 selectedDesignEngineerId.current
@@ -38,10 +49,7 @@ const AssignEngineers = (props) => {
             });
         }
 
-        if (
-            props.project.engineers.design_checker_id !==
-            selectedDesignCheckerId.current
-        ) {
+        if (initialDesignChecker.current !== selectedDesignCheckerId.current) {
             await ProjectService.updateProjectDesignChecker(
                 props.project._id,
                 selectedDesignCheckerId.current
@@ -96,17 +104,12 @@ const AssignEngineers = (props) => {
                             <EngineerSelection
                                 type={"Design Engineer"}
                                 onChange={handleDesignEngineerSelection}
-                                currentEngineer={
-                                    props.project.engineers.designer_id._id
-                                }
+                                currentEngineer={initialDesigner.current}
                             />
                             <EngineerSelection
                                 type={"Design Checker"}
                                 onChange={handleDesignCheckerSelection}
-                                currentEngineer={
-                                    props.project.engineers.design_checker_id
-                                        ._id
-                                }
+                                currentEngineer={initialDesignChecker.current}
                             />
                         </VStack>
                     </ModalBody>

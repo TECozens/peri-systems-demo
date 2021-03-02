@@ -148,19 +148,22 @@ router.put(
         let projectID = new mongoose.Types.ObjectId(req.params.projectID);
         let engineerID = new mongoose.Types.ObjectId(req.params.anEngineerId);
 
-        projects
-            .findById(projectID, (err, data) => {
-                if (err) {
-                    return res.json({ success: false, error: err });
-                } else {
-                    let project = data;
-                    project.engineers.design_checker_id = engineerID;
-                    project.save();
-                    return res.json({ success: true, data: data });
-                }
-            })
-            .populate("engineers.designer_id")
-            .populate("engineers.design_checker_id");
+        projects.findById(projectID, (err, data) => {
+            if (err) {
+                return res.json({ success: false, error: err });
+            } else {
+                let project = data;
+                project.engineers.design_checker_id = engineerID;
+                project.save();
+                projects
+                    .findById(projectID)
+                    .populate("engineers.design_checker_id")
+                    .populate("engineers.designer_id")
+                    .exec((err, project) => {
+                        return res.json({ success: true, data: project });
+                    });
+            }
+        });
     }
 );
 

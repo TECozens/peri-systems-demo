@@ -13,6 +13,14 @@ const ProjectList = (props) => {
         setProjects(props.projectsToDisplay);
     }, [props.projectsToDisplay]);
 
+    const returnEngineerName = (engineer) => {
+        if (engineer !== null) {
+            return engineer.firstname + " " + engineer.lastname;
+        } else {
+            return "Unassigned";
+        }
+    };
+
     if (projects.length > 0) {
         return (
             <Table
@@ -77,15 +85,14 @@ const ProjectList = (props) => {
                                 ).toLocaleDateString()}
                             </Td>
                             <Td>
-                                {project.engineers.designer_id.firstname +
-                                    " " +
-                                    project.engineers.designer_id.lastname}
+                                {returnEngineerName(
+                                    project.engineers.designer_id
+                                )}
                             </Td>
                             <Td>
-                                {project.engineers.design_checker_id.firstname +
-                                    " " +
+                                {returnEngineerName(
                                     project.engineers.design_checker_id
-                                        .lastname}
+                                )}
                             </Td>
                             <Td>
                                 {
