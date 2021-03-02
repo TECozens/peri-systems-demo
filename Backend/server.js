@@ -9,6 +9,9 @@ const server = http.createServer(app);
 const io = socketio(server);
 const cors = require("cors");
 const bodyParser = require("body-parser");
+require('dotenv').config()
+const morgan = require('morgan')
+const nodemailer = require('nodemailer')
 
 var corsOptions = {
     origin: "http://localhost:3000",
@@ -18,6 +21,10 @@ var corsOptions = {
 const router = require("./routes/router");
 const projectRouter = require("./routes/projectRoutes");
 const usersRouter = require("./routes/usersRoutes");
+
+//node mailer
+app.use(morgan('dev'));
+app.use(express.json());
 
 //middlewares
 app.use(bodyParser.json());
