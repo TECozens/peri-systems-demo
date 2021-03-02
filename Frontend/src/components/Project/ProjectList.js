@@ -1,58 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
 import UpdateStatus from "../Events/UpdateStatus";
 import ProjectView from "./ProjectView";
 import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
 import { Flex, Text } from "@chakra-ui/layout";
-import UserService from "../../services/users.service";
 
 const ProjectList = (props) => {
     let count = props.count;
     const [projects, setProjects] = useState([]);
-    const designerEngineersAndCheckers = useRef({});
-
-    const extractUserNames = (user) => {
-        let name;
-        if (user !== undefined) {
-            name = user.firstname + " " + user.lastname;
-        } else {
-            name = "Unknown";
-        }
-        return name;
-    };
-
-    const getProjectsDesignEngineersAndDesignCheckers = async (projects) => {
-        return Promise.all(
-            projects.map(async (project) => {
-                let designEngineerId = project.engineers.designer_id;
-                let designCheckerId = project.engineers.design_checker_id;
-                //getting design engineers
-                await UserService.getUserByID(designEngineerId)
-                    .then((user) => {
-                        designerEngineersAndCheckers.current[
-                            designEngineerId
-                        ] = extractUserNames(user);
-                    })
-                    //getting design checkers
-                    .then(
-                        await UserService.getUserByID(designCheckerId).then(
-                            (user) => {
-                                designerEngineersAndCheckers.current[
-                                    designCheckerId
-                                ] = extractUserNames(user);
-                            }
-                        )
-                    );
-            })
-        );
-    };
 
     useEffect(() => {
-        if (props.projectsToDisplay.length !== 0) {
-            getProjectsDesignEngineersAndDesignCheckers(
-                props.projectsToDisplay
-            ).then(() => setProjects(props.projectsToDisplay));
-        }
+        setProjects(props.projectsToDisplay);
     }, [props.projectsToDisplay]);
 
     if (projects.length > 0) {
@@ -109,11 +67,7 @@ const ProjectList = (props) => {
                 </Thead>
                 <Tbody>
                     {projects.map((project) => (
-                        <Tr
-                            topBorder="1px"
-                            borderColor="#E2DCCD"
-                            key={project.name}
-                        >
+                        <Tr borderColor="#E2DCCD" key={project.name}>
                             <Td>{project.number}</Td>
                             <Td>{project.name}</Td>
                             <Td>{project.client}</Td>
@@ -123,18 +77,15 @@ const ProjectList = (props) => {
                                 ).toLocaleDateString()}
                             </Td>
                             <Td>
-                                {
-                                    designerEngineersAndCheckers.current[
-                                        project.engineers.designer_id
-                                    ]
-                                }
+                                {project.engineers.designer_id.firstname +
+                                    " " +
+                                    project.engineers.designer_id.lastname}
                             </Td>
                             <Td>
-                                {
-                                    designerEngineersAndCheckers.current[
-                                        project.engineers.design_checker_id
-                                    ]
-                                }
+                                {project.engineers.design_checker_id.firstname +
+                                    " " +
+                                    project.engineers.design_checker_id
+                                        .lastname}
                             </Td>
                             <Td>
                                 {

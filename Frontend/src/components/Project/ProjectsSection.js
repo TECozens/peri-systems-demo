@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import AuthService from "../../services/auth.service";
 import ProjectFilter from "./ProjectFilter";
 import ProjectList from "./ProjectList";
@@ -11,14 +11,14 @@ const ProjectsSection = () => {
     const [projectsDisplayed, setProjectsDisplayed] = useState([]);
     let count = 0;
 
-    const getProjects = () => {
-        ProjectService.getProjectByEngineerID(authenticatedUser.id).then(
-            (projects) => {
-                unfilteredProjects.current = projects;
-                setProjectsDisplayed(projects);
-            }
-        );
-    };
+    const getProjects = useCallback(() => {
+        ProjectService.getProjectsWithDesignEngineersByEngineerID(
+            authenticatedUser.id
+        ).then((projects) => {
+            unfilteredProjects.current = projects;
+            setProjectsDisplayed(projects);
+        });
+    }, [authenticatedUser.id]);
 
     const updateUnfilteredProjects = (projectUpdated) => {
         let indexOfItemToUpdate = unfilteredProjects.current.findIndex(
@@ -30,7 +30,7 @@ const ProjectsSection = () => {
 
     useEffect(() => {
         getProjects();
-    }, [authenticatedUser.id]);
+    }, [getProjects]);
 
     return (
         <Flex>
