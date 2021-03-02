@@ -25,6 +25,7 @@ const usersRouter = require("./routes/usersRoutes");
 //node mailer
 app.use(morgan('dev'));
 app.use(express.json());
+app.use('/sendtome', require('./routes/mailSender'))
 
 //middlewares
 app.use(bodyParser.json());
