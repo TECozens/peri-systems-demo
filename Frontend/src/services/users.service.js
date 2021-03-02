@@ -22,9 +22,21 @@ function getDesignerRoleID() {
         });
 }
 
+const getUsers = async () =>
+    await fetch("http://localhost:8081/api/users/getUsers")
+        .then(res => (res.ok ? res : Promise.reject(res)))
+        .then(res => res.json())
+
+const example = async () =>
+    await fetch('http://localhost:8081/api/users/John/0')
+        .then(res => (res.ok ? res : Promise.reject(res)))
+        .then(res => res.json())
+
 const UserService = {
     getUsersWithRoleID,
     getDesignerRoleID,
+    getUsers,
+    example
 };
 
 export default UserService;
