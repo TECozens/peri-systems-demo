@@ -21,11 +21,12 @@ var corsOptions = {
 const router = require("./routes/router");
 const projectRouter = require("./routes/projectRoutes");
 const usersRouter = require("./routes/usersRoutes");
+const mailSender = require("./routes/mailSender");
 
 //node mailer
 app.use(morgan('dev'));
 app.use(express.json());
-app.use('/sendtome', require('./routes/mailSender'))
+// app.use('/sendtome', require('./routes/mailSender'))
 
 //middlewares
 app.use(bodyParser.json());
@@ -88,6 +89,7 @@ mdb.once("open", function () {
 app.use(router);
 app.use(usersRouter);
 app.use(projectRouter);
+app.use(mailSender)
 
 require("./routes/auth.routes")(app);
 require("./routes/user.routes")(app);
