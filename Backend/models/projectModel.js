@@ -24,6 +24,10 @@ const projectModel = new Schema({
       value: String,
     },
   ],
+  roles: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Customer",
+    },
 });
 
 // export the new Schema so we could modify it using Node.js
