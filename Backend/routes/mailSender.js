@@ -30,8 +30,8 @@ mailSenderRouter.post('/api/sendmail', (req,res, next) => {
     const mail = {
         from: process.env.THE_EMAIL,
         to: req.body.email,
-        subject: "Status update on your order",
-        text: 'status has been updated',
+        subject: "Dear " + req.body.name +  " - Status update on your order",
+        text: 'Your project status has been updated. You can access your project timeline at localhost:3000/timeline/' + req.body.projectId,
         // subject: req.body.subject,
         // text: `
       // from:

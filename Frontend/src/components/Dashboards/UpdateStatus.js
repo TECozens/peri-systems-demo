@@ -56,14 +56,11 @@ const UpdateStatus = (props) => {
 
 
         if (typeof projects !== 'undefined') {
-            console.log("name ISSS");
-            console.log(projects.customer[0].name);
-            ProjectService.sendMail(projects.customer[0].name, projects.customer[0].email).then(
+            ProjectService.sendMail(projects.customer.name, projects.customer.email, props.projectId).then(
                 (response) => {
                     // setMessage(response.data.message);
                     // setSuccessful(true);
                     console.log("mail sent");
-                    console.log(projects.customer.length);
                 },
                 (error) => {
                     const resMessage =

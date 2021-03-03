@@ -137,7 +137,6 @@ router.get(
             if (err) {
                 return res.json({ success: false, error: err });
             } else {
-                console.log('The customer is %s', data.customer.name);
                 return res.json({ success: true, data: data });
                 // prints "The author is Ian Fleming", (err, data) => {
             }
