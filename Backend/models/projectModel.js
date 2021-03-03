@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// this will be our data base's data structure
 const projectModel = new Schema({
     _id: Schema.Types.ObjectId,
     number: String,
@@ -18,7 +17,11 @@ const projectModel = new Schema({
     },
     date_required: Date,
     anticipated_date: Date,
-    status: [
+    status: {
+        time_set: Date,
+        value: String,
+    },
+    status_history: [
         {
             time_set: Date,
             value: String,

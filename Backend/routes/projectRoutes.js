@@ -9,6 +9,7 @@ jsonParser = bodyParser.json();
 
 router.post("/addProject", jsonParser, (req, res) => {
     let newProject = new projects();
+    let status = { time_set: new Date(), value: req.body.status };
     newProject._id = new mongoose.Types.ObjectId();
     newProject.number = req.body.number;
     newProject.name = req.body.name;
@@ -24,7 +25,8 @@ router.post("/addProject", jsonParser, (req, res) => {
     newProject.engineers.design_checker_id = req.body.design_checker_id;
     newProject.date_required = req.body.date_required;
     newProject.anticipated_date = req.body.anticipated_date;
-    newProject.status.push({ time_set: new Date(), value: req.body.status });
+    newProject.status = status;
+    newProject.status_history.push(status);
 
     newProject.save((err) => {
         if (err) return res.json({ success: false, error: err });
@@ -127,14 +129,7 @@ router.get(
                 filters["date_required"]["$lt"] = new Date(
                     req.query[filterNames[i]]
                 );
-            }
-            // else if (filterNames[i] === "status") {
-            //     filters[filterNames[i]] = {
-            //         $arrayElemAt: ["$status", -1],
-            //         value: req.query[filterNames[i]],
-            //     };
-            // }
-            else {
+            } else {
                 filters[filterNames[i]] = {
                     $regex: req.query[filterNames[i]],
                     $options: "i",
@@ -166,10 +161,12 @@ router.put(
                     return res.json({ success: false, error: err });
                 } else {
                     let project = data;
-                    project.status.push({
+                    let status = {
                         time_set: new Date(),
                         value: req.params.aStatus,
-                    });
+                    };
+                    project.status_history.push(status);
+                    project.status = status;
                     project.save();
                     return res.json({ success: true, data: data });
                 }
@@ -194,7 +191,14 @@ router.put(
                     let project = data;
                     project.engineers.designer_id = engineerID;
                     project.save();
-                    return res.json({ success: true, data: data });
+
+                    projects
+                        .findById(projectID)
+                        .populate("engineers.design_checker_id")
+                        .populate("engineers.designer_id")
+                        .exec((err, project) => {
+                            return res.json({ success: true, data: project });
+                        });
                 }
             })
             .populate("engineers.designer_id")

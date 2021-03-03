@@ -96,21 +96,12 @@ const ProjectList = (props) => {
                                     project.engineers.design_checker_id
                                 )}
                             </Td>
-                            <Td>
-                                {
-                                    project.status[project.status.length - 1]
-                                        .value
-                                }
-                            </Td>
+                            <Td>{project.status.value}</Td>
                             <Td isNumeric>
                                 <Flex flexShrink="auto">
                                     <UpdateStatus
                                         count={count}
-                                        projectStatus={
-                                            project.status[
-                                                project.status.length - 1
-                                            ].value
-                                        }
+                                        projectStatus={project.status.value}
                                         projectId={project._id}
                                         updateParent={props.updateParent}
                                     />

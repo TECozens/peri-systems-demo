@@ -16,6 +16,7 @@ import ProjectFilteringService from "../../services/project.filtering.service";
 const ProjectFilter = (props) => {
     let filters = useRef({});
     const [statusOptions, setStatusOptions] = useState();
+    let firstRender = useRef(true);
 
     let count = props.count;
 
@@ -23,10 +24,7 @@ const ProjectFilter = (props) => {
         if (projectList !== undefined) {
             setStatusOptions(
                 projectList
-                    .map(
-                        (project) =>
-                            project.status[project.status.length - 1].value
-                    )
+                    .map((project) => project.status.value)
                     .filter(
                         (value, index, self) => self.indexOf(value) === index
                     )
@@ -68,7 +66,13 @@ const ProjectFilter = (props) => {
     }
 
     useEffect(() => {
-        getUniqueStatusFromProjects(props.projectsDisplayed);
+        if (
+            firstRender.current === true &&
+            props.projectsDisplayed.length !== 0
+        ) {
+            firstRender.current = false;
+            getUniqueStatusFromProjects(props.projectsDisplayed);
+        }
     }, [props.projectsDisplayed]);
 
     return (
@@ -150,7 +154,7 @@ const ProjectFilter = (props) => {
                     placeholder="Select a status"
                     name="project_status"
                     onChange={(e) =>
-                        handleFilterChange("status", e.target.value)
+                        handleFilterChange("status.value", e.target.value)
                     }
                     value={filters.current.status}
                     bg={"brand.background"}

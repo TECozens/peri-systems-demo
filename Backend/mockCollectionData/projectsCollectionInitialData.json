@@ -20,7 +20,7 @@
                 "$oid": "6026d7e2e01f86192c9a5789"
             },
             "design_checker_id": {
-                "$oid": "6026d7c4e01f86192c9a5785"
+                "$oid": "6026dec65552793088002180"
             }
         },
         "date_required": {
@@ -29,7 +29,16 @@
         "anticipated_date": {
             "$date": "2021-02-09T12:00:00Z"
         },
-        "status": [
+        "status": {
+            "_id": {
+                "$oid": "60361da558cdf53c601c187b"
+            },
+            "time_set": {
+                "$date": "2021-02-24T09:34:29.220Z"
+            },
+            "value": "Project Complete"
+        },
+        "status_history": [
             {
                 "_id": {
                     "$oid": "601c0716a5dabc0e7ca78ee7"
@@ -99,7 +108,7 @@
                 "$oid": "6026d7e2e01f86192c9a5789"
             },
             "design_checker_id": {
-                "$oid": "6026d7c4e01f86192c9a5785"
+                "$oid": "6026df2436b199338c2ec570"
             }
         },
         "date_required": {
@@ -108,7 +117,16 @@
         "anticipated_date": {
             "$date": "2021-03-01T12:00:00Z"
         },
-        "status": [
+        "status": {
+            "_id": {
+                "$oid": "60361b1258cdf53c601c1879"
+            },
+            "time_set": {
+                "$date": "2021-02-24T09:23:30.423Z"
+            },
+            "value": "Design Complete"
+        },
+        "status_history": [
             {
                 "_id": {
                     "$oid": "601c08dca5dabc0e7ca78ef4"
@@ -166,7 +184,7 @@
                 "$oid": "6026dec65552793088002180"
             },
             "designer_id": {
-                "$oid": "6026d7c4e01f86192c9a5785"
+                "$oid": "6026d7e2e01f86192c9a5789"
             },
             "design_checker_id": {
                 "$oid": "6026df2436b199338c2ec570"
@@ -178,7 +196,16 @@
         "anticipated_date": {
             "$date": "2021-02-21T12:00:00Z"
         },
-        "status": [
+        "status": {
+            "_id": {
+                "$oid": "601c08b3a5dabc0e7ca78ef2"
+            },
+            "time_set": {
+                "$date": "2021-02-03T10:00:00Z"
+            },
+            "value": "Preliminary Design Ongoing"
+        },
+        "status_history": [
             {
                 "_id": {
                     "$oid": "601c08b3a5dabc0e7ca78ef1"
@@ -230,7 +257,16 @@
         "anticipated_date": {
             "$date": "2021-03-01T12:00:00Z"
         },
-        "status": [
+        "status": {
+            "_id": {
+                "$oid": "603541bac895b03b9c03bc01"
+            },
+            "time_set": {
+                "$date": "2021-02-23T17:56:10.273Z"
+            },
+            "value": "Design Pending"
+        },
+        "status_history": [
             {
                 "_id": {
                     "$oid": "601c08cea5dabc0e7ca78ef3"

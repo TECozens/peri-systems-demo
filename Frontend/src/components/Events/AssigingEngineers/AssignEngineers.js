@@ -25,13 +25,13 @@ const AssignEngineers = (props) => {
     useEffect(() => {
         if (props.project.engineers.designer_id !== null) {
             initialDesigner.current = props.project.engineers.designer_id._id;
-            selectedDesignEngineerId.current = initialDesigner;
+            selectedDesignEngineerId.current = initialDesigner.current;
         }
 
         if (props.project.engineers.design_checker_id !== null) {
             initialDesignChecker.current =
                 props.project.engineers.design_checker_id._id;
-            selectedDesignCheckerId.current = initialDesignChecker;
+            selectedDesignCheckerId.current = initialDesignChecker.current;
         }
     }, [
         props.project.engineers.designer_id,

@@ -71,13 +71,11 @@ const BoardTechnical = () => {
                             ]
                         }
                     </Td>
-                    <Td>{data.status[data.status.length - 1].value}</Td>
+                    <Td>{data.status.value}</Td>
                     <Td isNumeric>
                         <UpdateStatus
                             count={count}
-                            projectStatus={
-                                data.status[data.status.length - 1].value
-                            }
+                            projectStatus={data.status.value}
                             projectId={data._id}
                             updateParent={
                                 getProjectsSetStatusOptionsAndFilterIfNeeded
@@ -169,7 +167,7 @@ const BoardTechnical = () => {
             }
             if (key === "status") {
                 displayedProjects = displayedProjects.filter((project) =>
-                    project.status[project.status.length - 1].value
+                    project.status.value
                         .toLowerCase()
                         .includes(value.toLowerCase())
                 );
@@ -234,7 +232,7 @@ const BoardTechnical = () => {
 
     function getUniqueStatusFromProjects() {
         statusOptions.current = unfilteredProjects.current
-            .map((project) => project.status[project.status.length - 1].value)
+            .map((project) => project.status.value)
             .filter((value, index, self) => self.indexOf(value) === index);
     }
 
