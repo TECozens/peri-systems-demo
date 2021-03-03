@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from "react";
 import {Td, Tr, Tbody, Thead, Th, Table, Tfoot} from "@chakra-ui/table";
-import React, { useEffect, useState } from "react";
 import UpdateStatus from "../Events/UpdateStatus";
 import {Button, useBreakpoint, useBreakpointValue} from "@chakra-ui/react";
 import ProjectView from "./ProjectView";
@@ -20,7 +19,7 @@ const ProjectList = (props) => {
 
     useEffect(() => {
 
-    },[currPage])
+    }, [currPage])
 
 
     useEffect(() => {
@@ -101,53 +100,18 @@ const ProjectList = (props) => {
                                     }
                                     projectId={project._id}
                                     updateParent={props.updateParent}
-
-                                >
-
-                                    <Button
-                                        width="full"
-                                        size={projectBreakpoint}
-                                        m={2}
-                                        border="2px"
-                                        color="brand.background"
-                                        bg="brand.grey"
-                                        borderColor="brand.pink"
-                                        _hover={{bg: "brand.pink", borderColor: "brand.grey"}}>
-                                        Update Status
-                                    </Button>
-                                </UpdateStatus>
+                                />
 
                                 {props.authenticatedRole.includes("ROLE_TECHNICAL") &&
                                 <AssignEngineers
                                     updateParent={props.updateParent}
-                                    project={project}>
-
-                                    <Button
-                                        width="full"
-                                        m={2}
-                                        size={projectBreakpoint}
-                                        border="2px"
-                                        color="brand.background"
-                                        bg="brand.grey"
-                                        borderColor="brand.pink"
-                                        _hover={{bg: "brand.pink", borderColor: "brand.grey"}}>
-                                        Assign Engineers
-                                    </Button>
-                                </AssignEngineers>
+                                    project={project}
+                                />
                                 }
 
-                                <ProjectView project={project}>
-                                    <Button
-                                        m={2}
-                                        border="2px"
-                                        size={projectBreakpoint}
-                                        width="full"
-                                        color="brand.background"
-                                        bg="brand.grey" borderColor="brand.pink"
-                                        _hover={{bg: "brand.pink", borderColor: "brand.grey"}}>
-                                        View
-                                    </Button>
-                                </ProjectView>
+                                <ProjectView
+                                    project={project}
+                                />
                             </Td>
                         </Tr>
                     ))}
