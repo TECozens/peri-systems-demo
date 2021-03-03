@@ -1,20 +1,10 @@
-import React, { useRef, useState } from "react";
-import {
-    Box,
-    Button,
-    Flex,
-    FormControl,
-    FormLabel,
-    Heading,
-    Input,
-    SimpleGrid,
-    Image,
-} from "@chakra-ui/react";
-import ".././App.css";
-import Info from ".././icons/Perinfo.png";
+import React, {useRef, useState} from "react";
+import {Box, Button, Flex, FormControl, FormLabel, Heading, Input, SimpleGrid, Image} from "@chakra-ui/react"
+import '../../App.css';
+import Info from '../../icons/Perinfo.png'
 import Form from "react-validation/build/form";
 import CheckButton from "react-validation/build/button";
-import AuthService from "../services/auth.service";
+import AuthService from "../../services/auth.service";
 
 //NOTE Could be Unnecessary
 const required = (value) => {

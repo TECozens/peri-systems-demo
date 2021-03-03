@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import {
     Button,
     HStack,
@@ -8,7 +8,7 @@ import {
     ModalContent,
     ModalFooter,
     ModalHeader,
-    ModalOverlay,
+    ModalOverlay, useBreakpointValue,
     VStack,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/hooks";
@@ -17,37 +17,53 @@ import EngineerSelection from "./EngineerSelection";
 
 const AssignEngineers = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const selectedDesignEngineerId = useRef(
-        props.project.engineers.designer_id
-    );
-    const selectedDesignCheckerId = useRef(props.project.engineers.designer_id);
+    const selectedDesignEngineerId = useRef();
+    const selectedDesignCheckerId = useRef();
+    const initialDesigner = useRef();
+    const initialDesignChecker = useRef();
+    const projectBreakpoint = useBreakpointValue({base: "sm", lg: "md"})
+
+
+    useEffect(() => {
+        if (props.project.engineers.designer_id !== null) {
+            initialDesigner.current = props.project.engineers.designer_id._id;
+            selectedDesignEngineerId.current = initialDesigner;
+        }
+
+        if (props.project.engineers.design_checker_id !== null) {
+            initialDesignChecker.current =
+                props.project.engineers.design_checker_id._id;
+            selectedDesignCheckerId.current = initialDesignChecker;
+        }
+    }, [
+        props.project.engineers.designer_id,
+        props.project.engineers.design_checker_id,
+    ]);
 
     async function handleSubmit() {
-        let updateWasMade = false;
-        if (
-            props.project.engineers.designer_id !==
-            selectedDesignEngineerId.current
-        ) {
+        let updatedProject;
+        if (initialDesigner.current !== selectedDesignEngineerId.current) {
             await ProjectService.updateProjectDesignEngineer(
                 props.project._id,
                 selectedDesignEngineerId.current
-            ).then(() => (updateWasMade = true));
+            ).then((project) => {
+                updatedProject = project;
+            });
         }
 
-        if (
-            props.project.engineers.design_checker_id !==
-            selectedDesignCheckerId.current
-        ) {
+        if (initialDesignChecker.current !== selectedDesignCheckerId.current) {
             await ProjectService.updateProjectDesignChecker(
                 props.project._id,
                 selectedDesignCheckerId.current
-            ).then(() => (updateWasMade = true));
+            ).then((project) => {
+                updatedProject = project;
+            });
         }
 
         onClose();
 
-        if (updateWasMade) {
-            props.updateParent();
+        if (updatedProject !== undefined) {
+            props.updateParent(updatedProject);
         }
     }
 
@@ -65,9 +81,21 @@ const AssignEngineers = (props) => {
 
     return (
         <div key={"assign_engineer_modal"}>
-            <Button mt={2} onClick={onOpen}>
-                Assign engineer
+            <Button
+                width="full"
+                m={2}
+                size={projectBreakpoint}
+                border="2px"
+                color="brand.background"
+                bg="brand.grey"
+                borderColor="brand.pink"
+                _hover={{bg: "brand.pink", borderColor: "brand.grey"}}
+                onClick={onOpen}
+            >
+                Assign Engineers
             </Button>
+
+
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
@@ -78,16 +106,12 @@ const AssignEngineers = (props) => {
                             <EngineerSelection
                                 type={"Design Engineer"}
                                 onChange={handleDesignEngineerSelection}
-                                currentEngineer={
-                                    props.project.engineers.designer_id
-                                }
+                                currentEngineer={initialDesigner.current}
                             />
                             <EngineerSelection
                                 type={"Design Checker"}
                                 onChange={handleDesignCheckerSelection}
-                                currentEngineer={
-                                    props.project.engineers.design_checker_id
-                                }
+                                currentEngineer={initialDesignChecker.current}
                             />
                         </VStack>
                     </ModalBody>

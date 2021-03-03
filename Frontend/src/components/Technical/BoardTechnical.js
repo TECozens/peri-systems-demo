@@ -17,9 +17,9 @@ import AuthService from "../../services/auth.service";
 import { Search2Icon } from "@chakra-ui/icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import AssignEngineers from "./AssigingEngineers/AssignEngineers";
+import UpdateStatus from "../Events/UpdateStatus";
+import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
 import ProjectView from "../Project/ProjectView";
-import UpdateStatus from "./UpdateStatus";
 import UserService from "../../services/users.service";
 
 

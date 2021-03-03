@@ -67,24 +67,55 @@ router.get(
     }
 );
 
+router.get(
+    "/api/projects/getProjectsWithDesignEngineersByEngineerID/:engineerID",
+    jsonParser,
+    (req, res) => {
+        let engineerId = new mongoose.Types.ObjectId(req.params.engineerID);
+        projects
+            .find(
+                {
+                    $or: [
+                        { "engineers.sales_engineer_id": engineerId },
+                        { "engineers.technical_lead_id": engineerId },
+                        { "engineers.designer_id": engineerId },
+                        { "engineers.design_checker_id": engineerId },
+                    ],
+                },
+                (err, data) => {
+                    if (err) {
+                        return res.json({ success: false, error: err });
+                    } else {
+                        return res.json({ success: true, data: data });
+                    }
+                }
+            )
+            .populate("engineers.designer_id")
+            .populate("engineers.design_checker_id");
+    }
+);
+
 router.put(
     "/api/projects/updateProjectStatus/:projectID/:aStatus",
     jsonParser,
     (req, res) => {
         let designerId = new mongoose.Types.ObjectId(req.params.projectID);
-        projects.findById(designerId, (err, data) => {
-            if (err) {
-                return res.json({ success: false, error: err });
-            } else {
-                let project = data;
-                project.status.push({
-                    time_set: new Date(),
-                    value: req.params.aStatus,
-                });
-                project.save();
-                return res.json({ success: true, data: data });
-            }
-        });
+        projects
+            .findById(designerId, (err, data) => {
+                if (err) {
+                    return res.json({ success: false, error: err });
+                } else {
+                    let project = data;
+                    project.status.push({
+                        time_set: new Date(),
+                        value: req.params.aStatus,
+                    });
+                    project.save();
+                    return res.json({ success: true, data: data });
+                }
+            })
+            .populate("engineers.designer_id")
+            .populate("engineers.design_checker_id");
     }
 );
 
@@ -95,16 +126,19 @@ router.put(
         let projectID = new mongoose.Types.ObjectId(req.params.projectID);
         let engineerID = new mongoose.Types.ObjectId(req.params.anEngineerId);
 
-        projects.findById(projectID, (err, data) => {
-            if (err) {
-                return res.json({ success: false, error: err });
-            } else {
-                let project = data;
-                project.engineers.designer_id = engineerID;
-                project.save();
-                return res.json({ success: true, data: data });
-            }
-        });
+        projects
+            .findById(projectID, (err, data) => {
+                if (err) {
+                    return res.json({ success: false, error: err });
+                } else {
+                    let project = data;
+                    project.engineers.designer_id = engineerID;
+                    project.save();
+                    return res.json({ success: true, data: data });
+                }
+            })
+            .populate("engineers.designer_id")
+            .populate("engineers.design_checker_id");
     }
 );
 router.put(
@@ -121,7 +155,13 @@ router.put(
                 let project = data;
                 project.engineers.design_checker_id = engineerID;
                 project.save();
-                return res.json({ success: true, data: data });
+                projects
+                    .findById(projectID)
+                    .populate("engineers.design_checker_id")
+                    .populate("engineers.designer_id")
+                    .exec((err, project) => {
+                        return res.json({ success: true, data: project });
+                    });
             }
         });
     }
