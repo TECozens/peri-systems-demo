@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useRef, useState} from "react";
 import {Td, Tr, Tbody, Thead, Th, Table, Tfoot} from "@chakra-ui/table";
+import React, { useEffect, useState } from "react";
 import UpdateStatus from "../Events/UpdateStatus";
-import {Button} from "@chakra-ui/react";
+import {Button, useBreakpoint, useBreakpointValue} from "@chakra-ui/react";
 import ProjectView from "./ProjectView";
 import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
 import {Flex, Box, Text, Spacer} from "@chakra-ui/layout";
-import {useBreakpoint, useBreakpointValue} from "@chakra-ui/react";
 import {Link} from "react-router-dom";
 
 const ProjectList = (props) => {
@@ -13,15 +13,29 @@ const ProjectList = (props) => {
     const projectBreakpoint = useBreakpointValue({base: "sm", lg: "md"})
     const resultsPerPage = 10
     const [currPage, setCurrPage] = useState(1)
+    const [projects, setProjects] = useState([]);
+
     const tableSizing = useBreakpoint("")
-    const projects = props.projectsToDisplay;
+    // const projects = props.projectsToDisplay;
 
     useEffect(() => {
 
     },[currPage])
 
 
-    if (props.projectsToDisplay.length > 0) {
+    useEffect(() => {
+        setProjects(props.projectsToDisplay);
+    }, [props.projectsToDisplay]);
+
+    const returnEngineerName = (engineer) => {
+        if (engineer !== null) {
+            return engineer.firstname + " " + engineer.lastname;
+        } else {
+            return "Unassigned";
+        }
+    };
+
+    if (projects.length > 0) {
         return (
             <Table size={projectBreakpoint} bg="brand.background" boxShadow="dark-lg">
                 <Thead>
@@ -86,9 +100,8 @@ const ProjectList = (props) => {
                                             .value
                                     }
                                     projectId={project._id}
-                                    updateParent={console.log(
-                                        "update parent function"
-                                    )}
+                                    updateParent={props.updateParent}
+
                                 >
 
                                     <Button
@@ -106,7 +119,7 @@ const ProjectList = (props) => {
 
                                 {props.authenticatedRole.includes("ROLE_TECHNICAL") &&
                                 <AssignEngineers
-                                    updateParent={console.log("updateProjectSection")}
+                                    updateParent={props.updateParent}
                                     project={project}>
 
                                     <Button

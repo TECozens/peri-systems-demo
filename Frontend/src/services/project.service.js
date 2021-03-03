@@ -27,10 +27,10 @@ function getTechnicalProjects(userId) {
         });
 }
 
-function getProjectByEngineerID(engineerId) {
+function getProjectsWithDesignEngineersByEngineerID(engineerId) {
     return axios
         .get(
-            "http://localhost:8081/api/projects/getProjectByEngineerID/" +
+            "http://localhost:8081/api/projects/getProjectsWithDesignEngineersByEngineerID/" +
                 engineerId
         )
         .then(function (response) {
@@ -100,12 +100,14 @@ function updateProjectDesignChecker(projectId, engineerId) {
         });
 }
 
-export default {
+const ProjectService = {
     getDesignerProjects,
     getTechnicalProjects,
-    getProjectByEngineerID,
+    getProjectsWithDesignEngineersByEngineerID,
     updateProjectStatus,
     getProjectByID,
     updateProjectDesignEngineer,
     updateProjectDesignChecker,
 };
+
+export default ProjectService;

@@ -26,8 +26,8 @@ const UpdateStatus = (props) => {
 
     function handleSubmit() {
         ProjectService.updateProjectStatus(props.projectId, statusSelected)
-            .then(onClose)
-            .then(props.updateParent);
+            .then((updatedProject) => props.updateParent(updatedProject))
+            .then(onClose);
     }
 
     function handleClose() {
@@ -57,9 +57,21 @@ const UpdateStatus = (props) => {
 
     return (
         <div key={count++}>
-            <div onClick={onOpen}>
-                {props.children}
-            </div>
+            <Button
+                size="md"
+                m={2}
+                border="2px"
+                color="brand.background"
+                bg="brand.grey"
+                borderColor="brand.pink"
+                _hover={{
+                    bg: "brand.pink",
+                    borderColor: "brand.grey",
+                }}
+                onClick={onOpen}
+            >
+                Update Status
+            </Button>
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />

@@ -1,29 +1,36 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import AuthService from "../../services/auth.service";
 import ProjectFilter from "./ProjectFilter";
 import ProjectList from "./ProjectList";
 import ProjectService from "../../services/project.service";
-import {Table, Tbody, Th, Thead, Tr} from "@chakra-ui/table";
-import {Text, Flex, Box} from "@chakra-ui/layout";
+import { Box, Flex, Text } from "@chakra-ui/layout";
 
-const ProjectsSection = (props) => {
+const ProjectsSection = () => {
     let authenticatedUser = AuthService.getCurrentUser();
     let unfilteredProjects = useRef();
     const [projectsDisplayed, setProjectsDisplayed] = useState([]);
     let count = 0;
 
-    const getProjects = () => {
-        ProjectService.getProjectByEngineerID(authenticatedUser.id).then(
-            (projects) => {
-                unfilteredProjects.current = projects;
-                setProjectsDisplayed(projects);
-            }
+    const getProjects = useCallback(() => {
+        ProjectService.getProjectsWithDesignEngineersByEngineerID(
+            authenticatedUser.id
+        ).then((projects) => {
+            unfilteredProjects.current = projects;
+            setProjectsDisplayed(projects);
+        });
+    }, [authenticatedUser.id]);
+
+    const updateUnfilteredProjects = (projectUpdated) => {
+        let indexOfItemToUpdate = unfilteredProjects.current.findIndex(
+            (x) => x._id === projectUpdated._id
         );
+        unfilteredProjects.current[indexOfItemToUpdate] = projectUpdated;
+        setProjectsDisplayed([...unfilteredProjects.current]);
     };
 
     useEffect(() => {
         getProjects();
-    }, [authenticatedUser.id]);
+    }, [getProjects]);
 
     return (
         <Flex>
@@ -35,14 +42,18 @@ const ProjectsSection = (props) => {
                 </Box>
 
                 <Box>
-                    <ProjectFilter projectsToFilter={unfilteredProjects.current}/>
+                    <ProjectFilter
+                        projectsToFilter={unfilteredProjects.current}
+                    />
                 </Box>
 
                 <Box height="auto" width="auto"  m={0} bg="brand.background">
                     <ProjectList
                         projectsToDisplay={projectsDisplayed}
                         count={count}
-                        authenticatedRole={authenticatedUser.roles}/>
+                        authenticatedRole={authenticatedUser.roles}
+                        updateParent={updateUnfilteredProjects}
+                    />
                 </Box>
 
             </Box>
