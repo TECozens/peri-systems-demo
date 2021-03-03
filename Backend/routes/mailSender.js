@@ -25,7 +25,7 @@ transporter.verify((error, success) => {
     }
 });
 
-mailSenderRouter.get('/api/sendmail', (req,res, next) => {
+mailSenderRouter.post('/api/sendmail', (req,res, next) => {
     //make mailable object
     const mail = {
         from: process.env.THE_EMAIL,
