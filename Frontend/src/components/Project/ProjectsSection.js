@@ -44,7 +44,9 @@ const ProjectsSection = () => {
                 <Box>
                     <ProjectFilter
                         count={count}
+                        authenticatedId={authenticatedUser.id}
                         projectsDisplayed={projectsDisplayed}
+                        setProjectsParent={setProjectsDisplayed}
                     />
                 </Box>
 

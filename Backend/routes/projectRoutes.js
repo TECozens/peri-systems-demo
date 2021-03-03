@@ -95,6 +95,66 @@ router.get(
     }
 );
 
+router.get(
+    "/api/projects/filter/getProjectsWithDesignEngineersByEngineerID/:engineerID",
+    jsonParser,
+    (req, res) => {
+        let engineerId = new mongoose.Types.ObjectId(req.params.engineerID);
+
+        let filters = {
+            $or: [
+                { "engineers.sales_engineer_id": engineerId },
+                { "engineers.technical_lead_id": engineerId },
+                { "engineers.designer_id": engineerId },
+                { "engineers.design_checker_id": engineerId },
+            ],
+        };
+
+        let filterNames = Object.keys(req.query);
+
+        for (let i = 0; i < filterNames.length; i++) {
+            if (filterNames[i] === "from_date") {
+                if (filters["date_required"] === undefined) {
+                    filters["date_required"] = {};
+                }
+                filters["date_required"]["$gte"] = new Date(
+                    req.query[filterNames[i]]
+                );
+            } else if (filterNames[i] === "to_date") {
+                if (filters["date_required"] === undefined) {
+                    filters["date_required"] = {};
+                }
+                filters["date_required"]["$lt"] = new Date(
+                    req.query[filterNames[i]]
+                );
+            }
+            // else if (filterNames[i] === "status") {
+            //     filters[filterNames[i]] = {
+            //         $arrayElemAt: ["$status", -1],
+            //         value: req.query[filterNames[i]],
+            //     };
+            // }
+            else {
+                filters[filterNames[i]] = {
+                    $regex: req.query[filterNames[i]],
+                    $options: "i",
+                };
+            }
+        }
+
+        projects
+            .find(filters, (err, data) => {
+                if (err) {
+                    return res.json({ success: false, error: err });
+                } else {
+                    return res.json({ success: true, data: data });
+                }
+            })
+            .populate("engineers.designer_id")
+            .populate("engineers.design_checker_id");
+    }
+);
+
 router.put(
     "/api/projects/updateProjectStatus/:projectID/:aStatus",
     jsonParser,

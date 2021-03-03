@@ -10,7 +10,9 @@ const ProjectList = (props) => {
     const [projects, setProjects] = useState([]);
 
     useEffect(() => {
-        setProjects(props.projectsToDisplay);
+        if (props.projectsToDisplay !== undefined) {
+            setProjects(props.projectsToDisplay);
+        }
     }, [props.projectsToDisplay]);
 
     const returnEngineerName = (engineer) => {

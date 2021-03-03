@@ -11,24 +11,32 @@ import {
 import { Search2Icon } from "@chakra-ui/icons";
 import { Text } from "@chakra-ui/layout";
 import DatePicker from "react-datepicker";
+import ProjectFilteringService from "../../services/project.filtering.service";
 
 const ProjectFilter = (props) => {
     let filters = useRef({});
-    let statusOptions = useRef();
-    const [projectsToDisplay, setProjectsToDisplay] = useState(
-        props.projectsDisplayed
-    );
+    const [statusOptions, setStatusOptions] = useState();
+
     let count = props.count;
 
     function getUniqueStatusFromProjects(projectList) {
-        statusOptions.current = projectList
-            .map((project) => project.status[project.status.length - 1].value)
-            .filter((value, index, self) => self.indexOf(value) === index);
+        if (projectList !== undefined) {
+            setStatusOptions(
+                projectList
+                    .map(
+                        (project) =>
+                            project.status[project.status.length - 1].value
+                    )
+                    .filter(
+                        (value, index, self) => self.indexOf(value) === index
+                    )
+            );
+        }
     }
 
     function createSelectionOptions() {
-        if (statusOptions.current !== undefined) {
-            return statusOptions.current.map((aStatus) => (
+        if (statusOptions !== undefined) {
+            return statusOptions.map((aStatus) => (
                 <option key={count++} value={aStatus}>
                     {aStatus}
                 </option>
@@ -51,11 +59,16 @@ const ProjectFilter = (props) => {
 
     function handleFilterChange(filterName, value) {
         filters.current[filterName] = value;
+        ProjectFilteringService.getProjectsByEngineerIDAndFilter(
+            props.authenticatedId,
+            filters.current
+        ).then((projects) => {
+            props.setProjectsParent(projects);
+        });
     }
 
     useEffect(() => {
         getUniqueStatusFromProjects(props.projectsDisplayed);
-        setProjectsToDisplay(props.projectsDisplayed);
     }, [props.projectsDisplayed]);
 
     return (
