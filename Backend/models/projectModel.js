@@ -24,7 +24,7 @@ const projectModel = new Schema({
       value: String,
     },
   ],
-  roles: {
+  customer: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Customer",
     },
