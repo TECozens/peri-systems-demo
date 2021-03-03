@@ -29,19 +29,19 @@ mailSenderRouter.post('/api/sendmail', (req,res, next) => {
     //make mailable object
     const mail = {
         from: process.env.THE_EMAIL,
-        to: 'sepehr2000.sn@gmail.com',
+        to: req.body.email,
         subject: "Status update on your order",
-        text: 'status has been updated'
+        text: 'status has been updated',
         // subject: req.body.subject,
-      //   text: `
+        // text: `
       // from:
       // ${req.body.name}
       //
-      // contact: ${req.body.email}
+      // contact:
       //
       // message:
       //
-      // ${req.body.texttext}`
+      // ${req.body.text}`
     }
 // error handling goes here.
     transporter.sendMail(mail, (err,data) => {

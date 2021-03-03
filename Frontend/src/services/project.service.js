@@ -86,6 +86,18 @@ function updateProjectDesignChecker(projectId, engineerId) {
         });
 }
 
+const sendMail = (name, email) => {
+    return axios.post("http://localhost:8081/api/sendmail", {
+        name,
+        email,
+    }).then((response) => {
+        if(response.data.accessToken) {
+            localStorage.setItem("user", JSON.stringify(response.data));
+        }
+        return response.data;
+    });
+};
+
 export default {
     getDesignerProjects,
     getTechnicalProjects,
@@ -93,4 +105,5 @@ export default {
     getProjectByID,
     updateProjectDesignEngineer,
     updateProjectDesignChecker,
+    sendMail,
 };

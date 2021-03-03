@@ -144,6 +144,16 @@ function initial() {
 
                 console.log("added customer to collection");
             });
+
+            new Customer({
+                name: "cardiff",
+                email: "sepehr2000.sn@gmail.com",
+            }).save((err) => {
+                if (err) {
+                    console.log("error", err);
+                }
+                console.log("added customer to collection");
+            });
         }
     });
 }

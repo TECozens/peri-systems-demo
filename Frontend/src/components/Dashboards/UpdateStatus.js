@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
     Button,
     Modal,
@@ -14,20 +14,70 @@ import {
 import { useDisclosure } from "@chakra-ui/hooks";
 import { VStack } from "@chakra-ui/layout";
 import ProjectService from "../../services/project.service";
+import AuthService from "../../services/auth.service";
 
 const UpdateStatus = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [statusSelected, setStatusSelected] = useState();
+    const [projects, setProjects] = useState();
+    const [successful, setSuccessful] = useState(false);
+    const [message, setMessage] = useState("");
+    let aProject = useRef();
     let count = props.count;
+
+
+    // useEffect(() => {
+    //     ProjectService.getProjectByID(props.projectId).then((projects) => {
+    //         aProject.current = projects;
+    //         setProjects(aProject.current)
+    //         console.log("project");
+    //         console.log(aProject.current);
+    //     });
+    // }, []);
 
     useEffect(() => {
         setStatusSelected(props.projectStatus.trim());
+        ProjectService.getProjectByID(props.projectId).then((projects) => {
+            aProject.current = projects;
+            setProjects(aProject.current)
+            console.log("project is");
+            console.log(aProject.current);
+        });
     }, [props.projectStatus]);
 
+
     function handleSubmit() {
+
+
+
         ProjectService.updateProjectStatus(props.projectId, statusSelected)
             .then(onClose)
             .then(props.updateParent);
+
+
+        if (typeof projects !== 'undefined') {
+            console.log("name ISSS");
+            console.log(projects.customer[0].name);
+            ProjectService.sendMail(projects.customer[0].name, projects.customer[0].email).then(
+                (response) => {
+                    // setMessage(response.data.message);
+                    // setSuccessful(true);
+                    console.log("mail sent");
+                    console.log(projects.customer.length);
+                },
+                (error) => {
+                    const resMessage =
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+                        console.log("error sending mail")
+                    // setMessage(resMessage);
+                    // setSuccessful(false);
+                }
+            );
+        }
     }
 
     function handleClose() {
