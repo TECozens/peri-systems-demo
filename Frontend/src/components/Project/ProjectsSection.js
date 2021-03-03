@@ -43,7 +43,8 @@ const ProjectsSection = () => {
 
                 <Box>
                     <ProjectFilter
-                        projectsToFilter={unfilteredProjects.current}
+                        count={count}
+                        projectsDisplayed={projectsDisplayed}
                     />
                 </Box>
 
