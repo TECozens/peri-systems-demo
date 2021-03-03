@@ -22,6 +22,7 @@ import ProjectView from "../Project/ProjectView";
 import UpdateStatus from "./UpdateStatus";
 import UserService from "../../services/users.service";
 
+
 const BoardTechnical = () => {
     let authenticatedUser = AuthService.getCurrentUser();
     let unfilteredProjects = useRef();
