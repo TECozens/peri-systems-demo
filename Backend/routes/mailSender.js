@@ -41,7 +41,7 @@ mailSenderRouter.post('/api/sendmail', (req,res, next) => {
       //
       // message:
       //
-      // ${req.body.text}`
+      // ${req.body.texttext}`
     }
 // error handling goes here.
     transporter.sendMail(mail, (err,data) => {

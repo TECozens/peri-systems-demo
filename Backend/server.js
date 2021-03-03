@@ -60,6 +60,7 @@ const MONGODB_URI =
 const mongoose = require("mongoose");
 const db = require("./models");
 const Role = db.role;
+const Customer = db.customer;
 
 db.mongoose
     .connect(MONGODB_URI || "mongodb://localhost/peri_db", {
@@ -127,6 +128,21 @@ function initial() {
                 }
 
                 console.log("added 'admin' to roles collection");
+            });
+        }
+    });
+
+    Customer.estimatedDocumentCount((err, count) => {
+        if (!err && count === 0) {
+            new Customer({
+                name: "sepehr",
+                email: "sepehr2000.sn@gmail.com",
+            }).save((err) => {
+                if (err) {
+                    console.log("error", err);
+                }
+
+                console.log("added customer to collection");
             });
         }
     });
