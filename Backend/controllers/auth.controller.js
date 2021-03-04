@@ -2,12 +2,16 @@ const config = require("../config/auth.config");
 const db = require("../models");
 const User = db.user;
 const Role = db.role;
+const mongoose = require("mongoose");
+
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
 exports.signup = (req, res) => {
     const user = new User({
+        // TODO HELP, WHY DO I HAVE TO HAVE ID HERE? :(
+        _id: mongoose.Types.ObjectId(),
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         email: req.body.email,
@@ -22,6 +26,7 @@ exports.signup = (req, res) => {
     });
 
     user.save((err, user) => {
+        console.log(err)
         if (err) {
             res.status(500).send({ message: err });
             return;
