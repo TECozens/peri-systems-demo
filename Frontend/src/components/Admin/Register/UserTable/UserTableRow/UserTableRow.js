@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react"
 import {useDisclosure} from "@chakra-ui/hooks";
 import {FormControl, FormLabel} from "@chakra-ui/form-control";
-import AuthService from "../../../../services/auth.service";
+import AuthService from "../../../../../services/auth.service";
 
 const UserTableRow = props => {
   const {

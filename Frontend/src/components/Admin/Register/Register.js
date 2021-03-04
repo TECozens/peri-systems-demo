@@ -1,8 +1,8 @@
-import AuthService from "../../services/auth.service";
+import AuthService from "../../../services/auth.service";
 import React, {useEffect, useState} from "react";
 import {useAsync} from 'react-async';
-import UserService from "../../services/users.service";
-import {Box, Container, Flex, Grid, GridItem, VStack} from "@chakra-ui/layout";
+import UserService from "../../../services/users.service";
+import {Box, Container, Flex, Grid, GridItem, Heading, VStack} from "@chakra-ui/layout";
 import {
     Button,
     Input,
@@ -120,6 +120,8 @@ const Register = props => {
     // if (data)
     return (
         <Container maxW="3xl" marginTop={12} marginBottom={12}>
+            <Heading >Users</Heading>
+            <Heading size='md' mb={4} color='grey'>Manage employees</Heading>
             <Flex direction='column'>
 
                 <Box mb={2}>

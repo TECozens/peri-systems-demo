@@ -61,7 +61,7 @@ const UserService = {
     getUserByID,
     getDesignerRoleID,
     getUsers,
-    example
+    example,
     getTechnicalLeadRoleID,
 };
 

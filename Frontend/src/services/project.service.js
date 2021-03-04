@@ -52,7 +52,7 @@ function getProjectByID(projectId) {
         });
 }
 
-export default {getDesignerProjects, getTechnicalProjects};
+// export default {getDesignerProjects, getTechnicalProjects};
 
 function updateProjectStatus(projectId, status) {
     return axios
