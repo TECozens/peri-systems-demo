@@ -33,7 +33,6 @@ const UserTableRow = ({user}) => {
     password: user.password
   })
 
-
   const handleChange = ({target}) => {
     setValues({...values, [target.name]: target.value })
   }

@@ -27,10 +27,13 @@ const getUsers = async () =>
         .then(res => (res.ok ? res : Promise.reject(res)))
         .then(res => res.json())
 
-const example = async () =>
-    await fetch('http://localhost:8081/api/users/John/0')
+const example = async (query, page) => {
+    const searchTerm = query !== '' ? `&query=${query}` : ''
+
+    return await fetch(`http://localhost:8081/api/users?page=${page}${searchTerm}`)
         .then(res => (res.ok ? res : Promise.reject(res)))
         .then(res => res.json())
+}
 
 const UserService = {
     getUsersWithRoleID,
