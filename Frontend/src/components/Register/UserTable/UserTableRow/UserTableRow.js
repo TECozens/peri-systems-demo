@@ -16,7 +16,7 @@ import {useDisclosure} from "@chakra-ui/hooks";
 import {FormControl, FormLabel} from "@chakra-ui/form-control";
 import AuthService from "../../../../services/auth.service";
 
-const UserTableRow = ({user}) => {
+const UserTableRow = props => {
   const {
     isOpen,
     onOpen,
@@ -27,30 +27,26 @@ const UserTableRow = ({user}) => {
     values,
     setValues
   ] = useState({
-    firstname: user.firstname,
-    lastname: user.lastname,
-    email: user.email,
-    password: user.password
+    firstname: props.user.firstname,
+    lastname: props.user.lastname,
+    email: props.user.email,
+    password: props.user.password
   })
 
   const handleChange = ({target}) => {
     setValues({...values, [target.name]: target.value })
   }
 
-  const deleteUser = () => {
-    AuthService.deleteUser(user.email)
-  }
-
   return (
-    <Tr key={user.id}>
-      <Td>{`${user.firstname} ${user.lastname}`}</Td>
-      <Td>{user.email}</Td>
+    <Tr key={props.user.id}>
+      <Td>{`${props.user.firstname} ${props.user.lastname}`}</Td>
+      <Td>{props.user.email}</Td>
       <Td>
         <Menu placement='bottom-end'>
           <MenuButton as={IconButton} size='sm' colorScheme='red' icon={<ChevronDownIcon w={6} h={6} color='white'/>} />
           <MenuList>
             <MenuItem onClick={onOpen} icon={<EditIcon />}>Edit</MenuItem>
-            <MenuItem onClick={deleteUser} icon={<DeleteIcon />}>Delete</MenuItem>
+            <MenuItem onClick={() => props.deleteUser(props.user.email)} icon={<DeleteIcon />}>Delete</MenuItem>
           </MenuList>
         </Menu>
       </Td>
