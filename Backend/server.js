@@ -116,6 +116,8 @@ function initial() {
     });
 }
 
+module.exports = app
+
 // ********* EMAIL NOTIFICATION *********
 let transporter = nodemailer.createTransport({
   service: 'gmail',
