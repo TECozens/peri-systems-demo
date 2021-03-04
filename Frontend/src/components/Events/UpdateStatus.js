@@ -9,7 +9,7 @@ import {
     ModalHeader,
     ModalOverlay,
     Radio,
-    RadioGroup,
+    RadioGroup, useBreakpointValue,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { VStack } from "@chakra-ui/layout";
@@ -19,6 +19,8 @@ const UpdateStatus = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [statusSelected, setStatusSelected] = useState();
     let count = props.count;
+    const projectBreakpoint = useBreakpointValue({base: "sm", lg: "md"})
+
 
     useEffect(() => {
         setStatusSelected(props.projectStatus.trim());
@@ -26,8 +28,8 @@ const UpdateStatus = (props) => {
 
     function handleSubmit() {
         ProjectService.updateProjectStatus(props.projectId, statusSelected)
-            .then(onClose)
-            .then(props.updateParent);
+            .then((updatedProject) => props.updateParent(updatedProject))
+            .then(onClose);
     }
 
     function handleClose() {
@@ -57,9 +59,20 @@ const UpdateStatus = (props) => {
 
     return (
         <div key={count++}>
-            <div onClick={onOpen}>
-                {props.children}
-            </div>
+            <Button
+                width="full"
+                size={projectBreakpoint}
+                m={2}
+                border="2px"
+                color="brand.background"
+                bg="brand.grey"
+                borderColor="brand.pink"
+                _hover={{bg: "brand.pink", borderColor: "brand.grey"}}
+                onClick={onOpen}
+            >
+                Update Status
+            </Button>
+
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />

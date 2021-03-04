@@ -17,9 +17,11 @@ import AuthService from "../../services/auth.service";
 import { Search2Icon } from "@chakra-ui/icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import AssignEngineer from "./AssignEngineer";
-import UpdateStatus from "./UpdateStatus";
+import UpdateStatus from "../Events/UpdateStatus";
+import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
 import ProjectView from "../Project/ProjectView";
+import UserService from "../../services/users.service";
+
 
 const BoardTechnical = () => {
     let authenticatedUser = AuthService.getCurrentUser();
@@ -28,41 +30,71 @@ const BoardTechnical = () => {
     let filters = useRef({});
     let statusOptions = useRef();
     let count = 0;
+    const designersNameAndId = useRef({});
 
     const getProjectsSetStatusOptionsAndFilterIfNeeded = useCallback(() => {
         ProjectService.getTechnicalProjects(authenticatedUser.id).then(
             (projects) => {
                 unfilteredProjects.current = projects;
                 getUniqueStatusFromProjects();
-                setProjects(unfilteredProjects.current);
-                if (Object.keys(filters.current).length > 0) {
-                    filterProjects();
-                }
+                getDesignersNameAndId().then(() => {
+                    setProjects(projects);
+                    if (Object.keys(filters.current).length > 0) {
+                        filterProjects();
+                    }
+                });
             }
         );
-    }, [authenticatedUser.id]);
+    }, [authenticatedUser.id, designersNameAndId]);
 
     useEffect(() => {
-        ProjectService.getTechnicalProjects(authenticatedUser.id).then(
-            (projects) => {
-                unfilteredProjects.current = projects;
-                setProjects(unfilteredProjects.current);
-            }
-        );
-    }, []);
+        getProjectsSetStatusOptionsAndFilterIfNeeded();
+    }, [getProjectsSetStatusOptionsAndFilterIfNeeded]);
 
     function displayProjects() {
-        if (projects.length >= 1) {
+        if (
+            projects.length >= 1 &&
+            Object.keys(designersNameAndId.current).length > 0
+        ) {
             return projects.map((data) => (
                 <Tr key={data.name}>
                     <Td>{data.number}</Td>
                     <Td>{data.name}</Td>
                     <Td>{data.client}</Td>
                     <Td>{new Date(data.date_required).toLocaleDateString()}</Td>
-                    <Td>{data.status[data.status.length - 1].value}</Td>
-                    <Td />
                     <Td>
-                        <AssignEngineer project_id={data._id} />
+                        {designersNameAndId.current[data.engineers.designer_id]}
+                    </Td>
+                    <Td>
+                        {
+                            designersNameAndId.current[
+                                data.engineers.design_checker_id
+                            ]
+                        }
+                    </Td>
+                    <Td>{data.status[data.status.length - 1].value}</Td>
+                    <Td isNumeric>
+                        <UpdateStatus
+                            count={count}
+                            projectStatus={
+                                data.status[data.status.length - 1].value
+                            }
+                            projectId={data._id}
+                            updateParent={
+                                getProjectsSetStatusOptionsAndFilterIfNeeded
+                            }
+                        >
+                            <Button width="full" colorScheme={"green"}>
+                                Update Status
+                            </Button>
+                        </UpdateStatus>
+                        <AssignEngineers
+                            updateParent={
+                                getProjectsSetStatusOptionsAndFilterIfNeeded
+                            }
+                            project={data}
+                        />
+                        <ProjectView project={data} />
                     </Td>
                 </Tr>
             ));
@@ -76,9 +108,32 @@ const BoardTechnical = () => {
                     <Th />
                     <Th />
                     <Th />
+                    <Th />
                 </Tr>
             );
         }
+    }
+
+    async function getDesignersNameAndId() {
+        return Promise.all(
+            unfilteredProjects.current.map(async (project) => {
+                let designEngineerId = project.engineers.designer_id;
+                let designCheckerId = project.engineers.design_checker_id;
+                await UserService.getUserByID(designEngineerId)
+                    .then((user) => {
+                        designersNameAndId.current[designEngineerId] =
+                            user.firstname + " " + user.lastname;
+                    })
+                    .then(
+                        await UserService.getUserByID(designCheckerId).then(
+                            (user) => {
+                                designersNameAndId.current[designCheckerId] =
+                                    user.firstname + " " + user.lastname;
+                            }
+                        )
+                    );
+            })
+        );
     }
 
     //Filter
@@ -200,7 +255,7 @@ const BoardTechnical = () => {
                 <Heading>Welcome back {authenticatedUser.firstname}!</Heading>
             </Box>
             <HStack m="10px">
-                <InputGroup size="sm">
+                <InputGroup size="sm" w="50%">
                     <InputLeftElement
                         pointerEvents="none"
                         children={<Search2Icon color="gray.300" />}
@@ -213,7 +268,7 @@ const BoardTechnical = () => {
                         onChange={handleChange}
                     />
                 </InputGroup>
-                <InputGroup size="sm">
+                <InputGroup size="sm" w="90%">
                     <InputLeftElement
                         pointerEvents="none"
                         children={<Search2Icon color="gray.300" />}
@@ -225,7 +280,7 @@ const BoardTechnical = () => {
                         value={filters.current.name}
                     />
                 </InputGroup>
-                <InputGroup size="sm">
+                <InputGroup size="sm" w="90%">
                     <InputLeftElement
                         pointerEvents="none"
                         children={<Search2Icon color="gray.300" />}
@@ -238,7 +293,7 @@ const BoardTechnical = () => {
                     />
                 </InputGroup>
 
-                <InputGroup size="sm" w={"200%"}>
+                <InputGroup size="sm" w={"210%"}>
                     <Text color={"brand.accents"}> Date Required from </Text>
                     <Spacer />
                     <DatePicker
@@ -302,9 +357,14 @@ const BoardTechnical = () => {
                                 <Text fontSize="lg">Date Required</Text>
                             </Th>
                             <Th>
+                                <Text fontSize="lg">Design Engineer</Text>
+                            </Th>
+                            <Th>
+                                <Text fontSize="lg">Design Checker</Text>
+                            </Th>
+                            <Th>
                                 <Text fontSize="lg">Status</Text>
                             </Th>
-                            <Th />
                             <Th />
                         </Tr>
                     </Thead>
@@ -316,3 +376,4 @@ const BoardTechnical = () => {
 };
 
 export default BoardTechnical;
+//TODO refactor code
