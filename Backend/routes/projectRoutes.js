@@ -183,26 +183,26 @@ router.put(
         let projectID = new mongoose.Types.ObjectId(req.params.projectID);
         let engineerID = new mongoose.Types.ObjectId(req.params.anEngineerId);
 
-        projects
-            .findById(projectID, (err, data) => {
-                if (err) {
-                    return res.json({ success: false, error: err });
-                } else {
-                    let project = data;
-                    project.engineers.designer_id = engineerID;
-                    project.save();
-
-                    projects
-                        .findById(projectID)
-                        .populate("engineers.design_checker_id")
+        projects.findById(projectID, (err, data) => {
+            if (err) {
+                return res.json({ success: false, error: err });
+            } else {
+                let project = data;
+                project.engineers.designer_id = engineerID;
+                project.save().then((p) =>
+                    p
                         .populate("engineers.designer_id")
-                        .exec((err, project) => {
-                            return res.json({ success: true, data: project });
-                        });
-                }
-            })
-            .populate("engineers.designer_id")
-            .populate("engineers.design_checker_id");
+                        .populate("engineers.design_checker_id")
+                        .execPopulate()
+                        .then((populated) => {
+                            return res.json({
+                                success: false,
+                                data: populated,
+                            });
+                        })
+                );
+            }
+        });
     }
 );
 router.put(
@@ -218,14 +218,18 @@ router.put(
             } else {
                 let project = data;
                 project.engineers.design_checker_id = engineerID;
-                project.save();
-                projects
-                    .findById(projectID)
-                    .populate("engineers.design_checker_id")
-                    .populate("engineers.designer_id")
-                    .exec((err, project) => {
-                        return res.json({ success: true, data: project });
-                    });
+                project.save().then((p) =>
+                    p
+                        .populate("engineers.designer_id")
+                        .populate("engineers.design_checker_id")
+                        .execPopulate()
+                        .then((populated) => {
+                            return res.json({
+                                success: false,
+                                data: populated,
+                            });
+                        })
+                );
             }
         });
     }
