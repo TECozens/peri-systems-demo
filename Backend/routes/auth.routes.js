@@ -19,6 +19,11 @@ module.exports = function(app) {
         controller.signup
     );
 
+    app.delete(
+        "/api/auth/delete/:email",
+        controller.deleteUser
+    );
+
     app.post("/api/auth/signin", controller.signin);
 
     app.post("/save/user", controller.saveuser)
