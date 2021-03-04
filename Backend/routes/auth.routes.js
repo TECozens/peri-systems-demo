@@ -24,6 +24,11 @@ module.exports = function(app) {
         controller.deleteUser
     );
 
+    app.patch(
+        "/api/auth/patch/:email",
+        controller.updateUser
+    );
+
     app.post("/api/auth/signin", controller.signin);
 
     app.post("/save/user", controller.saveuser)

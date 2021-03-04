@@ -19,7 +19,7 @@ const UserTable = props => {
         </Thead>
         <Tbody>
           {props.users.map(user =>
-            <UserTableRow deleteUser={props.deleteUser} key={user._id} user={user} />
+            <UserTableRow updateUser={props.updateUser} deleteUser={props.deleteUser} key={user._id} user={user} />
           )}
         </Tbody>
       </Table>

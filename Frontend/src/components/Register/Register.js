@@ -38,7 +38,14 @@ const Register = props => {
         promiseFn: getData, watch: searchParams, props: {userSearch, page}
     })
     const [users, setUsers] = useState([])
+    const {
+        isOpen,
+        onOpen,
+        onClose
+    } = useDisclosure()
+
     const createUser = () => {
+        onClose()
         let user = {...values}
         console.log(user)
         user.roles = []
@@ -46,13 +53,21 @@ const Register = props => {
         AuthService.register(user.firstname, user.lastname, user.email, user.password, [])
     }
 
+    const updateUser = async (email, newUserValues) => {
+        const res = await AuthService.updateUser(
+            email,
+            newUserValues.firstname,
+            newUserValues.lastname,
+            newUserValues.email)
+        console.log("update res: ", res)
+        console.log(email, newUserValues)
+    }
+
     const deleteUser = async (email) => {
         const res = await AuthService.deleteUser(email)
-        console.log('okk')
         if (res.status === 200) {
             setUsers(users.filter(user => user.email !== email))
         }
-        console.log(res)
     }
 
     useEffect(() => {
@@ -65,12 +80,6 @@ const Register = props => {
     useEffect(() => setSearchParams({page, userSearch}), [page, userSearch])
 
     useEffect(() => setPage(1), [userSearch])
-
-    const {
-        isOpen,
-        onOpen,
-        onClose
-    } = useDisclosure()
 
     const handleUserInputChange = (event) => {
         setUserSearch(event.target.value)
@@ -86,74 +95,74 @@ const Register = props => {
         <Container maxW="3xl" marginTop={12} marginBottom={12}>
             <Flex direction='column'>
 
-                    <Box mb={2}>
-                        <Flex>
-                            <InputGroup>
-                                <Input autoFocus={true} value={userSearch} onChange={handleUserInputChange}
-                                       placeholder='Search users by name or email'
-                                       bg={'white'}/>
-                                <InputRightElement children={<SearchIcon/>}/>
-                            </InputGroup>
-                        </Flex>
-                    </Box>
+                <Box mb={2}>
+                    <Flex>
+                        <InputGroup>
+                            <Input autoFocus={true} value={userSearch} onChange={handleUserInputChange}
+                                   placeholder='Search users by name or email'
+                                   bg={'white'}/>
+                            <InputRightElement children={<SearchIcon/>}/>
+                        </InputGroup>
+                    </Flex>
+                </Box>
 
                 {/*<Divider mt={4} mb={2} />*/}
                 {/*gap={4} templateColumns="repeat(7, 1fr)"*/}
                 <Grid templateColumns={showUserCount ? 'repeat(6, 1fr)' : 'repeat(5, 1fr)'} gap={4}>
                     {showUserCount ?
 
-                            <GridItem colSpan={1} mt={6}>
-                                <VStack spacing={4}>
-                                    <Button colorScheme='yellow' onClick={onOpen}>
-                                        Create User
-                                    </Button>
-                                    <PageSection onLastPage={onLastPage} isLoading={isLoading} page={page}
-                                                 setPage={setPage}
-                                                 maxPage={maxPage}/>
-                                    <Modal isOpen={isOpen} onClose={onClose}>
-                                        <ModalOverlay/>
-                                        <ModalContent>
-                                            <ModalHeader>Edit user profile</ModalHeader>
-                                            <ModalBody p={6}>
-                                                <FormControl>
-                                                    <FormLabel>First Name</FormLabel>
-                                                    <Input value={values.firstname} onChange={handleChange}
-                                                           name='firstname'
-                                                           placeholder='First Name'/>
-                                                </FormControl>
-                                                <FormControl mt={4}>
-                                                    <FormLabel>Last name</FormLabel>
-                                                    <Input value={values.lastname} onChange={handleChange}
-                                                           name='lastname'
-                                                           placeholder="Last name"/>
-                                                </FormControl>
-                                                <FormControl mt={4}>
-                                                    <FormLabel>Email</FormLabel>
-                                                    <Input value={values.email} onChange={handleChange} name='email'
-                                                           placeholder="Email"/>
-                                                </FormControl>
-                                                {/*<FormControl mt={4}>*/}
-                                                {/*  <FormLabel>Password</FormLabel>*/}
-                                                {/*  <Input name='password' value={values.password} onChange={handleChange} placeholder="Password" />*/}
-                                                {/*</FormControl>*/}
-                                            </ModalBody>
-                                            <ModalFooter>
-                                                <Button colorScheme="yellow" mr={3} onClick={createUser}>
-                                                    Create
-                                                </Button>
-                                                <Button onClick={onClose}>Cancel</Button>
-                                            </ModalFooter>
-                                        </ModalContent>
-                                    </Modal>
+                        <GridItem colSpan={1} mt={6}>
+                            <VStack spacing={4}>
+                                <Button colorScheme='yellow' onClick={onOpen}>
+                                    Create User
+                                </Button>
+                                <PageSection onLastPage={onLastPage} isLoading={isLoading} page={page}
+                                             setPage={setPage}
+                                             maxPage={maxPage}/>
+                                <Modal isOpen={isOpen} onClose={onClose}>
+                                    <ModalOverlay/>
+                                    <ModalContent>
+                                        <ModalHeader>Edit user profile</ModalHeader>
+                                        <ModalBody p={6}>
+                                            <FormControl>
+                                                <FormLabel>First Name</FormLabel>
+                                                <Input value={values.firstname} onChange={handleChange}
+                                                       name='firstname'
+                                                       placeholder='First Name'/>
+                                            </FormControl>
+                                            <FormControl mt={4}>
+                                                <FormLabel>Last name</FormLabel>
+                                                <Input value={values.lastname} onChange={handleChange}
+                                                       name='lastname'
+                                                       placeholder="Last name"/>
+                                            </FormControl>
+                                            <FormControl mt={4}>
+                                                <FormLabel>Email</FormLabel>
+                                                <Input value={values.email} onChange={handleChange} name='email'
+                                                       placeholder="Email"/>
+                                            </FormControl>
+                                            {/*<FormControl mt={4}>*/}
+                                            {/*  <FormLabel>Password</FormLabel>*/}
+                                            {/*  <Input name='password' value={values.password} onChange={handleChange} placeholder="Password" />*/}
+                                            {/*</FormControl>*/}
+                                        </ModalBody>
+                                        <ModalFooter>
+                                            <Button colorScheme="yellow" mr={3} onClick={createUser}>
+                                                Create
+                                            </Button>
+                                            <Button onClick={onClose}>Cancel</Button>
+                                        </ModalFooter>
+                                    </ModalContent>
+                                </Modal>
 
-                                </VStack>
-                            </GridItem>
+                            </VStack>
+                        </GridItem>
                         :
                         <></>
                     }
-                        <GridItem colSpan={5}>
-                            <UserTable deleteUser={deleteUser} isLoading={isLoading} users={users}/>
-                        </GridItem>
+                    <GridItem colSpan={5}>
+                        <UserTable updateUser={updateUser} deleteUser={deleteUser} isLoading={isLoading} users={users}/>
+                    </GridItem>
                 </Grid>
             </Flex>
         </Container>

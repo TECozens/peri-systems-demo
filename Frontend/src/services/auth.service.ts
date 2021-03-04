@@ -88,6 +88,12 @@ const deleteUser = (email : string) => {
     return axios.delete(`${API_URL}delete/${email}`)
 }
 
+const updateUser = (oldEmail: string, firstname: string, lastname: string, email: string) => {
+    return axios.patch(`${API_URL}patch/${oldEmail}`, {
+        firstname, lastname, email
+    })
+}
+
 //TODO Implement Register in week 6
 export default {
     register,
@@ -97,5 +103,6 @@ export default {
     getCurrentUser,
     isAdmin,
     isUserAuthenticated,
-    deleteUser
+    deleteUser,
+    updateUser
 };

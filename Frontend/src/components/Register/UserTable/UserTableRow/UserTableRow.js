@@ -30,7 +30,6 @@ const UserTableRow = props => {
     firstname: props.user.firstname,
     lastname: props.user.lastname,
     email: props.user.email,
-    password: props.user.password
   })
 
   const handleChange = ({target}) => {
@@ -74,7 +73,7 @@ const UserTableRow = props => {
             {/*</FormControl>*/}
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="yellow" mr={3}>
+            <Button onClick={() => props.updateUser(props.user.email, values)} colorScheme="yellow" mr={3}>
               Update
             </Button>
             <Button onClick={onClose}>Cancel</Button>

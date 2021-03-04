@@ -158,3 +158,12 @@ exports.deleteUser = (req, res) => {
 
     })
 }
+
+exports.updateUser = (req, res) => {
+    console.log(req.body)
+    const {firstname, lastname, newEmail} = req.body
+    User.updateOne({email: req.params.email}, {firstname, lastname, email: newEmail}, ((err, res) => {
+        console.log(err, res)
+    }))
+    return res.status(204).send({message: 'idk'})
+}
