@@ -7,7 +7,7 @@ import { Box, Flex, Text } from "@chakra-ui/layout";
 
 const ProjectsSection = () => {
     let authenticatedUser = AuthService.getCurrentUser();
-    let unfilteredProjects = useRef();
+    let allEngineerProjects = useRef();
     const [projectsDisplayed, setProjectsDisplayed] = useState([]);
     let count = 0;
 
@@ -15,17 +15,21 @@ const ProjectsSection = () => {
         ProjectService.getProjectsWithDesignEngineersByEngineerID(
             authenticatedUser.id
         ).then((projects) => {
-            unfilteredProjects.current = projects;
-            setProjectsDisplayed(projects);
+            allEngineerProjects.current = projects;
+            setProjectDisplayedToAllEngineerProjects();
         });
     }, [authenticatedUser.id]);
 
+    const setProjectDisplayedToAllEngineerProjects = () => {
+        setProjectsDisplayed(allEngineerProjects.current);
+    };
+
     const updateUnfilteredProjects = (projectUpdated) => {
-        let indexOfItemToUpdate = unfilteredProjects.current.findIndex(
+        let indexOfItemToUpdate = allEngineerProjects.current.findIndex(
             (x) => x._id === projectUpdated._id
         );
-        unfilteredProjects.current[indexOfItemToUpdate] = projectUpdated;
-        setProjectsDisplayed([...unfilteredProjects.current]);
+        allEngineerProjects.current[indexOfItemToUpdate] = projectUpdated;
+        setProjectsDisplayed([...allEngineerProjects.current]);
     };
 
     useEffect(() => {
@@ -47,6 +51,9 @@ const ProjectsSection = () => {
                         authenticatedId={authenticatedUser.id}
                         projectsDisplayed={projectsDisplayed}
                         setProjectsParent={setProjectsDisplayed}
+                        setProjectDisplayedToAllEngineerProjects={
+                            setProjectDisplayedToAllEngineerProjects
+                        }
                     />
                 </Box>
 

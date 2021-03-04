@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import * as UI from "@chakra-ui/react";
 import {
     Button,
     HStack,
@@ -9,7 +8,7 @@ import {
     Select,
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
-import { Text } from "@chakra-ui/layout";
+import { Flex, Text } from "@chakra-ui/layout";
 import DatePicker from "react-datepicker";
 import ProjectFilteringService from "../../services/project.filtering.service";
 
@@ -17,7 +16,6 @@ const ProjectFilter = (props) => {
     let filters = useRef({});
     const [statusOptions, setStatusOptions] = useState();
     let firstRender = useRef(true);
-
     let count = props.count;
 
     function getUniqueStatusFromProjects(projectList) {
@@ -65,6 +63,14 @@ const ProjectFilter = (props) => {
         });
     }
 
+    function clearFilters() {
+        let filterNames = Object.keys(filters.current);
+        for (let i = 0; i < filterNames.length; i++) {
+            filters.current[filterNames[i]] = "";
+        }
+        props.setProjectDisplayedToAllEngineerProjects();
+    }
+
     useEffect(() => {
         if (
             firstRender.current === true &&
@@ -76,7 +82,7 @@ const ProjectFilter = (props) => {
     }, [props.projectsDisplayed]);
 
     return (
-        <UI.Flex>
+        <Flex>
             <HStack m="10px">
                 <InputGroup size="sm" w="50%" bg={"brand.background"}>
                     <InputLeftElement
@@ -85,7 +91,7 @@ const ProjectFilter = (props) => {
                     />
                     <Input
                         name="project_number"
-                        value={filters.current.number}
+                        value={filters.current.number || ""}
                         placeholder="Number"
                         onKeyPress={handleKeyPress}
                         onChange={(e) =>
@@ -104,7 +110,7 @@ const ProjectFilter = (props) => {
                             handleFilterChange("name", e.target.value)
                         }
                         placeholder="Project Name"
-                        value={filters.current.name}
+                        value={filters.current.name || ""}
                     />
                 </InputGroup>
                 <InputGroup size="sm" w="55%" bg={"brand.background"}>
@@ -114,14 +120,13 @@ const ProjectFilter = (props) => {
                     />
                     <Input
                         name="project_client"
-                        value={filters.current.client}
+                        value={filters.current.client || ""}
                         onChange={(e) =>
                             handleFilterChange("client", e.target.value)
                         }
                         placeholder="Client"
                     />
                 </InputGroup>
-
                 <InputGroup size="sm" w={"210%"}>
                     <Text color={"brand.background"}>
                         {" "}
@@ -130,7 +135,7 @@ const ProjectFilter = (props) => {
                     <DatePicker
                         name="from_date"
                         placeholderText="choose a date"
-                        selected={filters.current.from_date}
+                        selected={filters.current.from_date || ""}
                         onSelect={(e) =>
                             handleFilterChange("from_date", new Date(e))
                         }
@@ -140,14 +145,13 @@ const ProjectFilter = (props) => {
                     <DatePicker
                         name="to_date"
                         placeholderText="choose a date"
-                        selected={filters.current.to_date}
+                        selected={filters.current.to_date || ""}
                         onSelect={(e) =>
                             handleFilterChange("to_date", new Date(e))
                         }
                         dateFormat={"dd/MM/yyyy"}
                     />
                 </InputGroup>
-
                 <Select
                     w="70%"
                     size="sm"
@@ -156,7 +160,7 @@ const ProjectFilter = (props) => {
                     onChange={(e) =>
                         handleFilterChange("status.value", e.target.value)
                     }
-                    value={filters.current.status}
+                    value={filters.current.status || ""}
                     bg={"brand.background"}
                 >
                     {createSelectionOptions()}
@@ -165,12 +169,12 @@ const ProjectFilter = (props) => {
                     size="sm"
                     w="20%"
                     colorScheme="red"
-                    // onClick={clearFilters}
+                    onClick={clearFilters}
                 >
                     Clear All
                 </Button>
             </HStack>
-        </UI.Flex>
+        </Flex>
     );
 };
 
