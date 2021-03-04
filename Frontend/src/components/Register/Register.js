@@ -26,31 +26,40 @@ const getData = ({props}) => UserService.example(props.userSearch, props.page)
 
 const Register = props => {
     const [userSearch, setUserSearch] = useState('')
-    const showUserCount = useBreakpointValue({base: false, 'md': true})
+    const [maxPage, setMaxPage] = useState()
     const [page, setPage] = useState(1)
-    const [maxPage, setMaxPage] = useState(2)
-    const [searchParams, setSearchParams] = useState({page, userSearch})
     const [onLastPage, setOnLastPage] = useState(false)
-    const [values, setValues]
-        = useState({firstname: '', lastname: '', email: ''})
-    const {data, error, isLoading}
-        = useAsync({
-        promiseFn: getData, watch: searchParams, props: {userSearch, page}
-    })
+    const [values, setValues] = useState({firstname: '', lastname: '', email: ''})
+    const [searchParams, setSearchParams] = useState({page, userSearch})
     const [users, setUsers] = useState([])
+    const pageSize = 3
+
+    const showUserCount = useBreakpointValue({base: false, 'md': true})
+    const {data, error, isLoading}
+        = useAsync({promiseFn: getData, watch: searchParams, props: {userSearch, page}})
     const {
         isOpen,
         onOpen,
         onClose
     } = useDisclosure()
 
-    const createUser = () => {
+    const createUser = async () => {
         onClose()
-        let user = {...values}
-        console.log(user)
-        user.roles = []
-        user.password = 'passwordDefault'
-        AuthService.register(user.firstname, user.lastname, user.email, user.password, [])
+        let user = {...values, roles: [], password: 'passwordDefault'}
+        const res = await AuthService.register(user.firstname, user.lastname, user.email, user.password, [])
+        if (res.status === 200) {
+            setPage(1)
+
+            if (page >= maxPage) {
+                if (users.length < 3) {
+                     setPage(1)
+                    // TODO think of something here, that's not this ^^
+                    // console.log("res", res)
+                    // console.log("slap him in")
+                    // setUsers(...users)
+                }
+            }
+        }
     }
 
     const updateUser = async (email, newUserValues) => {
@@ -59,21 +68,38 @@ const Register = props => {
             newUserValues.firstname,
             newUserValues.lastname,
             newUserValues.email)
-        console.log("update res: ", res)
-        console.log(email, newUserValues)
+        if (res.status === 200) {
+            setUsers(users.map(user => {
+                if (user.email === email) {
+                    user.firstname = newUserValues.firstname
+                    user.lastname = newUserValues.lastname
+                    user.email = newUserValues.email
+                }
+                return user
+            }))
+       }
     }
 
     const deleteUser = async (email) => {
         const res = await AuthService.deleteUser(email)
         if (res.status === 200) {
-            setUsers(users.filter(user => user.email !== email))
+            await setUsers(users.filter(user => user.email !== email))
         }
     }
 
+    // Effects
     useEffect(() => {
-        console.log(data)
+        if ((users.length <= 0) && (page !== 1)) {
+            setPage(1)
+        }
+    }, [users])
+
+    useEffect(() => {
         if (data) {
             setUsers(data.data)
+            if (data.maxPages) {
+                setMaxPage(data.maxPages)
+            }
         }
     }, [data])
 
@@ -81,6 +107,7 @@ const Register = props => {
 
     useEffect(() => setPage(1), [userSearch])
 
+    // Handlers
     const handleUserInputChange = (event) => {
         setUserSearch(event.target.value)
     }

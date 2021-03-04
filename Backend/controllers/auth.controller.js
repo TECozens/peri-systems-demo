@@ -155,15 +155,24 @@ exports.deleteUser = (req, res) => {
                     : res.status(200).send({message: 'User deleted'})
             }))
         }
-
     })
 }
 
 exports.updateUser = (req, res) => {
     console.log(req.body)
-    const {firstname, lastname, newEmail} = req.body
-    User.updateOne({email: req.params.email}, {firstname, lastname, email: newEmail}, ((err, res) => {
-        console.log(err, res)
-    }))
-    return res.status(204).send({message: 'idk'})
+    const {firstname, lastname, email} = req.body
+    console.log(firstname, lastname, email)
+    User.find({email: req.params.email}, (err, docs) => {
+        if (docs.length <= 0) {
+            return res.status(500).send({message: 'User cannot be found'})
+        } else {
+            User.updateOne({email: req.params.email}, {firstname, lastname, email}, ((err) =>
+            {
+                console.log(err)
+                return err === true
+                    ? res.status(500).send({message: 'This user exists, database error occurred'})
+                    : res.status(200).send({message: 'User updated'})
+            }))
+        }
+    })
 }

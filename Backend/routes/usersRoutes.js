@@ -48,7 +48,7 @@ UserRouter.get("/api/users/getDesignerRoleID", jsonParser, (req, res) => {
 });
 
 UserRouter.get('/api/users', jsonParser, (req, res) => {
-    let pageSize = 5
+    let pageSize = 3
     let page = req.query.page
     let query = req.query.query
     let regex = new RegExp(query, 'i')
@@ -56,17 +56,24 @@ UserRouter.get('/api/users', jsonParser, (req, res) => {
     user.find(
         {firstname: {$regex: regex}},
         ['firstname', 'lastname', 'email'],
-        {skip: (page - 1) * pageSize, limit: page * pageSize},
-        (err, data) =>
-            err !== null
-                ? res.json({
+        {skip: (page - 1) * pageSize, limit: pageSize},
+        (err, data) => {
+            if (err !== null) {
+                res.json({
                     success: false,
                     error: err
                 })
-                : res.json({
-                    success: true,
-                    data: data
-                }));
+            } else {
+                user.countDocuments({firstname: {$regex: regex}}, ((err, count) => {
+                    const maxPages = Math.ceil(count / pageSize)
+                    res.json({
+                        success: true,
+                        data: data,
+                        maxPages
+                    })
+                }))
+            }
+        })
 })
 
 module.exports = UserRouter;

@@ -32,11 +32,14 @@ const PageSection = props => {
             {/*</motion.div>*/}
             <Flex alignItems='center' direction='column'>
                 <Heading size={'md'}>Page</Heading>
-                <Heading size={'3xl'}>{props.page}</Heading>
+                <HStack alignItems='center'>
+                    <Heading size={'3xl'}>{props.page}</Heading>
+                    <Heading size={'xl'} color='grey'>/{props.maxPage}</Heading>
+                </HStack>
             </Flex>
             <HStack alignItems='center' spacing={4}>
                 <IconButton isLoading={props.isLoading} colorScheme='yellow' disabled={props.page <= 1 || props.isLoading} icon={<ChevronLeftIcon/>} onClick={prevPage}/>
-                <IconButton isLoading={props.isLoading} colorScheme='yellow' disabled={atLastPage || props.isLoading} icon={<ChevronRightIcon/>} onClick={nextPage}/>
+                <IconButton isLoading={props.isLoading} colorScheme='yellow' disabled={props.page >= props.maxPage || props.isLoading} icon={<ChevronRightIcon/>} onClick={nextPage}/>
             </HStack>
         </VStack>
     )

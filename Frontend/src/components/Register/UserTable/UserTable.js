@@ -31,7 +31,7 @@ const UserTable = props => {
           No results found
         </Heading>
         <Heading size='md'>
-          Try changing the query provided
+          Not with this query at least
         </Heading>
       </Box>
     )

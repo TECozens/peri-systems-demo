@@ -32,6 +32,11 @@ const UserTableRow = props => {
     email: props.user.email,
   })
 
+  const updateUser = () => {
+    props.updateUser(props.user.email, values)
+    onClose()
+  }
+
   const handleChange = ({target}) => {
     setValues({...values, [target.name]: target.value })
   }
@@ -40,7 +45,7 @@ const UserTableRow = props => {
     <Tr key={props.user.id}>
       <Td>{`${props.user.firstname} ${props.user.lastname}`}</Td>
       <Td>{props.user.email}</Td>
-      <Td>
+      <Td isNumeric>
         <Menu placement='bottom-end'>
           <MenuButton as={IconButton} size='sm' colorScheme='red' icon={<ChevronDownIcon w={6} h={6} color='white'/>} />
           <MenuList>
@@ -73,7 +78,7 @@ const UserTableRow = props => {
             {/*</FormControl>*/}
           </ModalBody>
           <ModalFooter>
-            <Button onClick={() => props.updateUser(props.user.email, values)} colorScheme="yellow" mr={3}>
+            <Button onClick={updateUser} colorScheme="yellow" mr={3}>
               Update
             </Button>
             <Button onClick={onClose}>Cancel</Button>
