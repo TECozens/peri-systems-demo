@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react"
 import {useDisclosure} from "@chakra-ui/hooks";
 import {FormControl, FormLabel} from "@chakra-ui/form-control";
-import UserService from "../../../../services/users.service";
+import AuthService from "../../../../services/auth.service";
 
 const UserTableRow = ({user}) => {
   const {
@@ -37,6 +37,10 @@ const UserTableRow = ({user}) => {
     setValues({...values, [target.name]: target.value })
   }
 
+  const deleteUser = () => {
+    AuthService.deleteUser(user.email)
+  }
+
   return (
     <Tr key={user.id}>
       <Td>{`${user.firstname} ${user.lastname}`}</Td>
@@ -46,7 +50,7 @@ const UserTableRow = ({user}) => {
           <MenuButton as={IconButton} size='sm' colorScheme='red' icon={<ChevronDownIcon w={6} h={6} color='white'/>} />
           <MenuList>
             <MenuItem onClick={onOpen} icon={<EditIcon />}>Edit</MenuItem>
-            <MenuItem icon={<DeleteIcon />}>Delete</MenuItem>
+            <MenuItem onClick={deleteUser} icon={<DeleteIcon />}>Delete</MenuItem>
           </MenuList>
         </Menu>
       </Td>

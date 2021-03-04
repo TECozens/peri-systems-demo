@@ -66,6 +66,7 @@ const isAdmin = () => {
         return false
     }
 }
+
 const isTechnical = () => {
     const user = getCurrentUser();
     try {
@@ -83,6 +84,10 @@ const isDesigner = () => {
     }
 }
 
+const deleteUser = (email : string) => {
+    return axios.delete(`${API_URL}delete/${email}`)
+}
+
 //TODO Implement Register in week 6
 export default {
     register,
@@ -92,4 +97,5 @@ export default {
     getCurrentUser,
     isAdmin,
     isUserAuthenticated,
+    deleteUser
 };
