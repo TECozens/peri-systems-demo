@@ -47,19 +47,16 @@ UserRouter.get("/api/users/getDesignerRoleID", jsonParser, (req, res) => {
     });
 });
 
-UserRouter.get('/api/users/:query/:page', jsonParser, (req, res) => {
-    console.log('req', req.params)
-    var perPage = 10
-    var page = Math.max(0, req.params.page)
+UserRouter.get('/api/users', jsonParser, (req, res) => {
+    let pageSize = 5
+    let page = req.query.page
+    let query = req.query.query
+    let regex = new RegExp(query, 'i')
 
-    // user.find().select('firstname').limit(perPage).skip(perPage * page).sort({
-    //   firstname: "asc"
-    // })
-    // firstname: req.params.query
     user.find(
-        {},
+        {firstname: {$regex: regex}},
         ['firstname', 'lastname', 'email'],
-        {skip: 0, limit: 5},
+        {skip: (page - 1) * pageSize, limit: page * pageSize},
         (err, data) =>
             err !== null
                 ? res.json({
