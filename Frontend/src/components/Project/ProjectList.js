@@ -1,25 +1,19 @@
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Td, Tr, Tbody, Thead, Th, Table, Tfoot} from "@chakra-ui/table";
 import UpdateStatus from "../Events/UpdateStatus";
 import {Button, useBreakpoint, useBreakpointValue} from "@chakra-ui/react";
 import ProjectView from "./ProjectView";
 import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
 import {Flex, Box, Text, Spacer} from "@chakra-ui/layout";
-import {Link} from "react-router-dom";
 
 const ProjectList = (props) => {
     let count = props.count;
     const projectBreakpoint = useBreakpointValue({base: "sm", lg: "md"})
-    const resultsPerPage = 10
     const [currPage, setCurrPage] = useState(1)
     const [projects, setProjects] = useState([]);
-
     const tableSizing = useBreakpoint("")
-    // const projects = props.projectsToDisplay;
 
-    useEffect(() => {
 
-    }, [currPage])
 
 
     useEffect(() => {

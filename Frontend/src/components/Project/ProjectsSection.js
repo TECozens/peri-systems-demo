@@ -4,21 +4,28 @@ import ProjectFilter from "./ProjectFilter";
 import ProjectList from "./ProjectList";
 import ProjectService from "../../services/project.service";
 import { Box, Flex, Text } from "@chakra-ui/layout";
+import PageSection from "../Admin/Register/UserCount/PageSection"
 
 const ProjectsSection = () => {
     let authenticatedUser = AuthService.getCurrentUser();
     let unfilteredProjects = useRef();
     const [projectsDisplayed, setProjectsDisplayed] = useState([]);
     let count = 0;
+    const [page, setPage] = useState(1)
+    const [maxPage, setMaxPage] = useState(1)
 
     const getProjects = useCallback(() => {
         ProjectService.getProjectsWithDesignEngineersByEngineerID(
-            authenticatedUser.id
-        ).then((projects) => {
-            unfilteredProjects.current = projects;
-            setProjectsDisplayed(projects);
+            authenticatedUser.id,
+            page
+        ).then((res) => {
+            unfilteredProjects.current = res.projects;
+            setProjectsDisplayed(res.projects);
+            setMaxPage(res.maxPages)
+            console.log("This is it", res.maxPages)
         });
     }, [authenticatedUser.id]);
+
 
     const updateUnfilteredProjects = (projectUpdated) => {
         let indexOfItemToUpdate = unfilteredProjects.current.findIndex(
@@ -28,9 +35,12 @@ const ProjectsSection = () => {
         setProjectsDisplayed([...unfilteredProjects.current]);
     };
 
+
     useEffect(() => {
         getProjects();
-    }, [getProjects]);
+        console.log("Updated page", page)
+    }, [getProjects, page]);
+
 
     return (
         <Flex>
@@ -39,6 +49,16 @@ const ProjectsSection = () => {
                     <Text textAlign="center" p={2} fontSize="3xl">
                         Available Projects
                     </Text>
+                </Box>
+
+                <Box>
+                    <PageSection
+                        isLoading={false}
+                        maxPage={maxPage}
+                        setPage={setPage}
+                        page={page}
+                        onLastPage={false}
+                    />
                 </Box>
 
                 <Box>

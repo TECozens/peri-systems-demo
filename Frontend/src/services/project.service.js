@@ -27,14 +27,17 @@ function getTechnicalProjects(userId) {
         });
 }
 
-function getProjectsWithDesignEngineersByEngineerID(engineerId) {
+function getProjectsWithDesignEngineersByEngineerID(engineerId, page) {
     return axios
         .get(
             "http://localhost:8081/api/projects/getProjectsWithDesignEngineersByEngineerID/" +
-                engineerId
+                engineerId +`?page=${page}`
         )
         .then(function (response) {
-            return response.data.data;
+            return {
+                projects: response.data.data,
+                maxPages: response.data.maxPages,
+            };
         })
         .catch(function (error) {
             console.log(error);

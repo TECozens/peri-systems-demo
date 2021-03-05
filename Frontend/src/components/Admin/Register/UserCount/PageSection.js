@@ -38,8 +38,11 @@ const PageSection = props => {
                 </HStack>
             </Flex>
             <HStack alignItems='center' spacing={4}>
-                <IconButton isLoading={props.isLoading} colorScheme='yellow' disabled={props.page <= 1 || props.isLoading} icon={<ChevronLeftIcon/>} onClick={prevPage}/>
-                <IconButton isLoading={props.isLoading} colorScheme='yellow' disabled={props.page >= props.maxPage || props.isLoading} icon={<ChevronRightIcon/>} onClick={nextPage}/>
+                <IconButton isLoading={props.isLoading} colorScheme='yellow'
+                            disabled={props.page <= 1 || props.isLoading} icon={<ChevronLeftIcon/>} onClick={prevPage}/>
+                <IconButton isLoading={props.isLoading} colorScheme='yellow'
+                            disabled={props.page >= props.maxPage || props.isLoading} icon={<ChevronRightIcon/>}
+                            onClick={nextPage}/>
             </HStack>
         </VStack>
     )
