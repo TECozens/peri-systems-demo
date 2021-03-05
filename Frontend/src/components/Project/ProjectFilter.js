@@ -30,9 +30,9 @@ const ProjectFilter = (props) => {
         }
     }
 
-    function createSelectionOptions() {
-        if (statusOptions !== undefined) {
-            return statusOptions.map((aStatus) => (
+    function createSelectionOptions(listOfOptions) {
+        if (listOfOptions !== undefined) {
+            return listOfOptions.map((aStatus) => (
                 <option key={count++} value={aStatus}>
                     {aStatus}
                 </option>
@@ -160,10 +160,10 @@ const ProjectFilter = (props) => {
                     onChange={(e) =>
                         handleFilterChange("status.value", e.target.value)
                     }
-                    value={filters.current.status || ""}
+                    value={filters.current["status.value"] || ""}
                     bg={"brand.background"}
                 >
-                    {createSelectionOptions()}
+                    {createSelectionOptions(statusOptions)}
                 </Select>
                 <Button
                     size="sm"
