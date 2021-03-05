@@ -22,17 +22,17 @@ import {SearchIcon} from "@chakra-ui/icons";
 import {useDisclosure} from "@chakra-ui/hooks";
 import {FormControl, FormLabel} from "@chakra-ui/form-control";
 
+let validator = require("email-validator")
+
 const getData = ({props}) => UserService.example(props.userSearch, props.page)
 
 const Register = props => {
     const [userSearch, setUserSearch] = useState('')
     const [maxPage, setMaxPage] = useState()
     const [page, setPage] = useState(1)
-    const [onLastPage, setOnLastPage] = useState(false)
     const [values, setValues] = useState({firstname: '', lastname: '', email: ''})
     const [searchParams, setSearchParams] = useState({page, userSearch})
     const [users, setUsers] = useState([])
-    const pageSize = 3
 
     const showUserCount = useBreakpointValue({base: false, 'md': true})
     const {data, error, isLoading}
@@ -52,7 +52,7 @@ const Register = props => {
 
             if (page >= maxPage) {
                 if (users.length < 3) {
-                     setPage(1)
+                    setPage(1)
                     // TODO think of something here, that's not this ^^
                     // console.log("res", res)
                     // console.log("slap him in")
@@ -77,7 +77,7 @@ const Register = props => {
                 }
                 return user
             }))
-       }
+        }
     }
 
     const deleteUser = async (email) => {
@@ -120,7 +120,7 @@ const Register = props => {
     // if (data)
     return (
         <Container maxW="3xl" marginTop={12} marginBottom={12}>
-            <Heading >Users</Heading>
+            <Heading>Users</Heading>
             <Heading size='md' mb={4} color='grey'>Manage employees</Heading>
             <Flex direction='column'>
 
@@ -145,7 +145,7 @@ const Register = props => {
                                 <Button colorScheme='yellow' onClick={onOpen}>
                                     Create User
                                 </Button>
-                                <PageSection onLastPage={onLastPage} isLoading={isLoading} page={page}
+                                <PageSection isLoading={isLoading} page={page}
                                              setPage={setPage}
                                              maxPage={maxPage}/>
                                 <Modal isOpen={isOpen} onClose={onClose}>
@@ -155,19 +155,22 @@ const Register = props => {
                                         <ModalBody p={6}>
                                             <FormControl>
                                                 <FormLabel>First Name</FormLabel>
-                                                <Input value={values.firstname} onChange={handleChange}
+                                                <Input autofocus isInvalid={values.lastname === ''}
+                                                       value={values.firstname} onChange={handleChange}
                                                        name='firstname'
                                                        placeholder='First Name'/>
                                             </FormControl>
                                             <FormControl mt={4}>
                                                 <FormLabel>Last name</FormLabel>
-                                                <Input value={values.lastname} onChange={handleChange}
+                                                <Input isInvalid={values.lastname === ''} value={values.lastname}
+                                                       onChange={handleChange}
                                                        name='lastname'
                                                        placeholder="Last name"/>
                                             </FormControl>
                                             <FormControl mt={4}>
                                                 <FormLabel>Email</FormLabel>
-                                                <Input value={values.email} onChange={handleChange} name='email'
+                                                <Input isInvalid={values.email === '' && values.email.includes('@')}
+                                                       value={values.email} onChange={handleChange} name='email'
                                                        placeholder="Email"/>
                                             </FormControl>
                                             {/*<FormControl mt={4}>*/}
@@ -176,7 +179,7 @@ const Register = props => {
                                             {/*</FormControl>*/}
                                         </ModalBody>
                                         <ModalFooter>
-                                            <Button colorScheme="yellow" mr={3} onClick={createUser}>
+                                            <Button disabled={true} colorScheme="yellow" mr={3} onClick={createUser}>
                                                 Create
                                             </Button>
                                             <Button onClick={onClose}>Cancel</Button>

@@ -16,11 +16,6 @@ const PageSection = props => {
         onOpen()
     })
 
-    const isOnLastPage = () =>
-        props.page >= props.maxPage;
-
-    const atLastPage = useMemo(() => isOnLastPage(), [props.page])
-
     return (
         <VStack direction='column' w='100%' p={3} bg='#FFFFFC' alignItems='center' spacing={4} rounded={true}
                 borderRadius={6}>
