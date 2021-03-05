@@ -1,8 +1,7 @@
 default:
     image: node:14
-
 variables:
-  GIT_STRATEGY: fetch
+  GIT_STRATEGY: clone
 
 
 stages:
@@ -12,9 +11,10 @@ test:
     tags: [general-docker]
     stage: test
     script:
+        - npm set progress=false
         - cd Frontend
         - npm i mocha -g
-        - mocha
+        - npm run mocha-test
         - npm install
         - npm run mocha-test 
         - cd ../Backend

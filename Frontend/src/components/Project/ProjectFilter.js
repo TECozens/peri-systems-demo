@@ -109,49 +109,56 @@ const ProjectFilter = (props) => {
                         onChange={(e) =>
                             handleFilterChange("name", e.target.value)
                         }
-                        placeholder="Project Name"
+                        placeholder="Name"
                         value={filters.current.name || ""}
                     />
                 </InputGroup>
-                <InputGroup size="sm" w="55%" bg={"brand.background"}>
-                    <InputLeftElement
-                        pointerEvents="none"
-                        children={<Search2Icon color="gray.300" />}
-                    />
-                    <Input
-                        name="project_client"
-                        value={filters.current.client || ""}
-                        onChange={(e) =>
-                            handleFilterChange("client", e.target.value)
-                        }
-                        placeholder="Client"
-                    />
-                </InputGroup>
-                <InputGroup size="sm" w={"210%"}>
-                    <Text color={"brand.background"}>
-                        {" "}
-                        Date Required From &nbsp;
-                    </Text>
-                    <DatePicker
-                        name="from_date"
-                        placeholderText="choose a date"
-                        selected={filters.current.from_date || ""}
-                        onSelect={(e) =>
-                            handleFilterChange("from_date", new Date(e))
-                        }
-                        dateFormat={"dd/MM/yyyy"}
-                    />
-                    <Text color={"brand.background"}>&nbsp;to &nbsp;</Text>
-                    <DatePicker
-                        name="to_date"
-                        placeholderText="choose a date"
-                        selected={filters.current.to_date || ""}
-                        onSelect={(e) =>
-                            handleFilterChange("to_date", new Date(e))
-                        }
-                        dateFormat={"dd/MM/yyyy"}
-                    />
-                </InputGroup>
+                {props.projectBreakpoint !== "sm" ? (
+                    <>
+                        <InputGroup size="sm" w="55%" bg={"brand.background"}>
+                            <InputLeftElement
+                                pointerEvents="none"
+                                children={<Search2Icon color="gray.300" />}
+                            />
+                            <Input
+                                name="project_client"
+                                value={filters.current.client || ""}
+                                onChange={(e) =>
+                                    handleFilterChange("client", e.target.value)
+                                }
+                                placeholder="Client"
+                            />
+                        </InputGroup>
+                        <InputGroup size="sm" w={"210%"}>
+                            <Text color={"brand.background"}>
+                                Date Required From &nbsp;
+                            </Text>
+                            <DatePicker
+                                name="from_date"
+                                placeholderText="choose a date"
+                                selected={filters.current.from_date || ""}
+                                onSelect={(e) =>
+                                    handleFilterChange("from_date", new Date(e))
+                                }
+                                dateFormat={"dd/MM/yyyy"}
+                            />
+                            <Text color={"brand.background"}>
+                                &nbsp;to &nbsp;
+                            </Text>
+                            <DatePicker
+                                name="to_date"
+                                placeholderText="choose a date"
+                                selected={filters.current.to_date || ""}
+                                onSelect={(e) =>
+                                    handleFilterChange("to_date", new Date(e))
+                                }
+                                dateFormat={"dd/MM/yyyy"}
+                            />
+                        </InputGroup>
+                    </>
+                ) : (
+                    <></>
+                )}
                 <Select
                     w="70%"
                     size="sm"

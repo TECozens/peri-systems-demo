@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require("express");
 const socketio = require("socket.io");
 const http = require("http");
@@ -9,6 +11,8 @@ const server = http.createServer(app);
 const io = socketio(server);
 const cors = require("cors");
 const bodyParser = require("body-parser");
+
+const nodemailer = require('nodemailer');
 
 var corsOptions = {
     origin: "http://localhost:3000",
@@ -25,17 +29,7 @@ app.use(cors(corsOptions));
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
-/**
- * IO is here as i have read it can allow us to send
- * emails to client with updates on the jobs
- */
-// io.on('connection', (socket) => {
-//     console.log('');
 
-//     socket.on('disconnect', () => {
-//         console.log('');
-//     })
-// });
 
 //Mongoose
 
@@ -121,3 +115,38 @@ function initial() {
         }
     });
 }
+
+module.exports = app
+
+// ********* EMAIL NOTIFICATION *********
+let transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+      user: process.env.EMAIL,
+      pass: process.env.PASSWORD
+  }
+});
+
+/**peri group temp email
+* can be found in .env file
+*/
+let mailOptions = {
+  from: 'peri.group2021@gmail.com',
+// TODO: Need to add email for client based on order
+  to: 'edge14031985@gmail.com',
+  subject: 'Project Update',
+
+/**TODO
+* need to figure how to add data
+* from the database to the email 
+*/
+  text: 'Hello {{name}} please find this email as an update to you project.'
+};
+
+transporter.sendMail(mailOptions, function(err, data) {
+  if(err) {
+      console.log('Error Occured!', err);
+  } else {
+      console.log('Email Sent!')
+  }
+});

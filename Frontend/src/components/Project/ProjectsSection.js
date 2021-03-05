@@ -4,11 +4,13 @@ import ProjectFilter from "./ProjectFilter";
 import ProjectList from "./ProjectList";
 import ProjectService from "../../services/project.service";
 import { Box, Flex, Text } from "@chakra-ui/layout";
+import { useBreakpointValue } from "@chakra-ui/react";
 
 const ProjectsSection = () => {
     let authenticatedUser = AuthService.getCurrentUser();
     let allEngineerProjects = useRef();
     const [projectsDisplayed, setProjectsDisplayed] = useState([]);
+    const projectBreakpoint = useBreakpointValue({ base: "sm", lg: "md" });
     let count = 0;
 
     const getProjects = useCallback(() => {
@@ -54,22 +56,17 @@ const ProjectsSection = () => {
                         setProjectDisplayedToAllEngineerProjects={
                             setProjectDisplayedToAllEngineerProjects
                         }
+                        projectBreakpoint={projectBreakpoint}
                     />
                 </Box>
 
-                <Box
-                    height="auto"
-                    width="auto"
-                    borderTopLeftRadius={25}
-                    borderBottomRightRadius={25}
-                    m={10}
-                    bg="brand.background"
-                >
+                <Box height="auto" width="auto" m={0} bg="brand.background">
                     <ProjectList
                         projectsToDisplay={projectsDisplayed}
                         count={count}
                         authenticatedRole={authenticatedUser.roles}
                         updateParent={updateUnfilteredProjects}
+                        projectBreakpoint={projectBreakpoint}
                     />
                 </Box>
             </Box>

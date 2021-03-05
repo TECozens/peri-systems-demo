@@ -22,6 +22,7 @@ import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
 import ProjectView from "../Project/ProjectView";
 import UserService from "../../services/users.service";
 
+
 const BoardTechnical = () => {
     let authenticatedUser = AuthService.getCurrentUser();
     let unfilteredProjects = useRef();
