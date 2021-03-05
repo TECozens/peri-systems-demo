@@ -5,9 +5,6 @@ import '.././App.css';
 import AuthService from "../services/auth.service";
 import {Link, Router, Switch, Route} from "react-router-dom";
 import {Menu, MenuButton, MenuGroup, MenuItem, MenuList} from "@chakra-ui/menu";
-import Dashboard from "../components/Dashboard/Dashboard";
-import Private from "../components/Authentication/Private";
-import BoardAdmin from "../components/Admin/BoardAdmin";
 
 
 const PeriNavbar = () => {
