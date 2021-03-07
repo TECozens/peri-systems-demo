@@ -4,6 +4,8 @@ import React, { useEffect, useMemo } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { useDisclosure } from "@chakra-ui/hooks";
 
+// Required props:
+// page, setPage, maxPage, setMaxPage, isLoading
 const PageSection = (props) => {
     const nextPage = () => props.setPage(props.page + 1);
     const prevPage = () => props.setPage(props.page - 1);

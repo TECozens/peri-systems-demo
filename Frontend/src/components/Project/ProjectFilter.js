@@ -8,14 +8,16 @@ import {
     Select,
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
-import { Flex, Text } from "@chakra-ui/layout";
+import {Flex, Text, VStack} from "@chakra-ui/layout";
 import DatePicker from "react-datepicker";
 import ProjectFilteringService from "../../services/project.filtering.service";
+import PageSection from "../Admin/Register/UserCount/PageSection";
 
 const ProjectFilter = (props) => {
     let filters = useRef({});
     const [statusOptions, setStatusOptions] = useState();
     let firstRender = useRef(true);
+    let [maxPage, setMaxPage] = useState(1)
     let count = props.count;
 
     function getUniqueStatusFromProjects(projectList) {
@@ -54,12 +56,16 @@ const ProjectFilter = (props) => {
     }
 
     function handleFilterChange(filterName, value) {
-        filters.current[filterName] = value;
+        if (filterName && value) {
+            filters.current[filterName] = value;
+        }
         ProjectFilteringService.getProjectsByEngineerIDAndFilter(
             props.authenticatedId,
-            filters.current
-        ).then((projects) => {
-            props.setProjectsParent(projects);
+            filters.current,
+            props.page
+        ).then((data) => {
+            props.setProjectsParent(data.projects);
+            setMaxPage(data.maxPage)
         });
     }
 
@@ -72,6 +78,11 @@ const ProjectFilter = (props) => {
     }
 
     useEffect(() => {
+        console.log(props.page)
+        handleFilterChange()
+    }, [props.page])
+
+    useEffect(() => {
         if (
             firstRender.current === true &&
             props.projectsDisplayed.length !== 0
@@ -82,7 +93,7 @@ const ProjectFilter = (props) => {
     }, [props.projectsDisplayed]);
 
     return (
-        <Flex>
+        <VStack>
             <HStack m="10px">
                 <InputGroup size="sm" w="50%" bg={"brand.background"}>
                     <InputLeftElement
@@ -181,7 +192,8 @@ const ProjectFilter = (props) => {
                     Clear All
                 </Button>
             </HStack>
-        </Flex>
+            <PageSection page={props.page} setPage={props.setPage} maxPage={maxPage} />
+        </VStack>
     );
 };
 

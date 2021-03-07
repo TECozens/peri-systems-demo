@@ -11,11 +11,13 @@ const ProjectsSection = () => {
     let allEngineerProjects = useRef();
     const [projectsDisplayed, setProjectsDisplayed] = useState([]);
     const projectBreakpoint = useBreakpointValue({ base: "sm", lg: "md" });
+    const [page, setPage] = useState(1)
     let count = 0;
 
     const getProjects = useCallback(() => {
         ProjectService.getProjectsWithDesignEngineersByEngineerID(
-            authenticatedUser.id
+            authenticatedUser.id,
+            page
         ).then((projects) => {
             allEngineerProjects.current = projects;
             setProjectDisplayedToAllEngineerProjects();
@@ -49,6 +51,8 @@ const ProjectsSection = () => {
 
                 <Box>
                     <ProjectFilter
+                        page={page}
+                        setPage={setPage}
                         count={count}
                         authenticatedId={authenticatedUser.id}
                         projectsDisplayed={projectsDisplayed}
