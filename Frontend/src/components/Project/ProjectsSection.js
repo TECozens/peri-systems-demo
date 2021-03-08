@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import AuthService from "../../services/auth.service";
 import ProjectFilter from "./ProjectFilter";
 import ProjectList from "./ProjectList";
-import ProjectService from "../../services/project.service";
+import ProjectFilteringService from "../../services/project.filtering.service";
 import {Box, Flex, Text, VStack} from "@chakra-ui/layout";
 import { useBreakpointValue } from "@chakra-ui/react";
 import PageSection from "../Admin/Register/UserCount/PageSection";
@@ -17,12 +17,14 @@ const ProjectsSection = () => {
     let count = 0;
 
     const getProjects = useCallback(() => {
-        ProjectService.getProjectsWithDesignEngineersByEngineerID(
+        ProjectFilteringService.getProjectsByEngineerIDAndFilter(
             authenticatedUser.id,
+            null,
             page
-        ).then((projects) => {
-            allEngineerProjects.current = projects;
+        ).then(({data, maxPage}) => {
+            allEngineerProjects.current = data;
             setProjectDisplayedToAllEngineerProjects();
+            setMaxPage(maxPage)
         });
     }, [authenticatedUser.id]);
 
@@ -76,7 +78,7 @@ const ProjectsSection = () => {
                     />
                 </Box>
 
-                <PageSection page={page} setPage={setPage} maxPage={maxPage} />
+                <PageSection page={page} setPage={setPage} maxPage={maxPage} variant='simple' />
             </Box>
         </Flex>
     );

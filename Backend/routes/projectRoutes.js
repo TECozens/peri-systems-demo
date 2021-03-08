@@ -70,73 +70,50 @@ router.get(
 );
 
 router.get(
-    "/api/projects/getProjectsWithDesignEngineersByEngineerID/:engineerID",
-    jsonParser,
-    (req, res) => {
-        let engineerId = new mongoose.Types.ObjectId(req.params.engineerID);
-        projects
-            .find(
-                {
-                    $or: [
-                        {"engineers.sales_engineer_id": engineerId},
-                        {"engineers.technical_lead_id": engineerId},
-                        {"engineers.designer_id": engineerId},
-                        {"engineers.design_checker_id": engineerId},
-                    ],
-                },
-                (err, data) => {
-                    if (err) {
-                        return res.json({success: false, error: err});
-                    } else {
-                        return res.json({success: true, data: data});
-                    }
-                }
-            )
-            .populate("engineers.designer_id")
-            .populate("engineers.design_checker_id");
-    }
-);
-
-router.get(
     "/api/projects/filter/getProjectsWithDesignEngineersByEngineerID/:engineerID/page/:page",
     jsonParser,
     (req, res) => {
+        console.log(req.query)
         let engineerId = new mongoose.Types.ObjectId(req.params.engineerID);
         let pageSize = 5;
         let page = req.params.page
         let pageOptions = {limit: pageSize, skip: (page - 1) * pageSize}
+        let filters = {}
 
-        let filters = {
-            $or: [
-                {"engineers.sales_engineer_id": engineerId},
-                {"engineers.technical_lead_id": engineerId},
-                {"engineers.designer_id": engineerId},
-                {"engineers.design_checker_id": engineerId},
-            ],
-        };
 
-        let filterNames = Object.keys(req.query);
+        if (req.query !== {}) {
+            filters = {
+                $or: [
+                    {"engineers.sales_engineer_id": engineerId},
+                    {"engineers.technical_lead_id": engineerId},
+                    {"engineers.designer_id": engineerId},
+                    {"engineers.design_checker_id": engineerId},
+                ],
+            };
 
-        for (let i = 0; i < filterNames.length; i++) {
-            if (filterNames[i] === "from_date") {
-                if (filters["date_required"] === undefined) {
-                    filters["date_required"] = {};
+            let filterNames = Object.keys(req.query);
+
+            for (let i = 0; i < filterNames.length; i++) {
+                if (filterNames[i] === "from_date") {
+                    if (filters["date_required"] === undefined) {
+                        filters["date_required"] = {};
+                    }
+                    filters["date_required"]["$gte"] = new Date(
+                        req.query[filterNames[i]]
+                    );
+                } else if (filterNames[i] === "to_date") {
+                    if (filters["date_required"] === undefined) {
+                        filters["date_required"] = {};
+                    }
+                    filters["date_required"]["$lt"] = new Date(
+                        req.query[filterNames[i]]
+                    );
+                } else {
+                    filters[filterNames[i]] = {
+                        $regex: req.query[filterNames[i]],
+                        $options: "i",
+                    };
                 }
-                filters["date_required"]["$gte"] = new Date(
-                    req.query[filterNames[i]]
-                );
-            } else if (filterNames[i] === "to_date") {
-                if (filters["date_required"] === undefined) {
-                    filters["date_required"] = {};
-                }
-                filters["date_required"]["$lt"] = new Date(
-                    req.query[filterNames[i]]
-                );
-            } else {
-                filters[filterNames[i]] = {
-                    $regex: req.query[filterNames[i]],
-                    $options: "i",
-                };
             }
         }
 
@@ -145,8 +122,11 @@ router.get(
                 if (err) {
                     return res.json({success: false, error: err});
                 } else {
-                    projects.countDocuments(filters, (err, count) =>
-                        res.json({success: true, data: data, maxPage: Math.ceil(count / pageSize)}))
+                    projects.countDocuments(filters, (err, count) => {
+                        let maxPages = Math.ceil(count / pageSize)
+                        maxPages = Math.max(maxPages, 1)
+                        return res.json({success: true, data: data, maxPage: maxPages})
+                    })
                 }
             })
             .populate("engineers.designer_id")
