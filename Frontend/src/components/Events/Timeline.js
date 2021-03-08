@@ -94,15 +94,13 @@ const Timeline = (props) => {
                 let currentStatusIndex = statusArray.lastIndexOf(
                     allProjectStages[index]
                 );
-                let date = projects.status_history[currentStatusIndex].time_set;
-                let dateToDisplay =
-                    date.slice(8, 10) +
-                    "/" +
-                    date.slice(5, 7) +
-                    "/" +
-                    date.slice(0, 4);
-                let minute = date.slice(14, 16);
-                let hour = date.slice(11, 13);
+                let date = new Date(
+                    projects.status_history[currentStatusIndex].time_set
+                );
+                let dateToDisplay = date.toLocaleDateString();
+                let minute =
+                    (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
+                let hour = (date.getHours() < 10 ? "0" : "") + date.getHours();
                 let meridiem;
                 if (hour > 12) {
                     meridiem = "PM";
