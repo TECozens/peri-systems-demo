@@ -17,7 +17,7 @@ const ProjectFilter = (props) => {
     let filters = useRef({});
     const [statusOptions, setStatusOptions] = useState();
     let firstRender = useRef(true);
-    let maxPage = useRef(1);
+    let [maxPage, setMaxPage] = useState(1);
     let count = props.count;
 
     function getUniqueStatusFromProjects(projectList) {
@@ -65,7 +65,7 @@ const ProjectFilter = (props) => {
             props.page
         ).then((data) => {
             props.setProjectsParent(data.data);
-            maxPage.current = data.maxPage
+            setMaxPage(data.maxPage)
         });
     }
 
@@ -191,7 +191,7 @@ const ProjectFilter = (props) => {
                     Clear All
                 </Button>
             </HStack>
-            <PageSection page={props.page} setPage={props.setPage} maxPage={maxPage.current} />
+            <PageSection page={props.page} setPage={props.setPage} maxPage={maxPage} />
         </VStack>
     );
 };
