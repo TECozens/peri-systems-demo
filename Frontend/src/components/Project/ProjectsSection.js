@@ -3,8 +3,9 @@ import AuthService from "../../services/auth.service";
 import ProjectFilter from "./ProjectFilter";
 import ProjectList from "./ProjectList";
 import ProjectService from "../../services/project.service";
-import { Box, Flex, Text } from "@chakra-ui/layout";
+import {Box, Flex, Text, VStack} from "@chakra-ui/layout";
 import { useBreakpointValue } from "@chakra-ui/react";
+import PageSection from "../Admin/Register/UserCount/PageSection";
 
 const ProjectsSection = () => {
     let authenticatedUser = AuthService.getCurrentUser();
@@ -12,6 +13,7 @@ const ProjectsSection = () => {
     const [projectsDisplayed, setProjectsDisplayed] = useState([]);
     const projectBreakpoint = useBreakpointValue({ base: "sm", lg: "md" });
     const [page, setPage] = useState(1)
+    let [maxPage, setMaxPage] = useState(1);
     let count = 0;
 
     const getProjects = useCallback(() => {
@@ -51,8 +53,8 @@ const ProjectsSection = () => {
 
                 <Box>
                     <ProjectFilter
+                        setMaxPage={setMaxPage}
                         page={page}
-                        setPage={setPage}
                         count={count}
                         authenticatedId={authenticatedUser.id}
                         projectsDisplayed={projectsDisplayed}
@@ -73,6 +75,8 @@ const ProjectsSection = () => {
                         projectBreakpoint={projectBreakpoint}
                     />
                 </Box>
+
+                <PageSection page={page} setPage={setPage} maxPage={maxPage} />
             </Box>
         </Flex>
     );

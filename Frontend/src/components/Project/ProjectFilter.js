@@ -11,13 +11,11 @@ import { Search2Icon } from "@chakra-ui/icons";
 import {Flex, Text, VStack} from "@chakra-ui/layout";
 import DatePicker from "react-datepicker";
 import ProjectFilteringService from "../../services/project.filtering.service";
-import PageSection from "../Admin/Register/UserCount/PageSection";
 
 const ProjectFilter = (props) => {
     let filters = useRef({});
     const [statusOptions, setStatusOptions] = useState();
     let firstRender = useRef(true);
-    let [maxPage, setMaxPage] = useState(1);
     let count = props.count;
 
     function getUniqueStatusFromProjects(projectList) {
@@ -65,7 +63,7 @@ const ProjectFilter = (props) => {
             props.page
         ).then((data) => {
             props.setProjectsParent(data.data);
-            setMaxPage(data.maxPage)
+            props.setMaxPage(data.maxPage)
         });
     }
 
@@ -191,7 +189,6 @@ const ProjectFilter = (props) => {
                     Clear All
                 </Button>
             </HStack>
-            <PageSection page={props.page} setPage={props.setPage} maxPage={maxPage} />
         </VStack>
     );
 };
