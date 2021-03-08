@@ -17,7 +17,7 @@ const ProjectFilter = (props) => {
     let filters = useRef({});
     const [statusOptions, setStatusOptions] = useState();
     let firstRender = useRef(true);
-    let [maxPage, setMaxPage] = useState(1)
+    let maxPage = useRef(1);
     let count = props.count;
 
     function getUniqueStatusFromProjects(projectList) {
@@ -56,16 +56,16 @@ const ProjectFilter = (props) => {
     }
 
     function handleFilterChange(filterName, value) {
-        if (filterName && value) {
+        // if (filterName && value) {
             filters.current[filterName] = value;
-        }
+        // }
         ProjectFilteringService.getProjectsByEngineerIDAndFilter(
             props.authenticatedId,
             filters.current,
             props.page
         ).then((data) => {
-            props.setProjectsParent(data.projects);
-            setMaxPage(data.maxPage)
+            props.setProjectsParent(data.data);
+            maxPage.current = data.maxPage
         });
     }
 
@@ -78,7 +78,6 @@ const ProjectFilter = (props) => {
     }
 
     useEffect(() => {
-        console.log(props.page)
         handleFilterChange()
     }, [props.page])
 
@@ -192,7 +191,7 @@ const ProjectFilter = (props) => {
                     Clear All
                 </Button>
             </HStack>
-            <PageSection page={props.page} setPage={props.setPage} maxPage={maxPage} />
+            <PageSection page={props.page} setPage={props.setPage} maxPage={maxPage.current} />
         </VStack>
     );
 };
