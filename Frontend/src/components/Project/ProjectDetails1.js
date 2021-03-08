@@ -21,6 +21,10 @@ const ProjectDetails1 = (props) => {
                         </Heading>
                     </Box>
                     <Heading as="h4" size="md" paddingLeft={20}>
+                        Due:
+                        {new Date(project.date_required).toLocaleDateString()}
+                    </Heading>
+                    <Heading as="h4" size="md" paddingLeft={20}>
                         Description: {project.description}
                     </Heading>
                 </>
