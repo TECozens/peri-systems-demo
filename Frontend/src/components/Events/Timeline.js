@@ -60,10 +60,9 @@ const Timeline = (props) => {
                             height={logoHeight}
                         />
                         <b>
-                            {" "}
                             <Text fontSize={statusTextSize}>
                                 {allProjectStages[index]}
-                            </Text>{" "}
+                            </Text>
                         </b>
                         <Text fontSize={timeTextSize}>In progress...</Text>
                     </div>
@@ -196,28 +195,22 @@ const Timeline = (props) => {
     }
 
     return (
-        <Box width="100%">
-            <Box
-                bg="brand.background"
-                className="line"
-                width="80%"
-                m={20}
-                boxShadow="lg"
-            >
-                <Flex>
-                    <Box w="100%"> {isStatusComplete(0)}</Box>
-                    <Box mr={5} w="100%">
-                        {" "}
-                        {isStatusComplete(1)}
-                    </Box>
-                    <Box w="100%"> {isStatusComplete(2)}</Box>
-                    <Box w="100%"> {isStatusComplete(3)}</Box>
-                    <Box w="100%"> {isStatusComplete(4)}</Box>
-                    <Box w="100%"> {isStatusComplete(5)}</Box>
-                    <Box w="100%"> {isStatusComplete(6)}</Box>
-                    <Box w="100%"> {isStatusComplete(7)}</Box>
-                </Flex>
-            </Box>
+        <Box
+            bg="brand.background"
+            className="line"
+            width="100%"
+            marginBottom={40}
+        >
+            <Flex>
+                <Box w="100%"> {isStatusComplete(0)}</Box>
+                <Box w="100%"> {isStatusComplete(1)}</Box>
+                <Box w="100%"> {isStatusComplete(2)}</Box>
+                <Box w="100%"> {isStatusComplete(3)}</Box>
+                <Box w="100%"> {isStatusComplete(4)}</Box>
+                <Box w="100%"> {isStatusComplete(5)}</Box>
+                <Box w="100%"> {isStatusComplete(6)}</Box>
+                <Box w="100%"> {isStatusComplete(7)}</Box>
+            </Flex>
         </Box>
     );
 };

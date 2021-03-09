@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box } from "@chakra-ui/layout";
+import { Box, Center, Flex } from "@chakra-ui/layout";
 import Timeline from "../Events/Timeline";
 import ProjectService from "../../services/project.service";
 import ProjectDetails1 from "../Project/ProjectDetails1";
@@ -17,16 +17,21 @@ const CustomerProjectDetails = (props) => {
     }, [projectId]);
 
     return (
-        <Box width="100%" p={15}>
+        <Flex
+            bg={"brand.background"}
+            borderRadius="lg"
+            w={"fit-content"}
+            boxShadow="lg"
+        >
             {projectId ? (
-                <>
+                <Box m={10}>
                     <ProjectDetails1 project={project} />
                     <Timeline project={project} />
-                </>
+                </Box>
             ) : (
                 <></>
             )}
-        </Box>
+        </Flex>
     );
 };
 

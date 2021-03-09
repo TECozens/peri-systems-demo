@@ -11,7 +11,7 @@ const ProjectDetails1 = (props) => {
     }, [props.project]);
 
     return (
-        <Box p={30}>
+        <Box marginBottom={20}>
             {project ? (
                 <>
                     <Box align="center" justify="center">
@@ -20,13 +20,17 @@ const ProjectDetails1 = (props) => {
                             (#{project.number})
                         </Heading>
                     </Box>
-                    <Heading as="h4" size="md" paddingLeft={20}>
-                        Due:{" "}
-                        {new Date(project.date_required).toLocaleDateString()}
-                    </Heading>
-                    <Heading as="h4" size="md" paddingLeft={20}>
-                        Description: {project.description}
-                    </Heading>
+                    <Box>
+                        <Heading as="h4" size="md" marginBottom={5}>
+                            Due:{" "}
+                            {new Date(
+                                project.date_required
+                            ).toLocaleDateString()}
+                        </Heading>
+                        <Heading as="h4" size="md">
+                            Description: {project.description}
+                        </Heading>
+                    </Box>
                 </>
             ) : (
                 <> </>
