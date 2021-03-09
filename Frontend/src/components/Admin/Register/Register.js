@@ -30,8 +30,7 @@ import { SearchIcon } from "@chakra-ui/icons";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 
-const getData = ({ props }) =>
-    UserService.example(props.userSearch, props.page);
+const getData = ({props}) => UserService.getUsers(props.userSearch, props.page)
 
 const Register = (props) => {
     const [userSearch, setUserSearch] = useState("");
@@ -47,13 +46,22 @@ const Register = (props) => {
     const [users, setUsers] = useState([]);
     const pageSize = 3;
 
-    const showUserCount = useBreakpointValue({ base: false, md: true });
-    const { data, error, isLoading } = useAsync({
-        promiseFn: getData,
-        watch: searchParams,
-        props: { userSearch, page },
-    });
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    // Effects
+    useEffect(() => {
+        console.log("udpateing page")
+        if ((users.length <= 0) && (page !== 1)) {
+            setPage(1)
+        }
+    }, [users])
+
+    const showUserCount = useBreakpointValue({base: false, 'md': true})
+    const {data, error, isLoading}
+        = useAsync({promiseFn: getData, watch: searchParams, props: {userSearch, page}})
+    const {
+        isOpen,
+        onOpen,
+        onClose
+    } = useDisclosure()
 
     const createUser = async () => {
         onClose();
@@ -107,13 +115,6 @@ const Register = (props) => {
             await setUsers(users.filter((user) => user.email !== email));
         }
     };
-
-    // Effects
-    useEffect(() => {
-        if (users.length <= 0 && page !== 1) {
-            setPage(1);
-        }
-    }, [users]);
 
     useEffect(() => {
         if (data) {
