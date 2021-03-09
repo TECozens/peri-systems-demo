@@ -226,12 +226,15 @@ router.get(
     jsonParser,
     (req, res) => {
         let projectId = new mongoose.Types.ObjectId(req.params.projectId);
-        projects.findById({ _id: projectId }, (err, data) => {
+        projects.findById({ _id: projectId }).populate('customer').
+        exec(function (err, data) {
             if (err) {
                 return res.json({ success: false, error: err });
             } else {
                 return res.json({ success: true, data: data });
+                // prints "The author is Ian Fleming", (err, data) => {
             }
+
         });
     }
 );

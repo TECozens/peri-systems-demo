@@ -11,6 +11,9 @@ const server = http.createServer(app);
 const io = socketio(server);
 const cors = require("cors");
 const bodyParser = require("body-parser");
+require('dotenv').config()
+const morgan = require('morgan')
+const nodemailer = require('nodemailer')
 
 const nodemailer = require('nodemailer');
 
@@ -22,6 +25,12 @@ var corsOptions = {
 const router = require("./routes/router");
 const projectRouter = require("./routes/projectRoutes");
 const usersRouter = require("./routes/usersRoutes");
+const mailSender = require("./routes/mailSender");
+
+//node mailer
+app.use(morgan('dev'));
+app.use(express.json());
+// app.use('/sendtome', require('./routes/mailSender'))
 
 //middlewares
 app.use(bodyParser.json());
@@ -45,6 +54,7 @@ const MONGODB_URI =
 const mongoose = require("mongoose");
 const db = require("./models");
 const Role = db.role;
+const Customer = db.customer;
 
 db.mongoose
     .connect(MONGODB_URI || "mongodb://localhost/peri_db", {
@@ -74,6 +84,7 @@ mdb.once("open", function () {
 app.use(router);
 app.use(usersRouter);
 app.use(projectRouter);
+app.use(mailSender)
 
 require("./routes/auth.routes")(app);
 require("./routes/user.routes")(app);
@@ -111,6 +122,31 @@ function initial() {
                 }
 
                 console.log("added 'admin' to roles collection");
+            });
+        }
+    });
+
+    Customer.estimatedDocumentCount((err, count) => {
+        if (!err && count === 0) {
+            new Customer({
+                name: "sepehr",
+                email: "sepehr2000.sn@gmail.com",
+            }).save((err) => {
+                if (err) {
+                    console.log("error", err);
+                }
+
+                console.log("added customer to collection");
+            });
+
+            new Customer({
+                name: "cardiff",
+                email: "sepehr2000.sn@gmail.com",
+            }).save((err) => {
+                if (err) {
+                    console.log("error", err);
+                }
+                console.log("added customer to collection");
             });
         }
     });
