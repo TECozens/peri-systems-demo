@@ -4,12 +4,12 @@ const projects = require("../models/projectModel");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
-urlencodedParser = bodyParser.urlencoded({extended: false});
+urlencodedParser = bodyParser.urlencoded({ extended: false });
 jsonParser = bodyParser.json();
 
 router.post("/addProject", jsonParser, (req, res) => {
     let newProject = new projects();
-    let status = {time_set: new Date(), value: req.body.status};
+    let status = { time_set: new Date(), value: req.body.status };
     newProject._id = new mongoose.Types.ObjectId();
     newProject.number = req.body.number;
     newProject.name = req.body.name;
@@ -29,8 +29,8 @@ router.post("/addProject", jsonParser, (req, res) => {
     newProject.status_history.push(status);
 
     newProject.save((err) => {
-        if (err) return res.json({success: false, error: err});
-        return res.json({success: true});
+        if (err) return res.json({ success: false, error: err });
+        return res.json({ success: true });
     });
 });
 
@@ -39,11 +39,11 @@ router.get(
     jsonParser,
     (req, res) => {
         let designerId = new mongoose.Types.ObjectId(req.params.designerID);
-        projects.find({"engineers.designer_id": designerId}, (err, data) => {
+        projects.find({ "engineers.designer_id": designerId }, (err, data) => {
             if (err) {
-                return res.json({success: false, error: err});
+                return res.json({ success: false, error: err });
             } else {
-                return res.json({success: true, data: data});
+                return res.json({ success: true, data: data });
             }
         });
     }
@@ -57,12 +57,12 @@ router.get(
             req.params.technicalLeadID
         );
         projects.find(
-            {"engineers.technical_lead_id": technicalLeadId},
+            { "engineers.technical_lead_id": technicalLeadId },
             (err, data) => {
                 if (err) {
-                    return res.json({success: false, error: err});
+                    return res.json({ success: false, error: err });
                 } else {
-                    return res.json({success: true, data: data});
+                    return res.json({ success: true, data: data });
                 }
             }
         );
@@ -73,21 +73,19 @@ router.get(
     "/api/projects/filter/getProjectsWithDesignEngineersByEngineerID/:engineerID/page/:page",
     jsonParser,
     (req, res) => {
-        console.log(req.query)
         let engineerId = new mongoose.Types.ObjectId(req.params.engineerID);
         let pageSize = 5;
-        let page = req.params.page
-        let pageOptions = {limit: pageSize, skip: (page - 1) * pageSize}
-        let filters = {}
-
+        let page = req.params.page;
+        let pageOptions = { limit: pageSize, skip: (page - 1) * pageSize };
+        let filters = {};
 
         if (req.query !== {}) {
             filters = {
                 $or: [
-                    {"engineers.sales_engineer_id": engineerId},
-                    {"engineers.technical_lead_id": engineerId},
-                    {"engineers.designer_id": engineerId},
-                    {"engineers.design_checker_id": engineerId},
+                    { "engineers.sales_engineer_id": engineerId },
+                    { "engineers.technical_lead_id": engineerId },
+                    { "engineers.designer_id": engineerId },
+                    { "engineers.design_checker_id": engineerId },
                 ],
             };
 
@@ -120,13 +118,17 @@ router.get(
         projects
             .find(filters, null, pageOptions, (err, data) => {
                 if (err) {
-                    return res.json({success: false, error: err});
+                    return res.json({ success: false, error: err });
                 } else {
                     projects.countDocuments(filters, (err, count) => {
-                        let maxPages = Math.ceil(count / pageSize)
-                        maxPages = Math.max(maxPages, 1)
-                        return res.json({success: true, data: data, maxPage: maxPages})
-                    })
+                        let maxPages = Math.ceil(count / pageSize);
+                        maxPages = Math.max(maxPages, 1);
+                        return res.json({
+                            success: true,
+                            data: data,
+                            maxPage: maxPages,
+                        });
+                    });
                 }
             })
             .populate("engineers.designer_id")
@@ -142,7 +144,7 @@ router.put(
         projects
             .findById(designerId, (err, data) => {
                 if (err) {
-                    return res.json({success: false, error: err});
+                    return res.json({ success: false, error: err });
                 } else {
                     let project = data;
                     let status = {
@@ -152,7 +154,7 @@ router.put(
                     project.status_history.push(status);
                     project.status = status;
                     project.save();
-                    return res.json({success: true, data: data});
+                    return res.json({ success: true, data: data });
                 }
             })
             .populate("engineers.designer_id")
@@ -169,7 +171,7 @@ router.put(
 
         projects.findById(projectID, (err, data) => {
             if (err) {
-                return res.json({success: false, error: err});
+                return res.json({ success: false, error: err });
             } else {
                 let project = data;
                 project.engineers.designer_id = engineerID;
@@ -198,7 +200,7 @@ router.put(
 
         projects.findById(projectID, (err, data) => {
             if (err) {
-                return res.json({success: false, error: err});
+                return res.json({ success: false, error: err });
             } else {
                 let project = data;
                 project.engineers.design_checker_id = engineerID;
@@ -224,11 +226,11 @@ router.get(
     jsonParser,
     (req, res) => {
         let projectId = new mongoose.Types.ObjectId(req.params.projectId);
-        projects.findById({_id: projectId}, (err, data) => {
+        projects.findById({ _id: projectId }, (err, data) => {
             if (err) {
-                return res.json({success: false, error: err});
+                return res.json({ success: false, error: err });
             } else {
-                return res.json({success: true, data: data});
+                return res.json({ success: true, data: data });
             }
         });
     }
