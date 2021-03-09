@@ -150,36 +150,3 @@ function initial() {
 }
 
 module.exports = app
-
-// ********* EMAIL NOTIFICATION *********
-let transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-      user: process.env.EMAIL,
-      pass: process.env.PASSWORD
-  }
-});
-
-/**peri group temp email
-* can be found in .env file
-*/
-let mailOptions = {
-  from: 'peri.group2021@gmail.com',
-// TODO: Need to add email for client based on order
-  to: 'edge14031985@gmail.com',
-  subject: 'Project Update',
-
-/**TODO
-* need to figure how to add data
-* from the database to the email 
-*/
-  text: 'Hello {{name}} please find this email as an update to you project.'
-};
-
-transporter.sendMail(mailOptions, function(err, data) {
-  if(err) {
-      console.log('Error Occured!', err);
-  } else {
-      console.log('Email Sent!')
-  }
-});
