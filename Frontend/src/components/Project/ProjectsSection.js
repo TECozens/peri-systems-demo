@@ -10,9 +10,10 @@ import ProjectList from "./ProjectList";
 const ProjectsSection = () => {
     let authenticatedUser = AuthService.getCurrentUser();
     let allEngineerProjects = useRef();
+    let originalMaxPage = useRef();
     const [projectsDisplayed, setProjectsDisplayed] = useState([]);
     const projectBreakpoint = useBreakpointValue({ base: "sm", lg: "md" });
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(1);
     let [maxPage, setMaxPage] = useState(1);
     let count = 0;
 
@@ -21,10 +22,11 @@ const ProjectsSection = () => {
             authenticatedUser.id,
             null,
             page
-        ).then(({data, maxPage}) => {
+        ).then(({ data, maxPage }) => {
             allEngineerProjects.current = data;
+            originalMaxPage.current = maxPage;
             setProjectDisplayedToAllEngineerProjects();
-            setMaxPage(maxPage)
+            setMaxPage(maxPage);
         });
     }, [authenticatedUser.id, page]);
 
@@ -56,6 +58,7 @@ const ProjectsSection = () => {
                 <Box>
                     <ProjectFilter
                         setMaxPage={setMaxPage}
+                        setPage={setPage}
                         page={page}
                         count={count}
                         authenticatedId={authenticatedUser.id}
@@ -64,6 +67,7 @@ const ProjectsSection = () => {
                         setProjectDisplayedToAllEngineerProjects={
                             setProjectDisplayedToAllEngineerProjects
                         }
+                        originalMaxPage={originalMaxPage.current}
                         projectBreakpoint={projectBreakpoint}
                     />
                 </Box>
@@ -78,7 +82,12 @@ const ProjectsSection = () => {
                     />
                 </Box>
 
-                <PageSection page={page} setPage={setPage} maxPage={maxPage} variant='simple' />
+                <PageSection
+                    page={page}
+                    setPage={setPage}
+                    maxPage={maxPage}
+                    variant="simple"
+                />
             </Box>
         </Flex>
     );

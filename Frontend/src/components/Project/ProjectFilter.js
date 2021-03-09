@@ -55,7 +55,9 @@ const ProjectFilter = (props) => {
 
     const handleFilterChange = useCallback(
         (filterName, value) => {
-            filters.current[filterName] = value;
+            if (filterName !== undefined && value !== undefined) {
+                filters.current[filterName] = value;
+            }
             ProjectFilteringService.getProjectsByEngineerIDAndFilter(
                 props.authenticatedId,
                 filters.current,
@@ -63,9 +65,12 @@ const ProjectFilter = (props) => {
             ).then((data) => {
                 props.setProjectsParent(data.data);
                 props.setMaxPage(data.maxPage);
+                if (data.maxPage === 1) {
+                    props.setPage(1);
+                }
             });
         },
-        [props]
+        [props.page]
     );
 
     function clearFilters() {
@@ -74,10 +79,16 @@ const ProjectFilter = (props) => {
             filters.current[filterNames[i]] = "";
         }
         props.setProjectDisplayedToAllEngineerProjects();
+        props.setMaxPage(props.originalMaxPage);
     }
 
     useEffect(() => {
-        handleFilterChange();
+        if (
+            firstRender.current === false &&
+            props.projectsDisplayed.length !== 0
+        ) {
+            handleFilterChange();
+        }
     }, [props.page, handleFilterChange]);
 
     useEffect(() => {
