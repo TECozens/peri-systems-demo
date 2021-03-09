@@ -8,7 +8,8 @@ import {
     ModalContent,
     ModalFooter,
     ModalHeader,
-    ModalOverlay, useBreakpointValue,
+    ModalOverlay,
+    useBreakpointValue,
     VStack,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/hooks";
@@ -21,19 +22,18 @@ const AssignEngineers = (props) => {
     const selectedDesignCheckerId = useRef();
     const initialDesigner = useRef();
     const initialDesignChecker = useRef();
-    const projectBreakpoint = useBreakpointValue({base: "sm", lg: "md"})
-
+    const projectBreakpoint = useBreakpointValue({ base: "sm", lg: "md" });
 
     useEffect(() => {
         if (props.project.engineers.designer_id !== null) {
             initialDesigner.current = props.project.engineers.designer_id._id;
-            selectedDesignEngineerId.current = initialDesigner;
+            selectedDesignEngineerId.current = initialDesigner.current;
         }
 
         if (props.project.engineers.design_checker_id !== null) {
             initialDesignChecker.current =
                 props.project.engineers.design_checker_id._id;
-            selectedDesignCheckerId.current = initialDesignChecker;
+            selectedDesignCheckerId.current = initialDesignChecker.current;
         }
     }, [
         props.project.engineers.designer_id,
@@ -89,12 +89,11 @@ const AssignEngineers = (props) => {
                 color="brand.background"
                 bg="brand.grey"
                 borderColor="brand.pink"
-                _hover={{bg: "brand.pink", borderColor: "brand.grey"}}
+                _hover={{ bg: "brand.pink", borderColor: "brand.grey" }}
                 onClick={onOpen}
             >
                 Assign Engineers
             </Button>
-
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />

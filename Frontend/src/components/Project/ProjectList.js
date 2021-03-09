@@ -1,29 +1,18 @@
-import React, {useContext, useEffect, useRef, useState} from "react";
-import {Td, Tr, Tbody, Thead, Th, Table, Tfoot} from "@chakra-ui/table";
+import React, { useEffect, useState } from "react";
+import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
 import UpdateStatus from "../Events/UpdateStatus";
-import {Button, useBreakpoint, useBreakpointValue} from "@chakra-ui/react";
 import ProjectView from "./ProjectView";
 import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
-import {Flex, Box, Text, Spacer} from "@chakra-ui/layout";
-import {Link} from "react-router-dom";
+import { Text } from "@chakra-ui/layout";
 
 const ProjectList = (props) => {
     let count = props.count;
-    const projectBreakpoint = useBreakpointValue({base: "sm", lg: "md"})
-    const resultsPerPage = 10
-    const [currPage, setCurrPage] = useState(1)
     const [projects, setProjects] = useState([]);
 
-    const tableSizing = useBreakpoint("")
-    // const projects = props.projectsToDisplay;
-
     useEffect(() => {
-
-    }, [currPage])
-
-
-    useEffect(() => {
-        setProjects(props.projectsToDisplay);
+        if (props.projectsToDisplay !== undefined) {
+            setProjects(props.projectsToDisplay);
+        }
     }, [props.projectsToDisplay]);
 
     const returnEngineerName = (engineer) => {
@@ -36,89 +25,132 @@ const ProjectList = (props) => {
 
     if (projects.length > 0) {
         return (
-            <Table size={projectBreakpoint} bg="brand.background" boxShadow="dark-lg">
+            <Table
+                size={props.projectBreakpoint}
+                bg="brand.background"
+                boxShadow="dark-lg"
+            >
                 <Thead>
                     <Tr>
                         <Th bg="brand.pink">
-                            <Text color="brand.background" fontSize={projectBreakpoint}>Number </Text>
+                            <Text
+                                color="brand.background"
+                                fontSize={props.projectBreakpoint}
+                            >
+                                Number{" "}
+                            </Text>
                         </Th>
                         <Th bg="brand.pink">
-                            <Text color="brand.background" fontSize={projectBreakpoint}>Name </Text>
+                            <Text
+                                color="brand.background"
+                                fontSize={props.projectBreakpoint}
+                            >
+                                Name{" "}
+                            </Text>
                         </Th>
-                        {
-                            (projectBreakpoint !== "sm") ?
-                                <>
-                                    <Th bg="brand.pink">
-                                        <Text color="brand.background" fontSize={projectBreakpoint}>Client</Text>
-                                    </Th>
-                                    <Th bg="brand.pink">
-                                        <Text color="brand.background" fontSize={projectBreakpoint}>Date Required</Text>
-                                    </Th>
-                                </> : (
-                                    <>
-                                    </>
-                                )
-                        }
+                        {props.projectBreakpoint !== "sm" ? (
+                            <>
+                                <Th bg="brand.pink">
+                                    <Text
+                                        color="brand.background"
+                                        fontSize={props.projectBreakpoint}
+                                    >
+                                        Client
+                                    </Text>
+                                </Th>
+                                <Th bg="brand.pink">
+                                    <Text
+                                        color="brand.background"
+                                        fontSize={props.projectBreakpoint}
+                                    >
+                                        Date Required
+                                    </Text>
+                                </Th>
+                                <Th bg="brand.pink">
+                                    <Text
+                                        color="brand.background"
+                                        fontSize={props.projectBreakpoint}
+                                    >
+                                        Design Engineer
+                                    </Text>
+                                </Th>
+                                <Th bg="brand.pink">
+                                    <Text
+                                        color="brand.background"
+                                        fontSize={props.projectBreakpoint}
+                                    >
+                                        Design Checker
+                                    </Text>
+                                </Th>
+                            </>
+                        ) : (
+                            <></>
+                        )}
                         <Th bg="brand.pink">
-                            <Text color="brand.background" fontSize={projectBreakpoint}>Status</Text>
+                            <Text
+                                color="brand.background"
+                                fontSize={props.projectBreakpoint}
+                            >
+                                Status
+                            </Text>
                         </Th>
-                        <Th bg="brand.pink"/>
+                        <Th bg="brand.pink" />
                     </Tr>
                 </Thead>
                 <Tbody>
                     {projects.map((project) => (
-                        <Tr topBorder="1px" borderColor="#E2DCCD" key={project.name}>
+                        <Tr
+                            topBorder="1px"
+                            borderColor="#E2DCCD"
+                            key={project.name}
+                        >
                             <Td>{project.number}</Td>
                             <Td>{project.name}</Td>
 
-                            {
-                                (projectBreakpoint !== "sm") ?
-                                    <>
-                                        <Td>{project.client}</Td>
-                                        <Td>
-                                            {new Date(
-                                                project.date_required
-                                            ).toLocaleDateString()}
-                                        </Td>
-                                    </> : (
-                                        <>
-                                        </>
-                                    )
-                            }
-
-                            <Td>
-                                {project.status[project.status.length - 1].value}
-                            </Td>
-
-
+                            {props.projectBreakpoint !== "sm" ? (
+                                <>
+                                    <Td>{project.client}</Td>
+                                    <Td>
+                                        {new Date(
+                                            project.date_required
+                                        ).toLocaleDateString()}
+                                    </Td>
+                                    <Td>
+                                        {returnEngineerName(
+                                            project.engineers.designer_id
+                                        )}
+                                    </Td>
+                                    <Td>
+                                        {returnEngineerName(
+                                            project.engineers.design_checker_id
+                                        )}
+                                    </Td>
+                                </>
+                            ) : (
+                                <></>
+                            )}
+                            <Td>{project.status.value}</Td>
                             <Td isNumeric>
                                 <UpdateStatus
                                     count={count}
-                                    projectStatus={
-                                        project.status[project.status.length - 1]
-                                            .value
-                                    }
+                                    projectStatus={project.status.value}
                                     projectId={project._id}
                                     updateParent={props.updateParent}
                                 />
 
-                                {props.authenticatedRole.includes("ROLE_TECHNICAL") &&
-                                <AssignEngineers
-                                    updateParent={props.updateParent}
-                                    project={project}
-                                />
-                                }
-
-                                <ProjectView
-                                    project={project}
-                                />
+                                {props.authenticatedRole.includes(
+                                    "ROLE_TECHNICAL"
+                                ) && (
+                                    <AssignEngineers
+                                        updateParent={props.updateParent}
+                                        project={project}
+                                    />
+                                )}
+                                <ProjectView project={project} />
                             </Td>
                         </Tr>
                     ))}
                 </Tbody>
-                <Tfoot>
-
-                </Tfoot>
             </Table>
         );
     } else {
