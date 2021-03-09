@@ -1,25 +1,18 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { Td, Tr, Tbody, Thead, Th, Table, Tfoot } from "@chakra-ui/table";
+import React, { useEffect, useState } from "react";
+import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
 import UpdateStatus from "../Events/UpdateStatus";
-import { Button, useBreakpoint, useBreakpointValue } from "@chakra-ui/react";
 import ProjectView from "./ProjectView";
 import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
-import { Flex, Box, Text, Spacer } from "@chakra-ui/layout";
-import { Link } from "react-router-dom";
+import { Text } from "@chakra-ui/layout";
 
 const ProjectList = (props) => {
     let count = props.count;
-    const projectBreakpoint = useBreakpointValue({ base: "sm", lg: "md" });
-    const resultsPerPage = 10;
-    const [currPage, setCurrPage] = useState(1);
     const [projects, setProjects] = useState([]);
 
-    const tableSizing = useBreakpoint("");
-
-    useEffect(() => {}, [currPage]);
-
     useEffect(() => {
-        setProjects(props.projectsToDisplay);
+        if (props.projectsToDisplay !== undefined) {
+            setProjects(props.projectsToDisplay);
+        }
     }, [props.projectsToDisplay]);
 
     const returnEngineerName = (engineer) => {
@@ -33,7 +26,7 @@ const ProjectList = (props) => {
     if (projects.length > 0) {
         return (
             <Table
-                size={projectBreakpoint}
+                size={props.projectBreakpoint}
                 bg="brand.background"
                 boxShadow="dark-lg"
             >
@@ -42,7 +35,7 @@ const ProjectList = (props) => {
                         <Th bg="brand.pink">
                             <Text
                                 color="brand.background"
-                                fontSize={projectBreakpoint}
+                                fontSize={props.projectBreakpoint}
                             >
                                 Number{" "}
                             </Text>
@@ -50,17 +43,17 @@ const ProjectList = (props) => {
                         <Th bg="brand.pink">
                             <Text
                                 color="brand.background"
-                                fontSize={projectBreakpoint}
+                                fontSize={props.projectBreakpoint}
                             >
                                 Name{" "}
                             </Text>
                         </Th>
-                        {projectBreakpoint !== "sm" ? (
+                        {props.projectBreakpoint !== "sm" ? (
                             <>
                                 <Th bg="brand.pink">
                                     <Text
                                         color="brand.background"
-                                        fontSize={projectBreakpoint}
+                                        fontSize={props.projectBreakpoint}
                                     >
                                         Client
                                     </Text>
@@ -68,9 +61,25 @@ const ProjectList = (props) => {
                                 <Th bg="brand.pink">
                                     <Text
                                         color="brand.background"
-                                        fontSize={projectBreakpoint}
+                                        fontSize={props.projectBreakpoint}
                                     >
                                         Date Required
+                                    </Text>
+                                </Th>
+                                <Th bg="brand.pink">
+                                    <Text
+                                        color="brand.background"
+                                        fontSize={props.projectBreakpoint}
+                                    >
+                                        Design Engineer
+                                    </Text>
+                                </Th>
+                                <Th bg="brand.pink">
+                                    <Text
+                                        color="brand.background"
+                                        fontSize={props.projectBreakpoint}
+                                    >
+                                        Design Checker
                                     </Text>
                                 </Th>
                             </>
@@ -80,7 +89,7 @@ const ProjectList = (props) => {
                         <Th bg="brand.pink">
                             <Text
                                 color="brand.background"
-                                fontSize={projectBreakpoint}
+                                fontSize={props.projectBreakpoint}
                             >
                                 Status
                             </Text>
@@ -98,7 +107,7 @@ const ProjectList = (props) => {
                             <Td>{project.number}</Td>
                             <Td>{project.name}</Td>
 
-                            {projectBreakpoint !== "sm" ? (
+                            {props.projectBreakpoint !== "sm" ? (
                                 <>
                                     <Td>{project.client}</Td>
                                     <Td>
@@ -106,26 +115,25 @@ const ProjectList = (props) => {
                                             project.date_required
                                         ).toLocaleDateString()}
                                     </Td>
+                                    <Td>
+                                        {returnEngineerName(
+                                            project.engineers.designer_id
+                                        )}
+                                    </Td>
+                                    <Td>
+                                        {returnEngineerName(
+                                            project.engineers.design_checker_id
+                                        )}
+                                    </Td>
                                 </>
                             ) : (
                                 <></>
                             )}
-
-                            <Td>
-                                {
-                                    project.status[project.status.length - 1]
-                                        .value
-                                }
-                            </Td>
-
+                            <Td>{project.status.value}</Td>
                             <Td isNumeric>
                                 <UpdateStatus
                                     count={count}
-                                    projectStatus={
-                                        project.status[
-                                            project.status.length - 1
-                                        ].value
-                                    }
+                                    projectStatus={project.status.value}
                                     projectId={project._id}
                                     updateParent={props.updateParent}
                                 />
@@ -138,13 +146,11 @@ const ProjectList = (props) => {
                                         project={project}
                                     />
                                 )}
-
                                 <ProjectView project={project} />
                             </Td>
                         </Tr>
                     ))}
                 </Tbody>
-                <Tfoot></Tfoot>
             </Table>
         );
     } else {

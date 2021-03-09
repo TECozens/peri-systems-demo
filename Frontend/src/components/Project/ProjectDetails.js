@@ -59,11 +59,7 @@ const ProjectDetails = (props) => {
                             mr="25%"
                         >
                             <UI.Text ml={5} fontSize="2xl">
-                                Status:{" "}
-                                {
-                                    project.status[project.status.length - 1]
-                                        .value
-                                }
+                                Status: {project.status.value}
                             </UI.Text>
                             <UI.Text ml={5} fontSize="2xl">
                                 Client: {project.client}
@@ -90,10 +86,7 @@ const ProjectDetails = (props) => {
                             </Link>
                             <UI.Spacer />
                             <UpdateStatus
-                                projectStatus={
-                                    project.status[project.status.length - 1]
-                                        .value
-                                }
+                                projectStatus={project.status.value}
                                 projectId={project._id}
                             >
                                 <UI.Button
