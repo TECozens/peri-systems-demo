@@ -11,6 +11,8 @@ import { Search2Icon } from "@chakra-ui/icons";
 import { Text, VStack } from "@chakra-ui/layout";
 import DatePicker from "react-datepicker";
 import ProjectFilteringService from "../../services/project.filtering.service";
+import "react-datepicker/dist/react-datepicker.css"
+import 'react-datepicker/dist/react-datepicker-cssmodules.min.css'
 
 const ProjectFilter = (props) => {
     let filters = useRef({});
