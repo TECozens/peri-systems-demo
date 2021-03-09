@@ -1,11 +1,11 @@
+import { Box, Flex, Text } from "@chakra-ui/layout";
+import { useBreakpointValue } from "@chakra-ui/react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import AuthService from "../../services/auth.service";
+import ProjectFilteringService from "../../services/project.filtering.service";
+import PageSection from "../Admin/Register/UserCount/PageSection";
 import ProjectFilter from "./ProjectFilter";
 import ProjectList from "./ProjectList";
-import ProjectFilteringService from "../../services/project.filtering.service";
-import {Box, Flex, Text, VStack} from "@chakra-ui/layout";
-import { useBreakpointValue } from "@chakra-ui/react";
-import PageSection from "../Admin/Register/UserCount/PageSection";
 
 const ProjectsSection = () => {
     let authenticatedUser = AuthService.getCurrentUser();
@@ -26,7 +26,7 @@ const ProjectsSection = () => {
             setProjectDisplayedToAllEngineerProjects();
             setMaxPage(maxPage)
         });
-    }, [authenticatedUser.id]);
+    }, [authenticatedUser.id, page]);
 
     const setProjectDisplayedToAllEngineerProjects = () => {
         setProjectsDisplayed(allEngineerProjects.current);
