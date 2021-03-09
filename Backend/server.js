@@ -11,10 +11,7 @@ const server = http.createServer(app);
 const io = socketio(server);
 const cors = require("cors");
 const bodyParser = require("body-parser");
-require('dotenv').config()
-const morgan = require('morgan')
-const nodemailer = require('nodemailer')
-
+const morgan = require('morgan');
 const nodemailer = require('nodemailer');
 
 var corsOptions = {
