@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Box } from "@chakra-ui/react";
 import AuthService from "../../services/auth.service";
 import DesignerBoard from "../Designer/DesignerBoard";
 import TechnicalBoard from "../Technical/TechnicalBoard";
-import AdminBoard from "../../components/Admin/AdminBoard"
+import AdminBoard from "../Admin/AdminBoard"
 
 const Dashboard = () => {
     const [showTechnicalBoard, setShowTechnicalBoard] = useState(false);
@@ -13,6 +12,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         const user = AuthService.getCurrentUser();
+        console.log(user)
 
         if (user) {
             setCurrentUser(user);
