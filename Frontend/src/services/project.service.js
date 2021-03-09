@@ -27,6 +27,20 @@ function getTechnicalProjects(userId) {
         });
 }
 
+function getProjectsWithDesignEngineersByEngineerID(engineerId) {
+    return axios
+        .get(
+            "http://localhost:8081/api/projects/getProjectsWithDesignEngineersByEngineerID/" +
+                engineerId
+        )
+        .then(function (response) {
+            return response.data.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
 function getProjectByID(projectId) {
     return axios
         .get("http://localhost:8081/api/projects/getProjectByID/" + projectId)
@@ -85,7 +99,6 @@ function updateProjectDesignChecker(projectId, engineerId) {
             console.log(error);
         });
 }
-
 const sendMail = (name, email, projectId) => {
     return axios.post("http://localhost:8081/api/sendmail", {
         name,
@@ -99,12 +112,15 @@ const sendMail = (name, email, projectId) => {
     });
 };
 
-export default {
+const ProjectService = {
     getDesignerProjects,
     getTechnicalProjects,
+    getProjectsWithDesignEngineersByEngineerID,
     updateProjectStatus,
     getProjectByID,
     updateProjectDesignEngineer,
     updateProjectDesignChecker,
     sendMail,
 };
+
+export default ProjectService;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Button,
     Modal,
@@ -10,56 +10,42 @@ import {
     ModalOverlay,
     Radio,
     RadioGroup,
+    useBreakpointValue,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { VStack } from "@chakra-ui/layout";
 import ProjectService from "../../services/project.service";
-import AuthService from "../../services/auth.service";
 
 const UpdateStatus = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [statusSelected, setStatusSelected] = useState();
     const [projects, setProjects] = useState();
-    const [successful, setSuccessful] = useState(false);
-    const [message, setMessage] = useState("");
     let aProject = useRef();
     let count = props.count;
-
-
-    // useEffect(() => {
-    //     ProjectService.getProjectByID(props.projectId).then((projects) => {
-    //         aProject.current = projects;
-    //         setProjects(aProject.current)
-    //         console.log("project");
-    //         console.log(aProject.current);
-    //     });
-    // }, []);
+    const projectBreakpoint = useBreakpointValue({ base: "sm", lg: "md" });
 
     useEffect(() => {
         setStatusSelected(props.projectStatus.trim());
         ProjectService.getProjectByID(props.projectId).then((projects) => {
             aProject.current = projects;
-            setProjects(aProject.current)
+            setProjects(aProject.current);
             console.log("project is");
             console.log(aProject.current);
         });
     }, [props.projectStatus]);
 
-
     function handleSubmit() {
-
-
-
         ProjectService.updateProjectStatus(props.projectId, statusSelected)
-            .then(onClose)
-            .then(props.updateParent);
+            .then((updatedProject) => props.updateParent(updatedProject))
+            .then(onClose);
 
-
-        if (typeof projects !== 'undefined') {
-            ProjectService.sendMail(projects.customer.name, projects.customer.email, props.projectId).then(
+        if (typeof projects !== "undefined") {
+            ProjectService.sendMail(
+                projects.customer.name,
+                projects.customer.email,
+                props.projectId
+            ).then(
                 (response) => {
-                    // setMessage(response.data.message);
-                    // setSuccessful(true);
                     console.log("mail sent");
                 },
                 (error) => {
@@ -69,9 +55,7 @@ const UpdateStatus = (props) => {
                             error.response.data.message) ||
                         error.message ||
                         error.toString();
-                        console.log("error sending mail")
-                    // setMessage(resMessage);
-                    // setSuccessful(false);
+                    console.log("error sending mail");
                 }
             );
         }
@@ -104,9 +88,19 @@ const UpdateStatus = (props) => {
 
     return (
         <div key={count++}>
-            <div onClick={onOpen}>
-                {props.children}
-            </div>
+            <Button
+                width="full"
+                size={projectBreakpoint}
+                m={2}
+                border="2px"
+                color="brand.background"
+                bg="brand.grey"
+                borderColor="brand.pink"
+                _hover={{ bg: "brand.pink", borderColor: "brand.grey" }}
+                onClick={onOpen}
+            >
+                Update Status
+            </Button>
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />

@@ -2,15 +2,15 @@ import React from 'react'
 import './App.css';
 import {ChakraProvider, extendTheme} from "@chakra-ui/react";
 import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
-import Login from "./components/Login"
-import Register from "./components/Register"
+import Login from "./components/Authentication/Login"
+import Register from "./components/Admin/Register/Register"
 import PeriNavbar from "./layout/PeriNavbar";
-import Dashboard from "./components/Dashboard";
-import Private from "./components/Private"
+import Dashboard from "./components/Dashboard/Dashboard";
+import Private from "./components/Authentication/Private"
 import AuthService from "./services/auth.service";
-import IsLoggedIn from "./components/IsLoggedIn";
+import IsLoggedIn from "./components/Authentication/IsLoggedIn";
 import ProjectDetails from "./components/Project/ProjectDetails";
-import Timeline from "./components/Timeline";
+import Timeline from "./components/Events/Timeline";
 
 // 2. Extend the theme to include custom colors, fonts, etc
 const colors = {

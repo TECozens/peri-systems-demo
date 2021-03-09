@@ -2,6 +2,7 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
+//TODO Remove junk file and add auth header to requests.
 const API_URL = "http://localhost:8081/api/auth/";
 
 const getPublicContent = () => {
