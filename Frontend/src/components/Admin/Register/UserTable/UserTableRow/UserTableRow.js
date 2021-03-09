@@ -95,10 +95,6 @@ const UserTableRow = (props) => {
                                 placeholder="Email"
                             />
                         </FormControl>
-                        {/*<FormControl mt={4}>*/}
-                        {/*  <FormLabel>Password</FormLabel>*/}
-                        {/*  <Input name='password' value={values.password} onChange={handleChange} placeholder="Password" />*/}
-                        {/*</FormControl>*/}
                     </ModalBody>
                     <ModalFooter>
                         <Button

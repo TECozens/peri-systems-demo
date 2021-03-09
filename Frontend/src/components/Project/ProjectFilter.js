@@ -201,6 +201,11 @@ const ProjectFilter = (props) => {
                     Clear All
                 </Button>
             </HStack>
+            <PageSection
+                page={props.page}
+                setPage={props.setPage}
+                maxPage={maxPage.current}
+            />
         </VStack>
     );
 };

@@ -30,9 +30,10 @@ import { SearchIcon } from "@chakra-ui/icons";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 
-const getData = ({props}) => UserService.getUsers(props.userSearch, props.page)
+const getData = ({ props }) =>
+    UserService.example(props.userSearch, props.page);
 
-const Register = (props) => {
+const Register = () => {
     const [userSearch, setUserSearch] = useState("");
     const [maxPage, setMaxPage] = useState();
     const [page, setPage] = useState(1);
@@ -44,24 +45,14 @@ const Register = (props) => {
     });
     const [searchParams, setSearchParams] = useState({ page, userSearch });
     const [users, setUsers] = useState([]);
-    const pageSize = 3;
 
-    // Effects
-    useEffect(() => {
-        console.log("udpateing page")
-        if ((users.length <= 0) && (page !== 1)) {
-            setPage(1)
-        }
-    }, [users])
-
-    const showUserCount = useBreakpointValue({base: false, 'md': true})
-    const {data, error, isLoading}
-        = useAsync({promiseFn: getData, watch: searchParams, props: {userSearch, page}})
-    const {
-        isOpen,
-        onOpen,
-        onClose
-    } = useDisclosure()
+    const showUserCount = useBreakpointValue({ base: false, md: true });
+    const { data, error, isLoading } = useAsync({
+        promiseFn: getData,
+        watch: searchParams,
+        props: { userSearch, page },
+    });
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     const createUser = async () => {
         onClose();
@@ -80,9 +71,6 @@ const Register = (props) => {
                 if (users.length < 3) {
                     setPage(1);
                     // TODO think of something here, that's not this ^^
-                    // console.log("res", res)
-                    // console.log("slap him in")
-                    // setUsers(...users)
                 }
             }
         }
@@ -117,6 +105,12 @@ const Register = (props) => {
     };
 
     useEffect(() => {
+        if (users.length <= 0 && page !== 1) {
+            setPage(1);
+        }
+    }, [users]);
+
+    useEffect(() => {
         if (data) {
             setUsers(data.data);
             if (data.maxPages) {
@@ -137,9 +131,7 @@ const Register = (props) => {
     const handleChange = ({ target }) => {
         setValues({ ...values, [target.name]: target.value });
     };
-    // if (isLoading) return "Loading..."
-    // if (error) return `Something went wrong: ${error.message}`
-    // if (data)
+
     return (
         <Container maxW="3xl" marginTop={12} marginBottom={12}>
             <Heading>Users</Heading>
@@ -162,8 +154,6 @@ const Register = (props) => {
                     </Flex>
                 </Box>
 
-                {/*<Divider mt={4} mb={2} />*/}
-                {/*gap={4} templateColumns="repeat(7, 1fr)"*/}
                 <Grid
                     templateColumns={
                         showUserCount ? "repeat(6, 1fr)" : "repeat(5, 1fr)"
@@ -219,10 +209,6 @@ const Register = (props) => {
                                                     placeholder="Email"
                                                 />
                                             </FormControl>
-                                            {/*<FormControl mt={4}>*/}
-                                            {/*  <FormLabel>Password</FormLabel>*/}
-                                            {/*  <Input name='password' value={values.password} onChange={handleChange} placeholder="Password" />*/}
-                                            {/*</FormControl>*/}
                                         </ModalBody>
                                         <ModalFooter>
                                             <Button

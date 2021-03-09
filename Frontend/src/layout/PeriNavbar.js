@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/menu";
 
 const PeriNavbar = () => {
-    const [showTechnicalBoard, setShowTechnicalBoard] = useState(false);
     const [showAdminBoard, setShowAdminBoard] = useState(false);
     const [currentUser, setCurrentUser] = useState(undefined);
 
@@ -22,7 +21,6 @@ const PeriNavbar = () => {
 
         if (user) {
             setCurrentUser(user);
-            setShowTechnicalBoard(user.roles.includes("ROLE_TECHNICAL"));
             setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
         }
     }, []);
@@ -39,7 +37,7 @@ const PeriNavbar = () => {
                     <ReactLogo className="Logo" />
                 </Box>
                 <Spacer />
-
+                <Spacer />
                 <Box mr="10%">
                     {currentUser ? (
                         <div>

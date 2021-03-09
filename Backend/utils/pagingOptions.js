@@ -5,15 +5,16 @@ const pagingOptions = (page, pageSize) => {
     }
 }
 
+const calcMaxPages = (mongooseObject, query, pageSize) => {
+     mongooseObject.countDocuments((query, count) => {
+        return Math.ceil(count / pageSize)
+    })
+}
+
+
+
 const getMaxPages = async (mongooseObject, query, pageSize) => {
-    let maxPages = 0
-
-    await mongooseObject.countDocuments(query, ((err, count) => {
-            maxPages = Math.ceil(count / pageSize)
-        }
-    ))
-
-    return maxPages
+    return calcMaxPages(mongooseObject, query, pageSize);
 }
 
 
