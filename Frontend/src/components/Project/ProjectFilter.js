@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
     Button,
     HStack,
@@ -8,7 +8,7 @@ import {
     Select,
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
-import {Flex, Text, VStack} from "@chakra-ui/layout";
+import { Text, VStack } from "@chakra-ui/layout";
 import DatePicker from "react-datepicker";
 import ProjectFilteringService from "../../services/project.filtering.service";
 
@@ -53,19 +53,20 @@ const ProjectFilter = (props) => {
         }
     }
 
-    function handleFilterChange(filterName, value) {
-        // if (filterName && value) {
+    const handleFilterChange = useCallback(
+        (filterName, value) => {
             filters.current[filterName] = value;
-        // }
-        ProjectFilteringService.getProjectsByEngineerIDAndFilter(
-            props.authenticatedId,
-            filters.current,
-            props.page
-        ).then((data) => {
-            props.setProjectsParent(data.data);
-            props.setMaxPage(data.maxPage)
-        });
-    }
+            ProjectFilteringService.getProjectsByEngineerIDAndFilter(
+                props.authenticatedId,
+                filters.current,
+                props.page
+            ).then((data) => {
+                props.setProjectsParent(data.data);
+                props.setMaxPage(data.maxPage);
+            });
+        },
+        [props]
+    );
 
     function clearFilters() {
         let filterNames = Object.keys(filters.current);
@@ -76,8 +77,8 @@ const ProjectFilter = (props) => {
     }
 
     useEffect(() => {
-        handleFilterChange()
-    }, [props.page])
+        handleFilterChange();
+    }, [props.page, handleFilterChange]);
 
     useEffect(() => {
         if (
