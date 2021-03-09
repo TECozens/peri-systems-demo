@@ -9,8 +9,8 @@ const transport = {
     port: 587,
     secure: false,
     auth: {
-        user: process.env.THE_EMAIL,
-        pass: process.env.THE_PASSWORD
+        user: "team35nsa@gmail.com",
+        pass: "Perisystems123"
     }
 };
 
@@ -28,20 +28,10 @@ transporter.verify((error, success) => {
 mailSenderRouter.post('/api/sendmail', (req,res, next) => {
     //make mailable object
     const mail = {
-        from: process.env.THE_EMAIL,
+        from: "team35nsa@gmail.com",
         to: req.body.email,
         subject: "Dear " + req.body.name +  " - Status update on your order",
         text: 'Your project status has been updated. You can access your project timeline at localhost:3000/timeline/' + req.body.projectId,
-        // subject: req.body.subject,
-        // text: `
-      // from:
-      // ${req.body.name}
-      //
-      // contact:
-      //
-      // message:
-      //
-      // ${req.body.text}`
     }
 // error handling goes here.
     transporter.sendMail(mail, (err,data) => {
