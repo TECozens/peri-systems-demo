@@ -24,6 +24,9 @@ const Timeline = (props) => {
         if (props.project !== undefined) {
             aProject.current = props.project;
             setProjects(aProject.current);
+        } else if (props.location !== undefined) {
+            aProject.current = props.location.state.project;
+            setProjects(aProject.current);
         }
     }, [props.project]);
 
