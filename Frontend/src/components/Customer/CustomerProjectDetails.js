@@ -10,6 +10,7 @@ import UserService from "../../services/users.service";
 const CustomerProjectDetails = (props) => {
     const projectId = props.match.params.param1;
     const [project, setProject] = useState(props.project);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (projectId !== undefined) {
@@ -20,6 +21,7 @@ const CustomerProjectDetails = (props) => {
     }, [projectId]);
 
     const handleContactUsButtonClick = () => {
+        setLoading(true);
         UserService.getUserByID(project.engineers.sales_engineer_id).then(
             (engineer) => {
                 window.location.href =
@@ -30,6 +32,10 @@ const CustomerProjectDetails = (props) => {
                     " (#" +
                     project.number +
                     ")";
+                //3 seconds wait before enabling the button to prevent spamming
+                setTimeout(() => {
+                    setLoading(false);
+                }, 3000);
             }
         );
     };
@@ -43,6 +49,7 @@ const CustomerProjectDetails = (props) => {
                         <Button
                             leftIcon={<EmailIcon />}
                             onClick={handleContactUsButtonClick}
+                            isLoading={loading}
                             marginBottom={20}
                         >
                             Contact Us
