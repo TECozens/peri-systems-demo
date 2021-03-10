@@ -63,12 +63,59 @@ const Timeline = (props) => {
 
     // TODO: Redo Current in Progress Status
     function isStatusComplete(index) {
-        retrieveProjectStatusArray();
-        getAllPreviousStatuses();
-
         if (typeof projects !== "undefined") {
-            if (index === projects.status_history.length) {
-                console.log(previousStatusArray);
+            retrieveProjectStatusArray();
+            getAllPreviousStatuses();
+            let lastIndex = allProjectStages.lastIndexOf(projects.status.value);
+            //COMPLETED
+            if (index < lastIndex) {
+                let date;
+                let minute;
+                let hour;
+                let meridiem;
+                let dateToDisplay;
+                if (statusArray.lastIndexOf(allProjectStages[index]) > -1) {
+                     date = new Date(
+                        projects.status_history[lastIndex].time_set
+                    );
+                     dateToDisplay = date.toLocaleDateString();
+                     minute = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
+                     hour = (date.getHours() < 10 ? "0" : "") + date.getHours();
+                    if (hour > 12) {
+                        meridiem = "PM";
+                        hour = hour - 12;
+                    } else if (hour < 12) {
+                        meridiem = "AM";
+                    } else if (hour === 12) {
+                        meridiem = "PM";
+                    }
+                } else {
+                    dateToDisplay = "Unknown"
+                    hour = "Unknown"
+                }
+                return (
+                    <div>
+                        <img
+                            src={red_tick}
+                            alt="Logo"
+                            width={logoWidth}
+                            height={logoHeight}
+                        />
+                        <b>
+                            <Text fontSize={statusTextSize}>
+                                {allProjectStages[index]}
+                            </Text>
+                        </b>
+                        <Text fontSize={timeTextSize}>
+                            Date: {dateToDisplay}
+                        </Text>
+                        <Text fontSize={timeTextSize}>
+                            Time: {hour}:{minute} {meridiem}
+                        </Text>
+                    </div>
+                )
+                // CURRENT STATUS
+            } else if (lastIndex === index) {
                 return (
                     <div>
                         <img
@@ -86,8 +133,9 @@ const Timeline = (props) => {
                     </div>
                 );
             }
-            if (
-                index >= projects.status_history.length ||
+            // NOT DONE STATUS
+            else if (
+                index >= lastIndex ||
                 statusArray.lastIndexOf(allProjectStages[index]) === -1
             ) {
                 return (
@@ -107,110 +155,157 @@ const Timeline = (props) => {
                     </div>
                 );
             }
-            if (statusArray.lastIndexOf(allProjectStages[index]) > -1) {
-                let currentStatusIndex = statusArray.lastIndexOf(
-                    allProjectStages[index]
-                );
-                let date = new Date(
-                    projects.status_history[currentStatusIndex].time_set
-                );
-                let dateToDisplay = date.toLocaleDateString();
-                let minute =
-                    (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
-                let hour = (date.getHours() < 10 ? "0" : "") + date.getHours();
-                let meridiem;
-                if (hour > 12) {
-                    meridiem = "PM";
-                    hour = hour - 12;
-                } else if (hour < 12) {
-                    meridiem = "AM";
-                } else if (hour === 12) {
-                    meridiem = "PM";
-                }
-                return (
-                    <div>
-                        <img
-                            src={red_tick}
-                            alt="Logo"
-                            width={logoWidth}
-                            height={logoHeight}
-                        />
-                        <b>
-                            <Text fontSize={statusTextSize}>
-                                {allProjectStages[index]}
-                            </Text>
-                        </b>
-                        <Text fontSize={timeTextSize}>
-                            Date: {dateToDisplay}
-                        </Text>
-                        <Text fontSize={timeTextSize}>
-                            Time: {hour}:{minute} {meridiem}
-                        </Text>
-                    </div>
-                );
-            }
-            if (statusArray.lastIndexOf("Project Cancelled") > -1) {
-                let date = projects.status_history[index].time_set;
-                let dateToDisplay =
-                    date.slice(8, 10) +
-                    "/" +
-                    date.slice(5, 7) +
-                    "/" +
-                    date.slice(0, 4);
-                let minute = date.slice(14, 16);
-                let hour = date.slice(11, 13);
-                let meridiem;
-                if (hour > 12) {
-                    meridiem = "PM";
-                    hour = hour - 12;
-                } else if (hour < 12) {
-                    meridiem = "AM";
-                } else if (hour === 12) {
-                    meridiem = "PM";
-                }
-                return (
-                    <div>
-                        <img
-                            src={cross_circle}
-                            alt="Logo"
-                            width={logoWidth}
-                            height={logoHeight}
-                        />
-                        <b>
-                            {" "}
-                            <Text fontSize={statusTextSize}>
-                                {allProjectStages[index]}
-                            </Text>{" "}
-                        </b>
-                        <Text fontSize={timeTextSize}>
-                            Date: {dateToDisplay}
-                        </Text>
-                        <Text fontSize={timeTextSize}>
-                            Time: {hour}:{minute} {meridiem}
-                        </Text>
-                    </div>
-                );
-            } else {
-                return (
-                    <div>
-                        <img
-                            src={red_tick}
-                            alt="Logo"
-                            width={logoWidth}
-                            height={logoHeight}
-                        />
-                        <b>
-                            <Text fontSize={statusTextSize}>
-                                {allProjectStages[index]}
-                            </Text>
-                        </b>
-                    </div>
-                );
-            }
-        } else {
-            return <div>Project Not Found</div>;
         }
     }
+
+    // function isStatusComplete(index) {
+    //     retrieveProjectStatusArray();
+    //     getAllPreviousStatuses();
+    //
+    //     if (typeof projects !== "undefined") {
+    //         if (index === projects.status_history.length) {
+    //             return (
+    //                 <div>
+    //                     <img
+    //                         src={in_progress}
+    //                         alt="Logo"
+    //                         width={logoWidth}
+    //                         height={logoHeight}
+    //                     />
+    //                     <b>
+    //                         <Text fontSize={statusTextSize}>
+    //                             {allProjectStages[index]}
+    //                         </Text>
+    //                     </b>
+    //                     <Text fontSize={timeTextSize}>In progress...</Text>
+    //                 </div>
+    //             );
+    //         }
+    //         if (
+    //             index >= projects.status_history.length ||
+    //             statusArray.lastIndexOf(allProjectStages[index]) === -1
+    //         ) {
+    //             return (
+    //                 <div>
+    //                     <img
+    //                         src={circle_outline}
+    //                         alt="Logo"
+    //                         width={logoWidth}
+    //                         height={logoHeight}
+    //                     />
+    //                     <b>
+    //                         <Text fontSize={statusTextSize}>
+    //                             {allProjectStages[index]}
+    //                         </Text>
+    //                     </b>
+    //                     <Text fontSize={timeTextSize}>Waiting...</Text>
+    //                 </div>
+    //             );
+    //         }
+    //         if (statusArray.lastIndexOf(allProjectStages[index]) > -1) {
+    //             let currentStatusIndex = statusArray.lastIndexOf(
+    //                 allProjectStages[index]
+    //             );
+    //             let date = new Date(
+    //                 projects.status_history[currentStatusIndex].time_set
+    //             );
+    //             let dateToDisplay = date.toLocaleDateString();
+    //             let minute =
+    //                 (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
+    //             let hour = (date.getHours() < 10 ? "0" : "") + date.getHours();
+    //             let meridiem;
+    //             if (hour > 12) {
+    //                 meridiem = "PM";
+    //                 hour = hour - 12;
+    //             } else if (hour < 12) {
+    //                 meridiem = "AM";
+    //             } else if (hour === 12) {
+    //                 meridiem = "PM";
+    //             }
+    //             return (
+    //                 <div>
+    //                     <img
+    //                         src={red_tick}
+    //                         alt="Logo"
+    //                         width={logoWidth}
+    //                         height={logoHeight}
+    //                     />
+    //                     <b>
+    //                         <Text fontSize={statusTextSize}>
+    //                             {allProjectStages[index]}
+    //                         </Text>
+    //                     </b>
+    //                     <Text fontSize={timeTextSize}>
+    //                         Date: {dateToDisplay}
+    //                     </Text>
+    //                     <Text fontSize={timeTextSize}>
+    //                         Time: {hour}:{minute} {meridiem}
+    //                     </Text>
+    //                 </div>
+    //             );
+    //         }
+    //         if (statusArray.lastIndexOf("Project Cancelled") > -1) {
+    //             let date = projects.status_history[index].time_set;
+    //             let dateToDisplay =
+    //                 date.slice(8, 10) +
+    //                 "/" +
+    //                 date.slice(5, 7) +
+    //                 "/" +
+    //                 date.slice(0, 4);
+    //             let minute = date.slice(14, 16);
+    //             let hour = date.slice(11, 13);
+    //             let meridiem;
+    //             if (hour > 12) {
+    //                 meridiem = "PM";
+    //                 hour = hour - 12;
+    //             } else if (hour < 12) {
+    //                 meridiem = "AM";
+    //             } else if (hour === 12) {
+    //                 meridiem = "PM";
+    //             }
+    //             return (
+    //                 <div>
+    //                     <img
+    //                         src={cross_circle}
+    //                         alt="Logo"
+    //                         width={logoWidth}
+    //                         height={logoHeight}
+    //                     />
+    //                     <b>
+    //                         {" "}
+    //                         <Text fontSize={statusTextSize}>
+    //                             {allProjectStages[index]}
+    //                         </Text>{" "}
+    //                     </b>
+    //                     <Text fontSize={timeTextSize}>
+    //                         Date: {dateToDisplay}
+    //                     </Text>
+    //                     <Text fontSize={timeTextSize}>
+    //                         Time: {hour}:{minute} {meridiem}
+    //                     </Text>
+    //                 </div>
+    //             );
+    //         } else {
+    //             return (
+    //                 <div>
+    //                     <img
+    //                         src={red_tick}
+    //                         alt="Logo"
+    //                         width={logoWidth}
+    //                         height={logoHeight}
+    //                     />
+    //                     <b>
+    //                         <Text fontSize={statusTextSize}>
+    //                             {allProjectStages[index]}
+    //                         </Text>
+    //                     </b>
+    //                 </div>
+    //             );
+    //         }
+    //     } else {
+    //         return <div>Project Not Found</div>;
+    //     }
+    // }
 
     return (
         <Box
