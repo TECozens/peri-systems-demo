@@ -1,9 +1,10 @@
-import { Box, Flex, Text } from "@chakra-ui/layout";
+import { Box, Flex, Heading, Text } from "@chakra-ui/layout";
 import { useBreakpointValue } from "@chakra-ui/react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import AuthService from "../../services/auth.service";
 import ProjectFilteringService from "../../services/project.filtering.service";
 import PageSection from "../Admin/Register/UserCount/PageSection";
+import { SeparatedHeading } from "../Util/SeparatedHeading/SeparatedHeading";
 import ProjectFilter from "./ProjectFilter";
 import ProjectList from "./ProjectList";
 
@@ -48,13 +49,8 @@ const ProjectsSection = () => {
 
     return (
         <Flex>
-            <Box bg="brand.grey" width="100%" boxShadow="dark-md">
-                <Box borderTop="1px" borderBottom="1px" bg="brand.background">
-                    <Text textAlign="center" p={2} fontSize="3xl">
-                        Available Projects
-                    </Text>
-                </Box>
-
+            <Box>
+                <SeparatedHeading primary='Project View' secondary='Manage Projects' />
                 <Box>
                     <ProjectFilter
                         setMaxPage={setMaxPage}
