@@ -20,7 +20,7 @@ const CustomerProjectDetails = (props) => {
     }, [projectId]);
 
     const handleContactUsButtonClick = () => {
-        UserService.getUserByID(project.engineers.sales_engineer_id).then(
+        UserService.getUserByID(project.engineers.technical_lead_id).then(
             (engineer) => {
                 window.location.href =
                     "mailto:" +
