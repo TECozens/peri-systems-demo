@@ -281,14 +281,14 @@
     },
     {
         "_id": {
-            "$oid": "601aaab03e3205f70dda2123"
+            "$oid": "601aaab03e3205f70dda2124"
         },
-        "number": "1",
-        "name": "test1",
+        "number": "221",
+        "name": "Abbey Retail Park",
         "system": "SKYDECK",
         "sector": "Non-Residential",
-        "description": "SKYDECK 2nd floor slab",
-        "client": "JP Dunn",
+        "description": "SKYDECK 3rd floor slab",
+        "client": "McMullen Facades Ltd",
         "engineers": {
             "sales_engineer_id": {
                 "$oid": "60489c2c224afaa395d073bf"
@@ -311,12 +311,12 @@
         },
         "status": {
             "_id": {
-                "$oid": "603ff38f58f7b049005c3b2e"
+                "$oid": "601c08b3a5dabc0e7ca78ef1"
             },
             "time_set": {
-                "$date": "2021-03-03T20:37:35.356Z"
+                "$date": "2021-02-02T13:00:00Z"
             },
-            "value": "Preliminary Design Complete"
+            "value": "Design Pending"
         },
         "status_history": [
             {
@@ -327,41 +327,23 @@
                     "$date": "2021-02-02T13:00:00Z"
                 },
                 "value": "Design Pending"
-            },
-            {
-                "_id": {
-                    "$oid": "601c08b3a5dabc0e7ca78ef2"
-                },
-                "time_set": {
-                    "$date": "2021-02-03T10:00:00Z"
-                },
-                "value": "Preliminary Design Ongoing"
-            },
-            {
-                "_id": {
-                    "$oid": "603ff38f58f7b049005c3b2e"
-                },
-                "time_set": {
-                    "$date": "2021-03-03T20:37:35.356Z"
-                },
-                "value": "Preliminary Design Complete"
             }
         ],
         "__v": 1
     },
     {
         "_id": {
-            "$oid": "601aaab03e3205f70dda2124"
+            "$oid": "6048e4e8abdcc3d25a586e5f\n"
         },
-        "number": "2",
-        "name": "test2",
-        "system": "SKYDECK",
-        "sector": "Non-Residential",
-        "description": "SKYDECK 2nd floor slab",
-        "client": "JP Dunn",
+        "number": "331",
+        "name": "A484 Gelligatti",
+        "system": "TRIO",
+        "sector": "Infrastructure",
+        "description": "TRIO Framework to core 8A",
+        "client": "TTS Civil Engineering",
         "engineers": {
             "sales_engineer_id": {
-                "$oid": "60489c2c224afaa395d073bf"
+                "$oid": "60489bbf224afaa395d073bd"
             },
             "technical_lead_id": {
                 "$oid": "6026dec65552793088002180"
@@ -381,12 +363,12 @@
         },
         "status": {
             "_id": {
-                "$oid": "603ff38f58f7b049005c3b2e"
+                "$oid": "6048e5c9abdcc3d25a586e64"
             },
             "time_set": {
-                "$date": "2021-03-03T20:37:35.356Z"
+                "$date": "2021-03-11T09:10:35.356Z"
             },
-            "value": "Preliminary Design Complete"
+            "value": "Project Complete"
         },
         "status_history": [
             {
@@ -415,6 +397,51 @@
                     "$date": "2021-03-03T20:37:35.356Z"
                 },
                 "value": "Preliminary Design Complete"
+            },
+            {
+                "_id": {
+                    "$oid": "6048e567abdcc3d25a586e60"
+                },
+                "time_set": {
+                    "$date": "2021-03-09T15:27:35.356Z"
+                },
+                "value": "Awaiting Customer Approval"
+            },
+            {
+                "_id": {
+                    "$oid": "6048e59aabdcc3d25a586e61"
+                },
+                "time_set": {
+                    "$date": "2021-03-09T18:27:35.356Z"
+                },
+                "value": "Detailed Design Pending"
+            },
+            {
+                "_id": {
+                    "$oid": "6048e5c9abdcc3d25a586e62"
+                },
+                "time_set": {
+                    "$date": "2021-03-10T10:00:35.356Z"
+                },
+                "value": "Detailed Design Ongoing"
+            },
+            {
+                "_id": {
+                    "$oid": "6048e5c9abdcc3d25a586e63"
+                },
+                "time_set": {
+                    "$date": "2021-03-10T14:00:35.356Z"
+                },
+                "value": "Design Complete"
+            },
+            {
+                "_id": {
+                    "$oid": "6048e5c9abdcc3d25a586e64"
+                },
+                "time_set": {
+                    "$date": "2021-03-11T09:10:35.356Z"
+                },
+                "value": "Project Complete"
             }
         ],
         "__v": 1
