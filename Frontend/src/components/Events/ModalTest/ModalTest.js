@@ -25,12 +25,11 @@ const ModalTest = () => {
                     <ModalBody>
                         TODO Edit Project, Details to edit
                     </ModalBody>
-
                     <ModalFooter>
                         <Button colorScheme="blue" mr={3} onClick={onClose}>
                             Close
                         </Button>
-                        <Button variant="ghost">Secondary Action</Button>
+                        <Button variant="ghost">Save Action</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
