@@ -15,7 +15,7 @@ const ModalTest = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     return (
         <>
-            <Button onClick={onOpen}>TODO Edit</Button>
+            <Button onClick={onOpen}>Edit Projects</Button>
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
