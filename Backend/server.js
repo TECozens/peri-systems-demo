@@ -1,18 +1,15 @@
-require('dotenv').config();
+require("dotenv").config();
 
 const express = require("express");
-const socketio = require("socket.io");
 const http = require("http");
 
 const PORT = process.env.PORT || 8081;
 
 const app = express();
 const server = http.createServer(app);
-const io = socketio(server);
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const morgan = require('morgan');
-const nodemailer = require('nodemailer');
+const morgan = require("morgan");
 
 var corsOptions = {
     origin: "http://localhost:3000",
@@ -25,9 +22,8 @@ const usersRouter = require("./routes/usersRoutes");
 const mailSender = require("./routes/mailSender");
 
 //node mailer
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 app.use(express.json());
-// app.use('/sendtome', require('./routes/mailSender'))
 
 //middlewares
 app.use(bodyParser.json());
@@ -36,11 +32,7 @@ app.use(cors(corsOptions));
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
 //Mongoose
-
-//Schema Todo
-
 /**atlas
  * username periGroup
  * password password2021
@@ -71,17 +63,12 @@ mongoose.connection.on("connected", () => {
     console.log("Mongoose is connected!!!");
 });
 
-const mdb = mongoose.connection;
-
-mdb.on("error", console.error.bind(console, "connection error:"));
-mdb.once("open", function () {
-    // we're connected!
-});
+mongoose.connection.on("error", console.error.bind(console, "connection error:"));
 
 app.use(router);
 app.use(usersRouter);
 app.use(projectRouter);
-app.use(mailSender)
+app.use(mailSender);
 
 require("./routes/auth.routes")(app);
 require("./routes/user.routes")(app);
@@ -149,4 +136,4 @@ function initial() {
     });
 }
 
-module.exports = app
+module.exports = app;
