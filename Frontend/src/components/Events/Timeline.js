@@ -50,10 +50,11 @@ const Timeline = (props) => {
     }
 
     function getAllPreviousStatuses() {
-        let i
+        let i;
         let tempStatusArray = [];
         if (typeof projects !== "undefined") {
-            let lastStatusIndex = allProjectStages.lastIndexOf(projects.status.value) - 1;
+            let lastStatusIndex =
+                allProjectStages.lastIndexOf(projects.status.value) - 1;
             for (i = 0; i <= lastStatusIndex; i++) {
                 tempStatusArray.push(allProjectStages[i]);
             }
@@ -61,9 +62,24 @@ const Timeline = (props) => {
         }
     }
 
+    function returnDateToDisplayMinuteHourMeridiemFromADateString(aDate) {
+        let date = new Date(aDate);
+        let dateToDisplay = date.toLocaleDateString();
+        let minute = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
+        let hour = (date.getHours() < 10 ? "0" : "") + date.getHours();
+        let meridiem;
+        if (hour > 12) {
+            meridiem = "PM";
+            hour = hour - 12;
+        } else if (hour < 12) {
+            meridiem = "AM";
+        } else if (hour === 12) {
+            meridiem = "PM";
+        }
 
+        return [dateToDisplay, minute, hour, meridiem];
+    }
 
-    // TODO: Redo Current in Progress Status
     function isStatusComplete(index) {
         let date;
         let minute;
@@ -72,33 +88,28 @@ const Timeline = (props) => {
         let dateToDisplay;
         let line;
         if (index !== 7) {
-            line = "line"
+            line = "line";
         }
         if (typeof projects !== "undefined") {
             retrieveProjectStatusArray();
             getAllPreviousStatuses();
             let lastIndex = allProjectStages.lastIndexOf(projects.status.value);
-            let currentStatusIndex = statusArray.lastIndexOf(allProjectStages[index]);
-            //COMPLETED
+            let currentStatusIndex = statusArray.lastIndexOf(
+                allProjectStages[index]
+            );
             if (index < lastIndex) {
                 if (statusArray.includes(allProjectStages[index])) {
-                    date = new Date(
+                    [
+                        dateToDisplay,
+                        minute,
+                        hour,
+                        meridiem,
+                    ] = returnDateToDisplayMinuteHourMeridiemFromADateString(
                         projects.status_history[currentStatusIndex].time_set
                     );
-                     dateToDisplay = date.toLocaleDateString();
-                     minute = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
-                     hour = (date.getHours() < 10 ? "0" : "") + date.getHours();
-                    if (hour > 12) {
-                        meridiem = "PM";
-                        hour = hour - 12;
-                    } else if (hour < 12) {
-                        meridiem = "AM";
-                    } else if (hour === 12) {
-                        meridiem = "PM";
-                    }
                 } else {
-                    dateToDisplay = "Unknown"
-                    hour = "Unknown"
+                    dateToDisplay = "Unknown";
+                    hour = "Unknown";
                 }
                 return (
                     <div className={line}>
@@ -120,22 +131,17 @@ const Timeline = (props) => {
                             Time: {hour}:{minute} {meridiem}
                         </Text>
                     </div>
-                )
-                // CURRENT STATUS
+                );
             } else if (lastIndex === index) {
-                date = new Date(projects.status.time_set);
-                dateToDisplay = date.toLocaleDateString();
-                minute = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
-                hour = (date.getHours() < 10 ? "0" : "") + date.getHours();
-                if (hour > 12) {
-                    meridiem = "PM";
-                    hour = hour - 12;
-                } else if (hour < 12) {
-                    meridiem = "AM";
-                } else if (hour === 12) {
-                    meridiem = "PM";
-                }
-                if (index === 2 || index === 6 ||index === 7) {
+                [
+                    dateToDisplay,
+                    minute,
+                    hour,
+                    meridiem,
+                ] = returnDateToDisplayMinuteHourMeridiemFromADateString(
+                    projects.status.time_set
+                );
+                if (index === 2 || index === 6 || index === 7) {
                     return (
                         <div className={line}>
                             <img
@@ -156,7 +162,7 @@ const Timeline = (props) => {
                                 Time: {hour}:{minute} {meridiem}
                             </Text>
                         </div>
-                    )
+                    );
                 }
                 return (
                     <div className={line}>
@@ -174,9 +180,7 @@ const Timeline = (props) => {
                         <Text fontSize={timeTextSize}>In progress...</Text>
                     </div>
                 );
-            }
-            // NOT DONE STATUS
-            else if (
+            } else if (
                 index >= lastIndex ||
                 statusArray.lastIndexOf(allProjectStages[index]) === -1
             ) {
@@ -201,12 +205,7 @@ const Timeline = (props) => {
     }
 
     return (
-        <Box
-            bg="brand.background"
-            // className="line"
-            width="100%"
-            marginBottom={40}
-        >
+        <Box bg="brand.background" width="100%" marginBottom={40}>
             <Flex>
                 <Box w="100%"> {isStatusComplete(0)}</Box>
                 <Box w="100%"> {isStatusComplete(1)}</Box>
