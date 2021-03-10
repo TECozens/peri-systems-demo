@@ -195,7 +195,7 @@ const Timeline = (props) => {
             }
         }
     }
-        
+
     return (
         <Box
             bg="brand.background"
