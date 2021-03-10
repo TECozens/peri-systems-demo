@@ -36,6 +36,7 @@ const Timeline = (props) => {
     let statusTextSize = "sm";
 
     let statusArray = [];
+    let previousStatusArray = [];
 
     function retrieveProjectStatusArray() {
         let i;
@@ -48,12 +49,26 @@ const Timeline = (props) => {
         }
     }
 
+    function getAllPreviousStatuses() {
+        let i
+        let tempStatusArray = [];
+        if (typeof projects !== "undefined") {
+            let lastStatusIndex = allProjectStages.lastIndexOf(projects.status.value) - 1;
+            for (i = 0; i <= lastStatusIndex; i++) {
+                tempStatusArray.push(allProjectStages[i]);
+            }
+            previousStatusArray = tempStatusArray;
+        }
+    }
+
     // TODO: Redo Current in Progress Status
     function isStatusComplete(index) {
         retrieveProjectStatusArray();
-        console.log(statusArray);
+        getAllPreviousStatuses();
+
         if (typeof projects !== "undefined") {
             if (index === projects.status_history.length) {
+                console.log(previousStatusArray);
                 return (
                     <div>
                         <img
