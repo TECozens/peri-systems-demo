@@ -31,7 +31,7 @@ mailSenderRouter.post('/api/sendmail', (req,res, next) => {
         from: "team35nsa@gmail.com",
         to: req.body.email,
         subject: "Dear " + req.body.name +  " - Status update on your order",
-        text: 'Your project status has been updated. You can access your project timeline at localhost:3000/timeline/' + req.body.projectId,
+        text: 'Your project status has been updated. You can access your project timeline at localhost:3000/customer/' + req.body.projectId,
     }
 // error handling goes here.
     transporter.sendMail(mail, (err,data) => {
