@@ -36,6 +36,7 @@ const Timeline = (props) => {
     let statusTextSize = "sm";
 
     let statusArray = [];
+    let previousStatusArray = [];
 
     function retrieveProjectStatusArray() {
         let i;
@@ -48,14 +49,117 @@ const Timeline = (props) => {
         }
     }
 
+    function getAllPreviousStatuses() {
+        let i
+        let tempStatusArray = [];
+        if (typeof projects !== "undefined") {
+            let lastStatusIndex = allProjectStages.lastIndexOf(projects.status.value) - 1;
+            for (i = 0; i <= lastStatusIndex; i++) {
+                tempStatusArray.push(allProjectStages[i]);
+            }
+            previousStatusArray = tempStatusArray;
+        }
+    }
+
+
+
     // TODO: Redo Current in Progress Status
     function isStatusComplete(index) {
-        retrieveProjectStatusArray();
-        console.log(statusArray);
+        let date;
+        let minute;
+        let hour;
+        let meridiem;
+        let dateToDisplay;
+        let line;
+        if (index !== 7) {
+            line = "line"
+        }
         if (typeof projects !== "undefined") {
-            if (index === projects.status_history.length) {
+            retrieveProjectStatusArray();
+            getAllPreviousStatuses();
+            let lastIndex = allProjectStages.lastIndexOf(projects.status.value);
+            let currentStatusIndex = statusArray.lastIndexOf(allProjectStages[index]);
+            //COMPLETED
+            if (index < lastIndex) {
+                if (statusArray.includes(allProjectStages[index])) {
+                    date = new Date(
+                        projects.status_history[currentStatusIndex].time_set
+                    );
+                     dateToDisplay = date.toLocaleDateString();
+                     minute = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
+                     hour = (date.getHours() < 10 ? "0" : "") + date.getHours();
+                    if (hour > 12) {
+                        meridiem = "PM";
+                        hour = hour - 12;
+                    } else if (hour < 12) {
+                        meridiem = "AM";
+                    } else if (hour === 12) {
+                        meridiem = "PM";
+                    }
+                } else {
+                    dateToDisplay = "Unknown"
+                    hour = "Unknown"
+                }
                 return (
-                    <div>
+                    <div className={line}>
+                        <img
+                            src={red_tick}
+                            alt="Logo"
+                            width={logoWidth}
+                            height={logoHeight}
+                        />
+                        <b>
+                            <Text fontSize={statusTextSize}>
+                                {allProjectStages[index]}
+                            </Text>
+                        </b>
+                        <Text fontSize={timeTextSize}>
+                            Date: {dateToDisplay}
+                        </Text>
+                        <Text fontSize={timeTextSize}>
+                            Time: {hour}:{minute} {meridiem}
+                        </Text>
+                    </div>
+                )
+                // CURRENT STATUS
+            } else if (lastIndex === index) {
+                date = new Date(projects.status.time_set);
+                dateToDisplay = date.toLocaleDateString();
+                minute = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
+                hour = (date.getHours() < 10 ? "0" : "") + date.getHours();
+                if (hour > 12) {
+                    meridiem = "PM";
+                    hour = hour - 12;
+                } else if (hour < 12) {
+                    meridiem = "AM";
+                } else if (hour === 12) {
+                    meridiem = "PM";
+                }
+                if (index === 2 || index === 6 ||index === 7) {
+                    return (
+                        <div className={line}>
+                            <img
+                                src={red_tick}
+                                alt="Logo"
+                                width={logoWidth}
+                                height={logoHeight}
+                            />
+                            <b>
+                                <Text fontSize={statusTextSize}>
+                                    {allProjectStages[index]}
+                                </Text>
+                            </b>
+                            <Text fontSize={timeTextSize}>
+                                Date: {dateToDisplay}
+                            </Text>
+                            <Text fontSize={timeTextSize}>
+                                Time: {hour}:{minute} {meridiem}
+                            </Text>
+                        </div>
+                    )
+                }
+                return (
+                    <div className={line}>
                         <img
                             src={in_progress}
                             alt="Logo"
@@ -71,12 +175,13 @@ const Timeline = (props) => {
                     </div>
                 );
             }
-            if (
-                index >= projects.status_history.length ||
+            // NOT DONE STATUS
+            else if (
+                index >= lastIndex ||
                 statusArray.lastIndexOf(allProjectStages[index]) === -1
             ) {
                 return (
-                    <div>
+                    <div className={line}>
                         <img
                             src={circle_outline}
                             alt="Logo"
@@ -92,115 +197,13 @@ const Timeline = (props) => {
                     </div>
                 );
             }
-            if (statusArray.lastIndexOf(allProjectStages[index]) > -1) {
-                let currentStatusIndex = statusArray.lastIndexOf(
-                    allProjectStages[index]
-                );
-                let date = new Date(
-                    projects.status_history[currentStatusIndex].time_set
-                );
-                let dateToDisplay = date.toLocaleDateString();
-                let minute =
-                    (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
-                let hour = (date.getHours() < 10 ? "0" : "") + date.getHours();
-                let meridiem;
-                if (hour > 12) {
-                    meridiem = "PM";
-                    hour = hour - 12;
-                } else if (hour < 12) {
-                    meridiem = "AM";
-                } else if (hour === 12) {
-                    meridiem = "PM";
-                }
-                return (
-                    <div>
-                        <img
-                            src={red_tick}
-                            alt="Logo"
-                            width={logoWidth}
-                            height={logoHeight}
-                        />
-                        <b>
-                            <Text fontSize={statusTextSize}>
-                                {allProjectStages[index]}
-                            </Text>
-                        </b>
-                        <Text fontSize={timeTextSize}>
-                            Date: {dateToDisplay}
-                        </Text>
-                        <Text fontSize={timeTextSize}>
-                            Time: {hour}:{minute} {meridiem}
-                        </Text>
-                    </div>
-                );
-            }
-            if (statusArray.lastIndexOf("Project Cancelled") > -1) {
-                let date = projects.status_history[index].time_set;
-                let dateToDisplay =
-                    date.slice(8, 10) +
-                    "/" +
-                    date.slice(5, 7) +
-                    "/" +
-                    date.slice(0, 4);
-                let minute = date.slice(14, 16);
-                let hour = date.slice(11, 13);
-                let meridiem;
-                if (hour > 12) {
-                    meridiem = "PM";
-                    hour = hour - 12;
-                } else if (hour < 12) {
-                    meridiem = "AM";
-                } else if (hour === 12) {
-                    meridiem = "PM";
-                }
-                return (
-                    <div>
-                        <img
-                            src={cross_circle}
-                            alt="Logo"
-                            width={logoWidth}
-                            height={logoHeight}
-                        />
-                        <b>
-                            {" "}
-                            <Text fontSize={statusTextSize}>
-                                {allProjectStages[index]}
-                            </Text>{" "}
-                        </b>
-                        <Text fontSize={timeTextSize}>
-                            Date: {dateToDisplay}
-                        </Text>
-                        <Text fontSize={timeTextSize}>
-                            Time: {hour}:{minute} {meridiem}
-                        </Text>
-                    </div>
-                );
-            } else {
-                return (
-                    <div>
-                        <img
-                            src={red_tick}
-                            alt="Logo"
-                            width={logoWidth}
-                            height={logoHeight}
-                        />
-                        <b>
-                            <Text fontSize={statusTextSize}>
-                                {allProjectStages[index]}
-                            </Text>
-                        </b>
-                    </div>
-                );
-            }
-        } else {
-            return <div>Project Not Found</div>;
         }
     }
 
     return (
         <Box
             bg="brand.background"
-            className="line"
+            // className="line"
             width="100%"
             marginBottom={40}
         >
