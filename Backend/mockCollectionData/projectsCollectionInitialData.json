@@ -11,7 +11,7 @@
         "client": "Modebest",
         "engineers": {
             "sales_engineer_id": {
-                "$oid": "601a8b773e3205f70dda2f74"
+                "$oid": "60489bbf224afaa395d073bd"
             },
             "technical_lead_id": {
                 "$oid": "6026dec65552793088002180"
@@ -31,12 +31,12 @@
         },
         "status": {
             "_id": {
-                "$oid": "60361da558cdf53c601c187b"
+                "$oid": "601c088fa5dabc0e7ca78ef0"
             },
             "time_set": {
-                "$date": "2021-02-24T09:34:29.220Z"
+                "$date": "2021-02-02T15:00:00Z"
             },
-            "value": "Project Complete"
+            "value": "Awaiting Customer Approval"
         },
         "status_history": [
             {
@@ -74,15 +74,6 @@
                     "$date": "2021-02-02T15:00:00Z"
                 },
                 "value": "Awaiting Customer Approval"
-            },
-            {
-                "_id": {
-                    "$oid": "60361da558cdf53c601c187b"
-                },
-                "time_set": {
-                    "$date": "2021-02-24T09:34:29.220Z"
-                },
-                "value": "Project Complete"
             }
         ],
         "__v": 0
@@ -99,7 +90,7 @@
         "client": "Modebest",
         "engineers": {
             "sales_engineer_id": {
-                "$oid": "601a8b773e3205f70dda2f74"
+                "$oid": "60489c2c224afaa395d073bf"
             },
             "technical_lead_id": {
                 "$oid": "6026df2436b199338c2ec570"
@@ -119,12 +110,12 @@
         },
         "status": {
             "_id": {
-                "$oid": "60361b1258cdf53c601c1879"
+                "$oid": "601c08efa5dabc0e7ca78ef6"
             },
             "time_set": {
-                "$date": "2021-02-24T09:23:30.423Z"
+                "$date": "2021-01-07T08:30:00Z"
             },
-            "value": "Design Complete"
+            "value": "Preliminary Design Complete"
         },
         "status_history": [
             {
@@ -153,15 +144,6 @@
                     "$date": "2021-01-07T08:30:00Z"
                 },
                 "value": "Preliminary Design Complete"
-            },
-            {
-                "_id": {
-                    "$oid": "60361b1258cdf53c601c1879"
-                },
-                "time_set": {
-                    "$date": "2021-02-24T09:23:30.423Z"
-                },
-                "value": "Design Complete"
             }
         ],
         "__v": 0
@@ -178,7 +160,7 @@
         "client": "JP Dunn",
         "engineers": {
             "sales_engineer_id": {
-                "$oid": "601a8b773e3205f70dda2f74"
+                "$oid": "60489bbf224afaa395d073bd"
             },
             "technical_lead_id": {
                 "$oid": "6026dec65552793088002180"
@@ -187,7 +169,7 @@
                 "$oid": "6026d7e2e01f86192c9a5789"
             },
             "design_checker_id": {
-                "$oid": "6026df2436b199338c2ec570"
+                "$oid": "6026dec65552793088002180"
             }
         },
         "date_required": {
@@ -198,12 +180,12 @@
         },
         "status": {
             "_id": {
-                "$oid": "601c08b3a5dabc0e7ca78ef2"
+                "$oid": "603ff38f58f7b049005c3b2e"
             },
             "time_set": {
-                "$date": "2021-02-03T10:00:00Z"
+                "$date": "2021-03-03T20:37:35.356Z"
             },
-            "value": "Preliminary Design Ongoing"
+            "value": "Preliminary Design Complete"
         },
         "status_history": [
             {
@@ -223,9 +205,18 @@
                     "$date": "2021-02-03T10:00:00Z"
                 },
                 "value": "Preliminary Design Ongoing"
+            },
+            {
+                "_id": {
+                    "$oid": "603ff38f58f7b049005c3b2e"
+                },
+                "time_set": {
+                    "$date": "2021-03-03T20:37:35.356Z"
+                },
+                "value": "Preliminary Design Complete"
             }
         ],
-        "__v": 0
+        "__v": 1
     },
     {
         "_id": {
@@ -239,7 +230,7 @@
         "client": "Oliver Connel",
         "engineers": {
             "sales_engineer_id": {
-                "$oid": "601a8f8b3e3205f70dda2f76"
+                "$oid": "60489bbf224afaa395d073bd"
             },
             "technical_lead_id": {
                 "$oid": "6026df2436b199338c2ec570"
@@ -248,7 +239,7 @@
                 "$oid": "6026d7e2e01f86192c9a5789"
             },
             "design_checker_id": {
-                "$oid": "602bd561bab9f445b806b03b"
+                "$oid": "6026df2436b199338c2ec570"
             }
         },
         "date_required": {
@@ -259,12 +250,12 @@
         },
         "status": {
             "_id": {
-                "$oid": "603541bac895b03b9c03bc01"
+                "$oid": "6040af0b2054e832c47bc632"
             },
             "time_set": {
-                "$date": "2021-02-23T17:56:10.273Z"
+                "$date": "2021-03-04T09:57:31.103Z"
             },
-            "value": "Design Pending"
+            "value": "Preliminary Design Ongoing"
         },
         "status_history": [
             {
@@ -278,68 +269,154 @@
             },
             {
                 "_id": {
-                    "$oid": "60353e23f5f2fa2fc497643b"
+                    "$oid": "6040af0b2054e832c47bc632"
                 },
                 "time_set": {
-                    "$date": "2021-02-23T17:40:51.708Z"
+                    "$date": "2021-03-04T09:57:31.103Z"
                 },
-                "value": "Design Complete"
+                "value": "Preliminary Design Ongoing"
+            }
+        ],
+        "__v": 3
+    },
+    {
+        "_id": {
+            "$oid": "601aaab03e3205f70dda2123"
+        },
+        "number": "1",
+        "name": "test1",
+        "system": "SKYDECK",
+        "sector": "Non-Residential",
+        "description": "SKYDECK 2nd floor slab",
+        "client": "JP Dunn",
+        "engineers": {
+            "sales_engineer_id": {
+                "$oid": "60489c2c224afaa395d073bf"
             },
+            "technical_lead_id": {
+                "$oid": "6026dec65552793088002180"
+            },
+            "designer_id": {
+                "$oid": "6026d7e2e01f86192c9a5789"
+            },
+            "design_checker_id": {
+                "$oid": "6026dec65552793088002180"
+            }
+        },
+        "date_required": {
+            "$date": "2021-02-25T12:00:00Z"
+        },
+        "anticipated_date": {
+            "$date": "2021-02-21T12:00:00Z"
+        },
+        "status": {
+            "_id": {
+                "$oid": "603ff38f58f7b049005c3b2e"
+            },
+            "time_set": {
+                "$date": "2021-03-03T20:37:35.356Z"
+            },
+            "value": "Preliminary Design Complete"
+        },
+        "status_history": [
             {
                 "_id": {
-                    "$oid": "60353e7df5f2fa2fc497643c"
+                    "$oid": "601c08b3a5dabc0e7ca78ef1"
                 },
                 "time_set": {
-                    "$date": "2021-02-23T17:42:21.927Z"
-                },
-                "value": "Detailed Design Ongoing"
-            },
-            {
-                "_id": {
-                    "$oid": "60353eb7f5f2fa2fc497643d"
-                },
-                "time_set": {
-                    "$date": "2021-02-23T17:43:19.513Z"
-                },
-                "value": "Detailed Design Pending​"
-            },
-            {
-                "_id": {
-                    "$oid": "60353edef5f2fa2fc497643e"
-                },
-                "time_set": {
-                    "$date": "2021-02-23T17:43:58.151Z"
-                },
-                "value": "Preliminary Design Complete"
-            },
-            {
-                "_id": {
-                    "$oid": "603541aec895b03b9c03bbff"
-                },
-                "time_set": {
-                    "$date": "2021-02-23T17:55:58.929Z"
+                    "$date": "2021-02-02T13:00:00Z"
                 },
                 "value": "Design Pending"
             },
             {
                 "_id": {
-                    "$oid": "603541b6c895b03b9c03bc00"
+                    "$oid": "601c08b3a5dabc0e7ca78ef2"
                 },
                 "time_set": {
-                    "$date": "2021-02-23T17:56:06.636Z"
+                    "$date": "2021-02-03T10:00:00Z"
                 },
                 "value": "Preliminary Design Ongoing"
             },
             {
                 "_id": {
-                    "$oid": "603541bac895b03b9c03bc01"
+                    "$oid": "603ff38f58f7b049005c3b2e"
                 },
                 "time_set": {
-                    "$date": "2021-02-23T17:56:10.273Z"
+                    "$date": "2021-03-03T20:37:35.356Z"
                 },
-                "value": "Design Pending"
+                "value": "Preliminary Design Complete"
             }
         ],
-        "__v": 0
+        "__v": 1
+    },
+    {
+        "_id": {
+            "$oid": "601aaab03e3205f70dda2124"
+        },
+        "number": "2",
+        "name": "test2",
+        "system": "SKYDECK",
+        "sector": "Non-Residential",
+        "description": "SKYDECK 2nd floor slab",
+        "client": "JP Dunn",
+        "engineers": {
+            "sales_engineer_id": {
+                "$oid": "60489c2c224afaa395d073bf"
+            },
+            "technical_lead_id": {
+                "$oid": "6026dec65552793088002180"
+            },
+            "designer_id": {
+                "$oid": "6026d7e2e01f86192c9a5789"
+            },
+            "design_checker_id": {
+                "$oid": "6026dec65552793088002180"
+            }
+        },
+        "date_required": {
+            "$date": "2021-02-25T12:00:00Z"
+        },
+        "anticipated_date": {
+            "$date": "2021-02-21T12:00:00Z"
+        },
+        "status": {
+            "_id": {
+                "$oid": "603ff38f58f7b049005c3b2e"
+            },
+            "time_set": {
+                "$date": "2021-03-03T20:37:35.356Z"
+            },
+            "value": "Preliminary Design Complete"
+        },
+        "status_history": [
+            {
+                "_id": {
+                    "$oid": "601c08b3a5dabc0e7ca78ef1"
+                },
+                "time_set": {
+                    "$date": "2021-02-02T13:00:00Z"
+                },
+                "value": "Design Pending"
+            },
+            {
+                "_id": {
+                    "$oid": "601c08b3a5dabc0e7ca78ef2"
+                },
+                "time_set": {
+                    "$date": "2021-02-03T10:00:00Z"
+                },
+                "value": "Preliminary Design Ongoing"
+            },
+            {
+                "_id": {
+                    "$oid": "603ff38f58f7b049005c3b2e"
+                },
+                "time_set": {
+                    "$date": "2021-03-03T20:37:35.356Z"
+                },
+                "value": "Preliminary Design Complete"
+            }
+        ],
+        "__v": 1
     }
 ]
