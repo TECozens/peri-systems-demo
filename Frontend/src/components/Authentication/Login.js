@@ -6,7 +6,6 @@ import Form from "react-validation/build/form";
 import CheckButton from "react-validation/build/button";
 import AuthService from "../../services/auth.service";
 
-//NOTE Could be Unnecessary
 const required = (value) => {
     if (!value) {
         return (
@@ -26,7 +25,6 @@ const Login = (props) => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
 
-    //TODO Can Be condensed
     const onChangeEmail = (e) => {
         const email = e.target.value;
         setEmail(email);
@@ -45,14 +43,12 @@ const Login = (props) => {
 
         form.current.validateAll();
 
-        //TODO Change to dashboard later on, Log outputs for issues
         if (checkBtn.current.context._errors.length === 0) {
             AuthService.login(email, password).then(
                 () => {
                     setTimeout(() => {
                         window.location.reload();
                     }, 1000);
-                    // window.location.reload();
                 },
                 (error) => {
                     const resMessage =
