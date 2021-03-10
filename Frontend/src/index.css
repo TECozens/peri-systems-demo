@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Fix to little 🔎 icon inside chakra ui inputs appearing above date search*/
+.css-h2okin {
+  z-index: 0 !important;
+}
