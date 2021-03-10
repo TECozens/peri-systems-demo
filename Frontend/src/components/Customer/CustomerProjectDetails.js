@@ -48,9 +48,10 @@ const CustomerProjectDetails = (props) => {
                         <ProjectDetails1 project={project} />
                         <Button
                             leftIcon={<EmailIcon />}
-                            onClick={handleContactUsButtonClick}
                             isLoading={loading}
+                            colorScheme={"blue"}
                             marginBottom={20}
+                            onClick={handleContactUsButtonClick}
                         >
                             Contact Us
                         </Button>
