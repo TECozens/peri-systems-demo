@@ -1,15 +1,15 @@
-import AuthService from "../../../services/auth.service";
-import React, { useEffect, useState } from "react";
-import { useAsync } from "react-async";
-import UserService from "../../../services/users.service";
+import { FormControl, FormLabel } from "@chakra-ui/form-control";
+import { useDisclosure } from "@chakra-ui/hooks";
+import { SearchIcon } from "@chakra-ui/icons";
+import { InputGroup, InputRightElement } from "@chakra-ui/input";
 import {
     Box,
     Container,
     Flex,
     Grid,
     GridItem,
-    Heading,
-    VStack,
+
+    VStack
 } from "@chakra-ui/layout";
 import {
     Button,
@@ -20,18 +20,20 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay,
-    useBreakpointValue,
+    useBreakpointValue
 } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { useAsync } from "react-async";
+import AuthService from "../../../services/auth.service";
+import UserService from "../../../services/users.service";
+import { SeparatedHeading } from "../../Util/SeparatedHeading/SeparatedHeading";
 import "./Register.scss";
 import PageSection from "./UserCount/PageSection";
 import UserTable from "./UserTable/UserTable";
-import { InputGroup, InputRightElement } from "@chakra-ui/input";
-import { SearchIcon } from "@chakra-ui/icons";
-import { useDisclosure } from "@chakra-ui/hooks";
-import { FormControl, FormLabel } from "@chakra-ui/form-control";
 
-const getData = ({ props }) =>
-    UserService.example(props.userSearch, props.page);
+const getData = ({ props }) => {
+    return UserService.getUsers(props.userSearch, props.page);
+}
 
 const Register = () => {
     const [userSearch, setUserSearch] = useState("");
@@ -134,10 +136,7 @@ const Register = () => {
 
     return (
         <Container maxW="3xl" marginTop={12} marginBottom={12}>
-            <Heading>Users</Heading>
-            <Heading size="md" mb={4} color="grey">
-                Manage employees
-            </Heading>
+            <SeparatedHeading primary='Users' secondary='Manage Employees' />
             <Flex direction="column">
                 <Box mb={2}>
                     <Flex>
