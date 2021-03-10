@@ -12,13 +12,17 @@ const Dashboard = () => {
 
     useEffect(() => {
         const user = AuthService.getCurrentUser();
+        setCurrentUser(user)
         console.log(user)
 
         if (user) {
-            setCurrentUser(user);
-            setShowTechnicalBoard(user.roles.includes("ROLE_TECHNICAL"));
-            setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
-            setShowDesignerBoard(user.roles.includes("ROLE_DESIGNER"));
+            if (user.roles.includes("ROLE_TECHNICAL")) {
+                setShowTechnicalBoard(true)
+            } else if (user.roles.includes('ROLE_ADMIN')) {
+                setShowAdminBoard(true)
+            } else if (user.roles.includes('ROLE_DESIGNER')) {
+                setShowDesignerBoard(true)
+            }
         }
     }, []);
 
