@@ -70,6 +70,10 @@ const Timeline = (props) => {
         let hour;
         let meridiem;
         let dateToDisplay;
+        let line;
+        if (index !== 7) {
+            line = "line"
+        }
         if (typeof projects !== "undefined") {
             retrieveProjectStatusArray();
             getAllPreviousStatuses();
@@ -97,7 +101,7 @@ const Timeline = (props) => {
                     hour = "Unknown"
                 }
                 return (
-                    <div>
+                    <div className={line}>
                         <img
                             src={red_tick}
                             alt="Logo"
@@ -133,7 +137,7 @@ const Timeline = (props) => {
                         meridiem = "PM";
                     }
                     return (
-                        <div>
+                        <div className={line}>
                             <img
                                 src={red_tick}
                                 alt="Logo"
@@ -155,7 +159,7 @@ const Timeline = (props) => {
                     )
                 }
                 return (
-                    <div>
+                    <div className={line}>
                         <img
                             src={in_progress}
                             alt="Logo"
@@ -177,7 +181,7 @@ const Timeline = (props) => {
                 statusArray.lastIndexOf(allProjectStages[index]) === -1
             ) {
                 return (
-                    <div>
+                    <div className={line}>
                         <img
                             src={circle_outline}
                             alt="Logo"
@@ -199,7 +203,7 @@ const Timeline = (props) => {
     return (
         <Box
             bg="brand.background"
-            className="line"
+            // className="line"
             width="100%"
             marginBottom={40}
         >
