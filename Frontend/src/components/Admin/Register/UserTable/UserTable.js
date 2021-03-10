@@ -16,7 +16,7 @@ const UserTable = (props) => {
 
     if (props.users.length > 0) {
         return (
-            <Table variant="simple" colorScheme="teal" size={breakpoint}>
+            <Table variant="simple" colorScheme="red" size={breakpoint}>
                 <Thead>
                     <Tr>
                         <Th> Name </Th>

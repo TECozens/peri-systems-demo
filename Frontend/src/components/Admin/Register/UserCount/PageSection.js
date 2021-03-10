@@ -35,8 +35,11 @@ const PageSection = (props) => {
                         prevPage();
                     }}
                 />
-                <Text color="white" fontWeight="bold">
-                    Page {props.page} / {props.maxPage}
+                <Text color="grey" fontWeight="bold">
+                    Page
+                    <Text color="black">
+                        {props.page} / {props.maxPage}
+                    </Text>
                 </Text>
                 <IconButton
                     isLoading={props.isLoading}
