@@ -70,7 +70,7 @@ UserRouter.get("/api/users/getTechnicalLeadRoleID", jsonParser, (req, res) => {
 });
 
 UserRouter.get('/api/users', jsonParser, async (req, res) => {
-    let pageSize = 3
+    let pageSize = 7
     let page = req.query.page
     let query = req.query.query
     let regex = new RegExp(query, 'i')
