@@ -2,7 +2,7 @@ import React from "react";
 import ProjectsSection from "../Project/ProjectsSection";
 import {Box, Flex, Spacer} from "@chakra-ui/layout";
 
-const AdminBoard = (props) => {
+const AdminBoard = () => {
     return (
         <Flex p={20}>
             <Box width="full">
