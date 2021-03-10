@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Box, Center, Container, Flex } from "@chakra-ui/layout";
+import { Box, Container, Flex } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/react";
 import Timeline from "../Events/Timeline";
 import ProjectService from "../../services/project.service";
 import ProjectDetails1 from "../Project/ProjectDetails1";
 import { EmailIcon } from "@chakra-ui/icons";
+import UserService from "../../services/users.service";
 
 const CustomerProjectDetails = (props) => {
     const projectId = props.match.params.param1;
@@ -18,6 +19,21 @@ const CustomerProjectDetails = (props) => {
         }
     }, [projectId]);
 
+    const handleContactUsButtonClick = () => {
+        UserService.getUserByID(project.engineers.sales_engineer_id).then(
+            (engineer) => {
+                window.location.href =
+                    "mailto:" +
+                    (engineer !== null ? engineer.email : "info@peri.ltd.uk") +
+                    "?subject=" +
+                    project.name +
+                    " (#" +
+                    project.number +
+                    ")";
+            }
+        );
+    };
+
     return (
         <Container maxW="6xl" marginTop={12} marginBottom={12}>
             <Flex bg={"brand.background"} borderRadius="lg" boxShadow="lg">
@@ -26,14 +42,7 @@ const CustomerProjectDetails = (props) => {
                         <ProjectDetails1 project={project} />
                         <Button
                             leftIcon={<EmailIcon />}
-                            onClick={() =>
-                                (window.location.href =
-                                    "mailto:your@email.address?subject=" +
-                                    project.name +
-                                    " (#" +
-                                    project.number +
-                                    ")")
-                            }
+                            onClick={handleContactUsButtonClick}
                             marginBottom={20}
                         >
                             Contact Us
