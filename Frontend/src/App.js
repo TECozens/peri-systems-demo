@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react';
 import './App.css';
 import {ChakraProvider, extendTheme} from "@chakra-ui/react";
 import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
@@ -11,6 +11,7 @@ import AuthService from "./services/auth.service";
 import IsLoggedIn from "./components/Authentication/IsLoggedIn";
 import ProjectDetails from "./components/Project/ProjectDetails";
 import Timeline from "./components/Events/Timeline";
+
 
 // 2. Extend the theme to include custom colors, fonts, etc
 const colors = {
@@ -39,8 +40,6 @@ const isAuthenticated = AuthService.isUserAuthenticated()
 const isAdmin = AuthService.isAdmin()
 
 function App() {
-
-
     //TODO dashboard needs to redirect unauthenticated users
     return (
         <Router>

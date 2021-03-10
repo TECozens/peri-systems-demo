@@ -4,6 +4,7 @@ import UpdateStatus from "../Events/UpdateStatus";
 import ProjectView from "./ProjectView";
 import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
 import { Text } from "@chakra-ui/layout";
+import EditProjects from '../Events/EditProject/EditProject';
 
 const ProjectList = (props) => {
     let count = props.count;
@@ -141,12 +142,16 @@ const ProjectList = (props) => {
                                 {props.authenticatedRole.includes(
                                     "ROLE_TECHNICAL"
                                 ) && (
+                                    <>
                                     <AssignEngineers
                                         updateParent={props.updateParent}
                                         project={project}
                                     />
+                                    <EditProjects />
+                                    </>
                                 )}
                                 <ProjectView project={project} />
+
                             </Td>
                         </Tr>
                     ))}
