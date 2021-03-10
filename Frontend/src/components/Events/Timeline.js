@@ -78,7 +78,6 @@ const Timeline = (props) => {
         } else {
             meridiem = "PM";
         }
-
         return [dateToDisplay, minute, hour, meridiem];
     }
 
@@ -86,14 +85,22 @@ const Timeline = (props) => {
                          dateToDisplay, hour, minute, meridiem, typeOfStatus) {
         let dateText;
         let timeText
+        let statusText;
         if (typeOfStatus === "complete") {
             dateText = "Date: " + dateToDisplay;
             timeText = "Time: " + hour + ":" + minute + " " + meridiem
+            statusText = allProjectStages[index];
         }  else if (typeOfStatus === "in_progress") {
             timeText = "In progress..."
+            statusText = allProjectStages[index];
         } else if (typeOfStatus === "waiting") {
             timeText = "Waiting..."
-        }
+            statusText = allProjectStages[index];
+        } else if (typeOfStatus === "cancelled") {
+            dateText = "Date: " + dateToDisplay;
+            timeText = "Time: " + hour + ":" + minute + " " + meridiem
+            statusText = "Project Cancelled";
+    }
             return (
                 <div className={line}>
                     <img
@@ -104,7 +111,7 @@ const Timeline = (props) => {
                     />
                     <b>
                         <Text fontSize={statusTextSize}>
-                            {allProjectStages[index]}
+                            {statusText}
                         </Text>
                     </b>
                     <Text fontSize={timeTextSize}>
@@ -124,16 +131,43 @@ const Timeline = (props) => {
         let meridiem;
         let dateToDisplay;
         let line;
+        let lastIndex;
+        let currentStatusIndex;
+        let cancelledIndex;
         if (index !== 7) {
             line = "line";
         }
         if (typeof projects !== "undefined") {
             retrieveProjectStatusArray();
             getAllPreviousStatuses();
-            let lastIndex = allProjectStages.lastIndexOf(projects.status.value);
-            let currentStatusIndex = statusArray.lastIndexOf(
-                allProjectStages[index]
-            );
+            if (projects.status.value !== "Project Cancelled") {
+                console.log(statusArray[statusArray.length - 1]);
+                lastIndex = allProjectStages.lastIndexOf(projects.status.value);
+                currentStatusIndex = statusArray.lastIndexOf(
+                    allProjectStages[index]
+                );
+            } else if (projects.status.value === "Project Cancelled") {
+                console.log(statusArray[statusArray.length - 1]);
+                lastIndex = allProjectStages.lastIndexOf(statusArray[statusArray.length - 2]);
+                cancelledIndex = allProjectStages.lastIndexOf(statusArray[statusArray.length - 2]) + 1;
+                currentStatusIndex = statusArray.lastIndexOf(
+                    allProjectStages[index]
+                );
+            }
+
+            if (index === cancelledIndex) {
+                [
+                    dateToDisplay,
+                    minute,
+                    hour,
+                    meridiem,
+                ] = returnDateToDisplayMinuteHourMeridiemFromADateString(
+                    projects.status.time_set
+                );
+                return (displayLogo(line, cross_circle, logoWidth, logoHeight, statusTextSize,
+                    allProjectStages, index, timeTextSize,
+                    dateToDisplay, hour, minute, meridiem, "cancelled"));
+            }
             if (index < lastIndex) {
                 if (statusArray.includes(allProjectStages[index])) {
                     [
@@ -147,6 +181,8 @@ const Timeline = (props) => {
                 } else {
                     dateToDisplay = "Unknown";
                     hour = "Unknown";
+                    minute = "";
+                    meridiem = "";
                 }
                 return (displayLogo(line, red_tick, logoWidth, logoHeight, statusTextSize,
                     allProjectStages, index, timeTextSize,
