@@ -11,7 +11,7 @@ const ProjectDetails1 = (props) => {
     }, [props.project]);
 
     return (
-        <Box marginBottom={20}>
+        <Box marginBottom={5}>
             {project ? (
                 <>
                     <Box align="center" justify="center">
