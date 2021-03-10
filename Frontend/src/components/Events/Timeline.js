@@ -123,19 +123,19 @@ const Timeline = (props) => {
                 )
                 // CURRENT STATUS
             } else if (lastIndex === index) {
+                date = new Date(projects.status.time_set);
+                dateToDisplay = date.toLocaleDateString();
+                minute = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
+                hour = (date.getHours() < 10 ? "0" : "") + date.getHours();
+                if (hour > 12) {
+                    meridiem = "PM";
+                    hour = hour - 12;
+                } else if (hour < 12) {
+                    meridiem = "AM";
+                } else if (hour === 12) {
+                    meridiem = "PM";
+                }
                 if (index === 2 || index === 6 ||index === 7) {
-                    date = new Date(projects.status.time_set);
-                    dateToDisplay = date.toLocaleDateString();
-                    minute = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
-                    hour = (date.getHours() < 10 ? "0" : "") + date.getHours();
-                    if (hour > 12) {
-                        meridiem = "PM";
-                        hour = hour - 12;
-                    } else if (hour < 12) {
-                        meridiem = "AM";
-                    } else if (hour === 12) {
-                        meridiem = "PM";
-                    }
                     return (
                         <div className={line}>
                             <img
