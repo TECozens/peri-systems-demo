@@ -5,7 +5,7 @@ import { Box, Container, Flex, Spacer } from "@chakra-ui/layout";
 const TechnicalBoard = () => {
 
     return (
-        <Container maxW="3xl" marginTop={12} marginBottom={12}>
+        <Container maxW="6xl" marginTop={12} marginBottom={12}>
             <ProjectsSection />
         </Container>
     )

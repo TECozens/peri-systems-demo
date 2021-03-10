@@ -8,8 +8,7 @@ import {
     Flex,
     Grid,
     GridItem,
-
-    VStack
+    HStack
 } from "@chakra-ui/layout";
 import {
     Button,
@@ -135,11 +134,14 @@ const Register = () => {
     };
 
     return (
-        <Container maxW="3xl" marginTop={12} marginBottom={12}>
+        <Container maxW="6xl" marginTop={12} marginBottom={12}>
             <SeparatedHeading primary='Users' secondary='Manage Employees' />
             <Flex direction="column">
                 <Box mb={2}>
-                    <Flex>
+                    <HStack>
+                        <Button colorScheme="red" onClick={onOpen}>
+                            Create User
+                        </Button>
                         <InputGroup>
                             <Input
                                 autoFocus={true}
@@ -150,93 +152,75 @@ const Register = () => {
                             />
                             <InputRightElement children={<SearchIcon />} />
                         </InputGroup>
-                    </Flex>
+                    </HStack>
                 </Box>
 
-                <Grid
-                    templateColumns={
-                        showUserCount ? "repeat(6, 1fr)" : "repeat(5, 1fr)"
-                    }
-                    gap={4}
-                >
-                    {showUserCount ? (
-                        <GridItem colSpan={1} mt={6}>
-                            <VStack spacing={4}>
-                                <Button colorScheme="yellow" onClick={onOpen}>
-                                    Create User
-                                </Button>
-                                <PageSection
-                                    onLastPage={onLastPage}
-                                    isLoading={isLoading}
-                                    page={page}
-                                    setPage={setPage}
-                                    maxPage={maxPage}
-                                />
-                                <Modal isOpen={isOpen} onClose={onClose}>
-                                    <ModalOverlay />
-                                    <ModalContent>
-                                        <ModalHeader>
-                                            Edit user profile
+                <Modal isOpen={isOpen} onClose={onClose}>
+                    <ModalOverlay />
+                    <ModalContent>
+                        <ModalHeader>
+                            Edit user profile
                                         </ModalHeader>
-                                        <ModalBody p={6}>
-                                            <FormControl>
-                                                <FormLabel>
-                                                    First Name
+                        <ModalBody p={6}>
+                            <FormControl>
+                                <FormLabel>
+                                    First Name
                                                 </FormLabel>
-                                                <Input
-                                                    value={values.firstname}
-                                                    onChange={handleChange}
-                                                    name="firstname"
-                                                    placeholder="First Name"
-                                                />
-                                            </FormControl>
-                                            <FormControl mt={4}>
-                                                <FormLabel>Last name</FormLabel>
-                                                <Input
-                                                    value={values.lastname}
-                                                    onChange={handleChange}
-                                                    name="lastname"
-                                                    placeholder="Last name"
-                                                />
-                                            </FormControl>
-                                            <FormControl mt={4}>
-                                                <FormLabel>Email</FormLabel>
-                                                <Input
-                                                    value={values.email}
-                                                    onChange={handleChange}
-                                                    name="email"
-                                                    placeholder="Email"
-                                                />
-                                            </FormControl>
-                                        </ModalBody>
-                                        <ModalFooter>
-                                            <Button
-                                                colorScheme="yellow"
-                                                mr={3}
-                                                onClick={createUser}
-                                            >
-                                                Create
+                                <Input
+                                    value={values.firstname}
+                                    onChange={handleChange}
+                                    name="firstname"
+                                    placeholder="First Name"
+                                />
+                            </FormControl>
+                            <FormControl mt={4}>
+                                <FormLabel>Last name</FormLabel>
+                                <Input
+                                    value={values.lastname}
+                                    onChange={handleChange}
+                                    name="lastname"
+                                    placeholder="Last name"
+                                />
+                            </FormControl>
+                            <FormControl mt={4}>
+                                <FormLabel>Email</FormLabel>
+                                <Input
+                                    value={values.email}
+                                    onChange={handleChange}
+                                    name="email"
+                                    placeholder="Email"
+                                />
+                            </FormControl>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button
+                                colorScheme="yellow"
+                                mr={3}
+                                onClick={createUser}
+                            >
+                                Create
                                             </Button>
-                                            <Button onClick={onClose}>
-                                                Cancel
+                            <Button onClick={onClose}>
+                                Cancel
                                             </Button>
-                                        </ModalFooter>
-                                    </ModalContent>
-                                </Modal>
-                            </VStack>
-                        </GridItem>
-                    ) : (
-                        <></>
-                    )}
-                    <GridItem colSpan={5}>
-                        <UserTable
-                            updateUser={updateUser}
-                            deleteUser={deleteUser}
-                            isLoading={isLoading}
-                            users={users}
-                        />
-                    </GridItem>
-                </Grid>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
+
+                <UserTable
+                    updateUser={updateUser}
+                    deleteUser={deleteUser}
+                    isLoading={isLoading}
+                    users={users}
+                />
+                <PageSection
+                    variant='simple'
+                    onLastPage={onLastPage}
+                    isLoading={isLoading}
+                    page={page}
+                    setPage={setPage}
+                    maxPage={maxPage}
+                />
             </Flex>
         </Container>
     );
