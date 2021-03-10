@@ -99,6 +99,18 @@ function updateProjectDesignChecker(projectId, engineerId) {
             console.log(error);
         });
 }
+const sendMail = (name, email, projectId) => {
+    return axios.post("http://localhost:8081/api/sendmail", {
+        name,
+        email,
+        projectId,
+    }).then((response) => {
+        if(response.data.accessToken) {
+            localStorage.setItem("user", JSON.stringify(response.data));
+        }
+        return response.data;
+    });
+};
 
 const ProjectService = {
     getDesignerProjects,
@@ -108,6 +120,7 @@ const ProjectService = {
     getProjectByID,
     updateProjectDesignEngineer,
     updateProjectDesignChecker,
+    sendMail,
 };
 
 export default ProjectService;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
     Button,
     Modal,
@@ -19,17 +19,46 @@ import ProjectService from "../../services/project.service";
 const UpdateStatus = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [statusSelected, setStatusSelected] = useState();
+    const [projects, setProjects] = useState();
+    let aProject = useRef();
     let count = props.count;
     const projectBreakpoint = useBreakpointValue({ base: "sm", lg: "md" });
 
     useEffect(() => {
         setStatusSelected(props.projectStatus.trim());
+        ProjectService.getProjectByID(props.projectId).then((projects) => {
+            aProject.current = projects;
+            setProjects(aProject.current);
+            console.log("project is");
+            console.log(aProject.current);
+        });
     }, [props.projectStatus]);
 
     function handleSubmit() {
         ProjectService.updateProjectStatus(props.projectId, statusSelected)
             .then((updatedProject) => props.updateParent(updatedProject))
             .then(onClose);
+
+        if (typeof projects !== "undefined") {
+            ProjectService.sendMail(
+                projects.customer.name,
+                projects.customer.email,
+                props.projectId
+            ).then(
+                (response) => {
+                    console.log("mail sent");
+                },
+                (error) => {
+                    const resMessage =
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+                    console.log("error sending mail");
+                }
+            );
+        }
     }
 
     function handleClose() {

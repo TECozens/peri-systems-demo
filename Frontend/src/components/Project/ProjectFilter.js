@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
     Button,
     HStack,
@@ -11,13 +11,13 @@ import { Search2Icon } from "@chakra-ui/icons";
 import { Text, VStack } from "@chakra-ui/layout";
 import DatePicker from "react-datepicker";
 import ProjectFilteringService from "../../services/project.filtering.service";
-import PageSection from "../Admin/Register/UserCount/PageSection";
+import "react-datepicker/dist/react-datepicker.css"
+import 'react-datepicker/dist/react-datepicker-cssmodules.min.css'
 
 const ProjectFilter = (props) => {
     let filters = useRef({});
     const [statusOptions, setStatusOptions] = useState();
     let firstRender = useRef(true);
-    let maxPage = useRef(1);
     let count = props.count;
 
     function getUniqueStatusFromProjects(projectList) {
@@ -55,19 +55,25 @@ const ProjectFilter = (props) => {
         }
     }
 
-    function handleFilterChange(filterName, value) {
-        // if (filterName && value) {
-        filters.current[filterName] = value;
-        // }
-        ProjectFilteringService.getProjectsByEngineerIDAndFilter(
-            props.authenticatedId,
-            filters.current,
-            props.page
-        ).then((data) => {
-            props.setProjectsParent(data.data);
-            maxPage.current = data.maxPage;
-        });
-    }
+    const handleFilterChange = useCallback(
+        (filterName, value) => {
+            if (filterName !== undefined && value !== undefined) {
+                filters.current[filterName] = value;
+            }
+            ProjectFilteringService.getProjectsByEngineerIDAndFilter(
+                props.authenticatedId,
+                filters.current,
+                props.page
+            ).then((data) => {
+                props.setProjectsParent(data.data);
+                props.setMaxPage(data.maxPage);
+                if (data.maxPage === 1) {
+                    props.setPage(1);
+                }
+            });
+        },
+        [props.page]
+    );
 
     function clearFilters() {
         let filterNames = Object.keys(filters.current);
@@ -75,11 +81,17 @@ const ProjectFilter = (props) => {
             filters.current[filterNames[i]] = "";
         }
         props.setProjectDisplayedToAllEngineerProjects();
+        props.setMaxPage(props.originalMaxPage);
     }
 
     useEffect(() => {
-        handleFilterChange();
-    }, [props.page]);
+        if (
+            firstRender.current === false &&
+            props.projectsDisplayed.length !== 0
+        ) {
+            handleFilterChange();
+        }
+    }, [props.page, handleFilterChange]);
 
     useEffect(() => {
         if (
@@ -191,11 +203,6 @@ const ProjectFilter = (props) => {
                     Clear All
                 </Button>
             </HStack>
-            <PageSection
-                page={props.page}
-                setPage={props.setPage}
-                maxPage={maxPage.current}
-            />
         </VStack>
     );
 };

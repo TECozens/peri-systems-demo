@@ -4,11 +4,12 @@ function getProjectsByEngineerIDAndFilter(userId, params, page) {
     return axios
         .get(
             "http://localhost:8081/api/projects/filter/getProjectsWithDesignEngineersByEngineerID/" +
-                userId + '/page/' + page,
+                userId +
+                "/page/" +
+                page,
             { params }
         )
         .then(function (response) {
-            console.log(response.data)
             return response.data;
         })
         .catch(function (error) {

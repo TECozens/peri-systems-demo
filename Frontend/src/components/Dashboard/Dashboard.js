@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Box } from "@chakra-ui/react";
 import AuthService from "../../services/auth.service";
-import BoardDesigner from "../Designer/BoardDesigner";
-import BoardAdmin from "../Admin/BoardAdmin";
-import BoardTechnical from "../Technical/BoardTechnical";
 import DesignerBoard from "../Designer/DesignerBoard";
 import TechnicalBoard from "../Technical/TechnicalBoard";
+import AdminBoard from "../Admin/AdminBoard"
 
 const Dashboard = () => {
     const [showTechnicalBoard, setShowTechnicalBoard] = useState(false);
@@ -15,6 +12,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         const user = AuthService.getCurrentUser();
+        console.log(user)
 
         if (user) {
             setCurrentUser(user);
@@ -30,7 +28,7 @@ const Dashboard = () => {
                 <div>
                     {showDesignerBoard && <DesignerBoard />}
                     {showTechnicalBoard && <TechnicalBoard />}
-                    {showAdminBoard && <BoardAdmin />}
+                    {showAdminBoard && <AdminBoard />}
                 </div>
             ) : (
                 <div>Not Logged in</div>
