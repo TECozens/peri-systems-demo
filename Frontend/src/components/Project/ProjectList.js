@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
+import React, {useEffect, useState} from "react";
+import {Table, Tbody, Td, Th, Thead, Tr} from "@chakra-ui/table";
 import UpdateStatus from "../Events/UpdateStatus";
 import ProjectView from "./ProjectView";
 import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
-import { Text } from "@chakra-ui/layout";
+import {Text} from "@chakra-ui/layout";
+import ModalTest from "../Events/ModalTest/ModalTest";
 
 const ProjectList = (props) => {
     let count = props.count;
@@ -94,7 +95,7 @@ const ProjectList = (props) => {
                                 Status
                             </Text>
                         </Th>
-                        <Th bg="brand.pink" />
+                        <Th bg="brand.pink"/>
                     </Tr>
                 </Thead>
                 <Tbody>
@@ -141,21 +142,24 @@ const ProjectList = (props) => {
                                 {props.authenticatedRole.includes(
                                     "ROLE_TECHNICAL"
                                 ) && (
-                                    <AssignEngineers
-                                        updateParent={props.updateParent}
-                                        project={project}
-                                    />
-                                )}
-                                <ProjectView project={project} />
-                            </Td>
-                        </Tr>
-                    ))}
-                </Tbody>
-            </Table>
-        );
-    } else {
-        return <p>No projects available</p>;
-    }
-};
+                                    <div>
+                                        <AssignEngineers
+                                            updateParent={props.updateParent}
+                                            project={project}
+                                        />
+                                        <ModalTest />
+                                    </div>
+                                    )}
+                                    <ProjectView project={project} />
+                                    </Td>
+                                    </Tr>
+                                    ))}
+                                    </Tbody>
+                                    </Table>
+                                    );
+                                    } else {
+                                    return <p>No projects available</p>;
+                                    }
+                                    };
 
-export default ProjectList;
+                                    export default ProjectList;
