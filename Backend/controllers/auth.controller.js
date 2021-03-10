@@ -10,19 +10,11 @@ var bcrypt = require("bcryptjs");
 
 exports.signup = (req, res) => {
     const user = new User({
-        // TODO HELP, WHY DO I HAVE TO HAVE ID HERE? :(
         _id: mongoose.Types.ObjectId(),
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         email: req.body.email,
         password: bcrypt.hashSync("password", 8),
-        //req.body.password
-        // Used to add mockdata
-        // firstname: "Adrian",
-        // lastname: "Adams",
-        // email: "adrian@peri.ltd.uk",
-        // password: bcrypt.hashSync("password", 8)
-
     });
 
     user.save((err, user) => {
@@ -31,7 +23,6 @@ exports.signup = (req, res) => {
             res.status(500).send({message: err});
             return;
         }
-        //change the if to add mockdata req.body.roles
         if (req.body.roles && req.body.roles.length !== 0) {
             let mockRoles = ["admin"];
             Role.find(
