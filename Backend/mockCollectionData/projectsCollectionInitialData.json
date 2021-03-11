@@ -9,6 +9,9 @@
         "sector": "Infrastructure",
         "description": "TRIO Framework to core 11A",
         "client": "Modebest",
+        "customer": {
+            "$oid": "603fcd5296341c3640cfe220"
+        },
         "engineers": {
             "sales_engineer_id": {
                 "$oid": "60489bbf224afaa395d073bd"
@@ -88,6 +91,9 @@
         "sector": "Non-Residential",
         "description": "TRIO Framework to core 11C",
         "client": "Modebest",
+        "customer": {
+            "$oid": "603fcd5296341c3640cfe21f"
+        },
         "engineers": {
             "sales_engineer_id": {
                 "$oid": "60489c2c224afaa395d073bf"
@@ -158,6 +164,9 @@
         "sector": "Non-Residential",
         "description": "SKYDECK 2nd floor slab",
         "client": "JP Dunn",
+        "customer": {
+            "$oid": "603fcd5296341c3640cfe21f"
+        },
         "engineers": {
             "sales_engineer_id": {
                 "$oid": "60489bbf224afaa395d073bd"
@@ -228,6 +237,9 @@
         "sector": "Residential",
         "description": "SKYDECK to 9th floor slab",
         "client": "Oliver Connel",
+        "customer": {
+            "$oid": "603fcd5296341c3640cfe21f"
+        },
         "engineers": {
             "sales_engineer_id": {
                 "$oid": "60489bbf224afaa395d073bd"
@@ -289,6 +301,9 @@
         "sector": "Non-Residential",
         "description": "SKYDECK 3rd floor slab",
         "client": "McMullen Facades Ltd",
+        "customer": {
+            "$oid": "603fcd5296341c3640cfe220"
+        },
         "engineers": {
             "sales_engineer_id": {
                 "$oid": "60489c2c224afaa395d073bf"
@@ -341,6 +356,9 @@
         "sector": "Infrastructure",
         "description": "TRIO Framework to core 8A",
         "client": "TTS Civil Engineering",
+        "customer": {
+            "$oid": "603fcd5296341c3640cfe220"
+        },
         "engineers": {
             "sales_engineer_id": {
                 "$oid": "60489bbf224afaa395d073bd"
@@ -454,6 +472,9 @@
         "sector": "Non-Residential",
         "description": "TRIO Framework to core 11C",
         "client": "Modebest",
+        "customer": {
+            "$oid": "603fcd5296341c3640cfe220"
+        },
         "engineers": {
             "sales_engineer_id": {
                 "$oid": "60489c2c224afaa395d073bf"
@@ -509,7 +530,7 @@
                 "time_set": {
                     "$date": "2021-01-07T08:30:00.000Z"
                 },
-                "value": "Preliminary Design Complete"
+                "value": "Preliminary Design Comprplete"
             },
             {
                 "_id": {
