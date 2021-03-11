@@ -25,9 +25,17 @@ const UpdateStatus = (props) => {
     const projectBreakpoint = useBreakpointValue({ base: "sm", lg: "md" });
 
     useEffect(() => {
+        console.log('props.projectId :>> ', props.projectId);
+        console.log('props.projectStatus :>> ', props.projectStatus);
+        console.log('props.count :>> ', props.count);
+        console.log('props.updateParent :>> ', props.updateParent);
+    })
+
+    useEffect(() => {
         setStatusSelected(props.projectStatus.trim());
         ProjectService.getProjectByID(props.projectId).then((projects) => {
             aProject.current = projects;
+            console.log('aProject.current :>> ', aProject.current);
             setProjects(aProject.current);
             console.log("project is");
             console.log(aProject.current);
