@@ -134,7 +134,7 @@ const Register = () => {
             <Flex direction="column">
                 <Box mb={2}>
                     <HStack>
-                        <Button colorScheme="red" onClick={onOpen}>
+                        <Button colorScheme="yellow" onClick={onOpen}>
                             Create User
                         </Button>
                         <InputGroup>

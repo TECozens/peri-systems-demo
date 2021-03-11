@@ -25,7 +25,7 @@ const UserTable = (props) => {
             )
         } else {
             return (
-                <Table variant="simple" colorScheme="red" size={breakpoint}>
+                <Table background='white' borderRadius={8} mt={2} variant="simple" colorScheme="red" size={breakpoint}>
                     <Thead>
                         <Tr>
                             <Th> Name </Th>
