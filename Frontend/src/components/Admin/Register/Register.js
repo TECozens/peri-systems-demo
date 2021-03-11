@@ -1,7 +1,7 @@
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { SearchIcon } from "@chakra-ui/icons";
-import { InputGroup, InputRightElement } from "@chakra-ui/input";
+import { InputGroup, InputLeftElement, InputRightElement } from "@chakra-ui/input";
 import {
     Box,
     Container,
@@ -67,13 +67,7 @@ const Register = () => {
         );
         if (res.status === 200) {
             setPage(1);
-
-            if (page >= maxPage) {
-                if (users.length < 3) {
-                    setPage(1);
-                    // TODO think of something here, that's not this ^^
-                }
-            }
+            setUserSearch(user.firstname)
         }
     };
 
@@ -95,6 +89,7 @@ const Register = () => {
                     return user;
                 })
             );
+            setUserSearch(newUserValues.firstname)
         }
     };
 
@@ -143,6 +138,7 @@ const Register = () => {
                             Create User
                         </Button>
                         <InputGroup>
+                            <InputLeftElement children={<SearchIcon />} />
                             <Input
                                 autoFocus={true}
                                 value={userSearch}
@@ -150,7 +146,6 @@ const Register = () => {
                                 placeholder="Search users by name or email"
                                 bg={"white"}
                             />
-                            <InputRightElement children={<SearchIcon />} />
                         </InputGroup>
                     </HStack>
                 </Box>
@@ -199,10 +194,10 @@ const Register = () => {
                                 onClick={createUser}
                             >
                                 Create
-                                            </Button>
+                            </Button>
                             <Button onClick={onClose}>
                                 Cancel
-                                            </Button>
+                            </Button>
                         </ModalFooter>
                     </ModalContent>
                 </Modal>
@@ -213,14 +208,17 @@ const Register = () => {
                     isLoading={isLoading}
                     users={users}
                 />
-                <PageSection
-                    variant='simple'
-                    onLastPage={onLastPage}
-                    isLoading={isLoading}
-                    page={page}
-                    setPage={setPage}
-                    maxPage={maxPage}
-                />
+                {users.length > 0 ?
+                    <PageSection
+                        variant='simple'
+                        onLastPage={onLastPage}
+                        isLoading={isLoading}
+                        page={page}
+                        setPage={setPage}
+                        maxPage={maxPage}
+                    /> :
+                    <></>
+                }
             </Flex>
         </Container>
     );
