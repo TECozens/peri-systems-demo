@@ -30,6 +30,7 @@ const UserTable = (props) => {
                         <Tr>
                             <Th> Name </Th>
                             <Th> Email </Th>
+                            <Th> Roles </Th>
                             <Th> </Th>
                         </Tr>
                     </Thead>

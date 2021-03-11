@@ -12,6 +12,8 @@ import {
 } from "@chakra-ui/layout";
 import {
     Button,
+    Checkbox,
+    CheckboxGroup,
     Input,
     Modal,
     ModalBody,
@@ -43,6 +45,7 @@ const Register = () => {
         firstname: "",
         lastname: "",
         email: "",
+        roles: []
     });
     const [searchParams, setSearchParams] = useState({ page, userSearch });
     const [users, setUsers] = useState([]);
@@ -53,17 +56,17 @@ const Register = () => {
         watch: searchParams,
         props: { userSearch, page },
     });
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    let { isOpen, onOpen, onClose } = useDisclosure();
 
     const createUser = async () => {
         onClose();
-        let user = { ...values, roles: [], password: "passwordDefault" };
+        let user = { ...values, password: "passwordDefault" };
         const res = await AuthService.register(
             user.firstname,
             user.lastname,
             user.email,
             user.password,
-            []
+            user.roles
         );
         if (res.status === 200) {
             setPage(1);
@@ -71,20 +74,29 @@ const Register = () => {
         }
     };
 
+    const sleep = (time) => {
+        return new Promise(resolve => setTimeout(resolve, time));
+      }
+
     const updateUser = async (email, newUserValues) => {
         const res = await AuthService.updateUser(
             email,
             newUserValues.firstname,
             newUserValues.lastname,
-            newUserValues.email
+            newUserValues.email,
+            newUserValues.roles
         );
         if (res.status === 200) {
+            console.log('newUserValues :>> ', newUserValues);
+            console.log('users :>> ', users);
             setUsers(
                 users.map((user) => {
                     if (user.email === email) {
+                        console.log('user :>> ', user);
                         user.firstname = newUserValues.firstname;
                         user.lastname = newUserValues.lastname;
                         user.email = newUserValues.email;
+                        user.roles = newUserValues.roles
                     }
                     return user;
                 })
@@ -92,6 +104,16 @@ const Register = () => {
             setUserSearch(newUserValues.firstname)
         }
     };
+
+    const defaultValues = () => {
+        console.log('values.roles.map(role => role.name) :>> ', values.roles.map(role => role));
+        return values.roles.map(role => role)
+    }
+
+    const handleCheckboxChange = (x) => {
+        console.log('x :>> ', x);
+        setValues({...values, roles: x})
+    }
 
     const deleteUser = async (email) => {
         const res = await AuthService.deleteUser(email);
@@ -154,9 +176,9 @@ const Register = () => {
                     <ModalOverlay />
                     <ModalContent>
                         <ModalHeader>
-                            Edit user profile
-                                        </ModalHeader>
-                        <ModalBody p={6}>
+                            Create User
+                        </ModalHeader>
+                        <ModalBody>
                             <FormControl>
                                 <FormLabel>
                                     First Name
@@ -186,6 +208,25 @@ const Register = () => {
                                     placeholder="Email"
                                 />
                             </FormControl>
+                            <FormControl mt={4}>
+                            <FormLabel>Roles</FormLabel>
+                            <CheckboxGroup colorScheme="green" defaultValue={defaultValues()} onChange={handleCheckboxChange}>
+                                <HStack spacing={6}>
+                                    <Checkbox colorScheme="red" value='technical'>
+                                        Technical
+                                    </Checkbox>
+                                    <Checkbox colorScheme="red" value='admin'>
+                                        Admin
+                                    </Checkbox>
+                                    <Checkbox colorScheme="red" value='sales'>
+                                        Sales
+                                    </Checkbox>
+                                    <Checkbox colorScheme="red" value='designer'>
+                                        Designer
+                                    </Checkbox>
+                                </HStack>
+                            </CheckboxGroup>
+                        </FormControl>
                         </ModalBody>
                         <ModalFooter>
                             <Button

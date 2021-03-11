@@ -73,8 +73,46 @@ UserRouter.get('/api/users', jsonParser, async (req, res) => {
     let pageSize = 6
     let page = req.query.page
     let query = req.query.query
-    let regex = new RegExp(query, 'i')
-    const filter = { firstname: { $regex: regex } }
+    let filter = null
+    if (query) {
+        let firstName, lastName
+        if (query.split(' ').length > 1) {
+            [firstName, lastName] = query.split(" ")
+            let firstname = new RegExp(firstName, 'i')
+            let lastname = new RegExp(lastName, 'i')
+            let email = new RegExp(query, 'i')
+            filter = {
+                $or: [
+                    {
+                        $and: [
+                            { firstname: { $regex: firstname } },
+                            { lastname: { $regex: lastname } }
+                        ]
+                    },
+                    { email: { $regex: email } }
+                ]
+            }
+        } else {
+            console.log("hi?");
+            firstName = query
+            lastName = query
+            let firstname = new RegExp(firstName, 'i')
+            let lastname = new RegExp(lastName, 'i')
+            let email = new RegExp(query, 'i')
+            filter = {
+                $or: [
+                    {
+                        $or: [
+                            { firstname: { $regex: firstname } },
+                            { lastname: { $regex: lastname } }
+                        ]
+                    },
+                    { email: { $regex: email } }
+                ]
+            }
+            
+        }
+    }
     user.find(
         filter,
         ['firstname', 'lastname', 'email', 'roles'],
