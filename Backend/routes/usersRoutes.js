@@ -77,7 +77,7 @@ UserRouter.get('/api/users', jsonParser, async (req, res) => {
     const filter = { firstname: { $regex: regex } }
     user.find(
         filter,
-        ['firstname', 'lastname', 'email'],
+        ['firstname', 'lastname', 'email', 'roles'],
         pagingOptions(page, pageSize),
         (err, data) => {
             if (err) {
@@ -95,7 +95,7 @@ UserRouter.get('/api/users', jsonParser, async (req, res) => {
                     })
                 )
             }
-        })
+        }).populate("roles")
 })
 
 module.exports = UserRouter;
