@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import {
     Button,
     HStack,
+    MenuItem,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -81,19 +82,11 @@ const AssignEngineers = (props) => {
 
     return (
         <div key={"assign_engineer_modal"}>
-            <Button
-                width="full"
-                m={2}
-                size={projectBreakpoint}
-                border="2px"
-                color="brand.background"
-                bg="brand.grey"
-                borderColor="brand.pink"
-                _hover={{ bg: "brand.pink", borderColor: "brand.grey" }}
+            <MenuItem
                 onClick={onOpen}
             >
                 Assign Engineers
-            </Button>
+            </MenuItem>
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />

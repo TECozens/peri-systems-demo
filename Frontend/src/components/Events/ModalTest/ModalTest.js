@@ -8,14 +8,15 @@ import {
     ModalBody,
     ModalCloseButton,
     Button,
-    useDisclosure
+    useDisclosure,
+    MenuItem
 } from "@chakra-ui/react"
 
 const ModalTest = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     return (
         <>
-            <Button onClick={onOpen}>TODO Edit</Button>
+            <MenuItem onClick={onOpen}>TODO Edit</MenuItem>
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />

@@ -7,11 +7,14 @@ import {
     MenuList, Td, useDisclosure
 } from '@chakra-ui/react';
 import React, { useEffect } from "react";
+import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
+import ModalTest from "../Events/ModalTest/ModalTest";
 import UpdateStatus from "../Events/UpdateStatus";
+import ProjectView from "./ProjectView";
 
 
 
-export const ProjectTableRow = ({count, status_value, _id, updateParent}) => {
+export const ProjectTableRow = ({ count, status_value, _id, updateParent, authenticatedRole, project }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
@@ -30,12 +33,21 @@ export const ProjectTableRow = ({count, status_value, _id, updateParent}) => {
                         projectId={_id}
                         updateParent={updateParent}
                     />
-                    <MenuItem onClick={onOpen} icon={<EditIcon />}>
-                        Update Status
-                    </MenuItem>
                     <MenuItem onClick={onOpen} icon={<ViewIcon />}>
                         View
                     </MenuItem>
+                    {authenticatedRole.includes(
+                        "ROLE_TECHNICAL"
+                    ) && (
+                            <div>
+                                <AssignEngineers
+                                    updateParent={updateParent}
+                                    project={project}
+                                />
+                                <ModalTest />
+                                <ProjectView project={project} />
+                            </div>
+                        )}
                 </MenuList>
             </Menu>
         </>

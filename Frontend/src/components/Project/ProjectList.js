@@ -135,22 +135,15 @@ const ProjectList = (props) => {
                             )}
                             <Td>{project.status.value}</Td>
                             <Td isNumeric>
-                                <ProjectTableRow count={count} status_value={project.status.value} _id={project._id} updateParent={props.updateParent} />
-
-
-
-                                {props.authenticatedRole.includes(
-                                    "ROLE_TECHNICAL"
-                                ) && (
-                                        <div>
-                                            <AssignEngineers
-                                                updateParent={props.updateParent}
-                                                project={project}
-                                            />
-                                            <ModalTest />
-                                        </div>
-                                    )}
-                                <ProjectView project={project} />
+                                <ProjectTableRow
+                                    count={count}
+                                    status_value={project.status.value}
+                                    _id={project._id}
+                                    updateParent={props.updateParent}
+                                    authenticatedRole={props.authenticatedRole}
+                                    project={project}
+                                />
+                                
                             </Td>
                         </Tr>
                     ))}
@@ -158,7 +151,7 @@ const ProjectList = (props) => {
             </Table>
         );
     } else {
-        return <Box>No projects available</Box>;
+        return <Box p={4}>No projects found</Box>;
     }
 };
 

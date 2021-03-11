@@ -9,11 +9,12 @@ import {
     InputLeftElement,
     Select,
 } from "@chakra-ui/react";
-import { Search2Icon } from "@chakra-ui/icons";
+import { DeleteIcon, Search2Icon } from "@chakra-ui/icons";
 import { Box, Text, Stack, Heading } from "@chakra-ui/layout";
 import { useDisclosure, SlideFade } from "@chakra-ui/react"
 import DatePicker from "../Util/DatePicker/DatePicker";
 import ProjectFilteringService from "../../services/project.filtering.service";
+import AuthService from "../../services/auth.service";
 
 const ProjectFilter = (props) => {
     let filters = useRef({});
@@ -21,6 +22,12 @@ const ProjectFilter = (props) => {
     let firstRender = useRef(true);
     let count = props.count;
     const { isOpen, onToggle } = useDisclosure()
+    const [userId, setUserId] = useState(null)
+
+    useEffect(() => {
+        const user = AuthService.getCurrentUser();
+        setUserId(user.id)
+    }, [])
 
     const getUniqueStatusFromProjects = projectList =>
         projectList ? setStatusOptions(
@@ -117,7 +124,7 @@ const ProjectFilter = (props) => {
                     {isOpen ? 'Hide Filters' : 'Show Filters'}
                 </Button>
                 <Fade in={filtersActive()} offsetX="-20px">
-                    <Button colorScheme="red" onClick={clearFilters}>
+                    <Button leftIcon={<DeleteIcon />} colorScheme="red" onClick={clearFilters}>
                         Clear Filters
                     </Button>
                 </Fade>

@@ -13,7 +13,7 @@ const Dashboard = () => {
     useEffect(() => {
         const user = AuthService.getCurrentUser();
         setCurrentUser(user)
-        console.log(user)
+        console.log("user", user)
 
         if (user) {
             if (user.roles.includes("ROLE_TECHNICAL")) {

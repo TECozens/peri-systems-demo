@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { VStack } from "@chakra-ui/layout";
+import { MenuItem } from "@chakra-ui/react"
 import ProjectService from "../../services/project.service";
 
 const UpdateStatus = (props) => {
@@ -96,19 +97,11 @@ const UpdateStatus = (props) => {
 
     return (
         <div key={count++}>
-            <Button
-                width="full"
-                size={projectBreakpoint}
-                m={2}
-                border="2px"
-                color="brand.background"
-                bg="brand.grey"
-                borderColor="brand.pink"
-                _hover={{ bg: "brand.pink", borderColor: "brand.grey" }}
+            <MenuItem
                 onClick={onOpen}
             >
                 Update Status
-            </Button>
+            </MenuItem>
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
