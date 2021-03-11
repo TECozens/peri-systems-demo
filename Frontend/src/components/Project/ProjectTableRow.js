@@ -26,26 +26,23 @@ export const ProjectTableRow = ({ count, status_value, _id, updateParent, authen
                     colorScheme="red"
                     icon={<ChevronDownIcon w={6} h={6} color="white" />}
                 />
-                <MenuList>
+                <MenuList boxShadow='2xl'>
                     <UpdateStatus
                         count={count}
                         projectStatus={status_value}
                         projectId={_id}
                         updateParent={updateParent}
                     />
-                    <MenuItem onClick={onOpen} icon={<ViewIcon />}>
-                        View
-                    </MenuItem>
                     {authenticatedRole.includes(
                         "ROLE_TECHNICAL"
                     ) && (
                             <div>
+                                <ProjectView project={project} />
                                 <AssignEngineers
                                     updateParent={updateParent}
                                     project={project}
                                 />
                                 <ModalTest />
-                                <ProjectView project={project} />
                             </div>
                         )}
                 </MenuList>

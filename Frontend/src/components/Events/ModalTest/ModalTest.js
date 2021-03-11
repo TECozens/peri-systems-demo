@@ -11,12 +11,13 @@ import {
     useDisclosure,
     MenuItem
 } from "@chakra-ui/react"
+import { BsWrench } from "react-icons/bs"
 
 const ModalTest = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     return (
         <>
-            <MenuItem onClick={onOpen}>TODO Edit</MenuItem>
+            <MenuItem icon={<BsWrench />} onClick={onOpen}>Edit Details</MenuItem>
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />

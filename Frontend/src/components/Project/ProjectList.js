@@ -37,7 +37,7 @@ const ProjectList = (props) => {
     if (projects.length > 0) {
         return (
             <Table
-                width='100'
+                width='100%'
                 variant="simple" colorScheme="red"
                 size={props.projectBreakpoint}
             >

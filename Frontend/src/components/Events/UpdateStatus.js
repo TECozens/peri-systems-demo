@@ -16,6 +16,7 @@ import { useDisclosure } from "@chakra-ui/hooks";
 import { VStack } from "@chakra-ui/layout";
 import { MenuItem } from "@chakra-ui/react"
 import ProjectService from "../../services/project.service";
+import { FaEdit } from "react-icons/fa";
 
 const UpdateStatus = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -98,6 +99,7 @@ const UpdateStatus = (props) => {
     return (
         <div key={count++}>
             <MenuItem
+            icon={<FaEdit />}
                 onClick={onOpen}
             >
                 Update Status

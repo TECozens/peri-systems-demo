@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Box, Container, Flex, Heading} from "@chakra-ui/layout";
 import Timeline from "../Events/Timeline";
 import ProjectService from "../../services/project.service";
+import { SeparatedHeading } from "../Util/SeparatedHeading/SeparatedHeading";
 
 const ProjectDetails = (props) => {
     const projectId = props.match.params.param1;
@@ -18,10 +19,7 @@ const ProjectDetails = (props) => {
 
     return (
         <Container maxW="6xl" marginTop={12} marginBottom={12}>
-            <Heading>Project Details</Heading>
-            <Heading size="md" mb={4} color="grey">
-                Manage or View your Project
-            </Heading>
+            <SeparatedHeading primary='Project Details' secondary='Manage or View your Project' />
 
             <Flex bg={"brand.background"} borderRadius="lg" boxShadow="lg">
                 {projectId ? (
