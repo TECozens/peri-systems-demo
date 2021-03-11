@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Heading } from "@chakra-ui/layout";
 
-const ProjectDetails1 = (props) => {
+const ProjectDetailsCustomer = (props) => {
     const [project, setProject] = useState();
 
     useEffect(() => {
@@ -39,4 +39,4 @@ const ProjectDetails1 = (props) => {
     );
 };
 
-export default ProjectDetails1;
+export default ProjectDetailsCustomer;

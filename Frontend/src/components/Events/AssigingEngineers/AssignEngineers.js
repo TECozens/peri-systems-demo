@@ -16,7 +16,7 @@ import {
 import { useDisclosure } from "@chakra-ui/hooks";
 import ProjectService from "../../../services/project.service";
 import EngineerSelection from "./EngineerSelection";
-import {BsFillPeopleFill} from "react-icons/bs"
+import { BsFillPeopleFill } from "react-icons/bs";
 
 const AssignEngineers = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -83,10 +83,7 @@ const AssignEngineers = (props) => {
 
     return (
         <div key={"assign_engineer_modal"}>
-            <MenuItem
-            icon={<BsFillPeopleFill />}
-                onClick={onOpen}
-            >
+            <MenuItem icon={<BsFillPeopleFill />} onClick={onOpen}>
                 Assign Engineers
             </MenuItem>
 
