@@ -49,8 +49,8 @@ const ProjectsSection = () => {
 
     return (
         <Flex>
-            <Box>
-                <SeparatedHeading primary='Project View' secondary='Manage Projects' />
+            <Box w='100%'>
+                <SeparatedHeading primary='Project View' secondary='Manage Your Projects' />
                 <Box>
                     <ProjectFilter
                         setMaxPage={setMaxPage}
@@ -68,7 +68,7 @@ const ProjectsSection = () => {
                     />
                 </Box>
 
-                <Box height="auto" width="auto" m={0} bg="brand.background">
+                <Box borderRadius={8} bg="brand.background">
                     <ProjectList
                         projectsToDisplay={projectsDisplayed}
                         count={count}
