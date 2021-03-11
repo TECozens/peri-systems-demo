@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
     Button,
     Collapse,
+    Fade,
     HStack,
     Input,
     InputGroup,
@@ -10,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
 import { Box, Text, Stack, Heading } from "@chakra-ui/layout";
-import { useDisclosure } from "@chakra-ui/react"
+import { useDisclosure, SlideFade } from "@chakra-ui/react"
 import DatePicker from "../Util/DatePicker/DatePicker";
 import ProjectFilteringService from "../../services/project.filtering.service";
 
@@ -97,21 +98,32 @@ const ProjectFilter = (props) => {
         }
     }, [props.projectsDisplayed]);
 
+    useEffect(() => {
+        console.log('filters.current :>> ', filters.current);
+        console.log('filtersActive() :>> ', filtersActive());
+    })
 
+    const filtersActive = () =>
+        !Object.values(filters.current).map(value =>
+            value !== ''
+        ).every(value => 
+            value === false
+        ) || (Object.values(filters.current) === []) ? true : false
 
     return (
         <>
             <HStack mb={4} >
-                <Button onClick={onToggle} colorScheme='yellow'>
+                <Button w="120px" onClick={onToggle} colorScheme='yellow'>
                     {isOpen ? 'Hide Filters' : 'Show Filters'}
                 </Button>
-                <Button colorScheme="red" onClick={clearFilters}>
-                    Clear Filters
-                </Button>
+                <Fade in={filtersActive()} offsetX="-20px">
+                    <Button colorScheme="red" onClick={clearFilters}>
+                        Clear Filters
+                    </Button>
+                </Fade>
             </HStack>
             <Collapse in={isOpen} animateOpacity>
-                <Box mb={4} background='white' p={4} borderRadius={5}>
-                    <Heading size='lg' mb={2}>Filters</Heading>
+                <Box mb={4} background='white' p={4} borderRadius={8}>
                     <Stack>
                         <HStack>
                             <DatePicker
@@ -178,6 +190,7 @@ const ProjectFilter = (props) => {
                             />
                         </InputGroup>
                         <Select
+                            color='#A0AEC4'
                             placeholder="Select a status"
                             name="project_status"
                             onChange={(e) =>
