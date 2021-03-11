@@ -86,7 +86,7 @@ const Login = (props) => {
                         </Heading>
                     </Box>
                 </Box>
-                <SimpleGrid minChildWidth="300px" spacing="0px">
+                <SimpleGrid minChildWidth="300px" spacing="100px" mt={10}>
                     <div className="info-container">
                         <Image src={Info} />
                     </div>
@@ -103,7 +103,7 @@ const Login = (props) => {
                                         validations={[required]}
                                         onChange={onChangeEmail}
                                         placeholder="yourEmail@peri.ltd"
-                                        borderRadius={15}
+                                        borderRadius={8}
                                         borderColor="brand.accents"
                                         focusBorderColor="brand.secondary"
                                         size="lg"
@@ -120,7 +120,7 @@ const Login = (props) => {
                                         validations={[required]}
                                         onChange={onChangePassword}
                                         placeholder="Enter a password *****"
-                                        borderRadius={15}
+                                        borderRadius={8}
                                         borderColor="brand.accents"
                                         focusBorderColor="brand.secondary"
                                         size="lg"

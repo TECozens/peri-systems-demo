@@ -1,15 +1,14 @@
-import AuthService from "../../../services/auth.service";
-import React, { useEffect, useState } from "react";
-import { useAsync } from "react-async";
-import UserService from "../../../services/users.service";
+import { FormControl, FormLabel } from "@chakra-ui/form-control";
+import { useDisclosure } from "@chakra-ui/hooks";
+import { SearchIcon } from "@chakra-ui/icons";
+import { InputGroup, InputLeftElement, InputRightElement } from "@chakra-ui/input";
 import {
     Box,
     Container,
     Flex,
     Grid,
     GridItem,
-    Heading,
-    VStack,
+    HStack
 } from "@chakra-ui/layout";
 import {
     Button,
@@ -20,18 +19,20 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay,
-    useBreakpointValue,
+    useBreakpointValue
 } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { useAsync } from "react-async";
+import AuthService from "../../../services/auth.service";
+import UserService from "../../../services/users.service";
+import { SeparatedHeading } from "../../Util/SeparatedHeading/SeparatedHeading";
 import "./Register.scss";
 import PageSection from "./UserCount/PageSection";
 import UserTable from "./UserTable/UserTable";
-import { InputGroup, InputRightElement } from "@chakra-ui/input";
-import { SearchIcon } from "@chakra-ui/icons";
-import { useDisclosure } from "@chakra-ui/hooks";
-import { FormControl, FormLabel } from "@chakra-ui/form-control";
 
-const getData = ({ props }) =>
-    UserService.example(props.userSearch, props.page);
+const getData = ({ props }) => {
+    return UserService.getUsers(props.userSearch, props.page);
+}
 
 const Register = () => {
     const [userSearch, setUserSearch] = useState("");
@@ -66,13 +67,7 @@ const Register = () => {
         );
         if (res.status === 200) {
             setPage(1);
-
-            if (page >= maxPage) {
-                if (users.length < 3) {
-                    setPage(1);
-                    // TODO think of something here, that's not this ^^
-                }
-            }
+            setUserSearch(user.firstname)
         }
     };
 
@@ -94,6 +89,7 @@ const Register = () => {
                     return user;
                 })
             );
+            setUserSearch(newUserValues.firstname)
         }
     };
 
@@ -133,15 +129,16 @@ const Register = () => {
     };
 
     return (
-        <Container maxW="3xl" marginTop={12} marginBottom={12}>
-            <Heading>Users</Heading>
-            <Heading size="md" mb={4} color="grey">
-                Manage employees
-            </Heading>
+        <Container maxW="6xl" marginTop={12} marginBottom={12}>
+            <SeparatedHeading primary='Users' secondary='Manage Employees' />
             <Flex direction="column">
                 <Box mb={2}>
-                    <Flex>
+                    <HStack>
+                        <Button colorScheme="yellow" onClick={onOpen}>
+                            Create User
+                        </Button>
                         <InputGroup>
+                            <InputLeftElement children={<SearchIcon />} />
                             <Input
                                 autoFocus={true}
                                 value={userSearch}
@@ -149,95 +146,79 @@ const Register = () => {
                                 placeholder="Search users by name or email"
                                 bg={"white"}
                             />
-                            <InputRightElement children={<SearchIcon />} />
                         </InputGroup>
-                    </Flex>
+                    </HStack>
                 </Box>
 
-                <Grid
-                    templateColumns={
-                        showUserCount ? "repeat(6, 1fr)" : "repeat(5, 1fr)"
-                    }
-                    gap={4}
-                >
-                    {showUserCount ? (
-                        <GridItem colSpan={1} mt={6}>
-                            <VStack spacing={4}>
-                                <Button colorScheme="yellow" onClick={onOpen}>
-                                    Create User
-                                </Button>
-                                <PageSection
-                                    onLastPage={onLastPage}
-                                    isLoading={isLoading}
-                                    page={page}
-                                    setPage={setPage}
-                                    maxPage={maxPage}
-                                />
-                                <Modal isOpen={isOpen} onClose={onClose}>
-                                    <ModalOverlay />
-                                    <ModalContent>
-                                        <ModalHeader>
-                                            Edit user profile
+                <Modal isOpen={isOpen} onClose={onClose}>
+                    <ModalOverlay />
+                    <ModalContent>
+                        <ModalHeader>
+                            Edit user profile
                                         </ModalHeader>
-                                        <ModalBody p={6}>
-                                            <FormControl>
-                                                <FormLabel>
-                                                    First Name
+                        <ModalBody p={6}>
+                            <FormControl>
+                                <FormLabel>
+                                    First Name
                                                 </FormLabel>
-                                                <Input
-                                                    value={values.firstname}
-                                                    onChange={handleChange}
-                                                    name="firstname"
-                                                    placeholder="First Name"
-                                                />
-                                            </FormControl>
-                                            <FormControl mt={4}>
-                                                <FormLabel>Last name</FormLabel>
-                                                <Input
-                                                    value={values.lastname}
-                                                    onChange={handleChange}
-                                                    name="lastname"
-                                                    placeholder="Last name"
-                                                />
-                                            </FormControl>
-                                            <FormControl mt={4}>
-                                                <FormLabel>Email</FormLabel>
-                                                <Input
-                                                    value={values.email}
-                                                    onChange={handleChange}
-                                                    name="email"
-                                                    placeholder="Email"
-                                                />
-                                            </FormControl>
-                                        </ModalBody>
-                                        <ModalFooter>
-                                            <Button
-                                                colorScheme="yellow"
-                                                mr={3}
-                                                onClick={createUser}
-                                            >
-                                                Create
-                                            </Button>
-                                            <Button onClick={onClose}>
-                                                Cancel
-                                            </Button>
-                                        </ModalFooter>
-                                    </ModalContent>
-                                </Modal>
-                            </VStack>
-                        </GridItem>
-                    ) : (
-                        <></>
-                    )}
-                    <GridItem colSpan={5}>
-                        <UserTable
-                            updateUser={updateUser}
-                            deleteUser={deleteUser}
-                            isLoading={isLoading}
-                            users={users}
-                        />
-                    </GridItem>
-                </Grid>
+                                <Input
+                                    value={values.firstname}
+                                    onChange={handleChange}
+                                    name="firstname"
+                                    placeholder="First Name"
+                                />
+                            </FormControl>
+                            <FormControl mt={4}>
+                                <FormLabel>Last name</FormLabel>
+                                <Input
+                                    value={values.lastname}
+                                    onChange={handleChange}
+                                    name="lastname"
+                                    placeholder="Last name"
+                                />
+                            </FormControl>
+                            <FormControl mt={4}>
+                                <FormLabel>Email</FormLabel>
+                                <Input
+                                    value={values.email}
+                                    onChange={handleChange}
+                                    name="email"
+                                    placeholder="Email"
+                                />
+                            </FormControl>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button
+                                colorScheme="yellow"
+                                mr={3}
+                                onClick={createUser}
+                            >
+                                Create
+                            </Button>
+                            <Button onClick={onClose}>
+                                Cancel
+                            </Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
+
+                <UserTable
+                    updateUser={updateUser}
+                    deleteUser={deleteUser}
+                    isLoading={isLoading}
+                    users={users}
+                />
+                {users.length > 0 ?
+                    <PageSection
+                        variant='simple'
+                        onLastPage={onLastPage}
+                        isLoading={isLoading}
+                        page={page}
+                        setPage={setPage}
+                        maxPage={maxPage}
+                    /> :
+                    <></>
+                }
             </Flex>
         </Container>
     );

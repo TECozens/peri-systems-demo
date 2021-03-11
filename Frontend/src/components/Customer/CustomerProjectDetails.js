@@ -42,7 +42,7 @@ const CustomerProjectDetails = (props) => {
 
     return (
         <Container maxW="6xl" marginTop={12} marginBottom={12}>
-            <Flex bg={"brand.background"} borderRadius="lg" boxShadow="lg">
+            <Flex bg={"brand.background"} borderRadius={8} boxShadow="lg">
                 {projectId ? (
                     <Box m={10}>
                         <ProjectDetails1 project={project} />

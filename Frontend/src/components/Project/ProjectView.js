@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button, useBreakpointValue } from "@chakra-ui/react";
+import { Button, MenuItem, useBreakpointValue } from "@chakra-ui/react";
+import { ViewIcon } from "@chakra-ui/icons";
 
 const ProjectView = (props) => {
     const projectId = props.project._id;
@@ -8,18 +9,9 @@ const ProjectView = (props) => {
 
     return (
         <Link to={"/project/" + projectId}>
-            <Button
-                m={2}
-                border="2px"
-                size={projectBreakpoint}
-                width="full"
-                color="brand.background"
-                bg="brand.grey"
-                borderColor="brand.pink"
-                _hover={{ bg: "brand.pink", borderColor: "brand.grey" }}
-            >
+            <MenuItem icon={<ViewIcon />}>
                 View
-            </Button>
+            </MenuItem>
         </Link>
     );
 };

@@ -1,10 +1,20 @@
-import React, {useEffect, useState} from "react";
-import {Table, Tbody, Td, Th, Thead, Tr} from "@chakra-ui/table";
+import { Text } from "@chakra-ui/layout";
+import {
+    IconButton,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
+    Box
+} from "@chakra-ui/react";
+import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
+import React, { useEffect, useState } from "react";
+import { ChevronDownIcon } from "@chakra-ui/icons"
+import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
+import ModalTest from "../Events/ModalTest/ModalTest";
 import UpdateStatus from "../Events/UpdateStatus";
 import ProjectView from "./ProjectView";
-import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
-import {Text} from "@chakra-ui/layout";
-import ModalTest from "../Events/ModalTest/ModalTest";
+import { ProjectTableRow } from "./ProjectTableRow";
 
 const ProjectList = (props) => {
     let count = props.count;
@@ -27,23 +37,21 @@ const ProjectList = (props) => {
     if (projects.length > 0) {
         return (
             <Table
+                width='100%'
+                variant="simple" colorScheme="red"
                 size={props.projectBreakpoint}
-                bg="brand.background"
-                boxShadow="dark-lg"
             >
                 <Thead>
                     <Tr>
-                        <Th bg="brand.pink">
+                        <Th >
                             <Text
-                                color="brand.background"
                                 fontSize={props.projectBreakpoint}
                             >
                                 Number{" "}
                             </Text>
                         </Th>
-                        <Th bg="brand.pink">
+                        <Th >
                             <Text
-                                color="brand.background"
                                 fontSize={props.projectBreakpoint}
                             >
                                 Name{" "}
@@ -51,33 +59,29 @@ const ProjectList = (props) => {
                         </Th>
                         {props.projectBreakpoint !== "sm" ? (
                             <>
-                                <Th bg="brand.pink">
+                                <Th >
                                     <Text
-                                        color="brand.background"
                                         fontSize={props.projectBreakpoint}
                                     >
                                         Client
                                     </Text>
                                 </Th>
-                                <Th bg="brand.pink">
+                                <Th >
                                     <Text
-                                        color="brand.background"
                                         fontSize={props.projectBreakpoint}
                                     >
                                         Date Required
                                     </Text>
                                 </Th>
-                                <Th bg="brand.pink">
+                                <Th >
                                     <Text
-                                        color="brand.background"
                                         fontSize={props.projectBreakpoint}
                                     >
                                         Design Engineer
                                     </Text>
                                 </Th>
-                                <Th bg="brand.pink">
+                                <Th >
                                     <Text
-                                        color="brand.background"
                                         fontSize={props.projectBreakpoint}
                                     >
                                         Design Checker
@@ -87,15 +91,14 @@ const ProjectList = (props) => {
                         ) : (
                             <></>
                         )}
-                        <Th bg="brand.pink">
+                        <Th >
                             <Text
-                                color="brand.background"
                                 fontSize={props.projectBreakpoint}
                             >
                                 Status
                             </Text>
                         </Th>
-                        <Th bg="brand.pink"/>
+                        <Th />
                     </Tr>
                 </Thead>
                 <Tbody>
@@ -132,34 +135,24 @@ const ProjectList = (props) => {
                             )}
                             <Td>{project.status.value}</Td>
                             <Td isNumeric>
-                                <UpdateStatus
+                                <ProjectTableRow
                                     count={count}
-                                    projectStatus={project.status.value}
-                                    projectId={project._id}
+                                    status_value={project.status.value}
+                                    _id={project._id}
                                     updateParent={props.updateParent}
+                                    authenticatedRole={props.authenticatedRole}
+                                    project={project}
                                 />
+                                
+                            </Td>
+                        </Tr>
+                    ))}
+                </Tbody>
+            </Table>
+        );
+    } else {
+        return <Box p={4}>No projects found</Box>;
+    }
+};
 
-                                {props.authenticatedRole.includes(
-                                    "ROLE_TECHNICAL"
-                                ) && (
-                                    <div>
-                                        <AssignEngineers
-                                            updateParent={props.updateParent}
-                                            project={project}
-                                        />
-                                        <ModalTest />
-                                    </div>
-                                    )}
-                                    <ProjectView project={project} />
-                                    </Td>
-                                    </Tr>
-                                    ))}
-                                    </Tbody>
-                                    </Table>
-                                    );
-                                    } else {
-                                    return <p>No projects available</p>;
-                                    }
-                                    };
-
-                                    export default ProjectList;
+export default ProjectList;

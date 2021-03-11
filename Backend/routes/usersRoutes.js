@@ -4,9 +4,9 @@ const user = require("../models/user.model");
 const role = require("../models/role.model");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const {pagingOptions, getMaxPages} = require("../utils/pagingOptions.js")
+const { pagingOptions, getMaxPages } = require("../utils/pagingOptions.js")
 
-urlencodedParser = bodyParser.urlencoded({extended: false});
+urlencodedParser = bodyParser.urlencoded({ extended: false });
 jsonParser = bodyParser.json();
 
 UserRouter.get(
@@ -14,11 +14,11 @@ UserRouter.get(
     jsonParser,
     (req, res) => {
         let roleId = new mongoose.Types.ObjectId(req.params.roleID);
-        user.find({roles: roleId}, (err, data) => {
+        user.find({ roles: roleId }, (err, data) => {
             if (err) {
-                return res.json({success: false, error: err});
+                return res.json({ success: false, error: err });
             } else {
-                return res.json({success: true, data: data});
+                return res.json({ success: true, data: data });
             }
         });
     }
@@ -28,9 +28,9 @@ UserRouter.get("/api/users/getUserByID/:userID", jsonParser, (req, res) => {
     let userId = new mongoose.Types.ObjectId(req.params.userID);
     user.findById(userId, (err, data) => {
         if (err) {
-            return res.json({success: false, error: err});
+            return res.json({ success: false, error: err });
         } else {
-            return res.json({success: true, data: data});
+            return res.json({ success: true, data: data });
         }
     });
 });
@@ -41,53 +41,61 @@ UserRouter.get(
     (req, res) => {
         user.find((err, data) => {
             if (err) {
-                return res.json({success: false, error: err});
+                return res.json({ success: false, error: err });
             } else {
-                return res.json({success: true, data: data});
+                return res.json({ success: true, data: data });
             }
         });
     }
 );
 
 UserRouter.get("/api/users/getDesignerRoleID", jsonParser, (req, res) => {
-    role.find({name: "designer"}, (err, data) => {
+    role.find({ name: "designer" }, (err, data) => {
         if (err) {
-            return res.json({success: false, error: err});
+            return res.json({ success: false, error: err });
         } else {
-            return res.json({success: true, data: data});
+            return res.json({ success: true, data: data });
         }
     });
 });
 
 UserRouter.get("/api/users/getTechnicalLeadRoleID", jsonParser, (req, res) => {
-    role.find({name: "technical"}, (err, data) => {
+    role.find({ name: "technical" }, (err, data) => {
         if (err) {
-            return res.json({success: false, error: err});
+            return res.json({ success: false, error: err });
         } else {
-            return res.json({success: true, data: data});
+            return res.json({ success: true, data: data });
         }
     });
 });
 
 UserRouter.get('/api/users', jsonParser, async (req, res) => {
-    let pageSize = 3
+    let pageSize = 6
     let page = req.query.page
     let query = req.query.query
     let regex = new RegExp(query, 'i')
-    const maxPages = await getMaxPages(user, {firstname: {$regex: regex}}, pageSize)
-
+    const filter = { firstname: { $regex: regex } }
     user.find(
-        {firstname: {$regex: regex}},
-        ['firstname', 'lastname', 'email'],
+        filter,
+        ['firstname', 'lastname', 'email', 'roles'],
         pagingOptions(page, pageSize),
         (err, data) => {
-            res.json({
-                success: err !== null,
-                error: err,
-                maxPages,
-                data: data,
-            })
-        })
+            if (err) {
+                return res.json({
+                    success: false,
+                    error: err,
+                })
+            } else {
+                user.countDocuments(filter, (err, count) =>
+                    res.json({
+                        success: err !== null,
+                        error: err,
+                        maxPages: Math.ceil(count / pageSize),
+                        data: data,
+                    })
+                )
+            }
+        }).populate("roles")
 })
 
 module.exports = UserRouter;
