@@ -33,11 +33,11 @@ export const ProjectTableRow = ({ count, status_value, _id, updateParent, authen
                         projectId={_id}
                         updateParent={updateParent}
                     />
+                    <ProjectView project={project} />
                     {authenticatedRole.includes(
                         "ROLE_TECHNICAL"
                     ) && (
                             <div>
-                                <ProjectView project={project} />
                                 <AssignEngineers
                                     updateParent={updateParent}
                                     project={project}
