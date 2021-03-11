@@ -70,7 +70,7 @@ const Register = () => {
         );
         if (res.status === 200) {
             setPage(1);
-            setUserSearch(user.firstname)
+            setUserSearch(user.firstname + ' ' + user.lastname)
         }
     };
 
@@ -101,7 +101,7 @@ const Register = () => {
                     return user;
                 })
             );
-            setUserSearch(newUserValues.firstname)
+            setUserSearch(newUserValues.firstname + ' ' + newUserValues.lastname)
         }
     };
 
