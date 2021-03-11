@@ -1,7 +1,5 @@
-import {
-    Heading
-} from "@chakra-ui/layout";
-import React from 'react';
+import { Heading } from "@chakra-ui/layout";
+import React from "react";
 
 export const SeparatedHeading = ({ primary, secondary }) => {
     return (
@@ -11,5 +9,5 @@ export const SeparatedHeading = ({ primary, secondary }) => {
                 {secondary}
             </Heading>
         </>
-    )
-}
+    );
+};

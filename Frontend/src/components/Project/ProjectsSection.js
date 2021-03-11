@@ -1,12 +1,20 @@
-import { Box, Flex, Heading, Text } from "@chakra-ui/layout";
+import { Box, Flex } from "@chakra-ui/layout";
 import { useBreakpointValue } from "@chakra-ui/react";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
 import AuthService from "../../services/auth.service";
 import ProjectFilteringService from "../../services/project.filtering.service";
 import PageSection from "../Admin/Register/UserCount/PageSection";
 import { SeparatedHeading } from "../Util/SeparatedHeading/SeparatedHeading";
 import ProjectFilter from "./ProjectFilter";
 import ProjectList from "./ProjectList";
+import Report from "../Events/Report/Report";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 const ProjectsSection = () => {
     let authenticatedUser = AuthService.getCurrentUser();
@@ -49,8 +57,11 @@ const ProjectsSection = () => {
 
     return (
         <Flex>
-            <Box w='100%'>
-                <SeparatedHeading primary='Project View' secondary='Manage Your Projects' />
+            <Box w="100%">
+                <SeparatedHeading
+                    primary="Project View"
+                    secondary="Manage Your Projects"
+                />
                 <Box>
                     <ProjectFilter
                         setMaxPage={setMaxPage}
@@ -66,6 +77,23 @@ const ProjectsSection = () => {
                         originalMaxPage={originalMaxPage.current}
                         projectBreakpoint={projectBreakpoint}
                     />
+                    {useMemo(
+                        () => (
+                            <PDFDownloadLink
+                                document={
+                                    <Report
+                                        projects={allEngineerProjects.current}
+                                    />
+                                }
+                                fileName="report.pdf"
+                            >
+                                {({ blob, url, loading, error }) =>
+                                    loading ? "Loading document..." : "Download"
+                                }
+                            </PDFDownloadLink>
+                        ),
+                        [allEngineerProjects.current]
+                    )}
                 </Box>
 
                 <Box borderRadius={8} bg="brand.background">
