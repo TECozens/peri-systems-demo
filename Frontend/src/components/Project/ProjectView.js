@@ -7,12 +7,7 @@ const ProjectView = (props) => {
     const projectBreakpoint = useBreakpointValue({ base: "sm", lg: "md" });
 
     return (
-        <Link
-            to={{
-                pathname: "/Timeline/" + projectId,
-                state: { project: props.project },
-            }}
-        >
+        <Link to={"/project/" + projectId}>
             <Button
                 m={2}
                 border="2px"

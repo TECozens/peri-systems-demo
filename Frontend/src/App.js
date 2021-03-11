@@ -73,6 +73,15 @@ function App() {
                     />
                     <Private
                         exact
+                        path="/project/:param1"
+                        authed={isAuthenticated}
+                        render={(props) => (
+                            <ProjectDetails {...props}/>
+                        )}
+                        component={ProjectDetails}
+                    />
+                    <Private
+                        exact
                         authed={isAuthenticated}
                         component={Dashboard}
                         path="/Dashboard"
