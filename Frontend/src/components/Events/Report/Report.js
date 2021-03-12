@@ -20,13 +20,62 @@ const Report = (props) => {
         <Document>
             <Page size="A4" style={styles.page}>
                 <View style={styles.section}>
-                    <Text>Completed Projects</Text>
+                    <Text>Total Completed Projects</Text>
                     <Text>
                         {props.projects
                             ? props.projects.filter(
                                   (project) =>
                                       project.status.value ===
                                       "Project Complete"
+                              ).length
+                            : ""}
+                    </Text>
+                    <Text>Projects Completed On Time</Text>
+                    <Text>
+                        {props.projects
+                            ? props.projects.filter(
+                                  (project) =>
+                                      project.status.value ===
+                                          "Project Complete" &&
+                                      new Date(project.status.time_set) <
+                                          new Date(project.date_required)
+                              ).length
+                            : ""}
+                    </Text>
+                    <Text>Projects Not Completed On Time</Text>
+                    <Text>
+                        {props.projects
+                            ? props.projects.filter(
+                                  (project) =>
+                                      project.status.value ===
+                                          "Project Complete" &&
+                                      new Date(project.status.time_set) >
+                                          new Date(project.date_required)
+                              ).length
+                            : ""}
+                    </Text>
+                    <Text>Projects Due Next Week</Text>
+                    <Text>
+                        {props.projects
+                            ? props.projects.filter((project) => {
+                                  let dateR = new Date(project.date_required);
+                                  let now = new Date();
+                                  let dateW = new Date().setDate(
+                                      now.getDate() + 7
+                                  );
+
+                                  return dateR < dateW && dateR > now;
+                              }).length
+                            : ""}
+                    </Text>
+                    <Text>Projects With Unassigned Engineers</Text>
+                    <Text>
+                        {props.projects
+                            ? props.projects.filter(
+                                  (project) =>
+                                      project.engineers.design_checker_id ==
+                                          null ||
+                                      project.engineers.designer_id == null
                               ).length
                             : ""}
                     </Text>
