@@ -1,4 +1,6 @@
-import { ChevronDownIcon, DeleteIcon, EditIcon, ViewIcon } from "@chakra-ui/icons";
+import {ChevronDownIcon, DeleteIcon, EditIcon, ViewIcon} from "@chakra-ui/icons";
+import {RiFolderUploadLine} from "react-icons/ri";
+
 import {
     IconButton,
     Menu,
@@ -6,16 +8,15 @@ import {
     MenuItem,
     MenuList, Td, useDisclosure
 } from '@chakra-ui/react';
-import React, { useEffect } from "react";
+import React, {useEffect} from "react";
 import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
 import ModalTest from "../Events/ModalTest/ModalTest";
 import UpdateStatus from "../Events/UpdateStatus";
 import ProjectView from "./ProjectView";
 
 
-
-export const ProjectTableRow = ({ count, status_value, _id, updateParent, authenticatedRole, project }) => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
+export const ProjectTableRow = ({count, status_value, _id, updateParent, authenticatedRole, project}) => {
+    const {isOpen, onOpen, onClose} = useDisclosure();
 
     return (
         <>
@@ -24,7 +25,7 @@ export const ProjectTableRow = ({ count, status_value, _id, updateParent, authen
                     as={IconButton}
                     size="sm"
                     colorScheme="red"
-                    icon={<ChevronDownIcon w={6} h={6} color="white" />}
+                    icon={<ChevronDownIcon w={6} h={6} color="white"/>}
                 />
                 <MenuList boxShadow='2xl'>
                     <UpdateStatus
@@ -33,18 +34,26 @@ export const ProjectTableRow = ({ count, status_value, _id, updateParent, authen
                         projectId={_id}
                         updateParent={updateParent}
                     />
-                    <ProjectView project={project} />
+                    <ProjectView project={project}/>
                     {authenticatedRole.includes(
                         "ROLE_TECHNICAL"
                     ) && (
-                            <div>
-                                <AssignEngineers
-                                    updateParent={updateParent}
-                                    project={project}
-                                />
-                                <ModalTest />
-                            </div>
-                        )}
+                        <div>
+                            <AssignEngineers
+                                updateParent={updateParent}
+                                project={project}
+                            />
+                            <ModalTest/>
+                        </div>
+                    )}
+                    {authenticatedRole.includes(
+                        "ROLE_DESIGNER"
+                    ) && (
+                        <MenuItem icon={<RiFolderUploadLine />}>
+                            Upload
+                        </MenuItem>
+                    )}
+
                 </MenuList>
             </Menu>
         </>
