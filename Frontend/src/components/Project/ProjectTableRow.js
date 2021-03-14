@@ -13,6 +13,7 @@ import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
 import ModalTest from "../Events/ModalTest/ModalTest";
 import UpdateStatus from "../Events/UpdateStatus";
 import ProjectView from "./ProjectView";
+import UploadDesign from "../Events/UploadDesign/UploadDesign";
 
 
 export const ProjectTableRow = ({count, status_value, _id, updateParent, authenticatedRole, project}) => {
@@ -49,9 +50,7 @@ export const ProjectTableRow = ({count, status_value, _id, updateParent, authent
                     {authenticatedRole.includes(
                         "ROLE_DESIGNER"
                     ) && (
-                        <MenuItem icon={<RiFolderUploadLine />}>
-                            Upload
-                        </MenuItem>
+                        <UploadDesign />
                     )}
 
                 </MenuList>

@@ -10,10 +10,10 @@ const projectModel = new Schema({
     description: String,
     client: String,
     engineers: {
-        sales_engineer_id: { type: Schema.Types.ObjectId, ref: "User" },
-        technical_lead_id: { type: Schema.Types.ObjectId, ref: "User" },
-        designer_id: { type: Schema.Types.ObjectId, ref: "User" },
-        design_checker_id: { type: Schema.Types.ObjectId, ref: "User" },
+        sales_engineer_id: {type: Schema.Types.ObjectId, ref: "User"},
+        technical_lead_id: {type: Schema.Types.ObjectId, ref: "User"},
+        designer_id: {type: Schema.Types.ObjectId, ref: "User"},
+        design_checker_id: {type: Schema.Types.ObjectId, ref: "User"},
     },
     date_required: Date,
     anticipated_date: Date,
@@ -27,10 +27,17 @@ const projectModel = new Schema({
             value: String,
         },
     ],
-  customer: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Customer",
-  },
+    customer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Customer",
+    },
+    designs: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            time_set: Date,
+            ref: "Design"
+        },
+    ],
 });
 
 // export the new Schema so we could modify it using Node.js
