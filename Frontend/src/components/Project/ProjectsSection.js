@@ -1,20 +1,13 @@
 import { Box, Flex } from "@chakra-ui/layout";
-import { useBreakpointValue } from "@chakra-ui/react";
-import React, {
-    useCallback,
-    useEffect,
-    useMemo,
-    useRef,
-    useState,
-} from "react";
+import { Button, useBreakpointValue } from "@chakra-ui/react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import AuthService from "../../services/auth.service";
 import ProjectFilteringService from "../../services/project.filtering.service";
 import PageSection from "../Admin/Register/UserCount/PageSection";
 import { SeparatedHeading } from "../Util/SeparatedHeading/SeparatedHeading";
 import ProjectFilter from "./ProjectFilter";
 import ProjectList from "./ProjectList";
-import Report from "../Events/Report/Report";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+import { Link } from "react-router-dom";
 
 const ProjectsSection = () => {
     let authenticatedUser = AuthService.getCurrentUser();
@@ -77,23 +70,18 @@ const ProjectsSection = () => {
                         originalMaxPage={originalMaxPage.current}
                         projectBreakpoint={projectBreakpoint}
                     />
-                    {useMemo(
-                        () => (
-                            <PDFDownloadLink
-                                document={
-                                    <Report
-                                        projects={allEngineerProjects.current}
-                                    />
-                                }
-                                fileName="report.pdf"
-                            >
-                                {({ blob, url, loading, error }) =>
-                                    loading ? "Loading document..." : "Download"
-                                }
-                            </PDFDownloadLink>
-                        ),
-                        [allEngineerProjects.current]
-                    )}
+
+                    <Link
+                        to={{
+                            pathname: "/Report",
+                            state: {
+                                projects: allEngineerProjects.current,
+                            },
+                        }}
+                        marginBottom={5}
+                    >
+                        <Button>Create Report</Button>
+                    </Link>
                 </Box>
 
                 <Box borderRadius={8} bg="brand.background">

@@ -3,9 +3,9 @@ import "./App.css";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import {
     BrowserRouter as Router,
+    Redirect,
     Route,
     Switch,
-    Redirect,
 } from "react-router-dom";
 import Login from "./components/Authentication/Login";
 import Register from "./components/Admin/Register/Register";
@@ -17,6 +17,7 @@ import IsLoggedIn from "./components/Authentication/IsLoggedIn";
 import ProjectDetails from "./components/Project/ProjectDetails";
 import Timeline from "./components/Events/Timeline";
 import CustomerProjectView from "./components/Customer/CustomerProjectView";
+import Report from "./components/Events/Report/Report";
 
 // 2. Extend the theme to include custom colors, fonts, etc
 const colors = {
@@ -99,6 +100,13 @@ function App() {
                         authed={isAuthenticated}
                         component={Timeline}
                         path="/Timeline/:projectId"
+                    />
+                    <Private
+                        exact
+                        authed={isAuthenticated}
+                        render={(props) => <Report {...props} />}
+                        component={Report}
+                        path="/Report"
                     />
                 </Switch>
             </ChakraProvider>
