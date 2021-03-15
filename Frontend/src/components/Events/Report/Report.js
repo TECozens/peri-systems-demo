@@ -79,17 +79,11 @@ const Report = (props) => {
                 />
                 <Box p={5} bg={"brand.background"}>
                     <Heading size="md">Total Completed Projects</Heading>
-                    <Text
-                        m={5}
-                        fontSize={props.location.state.projectBreakpoint}
-                    >
+                    <Text m={5}>
                         You have completed{" "}
                         {projects
-                            ? projects.filter(
-                                  (project) =>
-                                      project.status.value ===
-                                      "Project Complete"
-                              ).length
+                            ? projectsCompletedOnTime.length +
+                              projectsNotCompletedOnTime.length
                             : ""}{" "}
                         projects
                     </Text>
