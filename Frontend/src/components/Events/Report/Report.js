@@ -8,6 +8,7 @@ import { ProjectsCompletedBarChart } from "./ProjectsCompletedBarChart";
 // Create Document Component
 const Report = (props) => {
     let projects = props.location.state.projects;
+    const [projectsDueThisWeek, setProjectsDueThisWeek] = useState([]);
     const [projectsDueNextWeek, setProjectsDueNextWeek] = useState([]);
     const [
         projectsWithUnassignedEngineers,
@@ -37,16 +38,22 @@ const Report = (props) => {
             : [];
     }
 
-    function getProjectsDueNextWeek() {
+    function getProjectsDueBetweenDates(dateCommencing, dateEnding) {
         return projects.filter((project) => {
-            let dateR = new Date(project.date_required);
-            let now = new Date();
-            let dateW = new Date().setDate(
-                now.getDate() + ((7 - now.getDay()) % 7) + 1
-            );
-
-            return dateR >= dateW && dateR > now;
+            let dateRequired = new Date(project.date_required);
+            return dateRequired >= dateCommencing && dateRequired < dateEnding;
         });
+    }
+
+    function getFirstAndLastDayOfWeek(aDate) {
+        let datePassed = new Date(aDate);
+        let first = datePassed.getDate() - datePassed.getDay();
+        let last = first + 6;
+
+        return [
+            new Date(datePassed.setDate(first)),
+            new Date(datePassed.setDate(last)),
+        ];
     }
 
     function getProjectsWithUnassignedEngineers() {
@@ -58,9 +65,23 @@ const Report = (props) => {
     }
 
     useEffect(() => {
+        let todayDate = new Date();
+        let inAWeekDate = new Date().setDate(todayDate.getDate() + 6);
+        let [beginningThisWeek, endThisWeek] = getFirstAndLastDayOfWeek(
+            todayDate
+        );
+        let [beginningNextWeek, endNextWeek] = getFirstAndLastDayOfWeek(
+            inAWeekDate
+        );
+
         setProjectsCompletedOnTime(getProjectsCompletedOnTime(true));
         setProjectsNotCompletedOnTime(getProjectsCompletedOnTime(false));
-        setProjectsDueNextWeek(getProjectsDueNextWeek());
+        setProjectsDueThisWeek(
+            getProjectsDueBetweenDates(beginningThisWeek, endThisWeek)
+        );
+        setProjectsDueNextWeek(
+            getProjectsDueBetweenDates(beginningNextWeek, endNextWeek)
+        );
         setProjectsWithUnassignedEngineers(
             getProjectsWithUnassignedEngineers()
         );
@@ -89,6 +110,24 @@ const Report = (props) => {
                             projectsNotCompletedOnTime.length,
                         ]}
                     />
+                    <Heading size="md">Projects Due This Week</Heading>
+                    <Box borderRadius={3} m={5} bg={"brand.primary"}>
+                        {projects ? (
+                            <ProjectList
+                                key={"projectsDueNextWeek"}
+                                projectsToDisplay={projectsDueThisWeek}
+                                count={100}
+                                authenticatedRole={
+                                    AuthService.getCurrentUser().roles
+                                }
+                                updateParent={null}
+                                projectBreakpoint={"sm"}
+                                inReport={true}
+                            />
+                        ) : (
+                            ""
+                        )}
+                    </Box>
                     <Heading size="md">Projects Due Next Week</Heading>
                     <Box borderRadius={3} m={5} bg={"brand.primary"}>
                         {projects ? (
