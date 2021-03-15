@@ -51,11 +51,6 @@ const ProjectList = (props) => {
                                 </Th>
                                 <Th>
                                     <Text fontSize={props.projectBreakpoint}>
-                                        Date Required
-                                    </Text>
-                                </Th>
-                                <Th>
-                                    <Text fontSize={props.projectBreakpoint}>
                                         Design Engineer
                                     </Text>
                                 </Th>
@@ -68,6 +63,11 @@ const ProjectList = (props) => {
                         ) : (
                             <></>
                         )}
+                        <Th>
+                            <Text fontSize={props.projectBreakpoint}>
+                                Date Required
+                            </Text>
+                        </Th>
                         <Th>
                             <Text fontSize={props.projectBreakpoint}>
                                 Status
@@ -90,11 +90,6 @@ const ProjectList = (props) => {
                                 <>
                                     <Td>{project.client}</Td>
                                     <Td>
-                                        {new Date(
-                                            project.date_required
-                                        ).toLocaleDateString()}
-                                    </Td>
-                                    <Td>
                                         {returnEngineerName(
                                             project.engineers.designer_id
                                         )}
@@ -108,6 +103,11 @@ const ProjectList = (props) => {
                             ) : (
                                 <></>
                             )}
+                            <Td>
+                                {new Date(
+                                    project.date_required
+                                ).toLocaleDateString()}
+                            </Td>
                             <Td>{project.status.value}</Td>
                             {props.inReport ? (
                                 " "
