@@ -19,24 +19,20 @@ const Report = (props) => {
         setProjectsNotCompletedOnTime,
     ] = useState([]);
 
-    function getProjectsNotCompletedOnTime() {
+    function getProjectsCompletedOnTime(isOnTime) {
+        let operation = " < ";
+        if (isOnTime) {
+            operation = " > ";
+        }
         return projects
             ? projects.filter(
                   (project) =>
                       project.status.value === "Project Complete" &&
-                      new Date(project.status.time_set) >
-                          new Date(project.date_required)
-              )
-            : [];
-    }
-
-    function getProjectsCompletedOnTime() {
-        return projects
-            ? projects.filter(
-                  (project) =>
-                      project.status.value === "Project Complete" &&
-                      new Date(project.status.time_set) <
-                          new Date(project.date_required)
+                      eval(
+                          new Date(project.status.time_set).getDate() +
+                              operation +
+                              new Date(project.date_required).getDate()
+                      )
               )
             : [];
     }
@@ -62,8 +58,8 @@ const Report = (props) => {
     }
 
     useEffect(() => {
-        setProjectsCompletedOnTime(getProjectsCompletedOnTime());
-        setProjectsNotCompletedOnTime(getProjectsNotCompletedOnTime());
+        setProjectsCompletedOnTime(getProjectsCompletedOnTime(true));
+        setProjectsNotCompletedOnTime(getProjectsCompletedOnTime(false));
         setProjectsDueNextWeek(getProjectsDueNextWeek());
         setProjectsWithUnassignedEngineers(
             getProjectsWithUnassignedEngineers()
