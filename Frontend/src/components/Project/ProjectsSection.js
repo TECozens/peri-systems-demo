@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/layout";
+import { Box, Flex, HStack } from "@chakra-ui/layout";
 import { Button, useBreakpointValue } from "@chakra-ui/react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import AuthService from "../../services/auth.service";
@@ -51,10 +51,26 @@ const ProjectsSection = () => {
     return (
         <Flex>
             <Box w="100%">
-                <SeparatedHeading
-                    primary="Project View"
-                    secondary="Manage Your Projects"
-                />
+                <HStack>
+                    <Box w={"100%"}>
+                        <SeparatedHeading
+                            primary="Project View"
+                            secondary="Manage Your Projects"
+                        />
+                    </Box>
+                    <Link
+                        to={{
+                            pathname: "/Report",
+                            state: {
+                                projects: allEngineerProjects.current,
+                            },
+                        }}
+                        marginBottom={5}
+                    >
+                        <Button colorScheme={"blue"}>Create Report</Button>
+                    </Link>
+                </HStack>
+
                 <Box>
                     <ProjectFilter
                         setMaxPage={setMaxPage}
@@ -70,18 +86,6 @@ const ProjectsSection = () => {
                         originalMaxPage={originalMaxPage.current}
                         projectBreakpoint={projectBreakpoint}
                     />
-
-                    <Link
-                        to={{
-                            pathname: "/Report",
-                            state: {
-                                projects: allEngineerProjects.current,
-                            },
-                        }}
-                        marginBottom={5}
-                    >
-                        <Button>Create Report</Button>
-                    </Link>
                 </Box>
 
                 <Box borderRadius={8} bg="brand.background">
