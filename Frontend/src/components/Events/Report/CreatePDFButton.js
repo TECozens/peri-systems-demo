@@ -14,15 +14,16 @@ export const CreatePDFButton = (props) => {
         }
     }, [isHidden]);
 
+    //adapted code from https://stackoverflow.com/questions/64845248/download-a-react-component-using-jspdf-and-html2canvas
     const saveComponentAsPDF = (componentId) => {
         const componentToPrint = document.getElementById(componentId);
         let todayDate = new Date();
         html2canvas(componentToPrint).then((canvas) => {
-            let imgWidth = 208;
-            let imgHeight = (canvas.height * imgWidth) / canvas.width;
-            const imgData = canvas.toDataURL("img/png");
+            let imageWidth = 208;
+            let imageHeight = (canvas.height * imageWidth) / canvas.width;
+            const imageData = canvas.toDataURL("img/png");
             const pdf = new jsPDF("p", "mm", "a4");
-            pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+            pdf.addImage(imageData, "PNG", 0, 0, imageWidth, imageHeight);
             pdf.save("Report_" + todayDate.toLocaleDateString() + ".pdf");
         });
     };
