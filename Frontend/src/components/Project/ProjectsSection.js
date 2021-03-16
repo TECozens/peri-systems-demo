@@ -1,5 +1,5 @@
-import { Box, Flex, Heading, Text } from "@chakra-ui/layout";
-import { useBreakpointValue } from "@chakra-ui/react";
+import { Box, Flex, HStack } from "@chakra-ui/layout";
+import { Button, useBreakpointValue } from "@chakra-ui/react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import AuthService from "../../services/auth.service";
 import ProjectFilteringService from "../../services/project.filtering.service";
@@ -7,6 +7,7 @@ import PageSection from "../Admin/Register/UserCount/PageSection";
 import { SeparatedHeading } from "../Util/SeparatedHeading/SeparatedHeading";
 import ProjectFilter from "./ProjectFilter";
 import ProjectList from "./ProjectList";
+import { Link } from "react-router-dom";
 
 const ProjectsSection = () => {
     let authenticatedUser = AuthService.getCurrentUser();
@@ -49,8 +50,28 @@ const ProjectsSection = () => {
 
     return (
         <Flex>
-            <Box w='100%'>
-                <SeparatedHeading primary='Project View' secondary='Manage Your Projects' />
+            <Box w="100%">
+                <HStack>
+                    <Box w={"100%"}>
+                        <SeparatedHeading
+                            primary="Project View"
+                            secondary="Manage Your Projects"
+                        />
+                    </Box>
+                    <Link
+                        to={{
+                            pathname: "/Report",
+                            state: {
+                                projects: allEngineerProjects.current,
+                                count: count,
+                            },
+                        }}
+                        marginBottom={5}
+                    >
+                        <Button colorScheme={"blue"}>Create Report</Button>
+                    </Link>
+                </HStack>
+
                 <Box>
                     <ProjectFilter
                         setMaxPage={setMaxPage}

@@ -1,19 +1,7 @@
 import { Text } from "@chakra-ui/layout";
-import {
-    IconButton,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuList,
-    Box
-} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
 import React, { useEffect, useState } from "react";
-import { ChevronDownIcon } from "@chakra-ui/icons"
-import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
-import ModalTest from "../Events/ModalTest/ModalTest";
-import UpdateStatus from "../Events/UpdateStatus";
-import ProjectView from "./ProjectView";
 import { ProjectTableRow } from "./ProjectTableRow";
 
 const ProjectList = (props) => {
@@ -37,53 +25,37 @@ const ProjectList = (props) => {
     if (projects.length > 0) {
         return (
             <Table
-                width='100%'
-                variant="simple" colorScheme="red"
+                width="100%"
+                variant="simple"
+                colorScheme="red"
                 size={props.projectBreakpoint}
             >
                 <Thead>
                     <Tr>
-                        <Th >
-                            <Text
-                                fontSize={props.projectBreakpoint}
-                            >
+                        <Th>
+                            <Text fontSize={props.projectBreakpoint}>
                                 Number{" "}
                             </Text>
                         </Th>
-                        <Th >
-                            <Text
-                                fontSize={props.projectBreakpoint}
-                            >
+                        <Th>
+                            <Text fontSize={props.projectBreakpoint}>
                                 Name{" "}
                             </Text>
                         </Th>
                         {props.projectBreakpoint !== "sm" ? (
                             <>
-                                <Th >
-                                    <Text
-                                        fontSize={props.projectBreakpoint}
-                                    >
+                                <Th>
+                                    <Text fontSize={props.projectBreakpoint}>
                                         Client
                                     </Text>
                                 </Th>
-                                <Th >
-                                    <Text
-                                        fontSize={props.projectBreakpoint}
-                                    >
-                                        Date Required
-                                    </Text>
-                                </Th>
-                                <Th >
-                                    <Text
-                                        fontSize={props.projectBreakpoint}
-                                    >
+                                <Th>
+                                    <Text fontSize={props.projectBreakpoint}>
                                         Design Engineer
                                     </Text>
                                 </Th>
-                                <Th >
-                                    <Text
-                                        fontSize={props.projectBreakpoint}
-                                    >
+                                <Th>
+                                    <Text fontSize={props.projectBreakpoint}>
                                         Design Checker
                                     </Text>
                                 </Th>
@@ -91,14 +63,17 @@ const ProjectList = (props) => {
                         ) : (
                             <></>
                         )}
-                        <Th >
-                            <Text
-                                fontSize={props.projectBreakpoint}
-                            >
+                        <Th>
+                            <Text fontSize={props.projectBreakpoint}>
+                                Date Required
+                            </Text>
+                        </Th>
+                        <Th>
+                            <Text fontSize={props.projectBreakpoint}>
                                 Status
                             </Text>
                         </Th>
-                        <Th />
+                        {props.inReport ? " " : <Th />}
                     </Tr>
                 </Thead>
                 <Tbody>
@@ -115,11 +90,6 @@ const ProjectList = (props) => {
                                 <>
                                     <Td>{project.client}</Td>
                                     <Td>
-                                        {new Date(
-                                            project.date_required
-                                        ).toLocaleDateString()}
-                                    </Td>
-                                    <Td>
                                         {returnEngineerName(
                                             project.engineers.designer_id
                                         )}
@@ -133,18 +103,28 @@ const ProjectList = (props) => {
                             ) : (
                                 <></>
                             )}
-                            <Td>{project.status.value}</Td>
-                            <Td isNumeric>
-                                <ProjectTableRow
-                                    count={count}
-                                    status_value={project.status.value}
-                                    _id={project._id}
-                                    updateParent={props.updateParent}
-                                    authenticatedRole={props.authenticatedRole}
-                                    project={project}
-                                />
-                                
+                            <Td>
+                                {new Date(
+                                    project.date_required
+                                ).toLocaleDateString()}
                             </Td>
+                            <Td>{project.status.value}</Td>
+                            {props.inReport ? (
+                                " "
+                            ) : (
+                                <Td isNumeric>
+                                    <ProjectTableRow
+                                        count={count}
+                                        status_value={project.status.value}
+                                        _id={project._id}
+                                        updateParent={props.updateParent}
+                                        authenticatedRole={
+                                            props.authenticatedRole
+                                        }
+                                        project={project}
+                                    />
+                                </Td>
+                            )}
                         </Tr>
                     ))}
                 </Tbody>
