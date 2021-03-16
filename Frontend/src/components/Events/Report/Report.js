@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Box, Container, Heading, Text } from "@chakra-ui/layout";
+import { Box, Container, Heading, HStack, Text } from "@chakra-ui/layout";
 import ProjectList from "../../Project/ProjectList";
 import { SeparatedHeading } from "../../Util/SeparatedHeading/SeparatedHeading";
 import { ProjectsCompletedBarChart } from "./ProjectsCompletedBarChart";
 import { ProjectsProgressPieChart } from "./ProjectsProgressPieChart";
+import { CreatePDFButton } from "./CreatePDFButton";
 
 const Report = (props) => {
     let projects = props.location.state.projects;
@@ -95,12 +96,23 @@ const Report = (props) => {
     }, [projects]);
 
     return (
-        <Container maxW="6xl" marginTop={12} marginBottom={12}>
+        <Container
+            maxW="6xl"
+            marginTop={12}
+            marginBottom={12}
+            id={"report_container"}
+        >
             <Box w="100%" h="100%">
-                <SeparatedHeading
-                    primary="Report"
-                    secondary="Your Projects Report"
-                />
+                <HStack>
+                    <Box w={"100%"}>
+                        <SeparatedHeading
+                            primary="Report"
+                            secondary="Your Projects Report"
+                        />
+                    </Box>
+                    <CreatePDFButton idOfComponent={"report_container"} />
+                </HStack>
+
                 <Box p={5} bg={"brand.background"}>
                     <Heading size="md">Projects Progress</Heading>
                     <ProjectsProgressPieChart data={groupProjectsByStatus()} />
