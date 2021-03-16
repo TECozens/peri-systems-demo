@@ -47,7 +47,7 @@ const Report = (props) => {
     function getFirstAndLastDayOfWeek(aDate) {
         let datePassed = new Date(aDate);
         let firstDayOfTheWeek = datePassed.getDate() - datePassed.getDay();
-        let lastDayOfTheWeek = first + 6;
+        let lastDayOfTheWeek = firstDayOfTheWeek + 6;
 
         return [
             new Date(datePassed.setDate(firstDayOfTheWeek)),
