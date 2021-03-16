@@ -8,6 +8,7 @@ import { CreatePDFButton } from "./CreatePDFButton";
 
 const Report = (props) => {
     let projects = props.location.state.projects;
+    let count = props.location.state.count;
     const [projectsDueThisWeek, setProjectsDueThisWeek] = useState([]);
     const [projectsDueNextWeek, setProjectsDueNextWeek] = useState([]);
     const [
@@ -137,7 +138,7 @@ const Report = (props) => {
                             <ProjectList
                                 key={"projectsDueThisWeek"}
                                 projectsToDisplay={projectsDueThisWeek}
-                                count={100}
+                                count={count}
                                 projectBreakpoint={"sm"}
                                 inReport={true}
                             />
@@ -151,7 +152,7 @@ const Report = (props) => {
                             <ProjectList
                                 key={"projectsDueNextWeek"}
                                 projectsToDisplay={projectsDueNextWeek}
-                                count={100}
+                                count={count}
                                 projectBreakpoint={"sm"}
                                 inReport={true}
                             />
@@ -169,7 +170,7 @@ const Report = (props) => {
                                 projectsToDisplay={
                                     projectsWithUnassignedEngineers
                                 }
-                                count={100}
+                                count={count}
                                 projectBreakpoint={"sm"}
                                 inReport={true}
                             />

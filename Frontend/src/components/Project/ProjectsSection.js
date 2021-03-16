@@ -63,6 +63,7 @@ const ProjectsSection = () => {
                             pathname: "/Report",
                             state: {
                                 projects: allEngineerProjects.current,
+                                count: count,
                             },
                         }}
                         marginBottom={5}
