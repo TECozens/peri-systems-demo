@@ -4,8 +4,8 @@ import ProjectList from "../../Project/ProjectList";
 import AuthService from "../../../services/auth.service";
 import { SeparatedHeading } from "../../Util/SeparatedHeading/SeparatedHeading";
 import { ProjectsCompletedBarChart } from "./ProjectsCompletedBarChart";
+import { ProjectsProgressPieChart } from "./ProjectsProgressPieChart";
 
-// Create Document Component
 const Report = (props) => {
     let projects = props.location.state.projects;
     const [projectsDueThisWeek, setProjectsDueThisWeek] = useState([]);
@@ -64,6 +64,14 @@ const Report = (props) => {
         );
     }
 
+    function groupProjectsByStatus() {
+        return projects.reduce(function (r, a) {
+            r[a.status.value] = r[a.status.value] || [];
+            r[a.status.value].push(a);
+            return r;
+        }, Object.create(null));
+    }
+
     useEffect(() => {
         let todayDate = new Date();
         let inAWeekDate = new Date().setDate(todayDate.getDate() + 6);
@@ -95,6 +103,8 @@ const Report = (props) => {
                     secondary="Your Projects Report"
                 />
                 <Box p={5} bg={"brand.background"}>
+                    <Heading size="md">Projects Progress</Heading>
+                    <ProjectsProgressPieChart data={groupProjectsByStatus()} />
                     <Heading size="md">Total Completed Projects</Heading>
                     <Text m={5}>
                         You have completed{" "}
