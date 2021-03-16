@@ -11,6 +11,7 @@ import {
 import React from "react";
 import { Box } from "@chakra-ui/layout";
 
+//Adapted code from https://recharts.org/en-US/examples/TinyBarChart
 export const ProjectsCompletedBarChart = (props) => {
     const data = [
         {
