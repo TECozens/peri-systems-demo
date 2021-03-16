@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Container, Heading, Text } from "@chakra-ui/layout";
 import ProjectList from "../../Project/ProjectList";
-import AuthService from "../../../services/auth.service";
 import { SeparatedHeading } from "../../Util/SeparatedHeading/SeparatedHeading";
 import { ProjectsCompletedBarChart } from "./ProjectsCompletedBarChart";
 import { ProjectsProgressPieChart } from "./ProjectsProgressPieChart";
@@ -47,12 +46,12 @@ const Report = (props) => {
 
     function getFirstAndLastDayOfWeek(aDate) {
         let datePassed = new Date(aDate);
-        let first = datePassed.getDate() - datePassed.getDay();
-        let last = first + 6;
+        let firstDayOfTheWeek = datePassed.getDate() - datePassed.getDay();
+        let lastDayOfTheWeek = first + 6;
 
         return [
-            new Date(datePassed.setDate(first)),
-            new Date(datePassed.setDate(last)),
+            new Date(datePassed.setDate(firstDayOfTheWeek)),
+            new Date(datePassed.setDate(lastDayOfTheWeek)),
         ];
     }
 
@@ -124,13 +123,9 @@ const Report = (props) => {
                     <Box borderRadius={3} m={5} bg={"brand.primary"}>
                         {projects ? (
                             <ProjectList
-                                key={"projectsDueNextWeek"}
+                                key={"projectsDueThisWeek"}
                                 projectsToDisplay={projectsDueThisWeek}
                                 count={100}
-                                authenticatedRole={
-                                    AuthService.getCurrentUser().roles
-                                }
-                                updateParent={null}
                                 projectBreakpoint={"sm"}
                                 inReport={true}
                             />
@@ -145,10 +140,6 @@ const Report = (props) => {
                                 key={"projectsDueNextWeek"}
                                 projectsToDisplay={projectsDueNextWeek}
                                 count={100}
-                                authenticatedRole={
-                                    AuthService.getCurrentUser().roles
-                                }
-                                updateParent={null}
                                 projectBreakpoint={"sm"}
                                 inReport={true}
                             />
@@ -167,10 +158,6 @@ const Report = (props) => {
                                     projectsWithUnassignedEngineers
                                 }
                                 count={100}
-                                authenticatedRole={
-                                    AuthService.getCurrentUser().roles
-                                }
-                                updateParent={null}
                                 projectBreakpoint={"sm"}
                                 inReport={true}
                             />
