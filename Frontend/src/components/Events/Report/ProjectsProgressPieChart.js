@@ -2,6 +2,8 @@ import { Cell, Pie, PieChart, ResponsiveContainer, Sector } from "recharts";
 import React from "react";
 import { Box } from "@chakra-ui/layout";
 
+//adapted code from https://recharts.org/en-US/examples/CustomActiveShapePieChart
+//and https://recharts.org/en-US/examples/PieChartWithCustomizedLabel
 export const ProjectsProgressPieChart = (props) => {
     const data = props ? buildData() : [];
 
