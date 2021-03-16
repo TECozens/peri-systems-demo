@@ -22,7 +22,7 @@ export const CreatePDFButton = (props) => {
             let imgHeight = (canvas.height * imgWidth) / canvas.width;
             const imgData = canvas.toDataURL("img/png");
             const pdf = new jsPDF("p", "mm", "a4");
-            pdf.addImage(imgData, "PNG", 0, -30, imgWidth, imgHeight);
+            pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
             pdf.save("Report_" + todayDate.toLocaleDateString() + ".pdf");
         });
     };
