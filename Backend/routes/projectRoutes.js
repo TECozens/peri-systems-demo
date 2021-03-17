@@ -137,7 +137,7 @@ router.get(
 );
 
 router.put(
-    "/api/projects/updateProjectStatus/:projectID/:aStatus",
+    "/api/projects/updateProjectStatus/:projectID/:aStatus/:aApproved",
     jsonParser,
     (req, res) => {
         let designerId = new mongoose.Types.ObjectId(req.params.projectID);
@@ -161,6 +161,30 @@ router.put(
             .populate("engineers.design_checker_id");
     }
 );
+
+router.put(
+    "/api/projects/updateProjectApproval/:isApproved/",
+    jsonParser,
+    (req, res) => {
+        let projectId = new mongoose.Types.ObjectId(req.params.projectID);
+        projects
+            .findById(projectId, (err, data) => {
+                if (err) {
+                    return res.json({ success: false, error: err });
+                } else {
+                    let project = data;
+                    let approved = req.params.isApproved
+                    project.approved = approved;
+                    project.save();
+                    return res.json({ success: true, data: data });
+                }
+            })
+            .populate("engineers.designer_id")
+            .populate("engineers.design_checker_id");
+    }
+);
+
+
 
 router.put(
     "/api/projects/updateProjectDesignEngineer/:projectID/:anEngineerId",

@@ -45,29 +45,35 @@ const UpdateStatus = (props) => {
     }, [props.projectStatus]);
 
     function handleSubmit() {
-        ProjectService.updateProjectStatus(props.projectId, statusSelected)
-            .then((updatedProject) => props.updateParent(updatedProject))
-            .then(onClose);
 
         if (typeof projects !== "undefined") {
-            ProjectService.sendMail(
-                projects.customer.name,
-                projects.customer.email,
-                props.projectId
-            ).then(
-                (response) => {
-                    console.log("mail sent");
-                },
-                (error) => {
-                    const resMessage =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
-                    console.log("error sending mail");
-                }
-            );
+            if (statusSelected === "Design Complete" && projects.approved === "APPROVED") {
+                ProjectService.updateProjectStatus(props.projectId, statusSelected, projects.approved)
+                    .then((updatedProject) => props.updateParent(updatedProject))
+                    .then(onClose);
+
+                ProjectService.sendMail(
+                    projects.customer.name,
+                    projects.customer.email,
+                    props.projectId
+                ).then(
+                    (response) => {
+                        console.log("mail sent");
+                    },
+                    (error) => {
+                        const resMessage =
+                            (error.response &&
+                                error.response.data &&
+                                error.response.data.message) ||
+                            error.message ||
+                            error.toString();
+                        console.log("error sending mail");
+                    }
+                );
+            } else if (statusSelected === "Design Complete" && projects.approved === "NONE") {
+                // TODO Update status to pending
+
+            }
         }
     }
 

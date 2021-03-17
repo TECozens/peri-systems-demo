@@ -31,6 +31,7 @@ const projectModel = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Customer",
   },
+    approved: String,
 });
 
 // export the new Schema so we could modify it using Node.js
