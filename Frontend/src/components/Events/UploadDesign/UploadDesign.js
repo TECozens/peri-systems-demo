@@ -18,12 +18,16 @@ import {SiEpel} from "react-icons/all";
 
 const UploadDesign = () => {
     const {isOpen, onOpen, onClose} = useDisclosure()
+
     // onDrop function
     const onDrop = useCallback(acceptedFiles => {
-        // this callback will be called after files get dropped, we will get the acceptedFiles. If you want, you can even access the rejected files too
-        console.log(acceptedFiles);
-    }, []);
+        acceptedFiles.forEach((file) => {
+            console.log("Got a File!", file)
+            }
+        )
+        console.log("Working?" + acceptedFiles);
 
+    },[]);
 
     return (
         <>
@@ -37,14 +41,14 @@ const UploadDesign = () => {
                     <ModalHeader><SeparatedHeading primary={"Upload a Design"}/></ModalHeader>
                     <ModalCloseButton/>
                     <ModalBody>
-                        <SeparatedHeading secondary={"Upload a suitable design for showcase"}/>
+                        <SeparatedHeading secondary={"Upload a suitable image for showcase"}/>
                         <Dropzone>
                             onDrop={onDrop} accept
                         </Dropzone>
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme="yellow" mr={3}>
+                        <Button colorScheme="yellow" mr={3}  >
                             Send
                         </Button>
                         <Button colorScheme="red" onClick={onClose}>Cancel</Button>
