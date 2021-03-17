@@ -61,7 +61,7 @@ const UpdateStatus = (props) => {
     function handleSubmit() {
         const toast = createStandaloneToast()
         if (typeof projects !== "undefined") {
-            console.log(statusSelected);
+            console.log("APPROVAL IS" + projects.approved);
             if (statusSelected === "Design Complete" && projects.approved === "APPROVED") {
                 ProjectService.updateProjectStatus(props.projectId, statusSelected)
                     .then((updatedProject) => props.updateParent(updatedProject))
@@ -87,7 +87,10 @@ const UpdateStatus = (props) => {
                 );
                 successStatusToast()
                 } else if (statusSelected === "Design Complete" && projects.approved === "NONE") {
-                    // TODO Update status to pending and toast
+
+                ProjectService.updateProjectApproval(props.projectId, "PENDING")
+                    .then((updatedProject) => props.updateParent(updatedProject))
+                    .then(onClose);
 
                 toast({
                     title: "Approval Request Sent",
@@ -97,7 +100,7 @@ const UpdateStatus = (props) => {
                     position: "top-right",
                     isClosable: true,
                 })
-                    console.log("NONE")
+
                 } else {
                     ProjectService.updateProjectStatus(props.projectId, statusSelected)
                         .then((updatedProject) => props.updateParent(updatedProject))

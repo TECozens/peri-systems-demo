@@ -163,7 +163,7 @@ router.put(
 );
 
 router.put(
-    "/api/projects/updateProjectApproval/:isApproved/",
+    "/api/projects/updateProjectApproval/:projectID/:isApproved/",
     jsonParser,
     (req, res) => {
         let projectId = new mongoose.Types.ObjectId(req.params.projectID);

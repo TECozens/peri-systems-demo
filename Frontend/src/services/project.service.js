@@ -84,6 +84,22 @@ function updateProjectDesignEngineer(projectId, engineerId) {
         });
 }
 
+function updateProjectApproval(projectId, approvedStatus) {
+    return axios
+        .put(
+            "http://localhost:8081/api/projects/updateProjectApproval/" +
+            projectId +
+            "/" +
+            approvedStatus
+        )
+        .then(function (response) {
+            return response.data.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
 function updateProjectDesignChecker(projectId, engineerId) {
     return axios
         .put(
@@ -120,6 +136,7 @@ const ProjectService = {
     getProjectByID,
     updateProjectDesignEngineer,
     updateProjectDesignChecker,
+    updateProjectApproval,
     sendMail,
 };
 
