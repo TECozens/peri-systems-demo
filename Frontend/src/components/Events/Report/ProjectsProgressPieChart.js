@@ -91,12 +91,12 @@ export const ProjectsProgressPieChart = (props) => {
     };
 
     return (
-        <Box width={700} height={400}>
+        <Box width={900} height={400}>
             <ResponsiveContainer width={"100%"} height={"100%"}>
-                <PieChart width={600} height={600}>
+                <PieChart width={900} height={600}>
                     <Pie
                         data={data}
-                        cx={350}
+                        cx={450}
                         cy={200}
                         labelLine={false}
                         label={renderLabel}
