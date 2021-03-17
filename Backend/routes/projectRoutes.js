@@ -70,6 +70,26 @@ router.get(
 );
 
 router.get(
+    "/api/projects/getProjectsByDesignerEngineerWhereApprovedIsPending/:designCheckerID",
+    jsonParser,
+    (req, res) => {
+        let designCheckerID = new mongoose.Types.ObjectId(
+            req.params.designCheckerID
+        );
+        projects.find(
+            { "engineers.design_checker_id": designCheckerID, approved: "PENDING" },
+            (err, data) => {
+                if (err) {
+                    return res.json({ success: false, error: err });
+                } else {
+                    return res.json({ success: true, data: data });
+                }
+            }
+        );
+    }
+);
+
+router.get(
     "/api/projects/filter/getProjectsWithDesignEngineersByEngineerID/:engineerID/page/:page",
     jsonParser,
     (req, res) => {
