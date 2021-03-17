@@ -18,6 +18,7 @@ import { VStack } from "@chakra-ui/layout";
 import { MenuItem } from "@chakra-ui/react"
 import ProjectService from "../../services/project.service";
 import { FaEdit } from "react-icons/fa";
+import AuthService from "../../services/auth.service";
 
 const UpdateStatus = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -36,6 +37,8 @@ const UpdateStatus = (props) => {
 
     useEffect(() => {
         setStatusSelected(props.projectStatus.trim());
+        console.log("USER IS "+ AuthService.getCurrentUser());
+
         ProjectService.getProjectByID(props.projectId).then((projects) => {
             aProject.current = projects;
             console.log('aProject.current :>> ', aProject.current);
@@ -96,12 +99,22 @@ const UpdateStatus = (props) => {
                     title: "Approval Request Sent",
                     description: "Approval required by design checker before marked as complete.",
                     status: "warning",
-                    duration: 6000,
+                    duration: 7000,
                     position: "top-right",
                     isClosable: true,
                 })
 
-                } else {
+                } else if (statusSelected === "Design Complete" && projects.approved === "PENDING") {
+                toast({
+                    title: "Approval Request Sent",
+                    description: "Approval required by design checker before marked as complete.",
+                    status: "warning",
+                    duration: 7000,
+                    position: "top-right",
+                    isClosable: true,
+                })
+            }
+                else {
                     ProjectService.updateProjectStatus(props.projectId, statusSelected)
                         .then((updatedProject) => props.updateParent(updatedProject))
                         .then(onClose);
