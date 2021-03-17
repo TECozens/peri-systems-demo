@@ -137,7 +137,7 @@ router.get(
 );
 
 router.put(
-    "/api/projects/updateProjectStatus/:projectID/:aStatus/:aApproved",
+    "/api/projects/updateProjectStatus/:projectID/:aStatus/",
     jsonParser,
     (req, res) => {
         let designerId = new mongoose.Types.ObjectId(req.params.projectID);

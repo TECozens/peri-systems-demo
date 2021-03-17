@@ -52,15 +52,13 @@ function getProjectByID(projectId) {
         });
 }
 
-function updateProjectStatus(projectId, status, approved) {
+function updateProjectStatus(projectId, status) {
     return axios
         .put(
             "http://localhost:8081/api/projects/updateProjectStatus/" +
                 projectId +
                 "/" +
-                status +
-                "/" +
-                approved
+                status
         )
         .then(function (response) {
             return response.data.data;
