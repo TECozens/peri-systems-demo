@@ -102,6 +102,7 @@ const Report = (props) => {
             marginTop={12}
             marginBottom={12}
             id={"report_container"}
+            minW="3xl"
         >
             <Box w="100%" h="100%">
                 <HStack>

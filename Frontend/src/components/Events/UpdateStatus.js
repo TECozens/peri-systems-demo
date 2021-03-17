@@ -47,9 +47,6 @@ const UpdateStatus = (props) => {
     function handleSubmit() {
 
         if (typeof projects !== "undefined") {
-            //     console.log(statusSelected);
-            // if (statusSelected === "Design Complete" && projects.approved === "APPROVED") {
-                console.log("ARC WARDEN" + statusSelected);
                 ProjectService.updateProjectStatus(props.projectId, statusSelected, projects.approved)
                     .then((updatedProject) => props.updateParent(updatedProject))
                     .then(onClose);
@@ -72,10 +69,6 @@ const UpdateStatus = (props) => {
                         console.log("error sending mail");
                     }
                 );
-                // } else if (statusSelected === "Design Complete" && projects.approved === "NONE") {
-                //     // TODO Update status to pending
-                //     console.log("NONE")
-                // }
             }
     }
 
