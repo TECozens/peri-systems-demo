@@ -96,7 +96,7 @@ export const ProjectsProgressPieChart = (props) => {
                 <PieChart width={900} height={600}>
                     <Pie
                         data={data}
-                        cx={450}
+                        cx={400}
                         cy={200}
                         labelLine={false}
                         label={renderLabel}
