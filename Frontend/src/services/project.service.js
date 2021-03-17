@@ -115,6 +115,8 @@ function updateProjectDesignChecker(projectId, engineerId) {
             console.log(error);
         });
 }
+
+
 const sendMail = (name, email, projectId) => {
     return axios.post("http://localhost:8081/api/sendmail", {
         name,
@@ -128,6 +130,19 @@ const sendMail = (name, email, projectId) => {
     });
 };
 
+function getPendingRequestsWithDesignCheckerID(engineerId) {
+    return axios
+        .get(
+            "http://localhost:8081/api/projects/getProjectsByDesignerEngineerWhereApprovedIsPending/" +
+            engineerId
+        )
+        .then(function (response) {
+            return response.data.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
 const ProjectService = {
     getDesignerProjects,
     getTechnicalProjects,
@@ -137,6 +152,7 @@ const ProjectService = {
     updateProjectDesignEngineer,
     updateProjectDesignChecker,
     updateProjectApproval,
+    getPendingRequestsWithDesignCheckerID,
     sendMail,
 };
 
