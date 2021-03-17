@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {Button, MenuItem} from "@chakra-ui/react"
 import {useDisclosure} from "@chakra-ui/hooks";
 import {
@@ -14,20 +14,25 @@ import {RiFolderUploadLine} from "react-icons/ri";
 import Dropzone from "../Dropzone/Dropzone";
 import {Text} from "@chakra-ui/layout";
 import {SeparatedHeading} from "../../Util/SeparatedHeading/SeparatedHeading";
-import {SiEpel} from "react-icons/all";
 
 const UploadDesign = () => {
     const {isOpen, onOpen, onClose} = useDisclosure()
+    const [files, setFiles] = useState([])
 
-    // onDrop function
-    const onDrop = useCallback(acceptedFiles => {
-        acceptedFiles.forEach((file) => {
-            console.log("Got a File!", file)
-            }
-        )
-        console.log("Working?" + acceptedFiles);
+    const handleUpload = () => {
+        //TODO some Router send files, use "files"
+        files.forEach((file) => {
+            console.log("sending file:", file)
+            
+        })
+        console.log("Sending Files")
 
-    },[]);
+    }
+
+    useEffect(() => {
+        console.log("Got Files:", files)
+
+    },[files])
 
     return (
         <>
@@ -42,13 +47,13 @@ const UploadDesign = () => {
                     <ModalCloseButton/>
                     <ModalBody>
                         <SeparatedHeading secondary={"Upload a suitable image for showcase"}/>
-                        <Dropzone>
-                            onDrop={onDrop} accept
-                        </Dropzone>
+
+                        <Dropzone setFiles={setFiles}/>
+
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme="yellow" mr={3}  >
+                        <Button colorScheme="yellow" mr={3} onClick={handleUpload}>
                             Send
                         </Button>
                         <Button colorScheme="red" onClick={onClose}>Cancel</Button>
