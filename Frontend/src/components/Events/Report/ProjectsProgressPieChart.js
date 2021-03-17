@@ -93,11 +93,9 @@ export const ProjectsProgressPieChart = (props) => {
     return (
         <Box width={900} height={400}>
             <ResponsiveContainer width={"100%"} height={"100%"}>
-                <PieChart width={900} height={600}>
+                <PieChart width={900} height={400}>
                     <Pie
                         data={data}
-                        cx={400}
-                        cy={200}
                         labelLine={false}
                         label={renderLabel}
                         outerRadius={150}
