@@ -16,6 +16,8 @@ test:
         - npm i mocha -g
         - npm i jest -g
         - npm install
+        - npm install framer-motion@3.10.6
+        - npm fund
         - npm test
         - cd ../Backend
         - npm install
