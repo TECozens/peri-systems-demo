@@ -14,10 +14,9 @@ test:
     script:
         - npm set progress=false
         - cd Frontend
-        - npm i mocha -g
-        - mocha
+        - npm i jest -g
         - npm install
-        - npm run mocha-test 
+        - npm run test 
         - cd ../Backend
         - npm install
         - npm run test
