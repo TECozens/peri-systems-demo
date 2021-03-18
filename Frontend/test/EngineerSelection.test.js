@@ -8,19 +8,19 @@ jest.mock("axios");
 
 afterEach(cleanup);
 
+let engineerChris = {
+    _id: "6026dec65552793088002180",
+    firstname: "Chris",
+    lastname: "Adtek",
+};
+
+let engineerMikey = {
+    _id: "604937da8e3dba5830594c0f",
+    firstname: "Mikey",
+    lastname: "Smith",
+};
+
 describe("Engineer Selection displays engineers retrieved from axios request", () => {
-    let engineerChris = {
-        _id: "6026dec65552793088002180",
-        firstname: "Chris",
-        lastname: "Adtek",
-    };
-
-    let engineerMikey = {
-        _id: "604937da8e3dba5830594c0f",
-        firstname: "Mikey",
-        lastname: "Smith",
-    };
-
     each`
         input                                  | engineers
         ${Array(engineerChris, engineerMikey)} | ${`Chris and Mikey`}
@@ -56,14 +56,19 @@ describe("Engineer Selection displays engineers retrieved from axios request", (
             />
         );
 
-        await waitFor(() =>
-            engineerSelectionContainer.getAllByText((content) => {
-                if (content !== "") {
-                    return content.includes(
-                        input[0].firstname + " " + input[0].lastname
-                    );
+        await waitFor(() => {
+            const result = engineerSelectionContainer.getAllByText(
+                (content) => {
+                    if (content !== "") {
+                        return content.includes(
+                            input[0].firstname + " " + input[0].lastname
+                        );
+                    }
                 }
-            })
-        );
+            );
+            //expect at least two occurrences because the same engineers are
+            // rendered twice in this test
+            expect(result.length >= 2).toBeTruthy();
+        });
     });
 });
