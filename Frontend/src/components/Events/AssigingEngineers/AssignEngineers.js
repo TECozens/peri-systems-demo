@@ -10,7 +10,6 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay,
-    useBreakpointValue,
     VStack,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/hooks";
@@ -24,7 +23,6 @@ const AssignEngineers = (props) => {
     const selectedDesignCheckerId = useRef();
     const initialDesigner = useRef();
     const initialDesignChecker = useRef();
-    const projectBreakpoint = useBreakpointValue({ base: "sm", lg: "md" });
 
     useEffect(() => {
         if (props.project.engineers.designer_id !== null) {
