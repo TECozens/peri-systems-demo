@@ -1,13 +1,12 @@
 import {
     Box,
-    Heading,
+    Progress,
     Table,
     Tbody,
     Th,
     Thead,
     Tr,
     useBreakpointValue,
-    Progress
 } from "@chakra-ui/react";
 import React from "react";
 import { SeparatedHeading } from "../../../Util/SeparatedHeading/SeparatedHeading";
@@ -20,12 +19,22 @@ const UserTable = (props) => {
         if (props.users.length <= 0) {
             return (
                 <Box mt={4}>
-                    <SeparatedHeading primary='No Results Found' secondary='Not with this query at least' />
+                    <SeparatedHeading
+                        primary="No Results Found"
+                        secondary="Not with this query at least"
+                    />
                 </Box>
-            )
+            );
         } else {
             return (
-                <Table background='white' borderRadius={8} mt={2} variant="simple" colorScheme="red" size={breakpoint}>
+                <Table
+                    background="white"
+                    borderRadius={8}
+                    mt={2}
+                    variant="simple"
+                    colorScheme="red"
+                    size={breakpoint}
+                >
                     <Thead>
                         <Tr>
                             <Th> Name </Th>
@@ -47,11 +56,8 @@ const UserTable = (props) => {
                 </Table>
             );
         }
-
     } else {
-        return (
-            <Progress size="xs" isIndeterminate />
-        );
+        return <Progress size="xs" isIndeterminate />;
     }
 };
 

@@ -12,7 +12,7 @@ export const CreatePDFButton = (props) => {
             saveComponentAsPDF(idOfComponentToConvertToPDF);
             setIsHidden(false);
         }
-    }, [isHidden]);
+    }, [isHidden, idOfComponentToConvertToPDF]);
 
     //adapted code from https://stackoverflow.com/questions/64845248/download-a-react-component-using-jspdf-and-html2canvas
     const saveComponentAsPDF = (componentId) => {

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
     Button,
+    MenuItem,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -10,11 +11,9 @@ import {
     ModalOverlay,
     Radio,
     RadioGroup,
-    useBreakpointValue,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { VStack } from "@chakra-ui/layout";
-import { MenuItem } from "@chakra-ui/react"
 import ProjectService from "../../services/project.service";
 import { FaEdit } from "react-icons/fa";
 
@@ -24,52 +23,44 @@ const UpdateStatus = (props) => {
     const [projects, setProjects] = useState();
     let aProject = useRef();
     let count = props.count;
-    const projectBreakpoint = useBreakpointValue({ base: "sm", lg: "md" });
-
-    useEffect(() => {
-        console.log('props.projectId :>> ', props.projectId);
-        console.log('props.projectStatus :>> ', props.projectStatus);
-        console.log('props.count :>> ', props.count);
-        console.log('props.updateParent :>> ', props.updateParent);
-    })
 
     useEffect(() => {
         setStatusSelected(props.projectStatus.trim());
         ProjectService.getProjectByID(props.projectId).then((projects) => {
             aProject.current = projects;
-            console.log('aProject.current :>> ', aProject.current);
             setProjects(aProject.current);
-            console.log("project is");
-            console.log(aProject.current);
         });
-    }, [props.projectStatus]);
+    }, [props.projectStatus, props.projectId]);
 
     function handleSubmit() {
-
         if (typeof projects !== "undefined") {
-                ProjectService.updateProjectStatus(props.projectId, statusSelected, projects.approved)
-                    .then((updatedProject) => props.updateParent(updatedProject))
-                    .then(onClose);
+            ProjectService.updateProjectStatus(
+                props.projectId,
+                statusSelected,
+                projects.approved
+            )
+                .then((updatedProject) => props.updateParent(updatedProject))
+                .then(onClose);
 
-                ProjectService.sendMail(
-                    projects.customer.name,
-                    projects.customer.email,
-                    props.projectId
-                ).then(
-                    (response) => {
-                        console.log("mail sent");
-                    },
-                    (error) => {
-                        const resMessage =
-                            (error.response &&
-                                error.response.data &&
-                                error.response.data.message) ||
-                            error.message ||
-                            error.toString();
-                        console.log("error sending mail");
-                    }
-                );
-            }
+            ProjectService.sendMail(
+                projects.customer.name,
+                projects.customer.email,
+                props.projectId
+            ).then(
+                (response) => {
+                    console.log("mail sent");
+                },
+                (error) => {
+                    const resMessage =
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+                    console.log("error sending mail");
+                }
+            );
+        }
     }
 
     function handleClose() {
@@ -99,10 +90,7 @@ const UpdateStatus = (props) => {
 
     return (
         <div key={count++}>
-            <MenuItem
-            icon={<FaEdit />}
-                onClick={onOpen}
-            >
+            <MenuItem icon={<FaEdit />} onClick={onOpen}>
                 Update Status
             </MenuItem>
 

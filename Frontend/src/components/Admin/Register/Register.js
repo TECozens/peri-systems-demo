@@ -1,15 +1,8 @@
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { SearchIcon } from "@chakra-ui/icons";
-import { InputGroup, InputLeftElement, InputRightElement } from "@chakra-ui/input";
-import {
-    Box,
-    Container,
-    Flex,
-    Grid,
-    GridItem,
-    HStack
-} from "@chakra-ui/layout";
+import { InputGroup, InputLeftElement } from "@chakra-ui/input";
+import { Box, Container, Flex, HStack } from "@chakra-ui/layout";
 import {
     Button,
     Checkbox,
@@ -21,7 +14,6 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay,
-    useBreakpointValue
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useAsync } from "react-async";
@@ -34,24 +26,23 @@ import UserTable from "./UserTable/UserTable";
 
 const getData = ({ props }) => {
     return UserService.getUsers(props.userSearch, props.page);
-}
+};
 
 const Register = () => {
     const [userSearch, setUserSearch] = useState("");
     const [maxPage, setMaxPage] = useState();
     const [page, setPage] = useState(1);
-    const [onLastPage, setOnLastPage] = useState(false);
+    const onLastPage = false;
     const [values, setValues] = useState({
         firstname: "",
         lastname: "",
         email: "",
-        roles: []
+        roles: [],
     });
     const [searchParams, setSearchParams] = useState({ page, userSearch });
     const [users, setUsers] = useState([]);
 
-    const showUserCount = useBreakpointValue({ base: false, md: true });
-    const { data, error, isLoading } = useAsync({
+    const { data, isLoading } = useAsync({
         promiseFn: getData,
         watch: searchParams,
         props: { userSearch, page },
@@ -70,13 +61,9 @@ const Register = () => {
         );
         if (res.status === 200) {
             setPage(1);
-            setUserSearch(user.firstname + ' ' + user.lastname)
+            setUserSearch(user.firstname + " " + user.lastname);
         }
     };
-
-    const sleep = (time) => {
-        return new Promise(resolve => setTimeout(resolve, time));
-      }
 
     const updateUser = async (email, newUserValues) => {
         const res = await AuthService.updateUser(
@@ -87,33 +74,38 @@ const Register = () => {
             newUserValues.roles
         );
         if (res.status === 200) {
-            console.log('newUserValues :>> ', newUserValues);
-            console.log('users :>> ', users);
+            console.log("newUserValues :>> ", newUserValues);
+            console.log("users :>> ", users);
             setUsers(
                 users.map((user) => {
                     if (user.email === email) {
-                        console.log('user :>> ', user);
+                        console.log("user :>> ", user);
                         user.firstname = newUserValues.firstname;
                         user.lastname = newUserValues.lastname;
                         user.email = newUserValues.email;
-                        user.roles = newUserValues.roles
+                        user.roles = newUserValues.roles;
                     }
                     return user;
                 })
             );
-            setUserSearch(newUserValues.firstname + ' ' + newUserValues.lastname)
+            setUserSearch(
+                newUserValues.firstname + " " + newUserValues.lastname
+            );
         }
     };
 
     const defaultValues = () => {
-        console.log('values.roles.map(role => role.name) :>> ', values.roles.map(role => role));
-        return values.roles.map(role => role)
-    }
+        console.log(
+            "values.roles.map(role => role.name) :>> ",
+            values.roles.map((role) => role)
+        );
+        return values.roles.map((role) => role);
+    };
 
     const handleCheckboxChange = (x) => {
-        console.log('x :>> ', x);
-        setValues({...values, roles: x})
-    }
+        console.log("x :>> ", x);
+        setValues({ ...values, roles: x });
+    };
 
     const deleteUser = async (email) => {
         const res = await AuthService.deleteUser(email);
@@ -126,7 +118,7 @@ const Register = () => {
         if (users.length <= 0 && page !== 1) {
             setPage(1);
         }
-    }, [users]);
+    }, [users, page]);
 
     useEffect(() => {
         if (data) {
@@ -152,7 +144,7 @@ const Register = () => {
 
     return (
         <Container maxW="6xl" marginTop={12} marginBottom={12}>
-            <SeparatedHeading primary='Users' secondary='Manage Employees' />
+            <SeparatedHeading primary="Users" secondary="Manage Employees" />
             <Flex direction="column">
                 <Box mb={2}>
                     <HStack>
@@ -175,14 +167,10 @@ const Register = () => {
                 <Modal isOpen={isOpen} onClose={onClose}>
                     <ModalOverlay />
                     <ModalContent>
-                        <ModalHeader>
-                            Create User
-                        </ModalHeader>
+                        <ModalHeader>Create User</ModalHeader>
                         <ModalBody>
                             <FormControl>
-                                <FormLabel>
-                                    First Name
-                                                </FormLabel>
+                                <FormLabel>First Name</FormLabel>
                                 <Input
                                     value={values.firstname}
                                     onChange={handleChange}
@@ -209,24 +197,40 @@ const Register = () => {
                                 />
                             </FormControl>
                             <FormControl mt={4}>
-                            <FormLabel>Roles</FormLabel>
-                            <CheckboxGroup colorScheme="green" defaultValue={defaultValues()} onChange={handleCheckboxChange}>
-                                <HStack spacing={6}>
-                                    <Checkbox colorScheme="red" value='technical'>
-                                        Technical
-                                    </Checkbox>
-                                    <Checkbox colorScheme="red" value='admin'>
-                                        Admin
-                                    </Checkbox>
-                                    <Checkbox colorScheme="red" value='sales'>
-                                        Sales
-                                    </Checkbox>
-                                    <Checkbox colorScheme="red" value='designer'>
-                                        Designer
-                                    </Checkbox>
-                                </HStack>
-                            </CheckboxGroup>
-                        </FormControl>
+                                <FormLabel>Roles</FormLabel>
+                                <CheckboxGroup
+                                    colorScheme="green"
+                                    defaultValue={defaultValues()}
+                                    onChange={handleCheckboxChange}
+                                >
+                                    <HStack spacing={6}>
+                                        <Checkbox
+                                            colorScheme="red"
+                                            value="technical"
+                                        >
+                                            Technical
+                                        </Checkbox>
+                                        <Checkbox
+                                            colorScheme="red"
+                                            value="admin"
+                                        >
+                                            Admin
+                                        </Checkbox>
+                                        <Checkbox
+                                            colorScheme="red"
+                                            value="sales"
+                                        >
+                                            Sales
+                                        </Checkbox>
+                                        <Checkbox
+                                            colorScheme="red"
+                                            value="designer"
+                                        >
+                                            Designer
+                                        </Checkbox>
+                                    </HStack>
+                                </CheckboxGroup>
+                            </FormControl>
                         </ModalBody>
                         <ModalFooter>
                             <Button
@@ -236,9 +240,7 @@ const Register = () => {
                             >
                                 Create
                             </Button>
-                            <Button onClick={onClose}>
-                                Cancel
-                            </Button>
+                            <Button onClick={onClose}>Cancel</Button>
                         </ModalFooter>
                     </ModalContent>
                 </Modal>
@@ -249,17 +251,18 @@ const Register = () => {
                     isLoading={isLoading}
                     users={users}
                 />
-                {users.length > 0 ?
+                {users.length > 0 ? (
                     <PageSection
-                        variant='simple'
+                        variant="simple"
                         onLastPage={onLastPage}
                         isLoading={isLoading}
                         page={page}
                         setPage={setPage}
                         maxPage={maxPage}
-                    /> :
+                    />
+                ) : (
                     <></>
-                }
+                )}
             </Flex>
         </Container>
     );

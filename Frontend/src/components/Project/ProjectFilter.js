@@ -8,10 +8,10 @@ import {
     InputGroup,
     InputLeftElement,
     Select,
+    useDisclosure,
 } from "@chakra-ui/react";
 import { DeleteIcon, Search2Icon } from "@chakra-ui/icons";
-import { Box, Text, Stack, Heading } from "@chakra-ui/layout";
-import { useDisclosure, SlideFade } from "@chakra-ui/react"
+import { Box, Stack } from "@chakra-ui/layout";
 import DatePicker from "../Util/DatePicker/DatePicker";
 import ProjectFilteringService from "../../services/project.filtering.service";
 import AuthService from "../../services/auth.service";
@@ -21,28 +21,33 @@ const ProjectFilter = (props) => {
     const [statusOptions, setStatusOptions] = useState();
     let firstRender = useRef(true);
     let count = props.count;
-    const { isOpen, onToggle } = useDisclosure()
-    const [userId, setUserId] = useState(null)
+    const { isOpen, onToggle } = useDisclosure();
+    const [userId, setUserId] = useState(null);
 
     useEffect(() => {
         const user = AuthService.getCurrentUser();
-        setUserId(user.id)
-    }, [])
+        setUserId(user.id);
+    }, []);
 
-    const getUniqueStatusFromProjects = projectList =>
-        projectList ? setStatusOptions(
-            projectList
-                .map((project) => project.status.value)
-                .filter(
-                    (value, index, self) => self.indexOf(value) === index
-                )
-        ) : false
+    const getUniqueStatusFromProjects = (projectList) =>
+        projectList
+            ? setStatusOptions(
+                  projectList
+                      .map((project) => project.status.value)
+                      .filter(
+                          (value, index, self) => self.indexOf(value) === index
+                      )
+              )
+            : false;
 
-    const createSelectionOptions = listOfOptions =>
-        listOfOptions ? listOfOptions.map(
-            aStatus => (<option key={count++} value={aStatus}>{aStatus}</option>)
-        ) : false
-
+    const createSelectionOptions = (listOfOptions) =>
+        listOfOptions
+            ? listOfOptions.map((aStatus) => (
+                  <option key={count++} value={aStatus}>
+                      {aStatus}
+                  </option>
+              ))
+            : false;
 
     function handleKeyPress(event) {
         // checking if the key pressed is a letter and if so it prevents the
@@ -106,31 +111,36 @@ const ProjectFilter = (props) => {
     }, [props.projectsDisplayed]);
 
     useEffect(() => {
-        console.log('filters.current :>> ', filters.current);
-        console.log('filtersActive() :>> ', filtersActive());
-    })
+        console.log("filters.current :>> ", filters.current);
+        console.log("filtersActive() :>> ", filtersActive());
+    });
 
     const filtersActive = () =>
-        !Object.values(filters.current).map(value =>
-            value !== ''
-        ).every(value => 
-            value === false
-        ) || (Object.values(filters.current) === []) ? true : false
+        !Object.values(filters.current)
+            .map((value) => value !== "")
+            .every((value) => value === false) ||
+        Object.values(filters.current) === []
+            ? true
+            : false;
 
     return (
         <>
-            <HStack mb={4} >
-                <Button w="120px" onClick={onToggle} colorScheme='yellow'>
-                    {isOpen ? 'Hide Filters' : 'Show Filters'}
+            <HStack mb={4}>
+                <Button w="120px" onClick={onToggle} colorScheme="yellow">
+                    {isOpen ? "Hide Filters" : "Show Filters"}
                 </Button>
                 <Fade in={filtersActive()} offsetX="-20px">
-                    <Button leftIcon={<DeleteIcon />} colorScheme="red" onClick={clearFilters}>
+                    <Button
+                        leftIcon={<DeleteIcon />}
+                        colorScheme="red"
+                        onClick={clearFilters}
+                    >
                         Clear Filters
                     </Button>
                 </Fade>
             </HStack>
             <Collapse in={isOpen} animateOpacity>
-                <Box mb={4} background='white' p={4} borderRadius={8}>
+                <Box mb={4} background="white" p={4} borderRadius={8}>
                     <Stack>
                         <HStack>
                             <DatePicker
@@ -197,11 +207,14 @@ const ProjectFilter = (props) => {
                             />
                         </InputGroup>
                         <Select
-                            color='#A0AEC4'
+                            color="#A0AEC4"
                             placeholder="Select a status"
                             name="project_status"
                             onChange={(e) =>
-                                handleFilterChange("status.value", e.target.value)
+                                handleFilterChange(
+                                    "status.value",
+                                    e.target.value
+                                )
                             }
                             value={filters.current["status.value"] || ""}
                         >
