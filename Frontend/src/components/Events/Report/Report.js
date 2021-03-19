@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Box, Container, Heading, HStack, Text } from "@chakra-ui/layout";
 import ProjectList from "../../Project/ProjectList";
 import { SeparatedHeading } from "../../Util/SeparatedHeading/SeparatedHeading";
@@ -21,33 +21,41 @@ const Report = (props) => {
         setProjectsNotCompletedOnTime,
     ] = useState([]);
 
-    function getProjectsCompletedOnTime(isOnTime) {
-        let secondCondition = {
-            true: function (a, b) {
-                return a < b;
-            },
-            false: function (a, b) {
-                return a > b;
-            },
-        };
-        return projects
-            ? projects.filter(
-                  (project) =>
-                      project.status.value === "Project Complete" &&
-                      secondCondition[isOnTime](
-                          new Date(project.status.time_set).getDate(),
-                          new Date(project.date_required).getDate()
-                      )
-              )
-            : [];
-    }
+    const getProjectsCompletedOnTime = useCallback(
+        (isOnTime) => {
+            let secondCondition = {
+                true: function (a, b) {
+                    return a < b;
+                },
+                false: function (a, b) {
+                    return a > b;
+                },
+            };
+            return projects
+                ? projects.filter(
+                      (project) =>
+                          project.status.value === "Project Complete" &&
+                          secondCondition[isOnTime](
+                              new Date(project.status.time_set).getDate(),
+                              new Date(project.date_required).getDate()
+                          )
+                  )
+                : [];
+        },
+        [projects]
+    );
 
-    function getProjectsDueBetweenDates(dateCommencing, dateEnding) {
-        return projects.filter((project) => {
-            let dateRequired = new Date(project.date_required);
-            return dateRequired >= dateCommencing && dateRequired < dateEnding;
-        });
-    }
+    const getProjectsDueBetweenDates = useCallback(
+        (dateCommencing, dateEnding) => {
+            return projects.filter((project) => {
+                let dateRequired = new Date(project.date_required);
+                return (
+                    dateRequired >= dateCommencing && dateRequired < dateEnding
+                );
+            });
+        },
+        [projects]
+    );
 
     function getFirstAndLastDayOfWeek(aDate) {
         let datePassed = new Date(aDate);
@@ -60,13 +68,13 @@ const Report = (props) => {
         ];
     }
 
-    function getProjectsWithUnassignedEngineers() {
+    const getProjectsWithUnassignedEngineers = useCallback(() => {
         return projects.filter(
             (project) =>
                 project.engineers.design_checker_id == null ||
                 project.engineers.designer_id == null
         );
-    }
+    }, [projects]);
 
     function groupProjectsByStatus() {
         return projects.reduce(function (r, a) {
@@ -97,7 +105,12 @@ const Report = (props) => {
         setProjectsWithUnassignedEngineers(
             getProjectsWithUnassignedEngineers()
         );
-    }, [projects]);
+    }, [
+        projects,
+        getProjectsCompletedOnTime,
+        getProjectsDueBetweenDates,
+        getProjectsWithUnassignedEngineers,
+    ]);
 
     return (
         <Container
