@@ -5,6 +5,8 @@ import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
 import ModalTest from "../Events/ModalTest/ModalTest";
 import UpdateStatus from "../Events/UpdateStatus";
 import ProjectView from "./ProjectView";
+import { useState, useEffect } from "react"
+import authService from "../../services/auth.service";
 
 export const ProjectTableRow = ({
     count,
@@ -14,34 +16,49 @@ export const ProjectTableRow = ({
     authenticatedRole,
     project,
 }) => {
+
+    const [IsSales, setIsSales] = useState(false)
+
+    useEffect(() => {
+        const user = authService.getCurrentUser()
+        setIsSales(user.roles.includes('ROLE_SALES') && user.roles.length === 1)
+        console.log("issales", IsSales)
+    })
+
     return (
         <>
-            <Menu placement="bottom-end">
-                <MenuButton
-                    as={IconButton}
-                    size="sm"
-                    colorScheme="red"
-                    icon={<ChevronDownIcon w={6} h={6} color="white" />}
-                />
-                <MenuList boxShadow="2xl">
-                    <UpdateStatus
-                        count={count}
-                        projectStatus={status_value}
-                        projectId={_id}
-                        updateParent={updateParent}
+            {IsSales ?
+                <Menu>
+                    <ProjectView project={project}></ProjectView>
+                </Menu>
+                :
+                <Menu placement="bottom-end">
+                    <MenuButton
+                        as={IconButton}
+                        size="sm"
+                        colorScheme="red"
+                        icon={<ChevronDownIcon w={6} h={6} color="white" />}
                     />
-                    <ProjectView project={project} />
-                    {authenticatedRole.includes("ROLE_TECHNICAL") && (
-                        <div>
-                            <AssignEngineers
-                                updateParent={updateParent}
-                                project={project}
-                            />
-                            <ModalTest />
-                        </div>
-                    )}
-                </MenuList>
-            </Menu>
+                    <MenuList boxShadow="2xl">
+                        <UpdateStatus
+                            count={count}
+                            projectStatus={status_value}
+                            projectId={_id}
+                            updateParent={updateParent}
+                        />
+                        <ProjectView project={project} />
+                        {authenticatedRole.includes("ROLE_TECHNICAL") && (
+                            <div>
+                                <AssignEngineers
+                                    updateParent={updateParent}
+                                    project={project}
+                                />
+                                <ModalTest />
+                            </div>
+                        )}
+                    </MenuList>
+                </Menu>}
+
         </>
     );
 };

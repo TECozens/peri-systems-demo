@@ -106,9 +106,8 @@ const AssignEngineers = (props) => {
                     </ModalBody>
 
                     <ModalFooter>
-                        <HStack w={"100%"}>
+                        <HStack>
                             <Button
-                                w={"100%"}
                                 colorScheme="red"
                                 mr={3}
                                 onClick={handleClose}
@@ -116,7 +115,6 @@ const AssignEngineers = (props) => {
                                 Cancel
                             </Button>
                             <Button
-                                w={"100%"}
                                 colorScheme="green"
                                 onClick={handleSubmit}
                             >

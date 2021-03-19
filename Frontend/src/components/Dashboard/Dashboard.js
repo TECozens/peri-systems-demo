@@ -3,17 +3,19 @@ import AuthService from "../../services/auth.service";
 import DesignerBoard from "../Designer/DesignerBoard";
 import TechnicalBoard from "../Technical/TechnicalBoard";
 import AdminBoard from "../Admin/AdminBoard"
+import { SalesBoard } from "../Sales/SalesBoard";
 
 const Dashboard = () => {
     const [showTechnicalBoard, setShowTechnicalBoard] = useState(false);
     const [showAdminBoard, setShowAdminBoard] = useState(false);
     const [showDesignerBoard, setShowDesignerBoard] = useState(false);
+    const [showSalesBoard, setShowSalesBoard] = useState(false)
+    const [error, setError] = useState(null)
     const [currentUser, setCurrentUser] = useState(undefined);
 
     useEffect(() => {
         const user = AuthService.getCurrentUser();
         setCurrentUser(user)
-        console.log("user", user)
 
         if (user) {
             if (user.roles.includes("ROLE_TECHNICAL")) {
@@ -22,6 +24,10 @@ const Dashboard = () => {
                 setShowAdminBoard(true)
             } else if (user.roles.includes('ROLE_DESIGNER')) {
                 setShowDesignerBoard(true)
+            } else if (user.roles.includes('ROLE_SALES')) {
+                setShowSalesBoard(true)
+            } else {
+                setError('You don\' have any roles, please contact an administrator')
             }
         }
     }, []);
@@ -33,6 +39,7 @@ const Dashboard = () => {
                     {showDesignerBoard && <DesignerBoard />}
                     {showTechnicalBoard && <TechnicalBoard />}
                     {showAdminBoard && <AdminBoard />}
+                    {showSalesBoard && <SalesBoard />}
                 </div>
             ) : (
                 <div>Not Logged in</div>
