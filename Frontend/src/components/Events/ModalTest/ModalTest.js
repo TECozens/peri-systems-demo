@@ -8,14 +8,16 @@ import {
     ModalBody,
     ModalCloseButton,
     Button,
-    useDisclosure
+    useDisclosure,
+    MenuItem
 } from "@chakra-ui/react"
+import { BsWrench } from "react-icons/bs"
 
 const ModalTest = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     return (
         <>
-            <Button onClick={onOpen}>Edit Projects</Button>
+            <MenuItem icon={<BsWrench />} onClick={onOpen}>Edit Details</MenuItem>
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />

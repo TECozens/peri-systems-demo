@@ -14,7 +14,9 @@ import {
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { VStack } from "@chakra-ui/layout";
+import { MenuItem } from "@chakra-ui/react"
 import ProjectService from "../../services/project.service";
+import { FaEdit } from "react-icons/fa";
 
 const UpdateStatus = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -25,9 +27,17 @@ const UpdateStatus = (props) => {
     const projectBreakpoint = useBreakpointValue({ base: "sm", lg: "md" });
 
     useEffect(() => {
+        console.log('props.projectId :>> ', props.projectId);
+        console.log('props.projectStatus :>> ', props.projectStatus);
+        console.log('props.count :>> ', props.count);
+        console.log('props.updateParent :>> ', props.updateParent);
+    })
+
+    useEffect(() => {
         setStatusSelected(props.projectStatus.trim());
         ProjectService.getProjectByID(props.projectId).then((projects) => {
             aProject.current = projects;
+            console.log('aProject.current :>> ', aProject.current);
             setProjects(aProject.current);
             console.log("project is");
             console.log(aProject.current);
@@ -88,19 +98,12 @@ const UpdateStatus = (props) => {
 
     return (
         <div key={count++}>
-            <Button
-                width="full"
-                size={projectBreakpoint}
-                m={2}
-                border="2px"
-                color="brand.background"
-                bg="brand.grey"
-                borderColor="brand.pink"
-                _hover={{ bg: "brand.pink", borderColor: "brand.grey" }}
+            <MenuItem
+            icon={<FaEdit />}
                 onClick={onOpen}
             >
                 Update Status
-            </Button>
+            </MenuItem>
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />

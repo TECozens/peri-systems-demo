@@ -16,7 +16,7 @@ import AuthService from "./services/auth.service";
 import IsLoggedIn from "./components/Authentication/IsLoggedIn";
 import ProjectDetails from "./components/Project/ProjectDetails";
 import Timeline from "./components/Events/Timeline";
-import CustomerProjectDetails from "./components/Customer/CustomerProjectDetails";
+import CustomerProjectView from "./components/Customer/CustomerProjectView";
 
 
 // 2. Extend the theme to include custom colors, fonts, etc
@@ -62,15 +62,20 @@ function App() {
                     <Route
                         exact
                         path="/customer/:param1"
-                        render={(props) => (
-                            <CustomerProjectDetails {...props} />
-                        )}
+                        render={(props) => <CustomerProjectView {...props} />}
                     />
                     <IsLoggedIn
                         exact
                         authed={isAuthenticated}
                         component={Login}
                         path="/Login"
+                    />
+                    <Private
+                        exact
+                        path="/project/:param1"
+                        authed={isAuthenticated}
+                        render={(props) => <ProjectDetails {...props} />}
+                        component={ProjectDetails}
                     />
                     <Private
                         exact

@@ -50,10 +50,11 @@ const Timeline = (props) => {
     }
 
     function getAllPreviousStatuses() {
-        let i
+        let i;
         let tempStatusArray = [];
         if (typeof projects !== "undefined") {
-            let lastStatusIndex = allProjectStages.lastIndexOf(projects.status.value) - 1;
+            let lastStatusIndex =
+                allProjectStages.lastIndexOf(projects.status.value) - 1;
             for (i = 0; i <= lastStatusIndex; i++) {
                 tempStatusArray.push(allProjectStages[i]);
             }
@@ -61,152 +62,161 @@ const Timeline = (props) => {
         }
     }
 
+    function returnDateToDisplayMinuteHourMeridiemFromADateString(aDate) {
+        let date = new Date(aDate);
+        let dateToDisplay = date.toLocaleDateString();
+        let minute = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
+        let hour = (date.getHours() < 10 ? "0" : "") + date.getHours();
+        let meridiem;
+        if (hour > 12) {
+            meridiem = "PM";
+            hour = hour - 12;
+        } else if (hour < 12) {
+            meridiem = "AM";
+        } else if (hour === 12) {
+            meridiem = "PM";
+        } else {
+            meridiem = "PM";
+        }
+        return [dateToDisplay, minute, hour, meridiem];
+    }
+
+    function displayLogo(line, logo, width, height, statusTextSize, projectArray, index, timeTextSize,
+                         dateToDisplay, hour, minute, meridiem, typeOfStatus) {
+        let dateText;
+        let timeText
+        let statusText;
+        if (typeOfStatus === "complete") {
+            dateText = "Date: " + dateToDisplay;
+            timeText = "Time: " + hour + ":" + minute + " " + meridiem
+            statusText = allProjectStages[index];
+        }  else if (typeOfStatus === "in_progress") {
+            timeText = "In progress..."
+            statusText = allProjectStages[index];
+        } else if (typeOfStatus === "waiting") {
+            timeText = "Waiting..."
+            statusText = allProjectStages[index];
+        } else if (typeOfStatus === "cancelled") {
+            dateText = "Date: " + dateToDisplay;
+            timeText = "Time: " + hour + ":" + minute + " " + meridiem
+            statusText = "Project Cancelled";
+    }
+            return (
+                <div className={line}>
+                    <img
+                        src={logo}
+                        alt="Logo"
+                        width={logoWidth}
+                        height={logoHeight}
+                    />
+                    <b>
+                        <Text fontSize={statusTextSize}>
+                            {statusText}
+                        </Text>
+                    </b>
+                    <Text fontSize={timeTextSize}>
+                        {dateText}
+                    </Text>
+                    <Text fontSize={timeTextSize}>
+                        {timeText}
+                    </Text>
+                </div>
+            );
+    }
 
 
-    // TODO: Redo Current in Progress Status
     function isStatusComplete(index) {
-        let date;
         let minute;
         let hour;
         let meridiem;
         let dateToDisplay;
         let line;
+        let lastIndex;
+        let currentStatusIndex;
+        let cancelledIndex;
         if (index !== 7) {
-            line = "line"
+            line = "line";
         }
         if (typeof projects !== "undefined") {
             retrieveProjectStatusArray();
             getAllPreviousStatuses();
-            let lastIndex = allProjectStages.lastIndexOf(projects.status.value);
-            let currentStatusIndex = statusArray.lastIndexOf(allProjectStages[index]);
-            //COMPLETED
-            if (index < lastIndex) {
-                if (statusArray.includes(allProjectStages[index])) {
-                    date = new Date(
-                        projects.status_history[currentStatusIndex].time_set
-                    );
-                     dateToDisplay = date.toLocaleDateString();
-                     minute = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
-                     hour = (date.getHours() < 10 ? "0" : "") + date.getHours();
-                    if (hour > 12) {
-                        meridiem = "PM";
-                        hour = hour - 12;
-                    } else if (hour < 12) {
-                        meridiem = "AM";
-                    } else if (hour === 12) {
-                        meridiem = "PM";
-                    }
-                } else {
-                    dateToDisplay = "Unknown"
-                    hour = "Unknown"
-                }
-                return (
-                    <div className={line}>
-                        <img
-                            src={red_tick}
-                            alt="Logo"
-                            width={logoWidth}
-                            height={logoHeight}
-                        />
-                        <b>
-                            <Text fontSize={statusTextSize}>
-                                {allProjectStages[index]}
-                            </Text>
-                        </b>
-                        <Text fontSize={timeTextSize}>
-                            Date: {dateToDisplay}
-                        </Text>
-                        <Text fontSize={timeTextSize}>
-                            Time: {hour}:{minute} {meridiem}
-                        </Text>
-                    </div>
-                )
-                // CURRENT STATUS
-            } else if (lastIndex === index) {
-                date = new Date(projects.status.time_set);
-                dateToDisplay = date.toLocaleDateString();
-                minute = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
-                hour = (date.getHours() < 10 ? "0" : "") + date.getHours();
-                if (hour > 12) {
-                    meridiem = "PM";
-                    hour = hour - 12;
-                } else if (hour < 12) {
-                    meridiem = "AM";
-                } else if (hour === 12) {
-                    meridiem = "PM";
-                }
-                if (index === 2 || index === 6 ||index === 7) {
-                    return (
-                        <div className={line}>
-                            <img
-                                src={red_tick}
-                                alt="Logo"
-                                width={logoWidth}
-                                height={logoHeight}
-                            />
-                            <b>
-                                <Text fontSize={statusTextSize}>
-                                    {allProjectStages[index]}
-                                </Text>
-                            </b>
-                            <Text fontSize={timeTextSize}>
-                                Date: {dateToDisplay}
-                            </Text>
-                            <Text fontSize={timeTextSize}>
-                                Time: {hour}:{minute} {meridiem}
-                            </Text>
-                        </div>
-                    )
-                }
-                return (
-                    <div className={line}>
-                        <img
-                            src={in_progress}
-                            alt="Logo"
-                            width={logoWidth}
-                            height={logoHeight}
-                        />
-                        <b>
-                            <Text fontSize={statusTextSize}>
-                                {allProjectStages[index]}
-                            </Text>
-                        </b>
-                        <Text fontSize={timeTextSize}>In progress...</Text>
-                    </div>
+            if (projects.status.value !== "Project Cancelled") {
+                console.log(statusArray[statusArray.length - 1]);
+                lastIndex = allProjectStages.lastIndexOf(projects.status.value);
+                currentStatusIndex = statusArray.lastIndexOf(
+                    allProjectStages[index]
+                );
+            } else if (projects.status.value === "Project Cancelled") {
+                console.log(statusArray[statusArray.length - 1]);
+                lastIndex = allProjectStages.lastIndexOf(statusArray[statusArray.length - 2]);
+                cancelledIndex = allProjectStages.lastIndexOf(statusArray[statusArray.length - 2]) + 1;
+                currentStatusIndex = statusArray.lastIndexOf(
+                    allProjectStages[index]
                 );
             }
-            // NOT DONE STATUS
-            else if (
+
+            if (index === cancelledIndex) {
+                [
+                    dateToDisplay,
+                    minute,
+                    hour,
+                    meridiem,
+                ] = returnDateToDisplayMinuteHourMeridiemFromADateString(
+                    projects.status.time_set
+                );
+                return (displayLogo(line, cross_circle, logoWidth, logoHeight, statusTextSize,
+                    allProjectStages, index, timeTextSize,
+                    dateToDisplay, hour, minute, meridiem, "cancelled"));
+            }
+            if (index < lastIndex) {
+                if (statusArray.includes(allProjectStages[index])) {
+                    [
+                        dateToDisplay,
+                        minute,
+                        hour,
+                        meridiem,
+                    ] = returnDateToDisplayMinuteHourMeridiemFromADateString(
+                        projects.status_history[currentStatusIndex].time_set
+                    );
+                } else {
+                    dateToDisplay = "Unknown";
+                    hour = "Unknown";
+                    minute = "";
+                    meridiem = "";
+                }
+                return (displayLogo(line, red_tick, logoWidth, logoHeight, statusTextSize,
+                    allProjectStages, index, timeTextSize,
+                    dateToDisplay, hour, minute, meridiem, "complete"));
+            } else if (lastIndex === index) {
+                [
+                    dateToDisplay,
+                    minute,
+                    hour,
+                    meridiem,
+                ] = returnDateToDisplayMinuteHourMeridiemFromADateString(
+                    projects.status.time_set
+                );
+                if (index === 2 || index === 6 || index === 7) {
+                    return (displayLogo(line, red_tick, logoWidth, logoHeight, statusTextSize,
+                        allProjectStages, index, timeTextSize,
+                        dateToDisplay, hour, minute, meridiem, "complete"));
+                }
+                return (displayLogo(line, in_progress, logoWidth, logoHeight, statusTextSize,
+                    allProjectStages, index, timeTextSize,
+                    dateToDisplay, hour, minute, meridiem, "in_progress"));
+            } else if (
                 index >= lastIndex ||
                 statusArray.lastIndexOf(allProjectStages[index]) === -1
             ) {
-                return (
-                    <div className={line}>
-                        <img
-                            src={circle_outline}
-                            alt="Logo"
-                            width={logoWidth}
-                            height={logoHeight}
-                        />
-                        <b>
-                            <Text fontSize={statusTextSize}>
-                                {allProjectStages[index]}
-                            </Text>
-                        </b>
-                        <Text fontSize={timeTextSize}>Waiting...</Text>
-                    </div>
-                );
+                return (displayLogo(line, circle_outline, logoWidth, logoHeight, statusTextSize,
+                    allProjectStages, index, timeTextSize,
+                    dateToDisplay, hour, minute, meridiem, "waiting"));
             }
         }
     }
 
     return (
-        <Box
-            bg="brand.background"
-            // className="line"
-            width="100%"
-            marginBottom={40}
-        >
+        <Box bg="brand.background" width="100%" marginBottom={40}>
             <Flex>
                 <Box w="100%"> {isStatusComplete(0)}</Box>
                 <Box w="100%"> {isStatusComplete(1)}</Box>

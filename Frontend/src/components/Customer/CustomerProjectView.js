@@ -3,11 +3,11 @@ import { Box, Container, Flex } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/react";
 import Timeline from "../Events/Timeline";
 import ProjectService from "../../services/project.service";
-import ProjectDetails1 from "../Project/ProjectDetails1";
+import ProjectDetailsCustomer from "../Project/ProjectDetailsCustomer";
 import { EmailIcon } from "@chakra-ui/icons";
 import UserService from "../../services/users.service";
 
-const CustomerProjectDetails = (props) => {
+const CustomerProjectView = (props) => {
     const projectId = props.match.params.param1;
     const [project, setProject] = useState(props.project);
     const [loading, setLoading] = useState(false);
@@ -42,10 +42,10 @@ const CustomerProjectDetails = (props) => {
 
     return (
         <Container maxW="6xl" marginTop={12} marginBottom={12}>
-            <Flex bg={"brand.background"} borderRadius="lg" boxShadow="lg">
+            <Flex bg={"brand.background"} borderRadius={8} boxShadow="lg">
                 {projectId ? (
                     <Box m={10}>
-                        <ProjectDetails1 project={project} />
+                        <ProjectDetailsCustomer project={project} />
                         <Button
                             leftIcon={<EmailIcon />}
                             isLoading={loading}
@@ -65,4 +65,4 @@ const CustomerProjectDetails = (props) => {
     );
 };
 
-export default CustomerProjectDetails;
+export default CustomerProjectView;

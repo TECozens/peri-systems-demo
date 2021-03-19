@@ -1,21 +1,13 @@
 import React from "react";
 import ProjectsSection from "../Project/ProjectsSection"
-import {Box, Flex, Spacer} from "@chakra-ui/layout";
+import { Box, Container, Flex, Spacer } from "@chakra-ui/layout";
 
 const TechnicalBoard = () => {
 
     return (
-        <Flex p={20}>
-            <Box width="full">
-                <ProjectsSection />
-            </Box>
-
-            <Spacer m={20} />
-
-            <Box bg="brand.background" width="35%"  boxShadow="lg">
-                TODO Next Feature: Pending Requests
-            </Box>
-        </Flex>
+        <Container maxW="6xl" marginTop={12} marginBottom={12}>
+            <ProjectsSection />
+        </Container>
     )
 }
 

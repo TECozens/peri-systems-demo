@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import {
     Button,
     HStack,
+    MenuItem,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -15,6 +16,7 @@ import {
 import { useDisclosure } from "@chakra-ui/hooks";
 import ProjectService from "../../../services/project.service";
 import EngineerSelection from "./EngineerSelection";
+import { BsFillPeopleFill } from "react-icons/bs";
 
 const AssignEngineers = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -81,19 +83,9 @@ const AssignEngineers = (props) => {
 
     return (
         <div key={"assign_engineer_modal"}>
-            <Button
-                width="full"
-                m={2}
-                size={projectBreakpoint}
-                border="2px"
-                color="brand.background"
-                bg="brand.grey"
-                borderColor="brand.pink"
-                _hover={{ bg: "brand.pink", borderColor: "brand.grey" }}
-                onClick={onOpen}
-            >
+            <MenuItem icon={<BsFillPeopleFill />} onClick={onOpen}>
                 Assign Engineers
-            </Button>
+            </MenuItem>
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />

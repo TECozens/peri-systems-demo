@@ -88,9 +88,9 @@ const deleteUser = (email : string) => {
     return axios.delete(`${API_URL}delete/${email}`)
 }
 
-const updateUser = (oldEmail: string, firstname: string, lastname: string, email: string) => {
-    return axios.patch(`${API_URL}patch/${oldEmail}`, {
-        firstname, lastname, email
+const updateUser = (oldEmail: string, firstname: string, lastname: string, email: string, roles: any) => {
+return axios.patch(`${API_URL}patch/${oldEmail}`, {
+        firstname, lastname, email, roles
     })
 }
 
