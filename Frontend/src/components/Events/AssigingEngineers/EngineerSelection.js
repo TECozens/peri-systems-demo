@@ -4,48 +4,56 @@ import UsersService from "../../../services/users.service";
 
 const EngineerSelection = (props) => {
     const [allEngineers, setAllEngineers] = useState([]);
-    let typeOfEngineerSelection = props.type;
+    const typeOfEngineerSelection = props.type;
     let [selectValue, setSelectValue] = useState(props.currentEngineer);
 
-    useEffect(() => {
-        getAndSetEngineers();
-    }, [props.currentEngineer]);
+    const getDesigners = useCallback(() => {
+        return new Promise((resolve, reject) => {
+            UsersService.getDesignerRoleID().then((idRetrieved) => {
+                if (idRetrieved !== undefined) {
+                    UsersService.getUsersWithRoleID(idRetrieved).then(
+                        (users) => {
+                            resolve(users);
+                        }
+                    );
+                } else {
+                    reject(Error("Promise rejected"));
+                }
+            });
+        });
+    }, []);
+
+    const getTechnicalLeads = useCallback(() => {
+        return new Promise((resolve, reject) => {
+            UsersService.getTechnicalLeadRoleID().then((idRetrieved) => {
+                if (idRetrieved !== undefined) {
+                    UsersService.getUsersWithRoleID(idRetrieved).then(
+                        (users) => {
+                            resolve(users);
+                        }
+                    );
+                } else {
+                    reject(Error("Promise rejected"));
+                }
+            });
+        });
+    }, []);
 
     const getAndSetEngineers = useCallback(() => {
-        getDesigners.then((designEngineers) => {
+        getDesigners().then((designEngineers) => {
             if (typeOfEngineerSelection === "Design Checker") {
-                getTechnicalLeads.then((technicalLeads) => {
+                getTechnicalLeads().then((technicalLeads) => {
                     setAllEngineers(designEngineers.concat(technicalLeads));
                 });
             } else {
                 setAllEngineers(designEngineers);
             }
         });
-    }, [allEngineers]);
+    }, [getDesigners, getTechnicalLeads, typeOfEngineerSelection]);
 
-    const getDesigners = new Promise((resolve, reject) => {
-        UsersService.getDesignerRoleID().then((idRetrieved) => {
-            if (idRetrieved !== undefined) {
-                UsersService.getUsersWithRoleID(idRetrieved).then((users) => {
-                    resolve(users);
-                });
-            } else {
-                reject(Error("Promise rejected"));
-            }
-        });
-    });
-
-    const getTechnicalLeads = new Promise((resolve, reject) => {
-        UsersService.getTechnicalLeadRoleID().then((idRetrieved) => {
-            if (idRetrieved !== undefined) {
-                UsersService.getUsersWithRoleID(idRetrieved).then((users) => {
-                    resolve(users);
-                });
-            } else {
-                reject(Error("Promise rejected"));
-            }
-        });
-    });
+    useEffect(() => {
+        getAndSetEngineers();
+    }, [props.currentEngineer, getAndSetEngineers]);
 
     function createDesignEngineerSelectionOptions() {
         if (allEngineers !== undefined) {
