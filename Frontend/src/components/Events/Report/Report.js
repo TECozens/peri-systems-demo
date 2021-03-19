@@ -22,18 +22,21 @@ const Report = (props) => {
     ] = useState([]);
 
     function getProjectsCompletedOnTime(isOnTime) {
-        let operation = " < ";
-        if (isOnTime) {
-            operation = " > ";
-        }
+        let secondCondition = {
+            true: function (a, b) {
+                return a < b;
+            },
+            false: function (a, b) {
+                return a > b;
+            },
+        };
         return projects
             ? projects.filter(
                   (project) =>
                       project.status.value === "Project Complete" &&
-                      eval(
-                          new Date(project.status.time_set).getDate() +
-                              operation +
-                              new Date(project.date_required).getDate()
+                      secondCondition[isOnTime](
+                          new Date(project.status.time_set).getDate(),
+                          new Date(project.date_required).getDate()
                       )
               )
             : [];
