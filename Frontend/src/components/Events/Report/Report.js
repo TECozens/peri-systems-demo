@@ -57,7 +57,7 @@ const Report = (props) => {
         [projects]
     );
 
-    function getFirstAndLastDayOfWeek(aDate) {
+    const getFirstAndLastDayOfWeek = (aDate) => {
         let datePassed = new Date(aDate);
         let firstDayOfTheWeek = datePassed.getDate() - datePassed.getDay();
         let lastDayOfTheWeek = firstDayOfTheWeek + 6;
@@ -66,7 +66,7 @@ const Report = (props) => {
             new Date(datePassed.setDate(firstDayOfTheWeek)),
             new Date(datePassed.setDate(lastDayOfTheWeek)),
         ];
-    }
+    };
 
     const getProjectsWithUnassignedEngineers = useCallback(() => {
         return projects.filter(
@@ -76,13 +76,13 @@ const Report = (props) => {
         );
     }, [projects]);
 
-    function groupProjectsByStatus() {
+    const groupProjectsByStatus = () => {
         return projects.reduce(function (r, a) {
             r[a.status.value] = r[a.status.value] || [];
             r[a.status.value].push(a);
             return r;
         }, Object.create(null));
-    }
+    };
 
     useEffect(() => {
         let todayDate = new Date();
