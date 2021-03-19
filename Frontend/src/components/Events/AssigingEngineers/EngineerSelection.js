@@ -55,7 +55,7 @@ const EngineerSelection = (props) => {
         getAndSetEngineers();
     }, [props.currentEngineer, getAndSetEngineers]);
 
-    function createDesignEngineerSelectionOptions() {
+    const createDesignEngineerSelectionOptions = () => {
         if (allEngineers !== undefined) {
             return allEngineers.map((aDesigner) => (
                 <option key={aDesigner._id} value={aDesigner._id}>
@@ -63,9 +63,9 @@ const EngineerSelection = (props) => {
                 </option>
             ));
         }
-    }
+    };
 
-    function handleOnChange(event) {
+    const handleOnChange = (event) => {
         let newIdSelected = event.target.value;
         setSelectValue(newIdSelected);
         props.onChange(newIdSelected);
