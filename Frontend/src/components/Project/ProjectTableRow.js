@@ -1,11 +1,5 @@
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import {
-    IconButton,
-    Menu,
-    MenuButton,
-    MenuList,
-    useDisclosure,
-} from "@chakra-ui/react";
+import { IconButton, Menu, MenuButton, MenuList } from "@chakra-ui/react";
 import React from "react";
 import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
 import ModalTest from "../Events/ModalTest/ModalTest";
@@ -20,8 +14,6 @@ export const ProjectTableRow = ({
     authenticatedRole,
     project,
 }) => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
-
     return (
         <>
             <Menu placement="bottom-end">
