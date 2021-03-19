@@ -28,7 +28,7 @@ const Timeline = (props) => {
             aProject.current = props.location.state.project;
             setProjects(aProject.current);
         }
-    }, [props.project]);
+    }, [props.project, props.location]);
 
     let logoWidth = 68;
     let logoHeight = 64;
@@ -81,49 +81,55 @@ const Timeline = (props) => {
         return [dateToDisplay, minute, hour, meridiem];
     }
 
-    function displayLogo(line, logo, width, height, statusTextSize, projectArray, index, timeTextSize,
-                         dateToDisplay, hour, minute, meridiem, typeOfStatus) {
+    function displayLogo(
+        line,
+        logo,
+        width,
+        height,
+        statusTextSize,
+        projectArray,
+        index,
+        timeTextSize,
+        dateToDisplay,
+        hour,
+        minute,
+        meridiem,
+        typeOfStatus
+    ) {
         let dateText;
-        let timeText
+        let timeText;
         let statusText;
         if (typeOfStatus === "complete") {
             dateText = "Date: " + dateToDisplay;
-            timeText = "Time: " + hour + ":" + minute + " " + meridiem
+            timeText = "Time: " + hour + ":" + minute + " " + meridiem;
             statusText = allProjectStages[index];
-        }  else if (typeOfStatus === "in_progress") {
-            timeText = "In progress..."
+        } else if (typeOfStatus === "in_progress") {
+            timeText = "In progress...";
             statusText = allProjectStages[index];
         } else if (typeOfStatus === "waiting") {
-            timeText = "Waiting..."
+            timeText = "Waiting...";
             statusText = allProjectStages[index];
         } else if (typeOfStatus === "cancelled") {
             dateText = "Date: " + dateToDisplay;
-            timeText = "Time: " + hour + ":" + minute + " " + meridiem
+            timeText = "Time: " + hour + ":" + minute + " " + meridiem;
             statusText = "Project Cancelled";
+        }
+        return (
+            <div className={line}>
+                <img
+                    src={logo}
+                    alt="Logo"
+                    width={logoWidth}
+                    height={logoHeight}
+                />
+                <b>
+                    <Text fontSize={statusTextSize}>{statusText}</Text>
+                </b>
+                <Text fontSize={timeTextSize}>{dateText}</Text>
+                <Text fontSize={timeTextSize}>{timeText}</Text>
+            </div>
+        );
     }
-            return (
-                <div className={line}>
-                    <img
-                        src={logo}
-                        alt="Logo"
-                        width={logoWidth}
-                        height={logoHeight}
-                    />
-                    <b>
-                        <Text fontSize={statusTextSize}>
-                            {statusText}
-                        </Text>
-                    </b>
-                    <Text fontSize={timeTextSize}>
-                        {dateText}
-                    </Text>
-                    <Text fontSize={timeTextSize}>
-                        {timeText}
-                    </Text>
-                </div>
-            );
-    }
-
 
     function isStatusComplete(index) {
         let minute;
@@ -148,8 +154,13 @@ const Timeline = (props) => {
                 );
             } else if (projects.status.value === "Project Cancelled") {
                 console.log(statusArray[statusArray.length - 1]);
-                lastIndex = allProjectStages.lastIndexOf(statusArray[statusArray.length - 2]);
-                cancelledIndex = allProjectStages.lastIndexOf(statusArray[statusArray.length - 2]) + 1;
+                lastIndex = allProjectStages.lastIndexOf(
+                    statusArray[statusArray.length - 2]
+                );
+                cancelledIndex =
+                    allProjectStages.lastIndexOf(
+                        statusArray[statusArray.length - 2]
+                    ) + 1;
                 currentStatusIndex = statusArray.lastIndexOf(
                     allProjectStages[index]
                 );
@@ -164,9 +175,21 @@ const Timeline = (props) => {
                 ] = returnDateToDisplayMinuteHourMeridiemFromADateString(
                     projects.status.time_set
                 );
-                return (displayLogo(line, cross_circle, logoWidth, logoHeight, statusTextSize,
-                    allProjectStages, index, timeTextSize,
-                    dateToDisplay, hour, minute, meridiem, "cancelled"));
+                return displayLogo(
+                    line,
+                    cross_circle,
+                    logoWidth,
+                    logoHeight,
+                    statusTextSize,
+                    allProjectStages,
+                    index,
+                    timeTextSize,
+                    dateToDisplay,
+                    hour,
+                    minute,
+                    meridiem,
+                    "cancelled"
+                );
             }
             if (index < lastIndex) {
                 if (statusArray.includes(allProjectStages[index])) {
@@ -184,9 +207,21 @@ const Timeline = (props) => {
                     minute = "";
                     meridiem = "";
                 }
-                return (displayLogo(line, red_tick, logoWidth, logoHeight, statusTextSize,
-                    allProjectStages, index, timeTextSize,
-                    dateToDisplay, hour, minute, meridiem, "complete"));
+                return displayLogo(
+                    line,
+                    red_tick,
+                    logoWidth,
+                    logoHeight,
+                    statusTextSize,
+                    allProjectStages,
+                    index,
+                    timeTextSize,
+                    dateToDisplay,
+                    hour,
+                    minute,
+                    meridiem,
+                    "complete"
+                );
             } else if (lastIndex === index) {
                 [
                     dateToDisplay,
@@ -197,20 +232,56 @@ const Timeline = (props) => {
                     projects.status.time_set
                 );
                 if (index === 2 || index === 6 || index === 7) {
-                    return (displayLogo(line, red_tick, logoWidth, logoHeight, statusTextSize,
-                        allProjectStages, index, timeTextSize,
-                        dateToDisplay, hour, minute, meridiem, "complete"));
+                    return displayLogo(
+                        line,
+                        red_tick,
+                        logoWidth,
+                        logoHeight,
+                        statusTextSize,
+                        allProjectStages,
+                        index,
+                        timeTextSize,
+                        dateToDisplay,
+                        hour,
+                        minute,
+                        meridiem,
+                        "complete"
+                    );
                 }
-                return (displayLogo(line, in_progress, logoWidth, logoHeight, statusTextSize,
-                    allProjectStages, index, timeTextSize,
-                    dateToDisplay, hour, minute, meridiem, "in_progress"));
+                return displayLogo(
+                    line,
+                    in_progress,
+                    logoWidth,
+                    logoHeight,
+                    statusTextSize,
+                    allProjectStages,
+                    index,
+                    timeTextSize,
+                    dateToDisplay,
+                    hour,
+                    minute,
+                    meridiem,
+                    "in_progress"
+                );
             } else if (
                 index >= lastIndex ||
                 statusArray.lastIndexOf(allProjectStages[index]) === -1
             ) {
-                return (displayLogo(line, circle_outline, logoWidth, logoHeight, statusTextSize,
-                    allProjectStages, index, timeTextSize,
-                    dateToDisplay, hour, minute, meridiem, "waiting"));
+                return displayLogo(
+                    line,
+                    circle_outline,
+                    logoWidth,
+                    logoHeight,
+                    statusTextSize,
+                    allProjectStages,
+                    index,
+                    timeTextSize,
+                    dateToDisplay,
+                    hour,
+                    minute,
+                    meridiem,
+                    "waiting"
+                );
             }
         }
     }
