@@ -35,8 +35,6 @@ const projectModel = new Schema({
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Design",
-            designer_id: {type: Schema.Types.ObjectId, ref: "User"},
-            time_set: Date,
         },
     ],
 });

@@ -2,7 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const http = require("http");
-
+const uploadDesign = require("./routes/uploadDesign")
 const PORT = process.env.PORT || 8081;
 
 const app = express();
@@ -69,6 +69,7 @@ app.use(router);
 app.use(usersRouter);
 app.use(projectRouter);
 app.use(mailSender);
+app.use(uploadDesign)
 
 require("./routes/auth.routes")(app);
 require("./routes/user.routes")(app);

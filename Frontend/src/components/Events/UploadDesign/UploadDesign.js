@@ -14,25 +14,32 @@ import {RiFolderUploadLine} from "react-icons/ri";
 import Dropzone from "../Dropzone/Dropzone";
 import {Text} from "@chakra-ui/layout";
 import {SeparatedHeading} from "../../Util/SeparatedHeading/SeparatedHeading";
+import UploadService from "../../../services/uploadDesign/upload.service"
+import request from 'superagent';
+
 
 const UploadDesign = () => {
     const {isOpen, onOpen, onClose} = useDisclosure()
     const [files, setFiles] = useState([])
 
     const handleUpload = () => {
-        //TODO some Router send files, use "files"
         files.forEach((file) => {
             console.log("sending file:", file)
-            
-        })
-        console.log("Sending Files")
+            let fileData = new FormData();
 
+            fileData.append('name', file)
+
+            const req = request.post('http://localhost:8081/api/uploadDesign').attach('name', file);
+            req.end(function(err,response){
+                console.log("upload done!!!!!");
+            });
+        })
     }
 
     useEffect(() => {
         console.log("Got Files:", files)
 
-    },[files])
+    }, [files])
 
     return (
         <>
