@@ -31,9 +31,11 @@ const UploadDesign = (props) => {
             fileData.append('name', file)
 
 
-            const req = request.post('http://localhost:8081/api/uploadDesign').attach('name', file, {'projectId': props.project._id, 'designerId': props.project.engineers.designer_id._id})
-            console.log("Project", props.project._id)
-            console.log("Designer", props.project.engineers.designer_id._id)
+            const req = request.post('http://localhost:8081/api/uploadDesign').send({
+                'file': file,
+                'projectId': props.project._id,
+                'designerId': props.project.engineers.designer_id._id
+            })
 
             req.end(function (err, response) {
                 console.log("upload done!!!!!");
