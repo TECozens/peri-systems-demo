@@ -18,19 +18,24 @@ import UploadService from "../../../services/uploadDesign/upload.service"
 import request from 'superagent';
 
 
-const UploadDesign = () => {
+const UploadDesign = (props) => {
     const {isOpen, onOpen, onClose} = useDisclosure()
     const [files, setFiles] = useState([])
 
+
     const handleUpload = () => {
-        files.forEach((file) => {
+        files.forEach((file, index) => {
             console.log("sending file:", file)
             let fileData = new FormData();
 
             fileData.append('name', file)
 
-            const req = request.post('http://localhost:8081/api/uploadDesign').attach('name', file);
-            req.end(function(err,response){
+
+            const req = request.post('http://localhost:8081/api/uploadDesign').attach('name', file, {'projectId': props.project._id, 'designerId': props.project.engineers.designer_id._id})
+            console.log("Project", props.project._id)
+            console.log("Designer", props.project.engineers.designer_id._id)
+
+            req.end(function (err, response) {
                 console.log("upload done!!!!!");
             });
         })

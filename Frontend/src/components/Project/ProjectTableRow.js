@@ -16,7 +16,7 @@ import ProjectView from "./ProjectView";
 import UploadDesign from "../Events/UploadDesign/UploadDesign";
 
 
-export const ProjectTableRow = ({count, status_value, _id, updateParent, authenticatedRole, project}) => {
+export const ProjectTableRow = ({count, status_value, _id, updateParent, authenticatedRole, project, designer}) => {
     const {isOpen, onOpen, onClose} = useDisclosure();
 
     return (
@@ -50,7 +50,7 @@ export const ProjectTableRow = ({count, status_value, _id, updateParent, authent
                     {authenticatedRole.includes(
                         "ROLE_DESIGNER"
                     ) && (
-                        <UploadDesign />
+                        <UploadDesign project={project}/>
                     )}
 
                 </MenuList>
