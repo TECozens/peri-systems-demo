@@ -16,10 +16,8 @@ jsonParser = bodyParser.json();
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-router.post('/api/uploadDesign', upload.single('name', 'designerId', 'projectId'), jsonParser, (req, res) => {
-    console.log(req.file)
-    console.log(req)
-    console.log(res)
+router.post('/api/uploadDesign', upload.fields([{name:'name'}, {name:'designer'}]), jsonParser, (req, res) => {
+    console.log(req.files)
     res.status(200).send( true );
     res.end();
 });

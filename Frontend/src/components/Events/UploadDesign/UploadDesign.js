@@ -29,9 +29,9 @@ const UploadDesign = (props) => {
             let fileData = new FormData();
 
             fileData.append('name', file)
+            fileData.append('foo', 'bar')
 
-
-            const req = request.post('http://localhost:8081/api/uploadDesign').attach('name', file, {'projectId': props.project._id, 'designerId': props.project.engineers.designer_id._id})
+            const req = request.post('http://localhost:8081/api/uploadDesign').attach('name', file)
             console.log("Project", props.project._id)
             console.log("Designer", props.project.engineers.designer_id._id)
 
