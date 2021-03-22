@@ -101,9 +101,11 @@ function updateProjectDesignChecker(projectId, engineerId) {
             console.log(error);
         });
 }
-const sendMail = (projects) => {
+const sendMail = (projects, email, name) => {
     return axios.post("http://localhost:8081/api/sendmail", {
-       projects,
+        projects,
+        email,
+        name,
     }).then((response) => {
         if(response.data.accessToken) {
             localStorage.setItem("user", JSON.stringify(response.data));
