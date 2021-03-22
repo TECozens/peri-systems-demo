@@ -35,8 +35,8 @@ mailSenderRouter.post('/api/sendmail', (req,res, next) => {
             ', <br/> We are writing to inform you about your order '
             + req.body.projects.name + ' #' +  req.body.projects.number +
             ' from PERI. We have some information regarding your project status. ' +
-            'We are pleased to inform you that your project status has been updated. It has now passed ' +
-            'the ' + req.body.projects.status.value + ' stage of its development ' +
+            'We are pleased to inform you that your project status has been updated. It has now passed a ' +
+            'stage of its development process' +
             ' and is now currently on '+ req.body.projects.status.value + ' stage. ' +
             'You can find out more about your ' + 'project here: localhost:3000/customer/' + req.body.projects._id +
             // TODO INSERT TIMELINE IMAGE
