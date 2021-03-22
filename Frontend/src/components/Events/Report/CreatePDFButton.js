@@ -1,7 +1,7 @@
 import { Button } from "@chakra-ui/react";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export const CreatePDFButton = (props) => {
     let idOfComponentToConvertToPDF = props.idOfComponent;
