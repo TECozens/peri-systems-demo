@@ -9,17 +9,22 @@ const fs = require('fs')
 const path = require('path')
 
 
-urlencodedParser = bodyParser.urlencoded({ extended: false });
+urlencodedParser = bodyParser.urlencoded({extended: false});
 jsonParser = bodyParser.json();
 
 
 const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
 
-router.post('/api/uploadDesign', upload.fields([{name:'name'}, {name:'designer'}]), jsonParser, (req, res) => {
-    console.log(req.files)
-    res.status(200).send( true );
-    res.end();
-});
+const upload = multer({
+    storage: storage,
+    limits: {fileSize: 1000000},
+}).single("myImage");
+
+router.post('/api/uploadDesign', upload, (req, res) => {
+    console.log("Request ---", req.body);
+    console.log("Request file ---", req.file);
+    // console.log(req)
+})
+
 
 module.exports = router;

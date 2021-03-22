@@ -16,6 +16,7 @@ import {Text} from "@chakra-ui/layout";
 import {SeparatedHeading} from "../../Util/SeparatedHeading/SeparatedHeading";
 import UploadService from "../../../services/uploadDesign/upload.service"
 import request from 'superagent';
+import axios from "axios";
 
 
 const UploadDesign = (props) => {
@@ -26,19 +27,48 @@ const UploadDesign = (props) => {
     const handleUpload = () => {
         files.forEach((file, index) => {
             console.log("sending file:", file)
-            let fileData = new FormData();
+            const formData = new FormData();
 
-            fileData.append('name', file)
-            fileData.append('foo', 'bar')
+            formData.append('myImage', file)
+            formData.append('project', props.project._id)
+            formData.append('designer', props.project.engineers.designer_id._id)
 
-            const req = request.post('http://localhost:8081/api/uploadDesign').attach('name', file)
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                },
+            };
+
+
             console.log("Project", props.project._id)
             console.log("Designer", props.project.engineers.designer_id._id)
+            axios.post('http://localhost:8081/api/uploadDesign', formData, config)
+                .then(res => {
 
-            req.end(function (err, response) {
-                console.log("upload done!!!!!");
-            });
+                }).catch(err => {
+
+            })
         })
+
+
+        //
+        // files.forEach((file, index) => {
+        //     console.log("sending file:", file)
+        //     let fileData = new FormData();
+        //
+        //     fileData.append('name', file)
+        //     fileData.append('foo', 'bar')
+        //
+        //     const req = request.post('http://localhost:8081/api/uploadDesign').attach('name', file)
+        //     console.log("Project", props.project._id)
+        //     console.log("Designer", props.project.engineers.designer_id._id)
+        //
+        //     req.end(function (err, response) {
+        //         console.log("upload done!!!!!");
+        //     });
+        // })
+
+
     }
 
     useEffect(() => {
