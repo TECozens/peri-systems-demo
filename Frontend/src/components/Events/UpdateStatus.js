@@ -43,9 +43,7 @@ const UpdateStatus = (props) => {
                 .then(onClose);
 
             ProjectService.sendMail(
-                projects.customer.name,
-                projects.customer.email,
-                props.projectId
+              projects
             ).then(
                 (response) => {
                     console.log("mail sent");

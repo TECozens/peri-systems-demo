@@ -29,9 +29,9 @@ mailSenderRouter.post('/api/sendmail', (req,res, next) => {
     //make mailable object
     const mail = {
         from: "team35nsa@gmail.com",
-        to: req.body.email,
-        subject: "Dear " + req.body.name +  " - Status update on your order",
-        text: 'Your project status has been updated. You can access your project timeline at localhost:3000/customer/' + req.body.projectId,
+        to: req.body.projects.customer.email,
+        subject: "Dear " + req.body.projects.customer.name +  " - Status update on your order",
+        text: 'Your project status has been updated. You can access your project timeline at localhost:3000/customer/' + req.body.projects._id,
     }
 // error handling goes here.
     transporter.sendMail(mail, (err,data) => {
