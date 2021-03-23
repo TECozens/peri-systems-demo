@@ -2,6 +2,7 @@ const express = require("express");
 const UserRouter = express.Router();
 const user = require("../models/user.model");
 const role = require("../models/role.model");
+const project = require("../models/projectModel");
 const request = require("../models/requestModel")
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -36,16 +37,15 @@ UserRouter.get("/api/users/getUserByID/:userID", jsonParser, (req, res) => {
     });
 });
 
-UserRouter.get("/api/users/getRequests/:userId", jsonParser, (req, res) => {
+UserRouter.get("/api/users/getRequests/:userID", jsonParser, (req, res) => {
     let userId = new mongoose.Types.ObjectId(req.params.userID);
     user.findById(userId, (err, data) => {
         if (err) {
             return res.json({ success: false, error: err });
         } else {
-            request.find((err, requests) => {
-                console.log(err, data)
-                return res.json({ success: true, data: requests });
-            })
+            request.find({ userId }, (err, requests) => {
+                return res.json({ success: true, requests });
+            }).populate(['projectId'])
         }
     });
 })
@@ -125,7 +125,7 @@ UserRouter.get('/api/users', jsonParser, async (req, res) => {
                     { email: { $regex: email } }
                 ]
             }
-            
+
         }
     }
     user.find(
@@ -149,6 +149,32 @@ UserRouter.get('/api/users', jsonParser, async (req, res) => {
                 )
             }
         }).populate("roles")
+})
+
+UserRouter.get('/api/users/approveRequest/:requestId', jsonParser, (req, res) => {
+    const requestId = mongoose.Types.ObjectId(req.params.requestId)
+    request.findByIdAndDelete(requestId).then((err, response) => {
+        return err ? res.json({ success: false, err }) : res.json({ success: true })
+    })
+})
+
+UserRouter.get('/api/users/declineRequest/:requestId', jsonParser, (req, res) => {
+    const requestId = mongoose.Types.ObjectId(req.params.requestId)
+    request.findByIdAndDelete(requestId).then((requestData, err) => {
+        const projectId = mongoose.Types.ObjectId(requestData.projectId)
+        project.findById(projectId, (err, currentProject) => {
+            switch (requestData.role) {
+                case 'DESIGN_CHECKER':
+                    currentProject.engineers.design_checker_id = null
+                    break;
+                case 'DESIGN_ENGINEER':
+                    currentProject.engineers.designer_id = null
+                    break;
+            } 
+            currentProject.save().then(savedDoc => console.log(`savedDoc`, savedDoc))
+        })
+        return err ? res.json({ success: false, err }) : res.json({ success: true })
+    })
 })
 
 module.exports = UserRouter;
