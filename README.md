@@ -54,8 +54,8 @@ Axios is a:
 >
 >[axios README in github repo](https://github.com/axios/axios/blob/master/README.md)
 
-It has been used in order to make post and get requests to my MongoDB. It simplifies HTTP requests and performs CRUD 
-operations in a easily readable manner. There was an option to create the HTTP requests myself. However, as illustrated 
+It has been used in order to make post and get requests to the MongoDB database. It simplifies HTTP requests and performs CRUD 
+operations in a easily readable manner. There was an option to create the HTTP requests ourselves. However, as illustrated 
 in the article [Why Use Axios in Your Next App](https://medium.com/@janelle.wg/why-use-axios-in-your-next-app-c44ad3508e93),
 code is much easier to write, appears much cleaner and is more readable when using axios. Readability is key to good 
 quality code hence we opted for using axios.
@@ -67,6 +67,6 @@ quality code hence we opted for using axios.
 >[MDN web docs](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Introduction#:~:text=Express%20is%20the%20most%20popular,different%20URL%20paths%20(routes).)
 
 Its popularity makes it a reliable library to use and a large community support. There are plenty of tutorials available
-on how to use express with Nodejs for servers. This facilitates my development of servers and enables me to gain a sound
-understanding on how it works. These are aspects we value when selecting new libraries in order to permit me to easily 
+on how to use express with Nodejs for servers. This facilitates my development of servers and enables us to gain a sound
+understanding on how it works. These are aspects we value when selecting new libraries in order to permit us to easily 
 learn how to use them. We have used it to host my Nodejs servers, socket.io and MongoDB, and to handle routing.
