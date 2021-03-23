@@ -4,6 +4,7 @@ import {
     Collapse,
     Fade,
     HStack,
+    IconButton,
     Input,
     InputGroup,
     InputLeftElement,
@@ -12,8 +13,8 @@ import {
     SlideFade,
     useDisclosure,
 } from "@chakra-ui/react";
-import { DeleteIcon, Search2Icon } from "@chakra-ui/icons";
-import { Box, Heading, Stack, VStack } from "@chakra-ui/layout";
+import { CheckIcon, DeleteIcon, Search2Icon } from "@chakra-ui/icons";
+import { Box, Heading, Stack, Text, VStack, Wrap } from "@chakra-ui/layout";
 import DatePicker from "../Util/DatePicker/DatePicker";
 import ProjectFilteringService from "../../services/project.filtering.service";
 import AuthService from "../../services/auth.service";
@@ -25,15 +26,15 @@ const ProjectFilter = (props) => {
     let firstRender = useRef(true);
     let count = props.count;
     const { isOpen, onToggle } = useDisclosure();
-    const { isOpen: isRequestsOpen, onToggle: onRequestsToggle } = useDisclosure();
+    const { isOpen: isRequestsOpen, onToggle: onRequestsToggle, onClose } = useDisclosure();
     const [userId, setUserId] = useState(null);
-    const [approvals, setApprovals] = useState(['a'])
-    const [requests, setRequests] = useState(['b'])
+    const [approvals, setApprovals] = useState([])
+    const [requests, setRequests] = useState([])
 
     useEffect(async () => {
         const user = AuthService.getCurrentUser();
-        const data = await userService.getUserRequests() 
-        console.log(`data`, data)
+        const { data: { requests } } = await userService.getUserRequests()
+        setRequests(requests)
         setUserId(user.id);
     }, []);
 
@@ -68,6 +69,25 @@ const ProjectFilter = (props) => {
             event.returnValue = false;
             if (event.preventDefault) event.preventDefault();
         }
+    }
+
+    const approveRequest = async (requestId) => {
+        const res = await userService.approveRequest(requestId)
+        console.log(`res`, res)
+        const { data: { requests } } = await userService.getUserRequests()
+        requests.length > 0
+            ? setRequests(requests)
+            : onClose()
+    }
+
+
+    const declineRequest = async (requestId) => {
+        const res = await userService.declineRequest(requestId)
+        console.log(`res`, res)
+        const { data: { requests } } = await userService.getUserRequests()
+        requests.length > 0
+            ? setRequests(requests)
+            : onClose()
     }
 
     const handleFilterChange = useCallback(
@@ -118,11 +138,6 @@ const ProjectFilter = (props) => {
         }
     }, [props.projectsDisplayed]);
 
-    useEffect(() => {
-        console.log("filters.current :>> ", filters.current);
-        console.log("filtersActive() :>> ", filtersActive());
-    });
-
     const filtersActive = () =>
         !Object.values(filters.current)
             .map((value) => value !== "")
@@ -172,7 +187,19 @@ const ProjectFilter = (props) => {
                             <Heading size='md'>
                                 Requests
                             </Heading>
-                            {requests.map(request => <Box>{request}</Box>)}
+                            <Wrap>
+                                {requests.map(request =>
+                                    <Box boxShadow='inner' p={4} bg='#F1F1F1' borderRadius={8}>
+                                        <Text>
+                                            {request.projectId.name}
+                                        </Text>
+                                        <HStack mt={3}>
+                                            <IconButton size='sm' colorScheme='yellow' onClick={() => approveRequest(request._id)} icon={<CheckIcon />} />
+                                            <IconButton size='sm' colorScheme='red' onClick={() => declineRequest(request._id)} icon={<DeleteIcon />} />
+                                        </HStack>
+                                    </Box>
+                                )}
+                            </Wrap>
                         </> :
                         <></>
                     }
