@@ -3,15 +3,17 @@ const mongoose = require("mongoose");
 const Request = mongoose.model(
     "Request",
     new mongoose.Schema({
-        _id: mongoose.Schema.Types.ObjectId,
-        user_id: {
+        userId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
         },
-        project_id: {
+        projectId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "projects",
         },
+        role: String,
+        reason: String,
+        response: String
     })
 );
 
