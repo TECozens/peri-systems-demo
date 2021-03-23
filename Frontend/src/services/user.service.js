@@ -23,12 +23,21 @@ const getAdminBoard = () => {
     return axios.get(API_URL + "admin", { headers: authHeader() });
 };
 
-const getUserRequests = () => axios.get(`http://localhost:8081/api/users/getRequests/${authService.getCurrentUser()}`)
+const getUserRequests = () => {
+    const { id } = authService.getCurrentUser()
+    return axios.get(`http://localhost:8081/api/users/getRequests/${id}`)
+}
+
+const approveRequest = requestId => axios.get(`http://localhost:8081/api/users/approveRequest/${requestId}`) 
+
+const declineRequest = requestId => axios.get(`http://localhost:8081/api/users/declineRequest/${requestId}`) 
 
 export default {
     getPublicContent,
     getDesignerBoard,
     getTechnicalBoard,
     getAdminBoard,
-    getUserRequests
+    getUserRequests,
+    approveRequest,
+    declineRequest
 };
