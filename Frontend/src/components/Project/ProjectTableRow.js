@@ -22,7 +22,6 @@ export const ProjectTableRow = ({
     useEffect(() => {
         const user = authService.getCurrentUser()
         setIsSales(user.roles.includes('ROLE_SALES') && user.roles.length === 1)
-        console.log("issales", IsSales)
     })
 
     return (
@@ -58,7 +57,6 @@ export const ProjectTableRow = ({
                         )}
                     </MenuList>
                 </Menu>}
-
         </>
     );
 };
