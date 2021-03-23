@@ -30,8 +30,19 @@ mailSenderRouter.post('/api/sendmail', (req,res, next) => {
     const mail = {
         from: "team35nsa@gmail.com",
         to: req.body.email,
-        subject: "Dear " + req.body.name +  " - Status update on your order",
-        text: 'Your project status has been updated. You can access your project timeline at localhost:3000/customer/' + req.body.projectId,
+        subject: req.body.projects.name +  " #" + req.body.projects.number + " - Status update on your order",
+        html: 'Dear ' +  req.body.name +
+            ', <br/> We are writing to inform you about your order '
+            + req.body.projects.name + ' #' +  req.body.projects.number +
+            ' from PERI. We have some information regarding your project status. ' +
+            'We are pleased to inform you that your project status has been updated. It has now passed a ' +
+            'stage of its development process' +
+            ' and is now currently on '+ req.body.projects.status.value + ' stage. ' +
+            'You can find out more about your ' + 'project here: localhost:3000/customer/' + req.body.projects._id +
+            // TODO INSERT TIMELINE IMAGE
+            '<br> If you have any questions or issues regarding your project please feel free to contact us at anytime.' +
+            '<br>You can contact us via Phone, Fax or Email: <br>Email: info@peri.ltd.uk<br>Phone: +44 (0) 1788 86 16 00<br>' +
+            'Fax: +44 (0) 1788 86 16 10<br> <br>Kind Regards, <br>PERI Team',
     }
 // error handling goes here.
     transporter.sendMail(mail, (err,data) => {

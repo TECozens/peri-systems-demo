@@ -19,7 +19,16 @@ const Timeline = (props) => {
         "Design Complete",
         "Project Complete",
     ];
-
+    const allProjectStagesForDisplay = [
+        "Design Pending",
+        "Preliminary Design Ongoing",
+        "Preliminary Design Complete",
+        "Awaiting Customer Approval",
+        "Detailed Design Pending",
+        "Detailed Design Ongoing",
+        "Design Complete",
+        "Project Complete",
+    ];
     useEffect(() => {
         if (props.project !== undefined) {
             aProject.current = props.project;
@@ -99,6 +108,9 @@ const Timeline = (props) => {
         let dateText;
         let timeText;
         let statusText;
+        let statusText1;
+        let statusText2;
+        let statusText3;
         if (typeOfStatus === "complete") {
             dateText = "Date: " + dateToDisplay;
             timeText = "Time: " + hour + ":" + minute + " " + meridiem;
@@ -114,6 +126,21 @@ const Timeline = (props) => {
             timeText = "Time: " + hour + ":" + minute + " " + meridiem;
             statusText = "Project Cancelled";
         }
+        if (index === 1) {
+            statusText = "Preliminary⠀⠀⠀⠀⠀"
+            statusText2 = "Design"
+            statusText3 = "Ongoing"
+        }
+        if (index === 2) {
+            statusText = "Preliminary⠀⠀⠀⠀⠀"
+            statusText2 = "Design"
+            statusText3 = "Complete"
+        }
+        if (index === 3) {
+            statusText = "Awaiting⠀⠀⠀⠀⠀⠀⠀⠀"
+            statusText2 = "Customer"
+            statusText3 = "Approval"
+        }
         return (
             <div className={line}>
                 <img
@@ -124,6 +151,8 @@ const Timeline = (props) => {
                 />
                 <b>
                     <Text fontSize={statusTextSize}>{statusText}</Text>
+                    <Text fontSize={statusTextSize}>{statusText2}</Text>
+                    <Text fontSize={statusTextSize}>{statusText3}</Text>
                 </b>
                 <Text fontSize={timeTextSize}>{dateText}</Text>
                 <Text fontSize={timeTextSize}>{timeText}</Text>
