@@ -17,32 +17,31 @@ import {
     ModalOverlay,
 } from "@chakra-ui/react";
 import { ChevronDownIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Td, Tr } from "@chakra-ui/table";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
-import { useCheckboxGroup } from "@chakra-ui/react"
 
 const UserTableRow = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const getRoles = () => {
         if (props.user.roles.length > 0) {
-            if (typeof props.user.roles[0] === 'object') {
-                return props.user.roles.map(role => role.name)
-            }   else {
-                return props.user.roles
-            } 
+            if (typeof props.user.roles[0] === "object") {
+                return props.user.roles.map((role) => role.name);
+            } else {
+                return props.user.roles;
+            }
         } else {
-            return ['']
+            return [""];
         }
-    }
+    };
 
     const [values, setValues] = useState({
         firstname: props.user.firstname,
         lastname: props.user.lastname,
         email: props.user.email,
-        roles: getRoles()
+        roles: getRoles(),
     });
 
     const updateUser = () => {
@@ -55,20 +54,22 @@ const UserTableRow = (props) => {
     };
 
     const userRolesAsString = () =>
-        values.roles.map(role => role.charAt(0).toUpperCase() + role.slice(1)).join(', ')
+        values.roles
+            .map((role) => role.charAt(0).toUpperCase() + role.slice(1))
+            .join(", ");
 
     const defaultValues = () => {
-        console.log('values.roles.map(role => role.name) :>> ', values.roles.map(role => role));
-        return values.roles.map(role => role)
-    }
-
-    const isChecked = (role) =>
-        values.roles.some(r => r === role)
+        console.log(
+            "values.roles.map(role => role.name) :>> ",
+            values.roles.map((role) => role)
+        );
+        return values.roles.map((role) => role);
+    };
 
     const handleCheckboxChange = (x) => {
-        console.log('x :>> ', x);
-        setValues({...values, roles: x})
-    }
+        console.log("x :>> ", x);
+        setValues({ ...values, roles: x });
+    };
 
     return (
         <Tr key={props.user.id}>
@@ -97,7 +98,7 @@ const UserTableRow = (props) => {
                 </Menu>
             </Td>
 
-            <Modal size='lg' isOpen={isOpen} onClose={onClose}>
+            <Modal size="lg" isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Edit user profile</ModalHeader>
@@ -131,18 +132,28 @@ const UserTableRow = (props) => {
                         </FormControl>
                         <FormControl mt={4}>
                             <FormLabel>Roles</FormLabel>
-                            <CheckboxGroup colorScheme="green" defaultValue={defaultValues()} onChange={handleCheckboxChange}>
+                            <CheckboxGroup
+                                colorScheme="green"
+                                defaultValue={defaultValues()}
+                                onChange={handleCheckboxChange}
+                            >
                                 <HStack spacing={6}>
-                                    <Checkbox colorScheme="red" value='technical'>
+                                    <Checkbox
+                                        colorScheme="red"
+                                        value="technical"
+                                    >
                                         Technical
                                     </Checkbox>
-                                    <Checkbox colorScheme="red" value='admin'>
+                                    <Checkbox colorScheme="red" value="admin">
                                         Admin
                                     </Checkbox>
-                                    <Checkbox colorScheme="red" value='sales'>
+                                    <Checkbox colorScheme="red" value="sales">
                                         Sales
                                     </Checkbox>
-                                    <Checkbox colorScheme="red" value='designer'>
+                                    <Checkbox
+                                        colorScheme="red"
+                                        value="designer"
+                                    >
                                         Designer
                                     </Checkbox>
                                 </HStack>

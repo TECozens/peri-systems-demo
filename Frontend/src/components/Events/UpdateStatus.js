@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
     Button,
+    MenuItem,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -11,11 +12,10 @@ import {
     Radio,
     RadioGroup,
     createStandaloneToast,
-    useBreakpointValue,
 } from "@chakra-ui/react";
+
 import { useDisclosure } from "@chakra-ui/hooks";
 import { VStack } from "@chakra-ui/layout";
-import { MenuItem } from "@chakra-ui/react"
 import ProjectService from "../../services/project.service";
 import { FaEdit } from "react-icons/fa";
 import AuthService from "../../services/auth.service";
@@ -26,14 +26,6 @@ const UpdateStatus = (props) => {
     const [projects, setProjects] = useState();
     let aProject = useRef();
     let count = props.count;
-    const projectBreakpoint = useBreakpointValue({ base: "sm", lg: "md" });
-
-    useEffect(() => {
-        console.log('props.projectId :>> ', props.projectId);
-        console.log('props.projectStatus :>> ', props.projectStatus);
-        console.log('props.count :>> ', props.count);
-        console.log('props.updateParent :>> ', props.updateParent);
-    })
 
     useEffect(() => {
         setStatusSelected(props.projectStatus.trim());
@@ -41,12 +33,9 @@ const UpdateStatus = (props) => {
 
         ProjectService.getProjectByID(props.projectId).then((projects) => {
             aProject.current = projects;
-            console.log('aProject.current :>> ', aProject.current);
             setProjects(aProject.current);
-            console.log("project is");
-            console.log(aProject.current);
         });
-    }, [props.projectStatus]);
+    }, [props.projectStatus, props.projectId]);
 
 
     function successStatusToast() {
@@ -89,7 +78,7 @@ const UpdateStatus = (props) => {
                     }
                 );
                 successStatusToast()
-                } else if (statusSelected === "Design Complete" && projects.approved === "NONE") {
+            } else if (statusSelected === "Design Complete" && projects.approved === "NONE") {
 
                 ProjectService.updateProjectApproval(props.projectId, "PENDING")
                     .then((updatedProject) => props.updateParent(updatedProject))
@@ -104,7 +93,7 @@ const UpdateStatus = (props) => {
                     isClosable: true,
                 })
 
-                } else if (statusSelected === "Design Complete" && projects.approved === "PENDING") {
+            } else if (statusSelected === "Design Complete" && projects.approved === "PENDING") {
                 toast({
                     title: "Approval Request Sent",
                     description: "Approval required by design checker before marked as complete.",
@@ -113,14 +102,13 @@ const UpdateStatus = (props) => {
                     position: "top-right",
                     isClosable: true,
                 })
-            }
-                else {
-                    ProjectService.updateProjectStatus(props.projectId, statusSelected)
-                        .then((updatedProject) => props.updateParent(updatedProject))
-                        .then(onClose);
+            } else {
+                ProjectService.updateProjectStatus(props.projectId, statusSelected)
+                    .then((updatedProject) => props.updateParent(updatedProject))
+                    .then(onClose);
                 successStatusToast()
-                 }
             }
+        }
     }
 
     function handleClose() {
@@ -150,10 +138,7 @@ const UpdateStatus = (props) => {
 
     return (
         <div key={count++}>
-            <MenuItem
-            icon={<FaEdit />}
-                onClick={onOpen}
-            >
+            <MenuItem icon={<FaEdit />} onClick={onOpen}>
                 Update Status
             </MenuItem>
 

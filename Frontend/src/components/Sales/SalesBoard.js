@@ -1,13 +1,12 @@
-import React from "react";
-import ProjectsSection from "../Project/ProjectsSection";
+import React from 'react'
 import { Container } from "@chakra-ui/layout";
+import ProjectsSection from '../Project/ProjectsSection';
 
-const AdminBoard = () => {
+
+export const SalesBoard = () => {
     return (
         <Container maxW="6xl" marginTop={12} marginBottom={12}>
             <ProjectsSection />
         </Container>
-    );
-};
-
-export default AdminBoard;
+    )
+}

@@ -1,4 +1,5 @@
 import axios from "axios";
+require("regenerator-runtime");
 
 function getUsersWithRoleID(roleId) {
     return axios
@@ -44,12 +45,14 @@ function getTechnicalLeadRoleID() {
 }
 
 const getUsers = async (query, page) => {
-    const searchTerm = query !== '' ? `&query=${query}` : ''
+    const searchTerm = query !== "" ? `&query=${query}` : "";
 
-    return await fetch(`http://localhost:8081/api/users?page=${page}${searchTerm}`)
-        .then(res => (res.ok ? res : Promise.reject(res)))
-        .then(res => res.json())
-}
+    return await fetch(
+        `http://localhost:8081/api/users?page=${page}${searchTerm}`
+    )
+        .then((res) => (res.ok ? res : Promise.reject(res)))
+        .then((res) => res.json());
+};
 
 const UserService = {
     getUsersWithRoleID,

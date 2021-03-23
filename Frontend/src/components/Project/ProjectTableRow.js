@@ -1,42 +1,53 @@
-import { ChevronDownIcon, DeleteIcon, EditIcon, ViewIcon } from "@chakra-ui/icons";
-import {
-    IconButton,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuList, Td, useDisclosure
-} from '@chakra-ui/react';
-import React, { useEffect } from "react";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+import { IconButton, Menu, MenuButton, MenuList } from "@chakra-ui/react";
+import React from "react";
 import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
 import ModalTest from "../Events/ModalTest/ModalTest";
 import UpdateStatus from "../Events/UpdateStatus";
 import ProjectView from "./ProjectView";
+import { useState, useEffect } from "react"
+import authService from "../../services/auth.service";
 
+export const ProjectTableRow = ({
+    count,
+    status_value,
+    _id,
+    updateParent,
+    authenticatedRole,
+    project,
+}) => {
 
+    const [IsSales, setIsSales] = useState(false)
 
-export const ProjectTableRow = ({ count, status_value, _id, updateParent, authenticatedRole, project }) => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    useEffect(() => {
+        const user = authService.getCurrentUser()
+        setIsSales(user.roles.includes('ROLE_SALES') && user.roles.length === 1)
+        console.log("issales", IsSales)
+    })
 
     return (
         <>
-            <Menu placement="bottom-end">
-                <MenuButton
-                    as={IconButton}
-                    size="sm"
-                    colorScheme="red"
-                    icon={<ChevronDownIcon w={6} h={6} color="white" />}
-                />
-                <MenuList boxShadow='2xl'>
-                    <UpdateStatus
-                        count={count}
-                        projectStatus={status_value}
-                        projectId={_id}
-                        updateParent={updateParent}
+            {IsSales ?
+                <Menu>
+                    <ProjectView project={project}></ProjectView>
+                </Menu>
+                :
+                <Menu placement="bottom-end">
+                    <MenuButton
+                        as={IconButton}
+                        size="sm"
+                        colorScheme="red"
+                        icon={<ChevronDownIcon w={6} h={6} color="white" />}
                     />
-                    <ProjectView project={project} />
-                    {authenticatedRole.includes(
-                        "ROLE_TECHNICAL"
-                    ) && (
+                    <MenuList boxShadow="2xl">
+                        <UpdateStatus
+                            count={count}
+                            projectStatus={status_value}
+                            projectId={_id}
+                            updateParent={updateParent}
+                        />
+                        <ProjectView project={project} />
+                        {authenticatedRole.includes("ROLE_TECHNICAL") && (
                             <div>
                                 <AssignEngineers
                                     updateParent={updateParent}
@@ -45,8 +56,9 @@ export const ProjectTableRow = ({ count, status_value, _id, updateParent, authen
                                 <ModalTest />
                             </div>
                         )}
-                </MenuList>
-            </Menu>
+                    </MenuList>
+                </Menu>}
+
         </>
-    )
-}
+    );
+};
