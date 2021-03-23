@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const projects = require("../models/projectModel");
+const request = require("../models/requestModel")
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
@@ -205,10 +206,22 @@ router.put(
                         .populate("engineers.design_checker_id")
                         .execPopulate()
                         .then((populated) => {
-                            return res.json({
-                                success: false,
-                                data: populated,
-                            });
+                        request.deleteMany({ projectId: projectID, role: 'DESIGN_CHECKER' }).then(() => {
+                                var customRequest = new request({
+                                    role: 'DESIGN_ENGINEER',
+                                    projectId: projectID,
+                                    userId: engineerID,
+                                    response: null,
+                                    reason: null
+                                })
+
+                                customRequest.save().then(x => {
+                                    return res.json({
+                                        success: false,
+                                        data: populated,
+                                    });
+                                })
+                            })
                         })
                 );
             }
@@ -234,10 +247,22 @@ router.put(
                         .populate("engineers.design_checker_id")
                         .execPopulate()
                         .then((populated) => {
-                            return res.json({
-                                success: false,
-                                data: populated,
-                            });
+                            request.deleteMany({ projectId: projectID, role: 'DESIGN_CHECKER' }).then(() => {
+                                var customRequest = new request({
+                                    role: 'DESIGN_CHECKER',
+                                    projectId: projectID,
+                                    userId: engineerID,
+                                    response: null,
+                                    reason: null
+                                })
+
+                                customRequest.save().then(x => {
+                                    return res.json({
+                                        success: false,
+                                        data: populated,
+                                    });
+                                })
+                            })
                         })
                 );
             }
