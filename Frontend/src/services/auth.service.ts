@@ -5,7 +5,13 @@ import axios from "axios";
 const API_URL = "http://localhost:8081/api/auth/";
 
 //TODO Client Register Function, Not Yet Implemented on Backend
-const register = (firstname: string, lastname: string, email: string, password: string, roles: string[]) => {
+const register = (
+    firstname: string,
+    lastname: string,
+    email: string,
+    password: string,
+    roles: string[]
+) => {
     return axios.post(API_URL + "signup", {
         firstname,
         lastname,
@@ -16,32 +22,32 @@ const register = (firstname: string, lastname: string, email: string, password: 
 };
 
 interface User {
-    firstname: string,
-    lastname: string,
-    email: string,
-    password: string,
-    roles: string[]
+    firstname: string;
+    lastname: string;
+    email: string;
+    password: string;
+    roles: string[];
 }
 
 const registerUser = (user: User) => {
-    console.log("user", {...user})
+    console.log("user", { ...user });
     return axios.post(`${API_URL}signup`, {
-        ...user
-    })
-}
-
-//NOTE We want users to Login with their Emails and PW
-//TODO Tidy up naming convention
-const login = (email: string, password: string) => {
-    return axios.post(API_URL + "signin", {
-        email,
-        password,
-    }).then((response) => {
-        if (response.data.accessToken) {
-            localStorage.setItem("user", JSON.stringify(response.data));
-        }
-        return response.data;
+        ...user,
     });
+};
+
+const login = (email: string, password: string) => {
+    return axios
+        .post(API_URL + "signin", {
+            email,
+            password,
+        })
+        .then((response) => {
+            if (response.data.accessToken) {
+                localStorage.setItem("user", JSON.stringify(response.data));
+            }
+            return response.data;
+        });
 };
 
 const logout = () => {
@@ -49,53 +55,44 @@ const logout = () => {
 };
 
 const getCurrentUser = () => {
-    return JSON.parse(<string>localStorage.getItem("user"));
+    return JSON.parse(localStorage.getItem("user") as string);
 };
 
 const isUserAuthenticated = () => {
-    const user = JSON.parse(<string>localStorage.getItem("user"));
+    const user = JSON.parse(localStorage.getItem("user") as string);
 
     return !!user;
-}
+};
 
 const isAdmin = () => {
     const user = getCurrentUser();
     try {
-        return user.roles.includes("ROLE_ADMIN")
+        return user.roles.includes("ROLE_ADMIN");
     } catch (err) {
-        return false
+        return false;
     }
-}
+};
 
-const isTechnical = () => {
-    const user = getCurrentUser();
-    try {
-        return user.roles.includes("ROLE_TECHNICAL")
-    } catch (err) {
-        return false
-    }
-}
-const isDesigner = () => {
-    const user = getCurrentUser();
-    try {
-        return user.roles.includes("ROLE_DESIGNER")
-    } catch (err) {
-        return false
-    }
-}
+const deleteUser = (email: string) => {
+    return axios.delete(`${API_URL}delete/${email}`);
+};
 
-const deleteUser = (email : string) => {
-    return axios.delete(`${API_URL}delete/${email}`)
-}
+const updateUser = (
+    oldEmail: string,
+    firstname: string,
+    lastname: string,
+    email: string,
+    roles: any
+) => {
+    return axios.patch(`${API_URL}patch/${oldEmail}`, {
+        firstname,
+        lastname,
+        email,
+        roles,
+    });
+};
 
-const updateUser = (oldEmail: string, firstname: string, lastname: string, email: string, roles: any) => {
-return axios.patch(`${API_URL}patch/${oldEmail}`, {
-        firstname, lastname, email, roles
-    })
-}
-
-//TODO Implement Register in week 6
-export default {
+const AuthService = {
     register,
     registerUser,
     login,
@@ -104,5 +101,7 @@ export default {
     isAdmin,
     isUserAuthenticated,
     deleteUser,
-    updateUser
+    updateUser,
 };
+
+export default AuthService;
