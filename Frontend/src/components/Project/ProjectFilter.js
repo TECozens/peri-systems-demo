@@ -8,13 +8,16 @@ import {
     InputGroup,
     InputLeftElement,
     Select,
+    Slide,
+    SlideFade,
     useDisclosure,
 } from "@chakra-ui/react";
 import { DeleteIcon, Search2Icon } from "@chakra-ui/icons";
-import { Box, Stack } from "@chakra-ui/layout";
+import { Box, Heading, Stack, VStack } from "@chakra-ui/layout";
 import DatePicker from "../Util/DatePicker/DatePicker";
 import ProjectFilteringService from "../../services/project.filtering.service";
 import AuthService from "../../services/auth.service";
+import userService from "../../services/user.service";
 
 const ProjectFilter = (props) => {
     let filters = useRef({});
@@ -22,31 +25,36 @@ const ProjectFilter = (props) => {
     let firstRender = useRef(true);
     let count = props.count;
     const { isOpen, onToggle } = useDisclosure();
+    const { isOpen: isRequestsOpen, onToggle: onRequestsToggle } = useDisclosure();
     const [userId, setUserId] = useState(null);
+    const [approvals, setApprovals] = useState(['a'])
+    const [requests, setRequests] = useState(['b'])
 
-    useEffect(() => {
+    useEffect(async () => {
         const user = AuthService.getCurrentUser();
+        const data = await userService.getUserRequests() 
+        console.log(`data`, data)
         setUserId(user.id);
     }, []);
 
     const getUniqueStatusFromProjects = (projectList) =>
         projectList
             ? setStatusOptions(
-                  projectList
-                      .map((project) => project.status.value)
-                      .filter(
-                          (value, index, self) => self.indexOf(value) === index
-                      )
-              )
+                projectList
+                    .map((project) => project.status.value)
+                    .filter(
+                        (value, index, self) => self.indexOf(value) === index
+                    )
+            )
             : false;
 
     const createSelectionOptions = (listOfOptions) =>
         listOfOptions
             ? listOfOptions.map((aStatus) => (
-                  <option key={count++} value={aStatus}>
-                      {aStatus}
-                  </option>
-              ))
+                <option key={count++} value={aStatus}>
+                    {aStatus}
+                </option>
+            ))
             : false;
 
     function handleKeyPress(event) {
@@ -119,7 +127,7 @@ const ProjectFilter = (props) => {
         !Object.values(filters.current)
             .map((value) => value !== "")
             .every((value) => value === false) ||
-        Object.values(filters.current) === []
+            Object.values(filters.current) === []
             ? true
             : false;
 
@@ -129,7 +137,7 @@ const ProjectFilter = (props) => {
                 <Button w="120px" onClick={onToggle} colorScheme="yellow">
                     {isOpen ? "Hide Filters" : "Show Filters"}
                 </Button>
-                <Fade in={filtersActive()} offsetX="-20px">
+                <Fade unmountOnExit in={filtersActive()} offsetX="-20px">
                     <Button
                         leftIcon={<DeleteIcon />}
                         colorScheme="red"
@@ -138,7 +146,38 @@ const ProjectFilter = (props) => {
                         Clear Filters
                     </Button>
                 </Fade>
+                <Fade unmountOnExit in={approvals.length > 0 || requests.length > 0} offsetX="-20px">
+                    <Button
+                        colorScheme="red"
+                        variant='outline'
+                        onClick={onRequestsToggle}
+                    >
+                        {`Requests & Approvals`}
+                    </Button>
+                </Fade>
             </HStack>
+            <Collapse in={isRequestsOpen} animateOpacity>
+                <VStack align='start' mb={4} background="white" p={4} borderRadius={8}>
+                    {approvals.length > 0 ?
+                        <>
+                            <Heading size='md'>
+                                Approvals
+                            </Heading>
+                            {approvals.map(approval => <Box>{approval}</Box>)}
+                        </> :
+                        <></>
+                    }
+                    {requests.length > 0 ?
+                        <>
+                            <Heading size='md'>
+                                Requests
+                            </Heading>
+                            {requests.map(request => <Box>{request}</Box>)}
+                        </> :
+                        <></>
+                    }
+                </VStack>
+            </Collapse>
             <Collapse in={isOpen} animateOpacity>
                 <Box mb={4} background="white" p={4} borderRadius={8}>
                     <Stack>
@@ -223,6 +262,7 @@ const ProjectFilter = (props) => {
                     </Stack>
                 </Box>
             </Collapse>
+
         </>
     );
 };
