@@ -1,18 +1,11 @@
 import { Flex, Heading, HStack, Text, VStack } from "@chakra-ui/layout";
 import { IconButton } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
-import { useDisclosure } from "@chakra-ui/hooks";
 
 const PageSection = (props) => {
     const nextPage = () => props.setPage(props.page + 1);
     const prevPage = () => props.setPage(props.page - 1);
-
-    const { isOpen, onOpen } = useDisclosure();
-
-    useEffect(() => {
-        onOpen();
-    });
 
     if (props.variant === "simple") {
         if (props.isLoading) {
