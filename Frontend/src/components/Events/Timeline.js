@@ -19,16 +19,7 @@ const Timeline = (props) => {
         "Design Complete",
         "Project Complete",
     ];
-    const allProjectStagesForDisplay = [
-        "Design Pending",
-        "Preliminary Design Ongoing",
-        "Preliminary Design Complete",
-        "Awaiting Customer Approval",
-        "Detailed Design Pending",
-        "Detailed Design Ongoing",
-        "Design Complete",
-        "Project Complete",
-    ];
+
     useEffect(() => {
         if (props.project !== undefined) {
             aProject.current = props.project;
@@ -45,7 +36,6 @@ const Timeline = (props) => {
     let statusTextSize = "sm";
 
     let statusArray = [];
-    let previousStatusArray = [];
 
     function retrieveProjectStatusArray() {
         let i;
@@ -55,19 +45,6 @@ const Timeline = (props) => {
                 tempStatusArray.push(projects.status_history[i].value);
             }
             statusArray = tempStatusArray;
-        }
-    }
-
-    function getAllPreviousStatuses() {
-        let i;
-        let tempStatusArray = [];
-        if (typeof projects !== "undefined") {
-            let lastStatusIndex =
-                allProjectStages.lastIndexOf(projects.status.value) - 1;
-            for (i = 0; i <= lastStatusIndex; i++) {
-                tempStatusArray.push(allProjectStages[i]);
-            }
-            previousStatusArray = tempStatusArray;
         }
     }
 
@@ -108,7 +85,6 @@ const Timeline = (props) => {
         let dateText;
         let timeText;
         let statusText;
-        let statusText1;
         let statusText2;
         let statusText3;
         if (typeOfStatus === "complete") {
@@ -127,19 +103,19 @@ const Timeline = (props) => {
             statusText = "Project Cancelled";
         }
         if (index === 1) {
-            statusText = "Preliminary⠀⠀⠀⠀⠀"
-            statusText2 = "Design"
-            statusText3 = "Ongoing"
+            statusText = "Preliminary⠀⠀⠀⠀⠀";
+            statusText2 = "Design";
+            statusText3 = "Ongoing";
         }
         if (index === 2) {
-            statusText = "Preliminary⠀⠀⠀⠀⠀"
-            statusText2 = "Design"
-            statusText3 = "Complete"
+            statusText = "Preliminary⠀⠀⠀⠀⠀";
+            statusText2 = "Design";
+            statusText3 = "Complete";
         }
         if (index === 3) {
-            statusText = "Awaiting⠀⠀⠀⠀⠀⠀⠀⠀"
-            statusText2 = "Customer"
-            statusText3 = "Approval"
+            statusText = "Awaiting⠀⠀⠀⠀⠀⠀⠀⠀";
+            statusText2 = "Customer";
+            statusText3 = "Approval";
         }
         return (
             <div className={line}>
@@ -174,7 +150,6 @@ const Timeline = (props) => {
         }
         if (typeof projects !== "undefined") {
             retrieveProjectStatusArray();
-            getAllPreviousStatuses();
             if (projects.status.value !== "Project Cancelled") {
                 console.log(statusArray[statusArray.length - 1]);
                 lastIndex = allProjectStages.lastIndexOf(projects.status.value);
