@@ -33,10 +33,6 @@ app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //Mongoose
-/**atlas
- * username periGroup
- * password password2021
- * **/
 const MONGODB_URI =
     "mongodb+srv://periGroup:password2021@pericluster.vn1i8.mongodb.net/periGroup?retryWrites=true&w=majority";
 
