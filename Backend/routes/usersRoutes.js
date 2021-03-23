@@ -2,6 +2,7 @@ const express = require("express");
 const UserRouter = express.Router();
 const user = require("../models/user.model");
 const role = require("../models/role.model");
+const request = require("../models/requestModel")
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const { pagingOptions, getMaxPages } = require("../utils/pagingOptions.js")
@@ -34,6 +35,20 @@ UserRouter.get("/api/users/getUserByID/:userID", jsonParser, (req, res) => {
         }
     });
 });
+
+UserRouter.get("/api/users/getRequests/:userId", jsonParser, (req, res) => {
+    let userId = new mongoose.Types.ObjectId(req.params.userID);
+    user.findById(userId, (err, data) => {
+        if (err) {
+            return res.json({ success: false, error: err });
+        } else {
+            request.find((err, requests) => {
+                console.log(err, data)
+                return res.json({ success: true, data: requests });
+            })
+        }
+    });
+})
 
 UserRouter.get(
     "/api/users/getUsers",
