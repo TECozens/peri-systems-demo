@@ -55,7 +55,7 @@ const PeriNavbar = () => {
                             <HStack>
                                 {showFullMenu ? (
                                     <>
-                                        <Link to="Dashboard">
+                                        <Link to="/Dashboard">
                                             <Button
                                                 colorScheme="red"
                                                 variant="ghost"
@@ -68,7 +68,7 @@ const PeriNavbar = () => {
                                             </Button>
                                         </Link>
                                         {showAdminBoard ? (
-                                            <Link to="Register">
+                                            <Link to="/Register">
                                                 <Button
                                                     colorScheme="red"
                                                     variant="ghost"
@@ -127,36 +127,6 @@ const PeriNavbar = () => {
                                 ) : (
                                     <></>
                                 )}
-
-                                {/* <Menu isLazy>
-    <MenuButton
-                                        rightIcon={<ChevronDownIcon />}
-                                        as={Button}
-                                        colorScheme='yellow'
-                                    >
-                                        Menu
-                                </MenuButton>
-                                    <MenuList>
-                                        <MenuGroup title="Access">
-                                            <Link to="/Dashboard">
-                                                <MenuItem>Dashboard</MenuItem>
-                                            </Link>
-                                            {showAdminBoard && (
-                                                <Link to="/Register">
-                                                    <MenuItem>Register</MenuItem>
-                                                </Link>
-                                            )}
-                                        </MenuGroup>
-                                    </MenuList>
-                                </Menu> */}
-
-                                {/* <Button
-                                    bg="brand.accents"
-                                    color="brand.primary"
-                                    onClick={logOut}
-                                >
-                                    <Link to="/Login">LogOut</Link>
-                                </Button> */}
                             </HStack>
                         ) : (
                             <Button
