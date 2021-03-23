@@ -27,7 +27,7 @@ const Dashboard = () => {
             } else if (user.roles.includes('ROLE_SALES')) {
                 setShowSalesBoard(true)
             } else {
-                setError('You don\' have any roles, please contact an administrator')
+                setError('You don\'t have any roles, please contact an administrator')
             }
         }
     }, []);
@@ -40,6 +40,7 @@ const Dashboard = () => {
                     {showTechnicalBoard && <TechnicalBoard />}
                     {showAdminBoard && <AdminBoard />}
                     {showSalesBoard && <SalesBoard />}
+                    {error ? error : ''}
                 </div>
             ) : (
                 <div>Not Logged in</div>
