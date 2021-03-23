@@ -2,7 +2,7 @@ import React from "react";
 import { cleanup, fireEvent, render } from "@testing-library/react";
 import html2canvas from "html2canvas";
 import { CreatePDFButton } from "../src/components/Events/Report/CreatePDFButton";
-import jsPDF from "jspdf";
+import { jsPDF } from "jspdf";
 
 require("regenerator-runtime");
 
@@ -14,14 +14,14 @@ html2canvas.mockResolvedValue({
     width: 100,
     toDataURL: jest.fn(),
 });
-
 jest.mock("jsPDF");
-jsPDF.mockReturnValue({
-    save: jest.fn(() => true),
-    addImage: jest.fn(() => true),
-});
+const mockJsPDF = {
+    save: jest.fn(),
+    addImage: jest.fn(),
+};
+jsPDF.mockImplementation(() => mockJsPDF);
 
-test("When Export to PDF button is clicked the correct component is retrieved", () => {
+test("CreatePDFButton retrieves correct component when button is clicked", () => {
     const idOfComponentToPrint = "hello_div";
     const contentToPrintContainer = render(
         <div id={idOfComponentToPrint}>Hello</div>
