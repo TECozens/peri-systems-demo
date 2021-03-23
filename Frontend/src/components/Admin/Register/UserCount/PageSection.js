@@ -1,32 +1,15 @@
-import { Flex, Heading, HStack, VStack, Text } from "@chakra-ui/layout";
+import { Flex, Heading, HStack, Text, VStack } from "@chakra-ui/layout";
 import { IconButton } from "@chakra-ui/react";
-import React, { useEffect, useMemo } from "react";
+import React from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
-import { useDisclosure } from "@chakra-ui/hooks";
 
 const PageSection = (props) => {
     const nextPage = () => props.setPage(props.page + 1);
     const prevPage = () => props.setPage(props.page - 1);
 
-    const { isOpen, onOpen } = useDisclosure();
-
-    useEffect(() => {
-        onOpen();
-    });
-
-    const isOnLastPage = () => props.page >= props.maxPage;
-
-    const atLastPage = useMemo(() => isOnLastPage(), [props.page]);
-
     if (props.variant === "simple") {
-
-
-
         if (props.isLoading) {
-            return (
-                <>
-                </>
-            )
+            return <></>;
         } else
             return (
                 <HStack
@@ -46,14 +29,16 @@ const PageSection = (props) => {
                     />
                     <Text color="grey" fontWeight="bold">
                         Page
-                    <Text color="black">
+                        <Text color="black">
                             {props.page} / {props.maxPage}
                         </Text>
                     </Text>
                     <IconButton
                         isLoading={props.isLoading}
                         colorScheme="red"
-                        disabled={props.page >= props.maxPage || props.isLoading}
+                        disabled={
+                            props.page >= props.maxPage || props.isLoading
+                        }
                         icon={<ChevronRightIcon />}
                         onClick={() => nextPage()}
                     />

@@ -11,11 +11,14 @@ import {
     ModalOverlay,
     Radio,
     RadioGroup,
+    createStandaloneToast,
 } from "@chakra-ui/react";
+
 import { useDisclosure } from "@chakra-ui/hooks";
 import { VStack } from "@chakra-ui/layout";
 import ProjectService from "../../services/project.service";
 import { FaEdit } from "react-icons/fa";
+import AuthService from "../../services/auth.service";
 
 const UpdateStatus = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -26,40 +29,85 @@ const UpdateStatus = (props) => {
 
     useEffect(() => {
         setStatusSelected(props.projectStatus.trim());
+        console.log("USER IS "+ AuthService.getCurrentUser());
+
         ProjectService.getProjectByID(props.projectId).then((projects) => {
             aProject.current = projects;
             setProjects(aProject.current);
         });
     }, [props.projectStatus, props.projectId]);
 
-    function handleSubmit() {
-        if (typeof projects !== "undefined") {
-            ProjectService.updateProjectStatus(
-                props.projectId,
-                statusSelected,
-                projects.approved
-            )
-                .then((updatedProject) => props.updateParent(updatedProject))
-                .then(onClose);
 
-            ProjectService.sendMail(
-                projects.customer.name,
-                projects.customer.email,
-                props.projectId
-            ).then(
-                (response) => {
-                    console.log("mail sent");
-                },
-                (error) => {
-                    const resMessage =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
-                    console.log("error sending mail");
-                }
-            );
+    function successStatusToast() {
+        const toast = createStandaloneToast()
+        toast({
+            title: "Status Successfully Updated",
+            status: "success",
+            duration: 5000,
+            position: "top-right",
+            isClosable: true,
+        })
+    }
+
+
+    function handleSubmit() {
+        const toast = createStandaloneToast()
+        if (typeof projects !== "undefined") {
+            console.log("APPROVAL IS" + projects.approved);
+            if (statusSelected === "Design Complete" && projects.approved === "APPROVED") {
+                ProjectService.updateProjectStatus(props.projectId, statusSelected)
+                    .then((updatedProject) => props.updateParent(updatedProject))
+                    .then(onClose);
+
+                ProjectService.sendMail(
+                    projects.customer.name,
+                    projects.customer.email,
+                    props.projectId
+                ).then(
+                    (response) => {
+                        console.log("mail sent");
+                    },
+                    (error) => {
+                        const resMessage =
+                            (error.response &&
+                                error.response.data &&
+                                error.response.data.message) ||
+                            error.message ||
+                            error.toString();
+                        console.log("error sending mail");
+                    }
+                );
+                successStatusToast()
+            } else if (statusSelected === "Design Complete" && projects.approved === "NONE") {
+
+                ProjectService.updateProjectApproval(props.projectId, "PENDING")
+                    .then((updatedProject) => props.updateParent(updatedProject))
+                    .then(onClose);
+
+                toast({
+                    title: "Approval Request Sent",
+                    description: "Approval required by design checker before marked as complete.",
+                    status: "warning",
+                    duration: 7000,
+                    position: "top-right",
+                    isClosable: true,
+                })
+
+            } else if (statusSelected === "Design Complete" && projects.approved === "PENDING") {
+                toast({
+                    title: "Approval Request Sent",
+                    description: "Approval required by design checker before marked as complete.",
+                    status: "warning",
+                    duration: 7000,
+                    position: "top-right",
+                    isClosable: true,
+                })
+            } else {
+                ProjectService.updateProjectStatus(props.projectId, statusSelected)
+                    .then((updatedProject) => props.updateParent(updatedProject))
+                    .then(onClose);
+                successStatusToast()
+            }
         }
     }
 

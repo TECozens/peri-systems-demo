@@ -58,7 +58,10 @@ const EngineerSelection = (props) => {
     const createDesignEngineerSelectionOptions = () => {
         if (allEngineers !== undefined) {
             return allEngineers.map((aDesigner) => (
-                <option key={aDesigner._id} value={aDesigner._id}>
+                <option
+                    key={aDesigner._id + Math.random()}
+                    value={aDesigner._id}
+                >
                     {aDesigner.firstname + " " + aDesigner.lastname}
                 </option>
             ));

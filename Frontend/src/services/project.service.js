@@ -52,15 +52,13 @@ function getProjectByID(projectId) {
         });
 }
 
-function updateProjectStatus(projectId, status, approved) {
+function updateProjectStatus(projectId, status) {
     return axios
         .put(
             "http://localhost:8081/api/projects/updateProjectStatus/" +
                 projectId +
                 "/" +
-                status +
-                "/" +
-                approved
+                status
         )
         .then(function (response) {
             return response.data.data;
@@ -86,6 +84,22 @@ function updateProjectDesignEngineer(projectId, engineerId) {
         });
 }
 
+function updateProjectApproval(projectId, approvedStatus) {
+    return axios
+        .put(
+            "http://localhost:8081/api/projects/updateProjectApproval/" +
+            projectId +
+            "/" +
+            approvedStatus
+        )
+        .then(function (response) {
+            return response.data.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
 function updateProjectDesignChecker(projectId, engineerId) {
     return axios
         .put(
@@ -101,11 +115,12 @@ function updateProjectDesignChecker(projectId, engineerId) {
             console.log(error);
         });
 }
-const sendMail = (name, email, projectId) => {
+
+const sendMail = (projects, email, name) => {
     return axios.post("http://localhost:8081/api/sendmail", {
-        name,
+        projects,
         email,
-        projectId,
+        name,
     }).then((response) => {
         if(response.data.accessToken) {
             localStorage.setItem("user", JSON.stringify(response.data));
@@ -114,6 +129,19 @@ const sendMail = (name, email, projectId) => {
     });
 };
 
+function getPendingRequestsWithDesignCheckerID(engineerId) {
+    return axios
+        .get(
+            "http://localhost:8081/api/projects/getProjectsByDesignerEngineerWhereApprovedIsPending/" +
+            engineerId
+        )
+        .then(function (response) {
+            return response.data.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
 const ProjectService = {
     getDesignerProjects,
     getTechnicalProjects,
@@ -122,6 +150,8 @@ const ProjectService = {
     getProjectByID,
     updateProjectDesignEngineer,
     updateProjectDesignChecker,
+    updateProjectApproval,
+    getPendingRequestsWithDesignCheckerID,
     sendMail,
 };
 

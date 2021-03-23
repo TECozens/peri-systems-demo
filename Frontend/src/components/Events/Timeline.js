@@ -36,7 +36,6 @@ const Timeline = (props) => {
     let statusTextSize = "sm";
 
     let statusArray = [];
-    let previousStatusArray = [];
 
     function retrieveProjectStatusArray() {
         let i;
@@ -46,19 +45,6 @@ const Timeline = (props) => {
                 tempStatusArray.push(projects.status_history[i].value);
             }
             statusArray = tempStatusArray;
-        }
-    }
-
-    function getAllPreviousStatuses() {
-        let i;
-        let tempStatusArray = [];
-        if (typeof projects !== "undefined") {
-            let lastStatusIndex =
-                allProjectStages.lastIndexOf(projects.status.value) - 1;
-            for (i = 0; i <= lastStatusIndex; i++) {
-                tempStatusArray.push(allProjectStages[i]);
-            }
-            previousStatusArray = tempStatusArray;
         }
     }
 
@@ -99,6 +85,8 @@ const Timeline = (props) => {
         let dateText;
         let timeText;
         let statusText;
+        let statusText2;
+        let statusText3;
         if (typeOfStatus === "complete") {
             dateText = "Date: " + dateToDisplay;
             timeText = "Time: " + hour + ":" + minute + " " + meridiem;
@@ -114,6 +102,21 @@ const Timeline = (props) => {
             timeText = "Time: " + hour + ":" + minute + " " + meridiem;
             statusText = "Project Cancelled";
         }
+        if (index === 1) {
+            statusText = "Preliminary⠀⠀⠀⠀⠀";
+            statusText2 = "Design";
+            statusText3 = "Ongoing";
+        }
+        if (index === 2) {
+            statusText = "Preliminary⠀⠀⠀⠀⠀";
+            statusText2 = "Design";
+            statusText3 = "Complete";
+        }
+        if (index === 3) {
+            statusText = "Awaiting⠀⠀⠀⠀⠀⠀⠀⠀";
+            statusText2 = "Customer";
+            statusText3 = "Approval";
+        }
         return (
             <div className={line}>
                 <img
@@ -124,6 +127,8 @@ const Timeline = (props) => {
                 />
                 <b>
                     <Text fontSize={statusTextSize}>{statusText}</Text>
+                    <Text fontSize={statusTextSize}>{statusText2}</Text>
+                    <Text fontSize={statusTextSize}>{statusText3}</Text>
                 </b>
                 <Text fontSize={timeTextSize}>{dateText}</Text>
                 <Text fontSize={timeTextSize}>{timeText}</Text>
@@ -145,7 +150,6 @@ const Timeline = (props) => {
         }
         if (typeof projects !== "undefined") {
             retrieveProjectStatusArray();
-            getAllPreviousStatuses();
             if (projects.status.value !== "Project Cancelled") {
                 console.log(statusArray[statusArray.length - 1]);
                 lastIndex = allProjectStages.lastIndexOf(projects.status.value);
