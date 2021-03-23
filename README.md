@@ -5,6 +5,10 @@ PERI systems project management tool demo.
 ## Setup
 Clone the project
 
+You must:
+- install node
+- install npm 
+
 To use the application, you will need to run both servers.
 
 ### Database
