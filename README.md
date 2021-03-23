@@ -36,14 +36,17 @@ This application was built using React version 17.0.1.
 
 #### Database
 For the database we used mongoose to connect. Mongoose is an Object Data Modeling (ODM) library for MongoDB and Node.js. It manages relationships between data, provides schema validation, and is used to translate between objects in code and the representation of those objects in MongoDB.
-[see MongoDB documentation](https://docs.mongodb.com/)
-[see Mongoose documentation](https://www.npmjs.com/package/mongoose/v/5.11.15)
+
+[See MongoDB documentation](https://docs.mongodb.com/)
+
+[See Mongoose documentation](https://www.npmjs.com/package/mongoose/v/5.11.15)
 
 
 
 #### Node
 Node.js is an open-source, cross-platform, back-end JavaScript runtime environment that runs on the V8 engine and executes JavaScript code outside a web browser. 
-[see documentation](https://nodejs.org/en/docs/)
+
+[See documentation](https://nodejs.org/en/docs/)
 
 #### Axios
 Axios is a:
