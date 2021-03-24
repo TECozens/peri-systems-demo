@@ -29,7 +29,6 @@ const UpdateStatus = (props) => {
 
     useEffect(() => {
         setStatusSelected(props.projectStatus.trim());
-        console.log("USER IS "+ AuthService.getCurrentUser());
 
         ProjectService.getProjectByID(props.projectId).then((projects) => {
             aProject.current = projects;

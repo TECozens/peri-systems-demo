@@ -12,7 +12,10 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 
 var corsOptions = {
-    origin: "http://localhost:3000",
+    origin: [
+        "http://localhost:3000",
+        "http://localhost:5000"
+    ],
 };
 
 // routes

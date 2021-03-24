@@ -74,12 +74,9 @@ const Register = () => {
             newUserValues.roles
         );
         if (res.status === 200) {
-            console.log("newUserValues :>> ", newUserValues);
-            console.log("users :>> ", users);
             setUsers(
                 users.map((user) => {
                     if (user.email === email) {
-                        console.log("user :>> ", user);
                         user.firstname = newUserValues.firstname;
                         user.lastname = newUserValues.lastname;
                         user.email = newUserValues.email;
@@ -95,15 +92,10 @@ const Register = () => {
     };
 
     const defaultValues = () => {
-        console.log(
-            "values.roles.map(role => role.name) :>> ",
-            values.roles.map((role) => role)
-        );
         return values.roles.map((role) => role);
     };
 
     const handleCheckboxChange = (x) => {
-        console.log("x :>> ", x);
         setValues({ ...values, roles: x });
     };
 

@@ -73,7 +73,6 @@ const ProjectFilter = (props) => {
 
     const approveRequest = async (requestId) => {
         const res = await userService.approveRequest(requestId)
-        console.log(`res`, res)
         const { data: { requests } } = await userService.getUserRequests()
         requests.length > 0
             ? setRequests(requests)
@@ -83,7 +82,6 @@ const ProjectFilter = (props) => {
 
     const declineRequest = async (requestId) => {
         const res = await userService.declineRequest(requestId)
-        console.log(`res`, res)
         const { data: { requests } } = await userService.getUserRequests()
         requests.length > 0
             ? setRequests(requests)

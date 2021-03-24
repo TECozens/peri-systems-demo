@@ -30,7 +30,6 @@ interface User {
 }
 
 const registerUser = (user: User) => {
-    console.log("user", { ...user });
     return axios.post(`${API_URL}signup`, {
         ...user,
     });

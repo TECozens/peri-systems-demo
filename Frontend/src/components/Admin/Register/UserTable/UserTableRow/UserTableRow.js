@@ -59,15 +59,11 @@ const UserTableRow = (props) => {
             .join(", ");
 
     const defaultValues = () => {
-        console.log(
-            "values.roles.map(role => role.name) :>> ",
-            values.roles.map((role) => role)
-        );
+
         return values.roles.map((role) => role);
     };
 
     const handleCheckboxChange = (x) => {
-        console.log("x :>> ", x);
         setValues({ ...values, roles: x });
     };
 

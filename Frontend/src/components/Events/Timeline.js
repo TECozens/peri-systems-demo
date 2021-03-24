@@ -151,13 +151,11 @@ const Timeline = (props) => {
         if (typeof projects !== "undefined") {
             retrieveProjectStatusArray();
             if (projects.status.value !== "Project Cancelled") {
-                console.log(statusArray[statusArray.length - 1]);
                 lastIndex = allProjectStages.lastIndexOf(projects.status.value);
                 currentStatusIndex = statusArray.lastIndexOf(
                     allProjectStages[index]
                 );
             } else if (projects.status.value === "Project Cancelled") {
-                console.log(statusArray[statusArray.length - 1]);
                 lastIndex = allProjectStages.lastIndexOf(
                     statusArray[statusArray.length - 2]
                 );
