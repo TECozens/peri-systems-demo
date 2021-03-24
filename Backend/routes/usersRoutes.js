@@ -82,72 +82,70 @@ UserRouter.get("/api/users/getTechnicalLeadRoleID", jsonParser, (req, res) => {
 });
 
 UserRouter.get("/api/users", jsonParser, async (req, res) => {
-    authJwt.verifyToken(req, res, () => {
-        let pageSize = 6;
-        let page = req.query.page;
-        let query = req.query.query;
-        let filter = null;
-        if (query) {
-            let firstName, lastName;
-            if (query.split(" ").length > 1) {
-                [firstName, lastName] = query.split(" ");
-                let firstname = new RegExp(firstName, "i");
-                let lastname = new RegExp(lastName, "i");
-                let email = new RegExp(query, "i");
-                filter = {
-                    $or: [
-                        {
-                            $and: [
-                                { firstname: { $regex: firstname } },
-                                { lastname: { $regex: lastname } },
-                            ],
-                        },
-                        { email: { $regex: email } },
-                    ],
-                };
+    let pageSize = 6;
+    let page = req.query.page;
+    let query = req.query.query;
+    let filter = null;
+    if (query) {
+        let firstName, lastName;
+        if (query.split(" ").length > 1) {
+            [firstName, lastName] = query.split(" ");
+            let firstname = new RegExp(firstName, "i");
+            let lastname = new RegExp(lastName, "i");
+            let email = new RegExp(query, "i");
+            filter = {
+                $or: [
+                    {
+                        $and: [
+                            { firstname: { $regex: firstname } },
+                            { lastname: { $regex: lastname } },
+                        ],
+                    },
+                    { email: { $regex: email } },
+                ],
+            };
+        } else {
+            console.log("hi?");
+            firstName = query;
+            lastName = query;
+            let firstname = new RegExp(firstName, "i");
+            let lastname = new RegExp(lastName, "i");
+            let email = new RegExp(query, "i");
+            filter = {
+                $or: [
+                    {
+                        $or: [
+                            { firstname: { $regex: firstname } },
+                            { lastname: { $regex: lastname } },
+                        ],
+                    },
+                    { email: { $regex: email } },
+                ],
+            };
+        }
+    }
+    user.find(
+        filter,
+        ["firstname", "lastname", "email", "roles"],
+        pagingOptions(page, pageSize),
+        (err, data) => {
+            if (err) {
+                return res.json({
+                    success: false,
+                    error: err,
+                });
             } else {
-                console.log("hi?");
-                firstName = query;
-                lastName = query;
-                let firstname = new RegExp(firstName, "i");
-                let lastname = new RegExp(lastName, "i");
-                let email = new RegExp(query, "i");
-                filter = {
-                    $or: [
-                        {
-                            $or: [
-                                { firstname: { $regex: firstname } },
-                                { lastname: { $regex: lastname } },
-                            ],
-                        },
-                        { email: { $regex: email } },
-                    ],
-                };
+                user.countDocuments(filter, (err, count) =>
+                    res.json({
+                        success: err !== null,
+                        error: err,
+                        maxPages: Math.ceil(count / pageSize),
+                        data: data,
+                    })
+                );
             }
         }
-        user.find(
-            filter,
-            ["firstname", "lastname", "email", "roles"],
-            pagingOptions(page, pageSize),
-            (err, data) => {
-                if (err) {
-                    return res.json({
-                        success: false,
-                        error: err,
-                    });
-                } else {
-                    user.countDocuments(filter, (err, count) =>
-                        res.json({
-                            success: err !== null,
-                            error: err,
-                            maxPages: Math.ceil(count / pageSize),
-                            data: data,
-                        })
-                    );
-                }
-            }
-        ).populate("roles");
-    });
+    ).populate("roles");
 });
 
 module.exports = UserRouter;
