@@ -35,20 +35,25 @@ This application was built using React version 17.0.1.
 ### Backend
 
 #### Database
-For the database we used mongoose to connect. Mongoose is an Object Data Modeling (ODM) library for MongoDB and Node.js. It manages relationships between data, provides schema validation, and is used to translate between objects in code and the representation of those objects in MongoDB.
+
+For our database we used MongoDB and then used Mongoose to ease the translation of MongoDB documents and objects in our application. Mongoose is an Object Data Modeling (ODM) library for MongoDB and Node.js. It manages relationships between data, provides schema validation, and is used to translate between objects in code and the representation of those objects in MongoDB.
 
 [See MongoDB documentation](https://docs.mongodb.com/)
 
 [See Mongoose documentation](https://www.npmjs.com/package/mongoose/v/5.11.15)
 
-
+The Mongoose version used during development was 5.11.15.
 
 #### Node
+
 Node.js is an open-source, cross-platform, back-end JavaScript runtime environment that runs on the V8 engine and executes JavaScript code outside a web browser. 
 
 [See documentation](https://nodejs.org/en/docs/)
 
 #### Axios
+
+The axios version used during development was 0.21.1
+
 Axios is a:
 > promise based HTTP client for the browser and node.js
 >
@@ -61,6 +66,8 @@ code is much easier to write, appears much cleaner and is more readable when usi
 quality code hence we opted for using axios.
 
 #### Express
+
+The Express version used during development was 4.17.1
 
 > Express is the most popular Node web framework
 >
