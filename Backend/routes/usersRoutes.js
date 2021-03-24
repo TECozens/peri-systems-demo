@@ -1,3 +1,5 @@
+const authJwt = require("../middlewares/authJwt");
+
 const express = require("express");
 const UserRouter = express.Router();
 const user = require("../models/user.model");
@@ -6,34 +8,42 @@ const project = require("../models/projectModel");
 const request = require("../models/requestModel")
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const { pagingOptions, getMaxPages } = require("../utils/pagingOptions.js")
-
-urlencodedParser = bodyParser.urlencoded({ extended: false });
-jsonParser = bodyParser.json();
+const { pagingOptions, getMaxPages } = require("../utils/pagingOptions.js");
+const jsonParser = bodyParser.json();
 
 UserRouter.get(
     "/api/users/getUsersWithRoleID/:roleID",
     jsonParser,
     (req, res) => {
         let roleId = new mongoose.Types.ObjectId(req.params.roleID);
-        user.find({ roles: roleId }, (err, data) => {
-            if (err) {
-                return res.json({ success: false, error: err });
-            } else {
-                return res.json({ success: true, data: data });
-            }
+        authJwt.verifyToken(req, res, () => {
+            user.find({ roles: roleId }, (err, data) => {
+                if (err) {
+                    return res.json({
+                        success: false,
+                        error: err,
+                    });
+                } else {
+                    return res.json({
+                        success: true,
+                        data: data,
+                    });
+                }
+            });
         });
     }
 );
 
 UserRouter.get("/api/users/getUserByID/:userID", jsonParser, (req, res) => {
     let userId = new mongoose.Types.ObjectId(req.params.userID);
-    user.findById(userId, (err, data) => {
-        if (err) {
-            return res.json({ success: false, error: err });
-        } else {
-            return res.json({ success: true, data: data });
-        }
+    authJwt.verifyToken(req, res, () => {
+        user.findById(userId, (err, data) => {
+            if (err) {
+                return res.json({ success: false, error: err });
+            } else {
+                return res.json({ success: true, data: data });
+            }
+        });
     });
 });
 
@@ -61,51 +71,75 @@ UserRouter.get(
                 return res.json({ success: true, data: data });
             }
         });
-    }
-);
+    });
+});
 
 UserRouter.get("/api/users/getDesignerRoleID", jsonParser, (req, res) => {
-    role.find({ name: "designer" }, (err, data) => {
-        if (err) {
-            return res.json({ success: false, error: err });
-        } else {
-            return res.json({ success: true, data: data });
-        }
+    authJwt.verifyToken(req, res, () => {
+        role.find({ name: "designer" }, (err, data) => {
+            if (err) {
+                return res.json({ success: false, error: err });
+            } else {
+                return res.json({ success: true, data: data });
+            }
+        });
     });
 });
 
 UserRouter.get("/api/users/getTechnicalLeadRoleID", jsonParser, (req, res) => {
-    role.find({ name: "technical" }, (err, data) => {
-        if (err) {
-            return res.json({ success: false, error: err });
-        } else {
-            return res.json({ success: true, data: data });
-        }
+    authJwt.verifyToken(req, res, () => {
+        role.find({ name: "technical" }, (err, data) => {
+            if (err) {
+                return res.json({ success: false, error: err });
+            } else {
+                return res.json({ success: true, data: data });
+            }
+        });
     });
 });
 
-UserRouter.get('/api/users', jsonParser, async (req, res) => {
-    let pageSize = 6
-    let page = req.query.page
-    let query = req.query.query
-    let filter = null
-    if (query) {
-        let firstName, lastName
-        if (query.split(' ').length > 1) {
-            [firstName, lastName] = query.split(" ")
-            let firstname = new RegExp(firstName, 'i')
-            let lastname = new RegExp(lastName, 'i')
-            let email = new RegExp(query, 'i')
-            filter = {
-                $or: [
-                    {
-                        $and: [
-                            { firstname: { $regex: firstname } },
-                            { lastname: { $regex: lastname } }
-                        ]
-                    },
-                    { email: { $regex: email } }
-                ]
+UserRouter.get("/api/users", jsonParser, async (req, res) => {
+    authJwt.verifyToken(req, res, () => {
+        let pageSize = 6;
+        let page = req.query.page;
+        let query = req.query.query ? req.query.query : "";
+        let filter = null;
+        if (query) {
+            let firstName, lastName;
+            if (query.split(" ").length > 1) {
+                [firstName, lastName] = query.split(" ");
+                let firstname = new RegExp(firstName, "i");
+                let lastname = new RegExp(lastName, "i");
+                let email = new RegExp(query, "i");
+                filter = {
+                    $or: [
+                        {
+                            $and: [
+                                { firstname: { $regex: firstname } },
+                                { lastname: { $regex: lastname } },
+                            ],
+                        },
+                        { email: { $regex: email } },
+                    ],
+                };
+            } else {
+                console.log("hi?");
+                firstName = query;
+                lastName = query;
+                let firstname = new RegExp(firstName, "i");
+                let lastname = new RegExp(lastName, "i");
+                let email = new RegExp(query, "i");
+                filter = {
+                    $or: [
+                        {
+                            $or: [
+                                { firstname: { $regex: firstname } },
+                                { lastname: { $regex: lastname } },
+                            ],
+                        },
+                        { email: { $regex: email } },
+                    ],
+                };
             }
         } else {
             console.log("hi?");
@@ -127,29 +161,30 @@ UserRouter.get('/api/users', jsonParser, async (req, res) => {
             }
 
         }
-    }
-    user.find(
-        filter,
-        ['firstname', 'lastname', 'email', 'roles'],
-        pagingOptions(page, pageSize),
-        (err, data) => {
-            if (err) {
-                return res.json({
-                    success: false,
-                    error: err,
-                })
-            } else {
-                user.countDocuments(filter, (err, count) =>
-                    res.json({
-                        success: err !== null,
+        user.find(
+            filter,
+            ["firstname", "lastname", "email", "roles"],
+            pagingOptions(page, pageSize),
+            (err, data) => {
+                if (err) {
+                    return res.json({
+                        success: false,
                         error: err,
-                        maxPages: Math.ceil(count / pageSize),
-                        data: data,
-                    })
-                )
+                    });
+                } else {
+                    user.countDocuments(filter, (err, count) => {
+                        return res.json({
+                            success: err !== null,
+                            error: err,
+                            maxPages: Math.ceil(count / pageSize),
+                            data: data,
+                        });
+                    });
+                }
             }
-        }).populate("roles")
-})
+        ).populate("roles");
+    });
+});
 
 UserRouter.get('/api/users/approveRequest/:requestId', jsonParser, (req, res) => {
     const requestId = mongoose.Types.ObjectId(req.params.requestId)

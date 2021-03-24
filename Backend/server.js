@@ -59,7 +59,10 @@ mongoose.connection.on("connected", () => {
     console.log("Mongoose is connected!!!");
 });
 
-mongoose.connection.on("error", console.error.bind(console, "connection error:"));
+mongoose.connection.on(
+    "error",
+    console.error.bind(console, "connection error:")
+);
 
 app.use(router);
 app.use(usersRouter);
@@ -67,7 +70,6 @@ app.use(projectRouter);
 app.use(mailSender);
 
 require("./routes/auth.routes")(app);
-require("./routes/user.routes")(app);
 
 server.listen(PORT, () => console.log(`Server has started on port ${PORT}`));
 
