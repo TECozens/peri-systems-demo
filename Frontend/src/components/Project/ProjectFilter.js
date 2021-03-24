@@ -4,17 +4,21 @@ import {
     Collapse,
     Fade,
     HStack,
+    IconButton,
     Input,
     InputGroup,
     InputLeftElement,
     Select,
+    Slide,
+    SlideFade,
     useDisclosure,
 } from "@chakra-ui/react";
-import { DeleteIcon, Search2Icon } from "@chakra-ui/icons";
-import { Box, Stack } from "@chakra-ui/layout";
+import { CheckIcon, DeleteIcon, Search2Icon } from "@chakra-ui/icons";
+import { Box, Heading, Stack, Text, VStack, Wrap } from "@chakra-ui/layout";
 import DatePicker from "../Util/DatePicker/DatePicker";
 import ProjectFilteringService from "../../services/project.filtering.service";
 import AuthService from "../../services/auth.service";
+import userService from "../../services/user.service";
 
 const ProjectFilter = (props) => {
     let filters = useRef({});
@@ -22,31 +26,36 @@ const ProjectFilter = (props) => {
     let firstRender = useRef(true);
     let count = props.count;
     const { isOpen, onToggle } = useDisclosure();
+    const { isOpen: isRequestsOpen, onToggle: onRequestsToggle, onClose } = useDisclosure();
     const [userId, setUserId] = useState(null);
+    const [approvals, setApprovals] = useState([])
+    const [requests, setRequests] = useState([])
 
-    useEffect(() => {
+    useEffect(async () => {
         const user = AuthService.getCurrentUser();
+        const { data: { requests } } = await userService.getUserRequests()
+        setRequests(requests)
         setUserId(user.id);
     }, []);
 
     const getUniqueStatusFromProjects = (projectList) =>
         projectList
             ? setStatusOptions(
-                  projectList
-                      .map((project) => project.status.value)
-                      .filter(
-                          (value, index, self) => self.indexOf(value) === index
-                      )
-              )
+                projectList
+                    .map((project) => project.status.value)
+                    .filter(
+                        (value, index, self) => self.indexOf(value) === index
+                    )
+            )
             : false;
 
     const createSelectionOptions = (listOfOptions) =>
         listOfOptions
             ? listOfOptions.map((aStatus) => (
-                  <option key={count++} value={aStatus}>
-                      {aStatus}
-                  </option>
-              ))
+                <option key={count++} value={aStatus}>
+                    {aStatus}
+                </option>
+            ))
             : false;
 
     function handleKeyPress(event) {
@@ -60,6 +69,25 @@ const ProjectFilter = (props) => {
             event.returnValue = false;
             if (event.preventDefault) event.preventDefault();
         }
+    }
+
+    const approveRequest = async (requestId) => {
+        const res = await userService.approveRequest(requestId)
+        console.log(`res`, res)
+        const { data: { requests } } = await userService.getUserRequests()
+        requests.length > 0
+            ? setRequests(requests)
+            : onClose()
+    }
+
+
+    const declineRequest = async (requestId) => {
+        const res = await userService.declineRequest(requestId)
+        console.log(`res`, res)
+        const { data: { requests } } = await userService.getUserRequests()
+        requests.length > 0
+            ? setRequests(requests)
+            : onClose()
     }
 
     const handleFilterChange = useCallback(
@@ -110,16 +138,11 @@ const ProjectFilter = (props) => {
         }
     }, [props.projectsDisplayed]);
 
-    useEffect(() => {
-        console.log("filters.current :>> ", filters.current);
-        console.log("filtersActive() :>> ", filtersActive());
-    });
-
     const filtersActive = () =>
         !Object.values(filters.current)
             .map((value) => value !== "")
             .every((value) => value === false) ||
-        Object.values(filters.current) === []
+            Object.values(filters.current) === []
             ? true
             : false;
 
@@ -129,7 +152,7 @@ const ProjectFilter = (props) => {
                 <Button w="120px" onClick={onToggle} colorScheme="yellow">
                     {isOpen ? "Hide Filters" : "Show Filters"}
                 </Button>
-                <Fade in={filtersActive()} offsetX="-20px">
+                <Fade unmountOnExit in={filtersActive()} offsetX="-20px">
                     <Button
                         leftIcon={<DeleteIcon />}
                         colorScheme="red"
@@ -138,7 +161,50 @@ const ProjectFilter = (props) => {
                         Clear Filters
                     </Button>
                 </Fade>
+                <Fade unmountOnExit in={approvals.length > 0 || requests.length > 0} offsetX="-20px">
+                    <Button
+                        colorScheme="red"
+                        variant='outline'
+                        onClick={onRequestsToggle}
+                    >
+                        {`Approvals and Invitations`}
+                    </Button>
+                </Fade>
             </HStack>
+            <Collapse in={isRequestsOpen} animateOpacity>
+                <VStack align='start' mb={4} background="white" p={4} borderRadius={8}>
+                    {approvals.length > 0 ?
+                        <>
+                            <Heading size='md'>
+                                Approvals
+                            </Heading>
+                            {approvals.map(approval => <Box>{approval}</Box>)}
+                        </> :
+                        <></>
+                    }
+                    {requests.length > 0 ?
+                        <>
+                            <Heading size='md'>
+                                Invitations
+                            </Heading>
+                            <Wrap>
+                                {requests.map(request =>
+                                    <Box boxShadow='inner' p={4} bg='#F1F1F1' borderRadius={8}>
+                                        <Text>
+                                            {request.projectId.name}
+                                        </Text>
+                                        <HStack mt={3}>
+                                            <IconButton size='sm' colorScheme='yellow' onClick={() => approveRequest(request._id)} icon={<CheckIcon />} />
+                                            <IconButton size='sm' colorScheme='red' onClick={() => declineRequest(request._id)} icon={<DeleteIcon />} />
+                                        </HStack>
+                                    </Box>
+                                )}
+                            </Wrap>
+                        </> :
+                        <></>
+                    }
+                </VStack>
+            </Collapse>
             <Collapse in={isOpen} animateOpacity>
                 <Box mb={4} background="white" p={4} borderRadius={8}>
                     <Stack>
@@ -223,6 +289,7 @@ const ProjectFilter = (props) => {
                     </Stack>
                 </Box>
             </Collapse>
+
         </>
     );
 };
