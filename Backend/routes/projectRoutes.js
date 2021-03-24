@@ -140,9 +140,8 @@ router.get(
                 })
                 .populate("engineers.designer_id")
                 .populate("engineers.design_checker_id");
-        });
-    }
-);
+        })
+    })
 
 router.put(
     "/api/projects/updateProjectStatus/:projectID/:aStatus/",
@@ -169,8 +168,7 @@ router.put(
                 .populate("engineers.designer_id")
                 .populate("engineers.design_checker_id");
         });
-    }
-);
+    })
 
 router.put(
     "/api/projects/updateProjectApproval/:projectID/:isApproved/",
@@ -192,8 +190,7 @@ router.put(
                 .populate("engineers.designer_id")
                 .populate("engineers.design_checker_id");
         });
-    }
-);
+    })
 
 router.put(
     "/api/projects/updateProjectDesignEngineer/:projectID/:anEngineerId",
@@ -205,38 +202,39 @@ router.put(
                 req.params.anEngineerId
             );
 
-        projects.findById(projectID, (err, data) => {
-            if (err) {
-                return res.json({ success: false, error: err });
-            } else {
-                let project = data;
-                project.engineers.designer_id = engineerID;
-                project.save().then((p) =>
-                    p
-                        .populate("engineers.designer_id")
-                        .populate("engineers.design_checker_id")
-                        .execPopulate()
-                        .then((populated) => {
-                        request.deleteMany({ projectId: projectID, role: 'DESIGN_CHECKER' }).then(() => {
-                                var customRequest = new request({
-                                    role: 'DESIGN_ENGINEER',
-                                    projectId: projectID,
-                                    userId: engineerID,
-                                    response: null,
-                                    reason: null
-                                })
+            projects.findById(projectID, (err, data) => {
+                if (err) {
+                    return res.json({ success: false, error: err });
+                } else {
+                    let project = data;
+                    project.engineers.designer_id = engineerID;
+                    project.save().then((p) =>
+                        p
+                            .populate("engineers.designer_id")
+                            .populate("engineers.design_checker_id")
+                            .execPopulate()
+                            .then((populated) => {
+                                request.deleteMany({ projectId: projectID, role: 'DESIGN_CHECKER' }).then(() => {
+                                    var customRequest = new request({
+                                        role: 'DESIGN_ENGINEER',
+                                        projectId: projectID,
+                                        userId: engineerID,
+                                        response: null,
+                                        reason: null
+                                    })
 
-                                customRequest.save().then(x => {
-                                    return res.json({
-                                        success: false,
-                                        data: populated,
-                                    });
+                                    customRequest.save().then(x => {
+                                        return res.json({
+                                            success: false,
+                                            data: populated,
+                                        });
+                                    })
                                 })
                             })
-                        })
-                );
-            }
-        });
+                    );
+                }
+            });
+        })
     }
 );
 
@@ -250,38 +248,39 @@ router.put(
                 req.params.anEngineerId
             );
 
-        projects.findById(projectID, (err, data) => {
-            if (err) {
-                return res.json({ success: false, error: err });
-            } else {
-                let project = data;
-                project.engineers.design_checker_id = engineerID;
-                project.save().then((p) =>
-                    p
-                        .populate("engineers.designer_id")
-                        .populate("engineers.design_checker_id")
-                        .execPopulate()
-                        .then((populated) => {
-                            request.deleteMany({ projectId: projectID, role: 'DESIGN_CHECKER' }).then(() => {
-                                var customRequest = new request({
-                                    role: 'DESIGN_CHECKER',
-                                    projectId: projectID,
-                                    userId: engineerID,
-                                    response: null,
-                                    reason: null
-                                })
+            projects.findById(projectID, (err, data) => {
+                if (err) {
+                    return res.json({ success: false, error: err });
+                } else {
+                    let project = data;
+                    project.engineers.design_checker_id = engineerID;
+                    project.save().then((p) =>
+                        p
+                            .populate("engineers.designer_id")
+                            .populate("engineers.design_checker_id")
+                            .execPopulate()
+                            .then((populated) => {
+                                request.deleteMany({ projectId: projectID, role: 'DESIGN_CHECKER' }).then(() => {
+                                    var customRequest = new request({
+                                        role: 'DESIGN_CHECKER',
+                                        projectId: projectID,
+                                        userId: engineerID,
+                                        response: null,
+                                        reason: null
+                                    })
 
-                                customRequest.save().then(x => {
-                                    return res.json({
-                                        success: false,
-                                        data: populated,
-                                    });
+                                    customRequest.save().then(x => {
+                                        return res.json({
+                                            success: false,
+                                            data: populated,
+                                        });
+                                    })
                                 })
                             })
-                        })
-                );
-            }
-        }); 
+                    );
+                }
+            });
+        })
     }
 );
 
@@ -301,7 +300,7 @@ router.get(
                         return res.json({ success: true, data: data });
                     }
                 });
-        });
+        })
     }
 );
 

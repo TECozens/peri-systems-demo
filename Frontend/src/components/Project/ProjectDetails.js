@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {Box, Container, Flex, Heading} from "@chakra-ui/layout";
+import React, { useEffect, useState } from "react";
+import { Box, Container, Flex, Heading, Text } from "@chakra-ui/layout";
 import Timeline from "../Events/Timeline";
 import ProjectService from "../../services/project.service";
 import { SeparatedHeading } from "../Util/SeparatedHeading/SeparatedHeading";
@@ -24,29 +24,56 @@ const ProjectDetails = (props) => {
             <Flex bg={"brand.background"} borderRadius="lg" boxShadow="lg">
                 {projectId ? (
                     <>
-                        <Box marginBottom={5}>
+                        <Box marginBottom={1}>
                             <Box m={10}>
-                                <Timeline project={project}/>
+                                {project ?
+                                    <Box marginBottom={8}>
+                                        <Heading> {project.name}  <Text color='grey'>#{project.number}</Text> </Heading>
+                                    </Box>
+                                    : <></>}
+                                <Timeline project={project} />
                             </Box>
                             {project ? (
                                 <>
                                     <Box m={10}>
-                                        <Box align="center" justify="center">
-                                            <Heading>{project.name}</Heading>
-                                            <Heading as="h2" size="lg">
-                                                (#{project.number})
-                                            </Heading>
-                                        </Box>
                                         <Box>
-                                            <Heading as="h4" size="md" marginBottom={5}>
-                                                Due:{" "}
+                                            <Heading as="h4" size="md">
+                                                Due
+                                            </Heading>
+                                        p    <Text>
                                                 {new Date(
                                                     project.date_required
                                                 ).toLocaleDateString()}
+                                            </Text>
+
+                                            <Heading as="h4" size="md" mt={3}>
+                                                Description
                                             </Heading>
-                                            <Heading as="h4" size="md">
-                                                Description: {project.description}
+                                            <Text>
+                                                {project.description}
+                                            </Text>
+
+                                            <Heading as="h4" size="md" mt={3}>
+                                                Client
                                             </Heading>
+                                            <Text>
+                                                {project.client}
+                                            </Text>
+
+                                            <Heading as="h4" size="md" mt={3}>
+                                                System
+                                            </Heading>
+                                            <Text>
+                                                {project.system}
+                                            </Text>
+
+                                            <Heading as="h4" size="md" mt={3}>
+                                                Sector
+                                            </Heading>
+                                            <Text>
+                                                {project.sector}
+                                            </Text>
+
                                         </Box>
                                     </Box>
 

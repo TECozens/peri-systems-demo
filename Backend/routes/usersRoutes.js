@@ -15,22 +15,24 @@ UserRouter.get(
     "/api/users/getUsersWithRoleID/:roleID",
     jsonParser,
     (req, res) => {
-        let roleId = new mongoose.Types.ObjectId(req.params.roleID);
         authJwt.verifyToken(req, res, () => {
-            user.find({ roles: roleId }, (err, data) => {
-                if (err) {
-                    return res.json({
-                        success: false,
-                        error: err,
-                    });
-                } else {
-                    return res.json({
-                        success: true,
-                        data: data,
-                    });
-                }
+            let roleId = new mongoose.Types.ObjectId(req.params.roleID);
+            authJwt.verifyToken(req, res, () => {
+                user.find({ roles: roleId }, (err, data) => {
+                    if (err) {
+                        return res.json({
+                            success: false,
+                            error: err,
+                        });
+                    } else {
+                        return res.json({
+                            success: true,
+                            data: data,
+                        });
+                    }
+                });
             });
-        });
+        })
     }
 );
 
@@ -72,7 +74,6 @@ UserRouter.get(
             }
         });
     });
-});
 
 UserRouter.get("/api/users/getDesignerRoleID", jsonParser, (req, res) => {
     authJwt.verifyToken(req, res, () => {
@@ -187,28 +188,32 @@ UserRouter.get("/api/users", jsonParser, async (req, res) => {
 });
 
 UserRouter.get('/api/users/approveRequest/:requestId', jsonParser, (req, res) => {
-    const requestId = mongoose.Types.ObjectId(req.params.requestId)
-    request.findByIdAndDelete(requestId).then((err, response) => {
-        return err ? res.json({ success: false, err }) : res.json({ success: true })
+    authJwt.verifyToken(req, res, () => {
+        const requestId = mongoose.Types.ObjectId(req.params.requestId)
+        request.findByIdAndDelete(requestId).then((err, response) => {
+            return err ? res.json({ success: false, err }) : res.json({ success: true })
+        })
     })
 })
 
 UserRouter.get('/api/users/declineRequest/:requestId', jsonParser, (req, res) => {
-    const requestId = mongoose.Types.ObjectId(req.params.requestId)
-    request.findByIdAndDelete(requestId).then((requestData, err) => {
-        const projectId = mongoose.Types.ObjectId(requestData.projectId)
-        project.findById(projectId, (err, currentProject) => {
-            switch (requestData.role) {
-                case 'DESIGN_CHECKER':
-                    currentProject.engineers.design_checker_id = null
-                    break;
-                case 'DESIGN_ENGINEER':
-                    currentProject.engineers.designer_id = null
-                    break;
-            } 
-            currentProject.save().then(savedDoc => console.log(`savedDoc`, savedDoc))
+    authJwt.verifyToken(req, res, () => {
+        const requestId = mongoose.Types.ObjectId(req.params.requestId)
+        request.findByIdAndDelete(requestId).then((requestData, err) => {
+            const projectId = mongoose.Types.ObjectId(requestData.projectId)
+            project.findById(projectId, (err, currentProject) => {
+                switch (requestData.role) {
+                    case 'DESIGN_CHECKER':
+                        currentProject.engineers.design_checker_id = null
+                        break;
+                    case 'DESIGN_ENGINEER':
+                        currentProject.engineers.designer_id = null
+                        break;
+                }
+                currentProject.save().then(savedDoc => console.log(`savedDoc`, savedDoc))
+            })
+            return err ? res.json({ success: false, err }) : res.json({ success: true })
         })
-        return err ? res.json({ success: false, err }) : res.json({ success: true })
     })
 })
 

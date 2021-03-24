@@ -291,7 +291,7 @@ const Timeline = (props) => {
     }
 
     return (
-        <Box bg="brand.background" width="100%" marginBottom={40}>
+        <Box bg="brand.background" width="100%" marginBottom={20}>
             <Flex>
                 <Box w="100%"> {isStatusComplete(0)}</Box>
                 <Box w="100%"> {isStatusComplete(1)}</Box>

@@ -167,7 +167,7 @@ const ProjectFilter = (props) => {
                         variant='outline'
                         onClick={onRequestsToggle}
                     >
-                        {`Requests & Approvals`}
+                        {`Approvals and Invitations`}
                     </Button>
                 </Fade>
             </HStack>
@@ -185,7 +185,7 @@ const ProjectFilter = (props) => {
                     {requests.length > 0 ?
                         <>
                             <Heading size='md'>
-                                Requests
+                                Invitations
                             </Heading>
                             <Wrap>
                                 {requests.map(request =>
