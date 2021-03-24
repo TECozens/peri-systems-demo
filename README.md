@@ -12,7 +12,7 @@ You must:
 To use the application, you will need to run both servers.
 
 ### Database
-For this application to work you will need a MongoDB database. You can recreate the database we used for development using the json files located in Backend/mockCollectionData. You will also have to change the MONGODB_URI variable in server.js (line 40) to your database's connection string. 
+For this application to work you will need a MongoDB database. You can recreate the database we used for development using the json files located in Backend/mockCollectionData. You will also have to change the MONGODB_URI variable in server.js (line 36) to your database's connection string. 
 
 ### Node Server
 1. Ensure you're in the directory `./Backend`
