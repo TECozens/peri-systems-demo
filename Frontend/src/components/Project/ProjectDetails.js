@@ -16,21 +16,31 @@ const ProjectDetails = (props) => {
         }
     }, [projectId]);
 
-
     return (
         <Container maxW="6xl" marginTop={12} marginBottom={12}>
-            <SeparatedHeading primary='Project Details' secondary='Manage or View your Project' />
+            <SeparatedHeading
+                primary="Project Details"
+                secondary="Manage or View your Project"
+            />
 
             <Flex bg={"brand.background"} borderRadius="lg" boxShadow="lg">
                 {projectId ? (
                     <>
                         <Box marginBottom={1}>
                             <Box m={10}>
-                                {project ?
+                                {project ? (
                                     <Box marginBottom={8}>
-                                        <Heading> {project.name}  <Text color='grey'>#{project.number}</Text> </Heading>
+                                        <Heading>
+                                            {" "}
+                                            {project.name}{" "}
+                                            <Text color="grey">
+                                                #{project.number}
+                                            </Text>{" "}
+                                        </Heading>
                                     </Box>
-                                    : <></>}
+                                ) : (
+                                    <></>
+                                )}
                                 <Timeline project={project} />
                             </Box>
                             {project ? (
@@ -40,7 +50,7 @@ const ProjectDetails = (props) => {
                                             <Heading as="h4" size="md">
                                                 Due
                                             </Heading>
-                                        p    <Text>
+                                            <Text>
                                                 {new Date(
                                                     project.date_required
                                                 ).toLocaleDateString()}
@@ -49,34 +59,24 @@ const ProjectDetails = (props) => {
                                             <Heading as="h4" size="md" mt={3}>
                                                 Description
                                             </Heading>
-                                            <Text>
-                                                {project.description}
-                                            </Text>
+                                            <Text>{project.description}</Text>
 
                                             <Heading as="h4" size="md" mt={3}>
                                                 Client
                                             </Heading>
-                                            <Text>
-                                                {project.client}
-                                            </Text>
+                                            <Text>{project.client}</Text>
 
                                             <Heading as="h4" size="md" mt={3}>
                                                 System
                                             </Heading>
-                                            <Text>
-                                                {project.system}
-                                            </Text>
+                                            <Text>{project.system}</Text>
 
                                             <Heading as="h4" size="md" mt={3}>
                                                 Sector
                                             </Heading>
-                                            <Text>
-                                                {project.sector}
-                                            </Text>
-
+                                            <Text>{project.sector}</Text>
                                         </Box>
                                     </Box>
-
                                 </>
                             ) : (
                                 <> </>
@@ -88,7 +88,6 @@ const ProjectDetails = (props) => {
                 )}
             </Flex>
         </Container>
-
     );
 };
 

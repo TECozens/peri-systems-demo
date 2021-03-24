@@ -49,7 +49,7 @@ mailSenderRouter.post("/api/sendmail", (req, res, next) => {
             req.body.projects.status.value +
             " stage. " +
             "<br><br>You can find out more about your " +
-            "project <a href='https://localhost:3000/customer/" +
+            "project <a href='http://localhost:3000/customer/" +
             req.body.projects._id +
             "'>here</a>." +
             // TODO INSERT TIMELINE IMAGE

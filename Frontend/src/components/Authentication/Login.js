@@ -1,7 +1,17 @@
-import React, {useRef, useState} from "react";
-import {Box, Button, Flex, FormControl, FormLabel, Heading, Input, SimpleGrid, Image} from "@chakra-ui/react"
-import '../../App.css';
-import Info from '../../icons/Perinfo.png'
+import React, { useRef, useState } from "react";
+import {
+    Box,
+    Button,
+    Flex,
+    FormControl,
+    FormLabel,
+    Heading,
+    Input,
+    SimpleGrid,
+    Image,
+} from "@chakra-ui/react";
+import "../../App.css";
+import Info from "../../icons/Perinfo.png";
 import Form from "react-validation/build/form";
 import CheckButton from "react-validation/build/button";
 import AuthService from "../../services/auth.service";
@@ -155,20 +165,6 @@ const Login = (props) => {
                                         isLoading={loading}
                                     >
                                         <span>Sign In</span>
-                                    </Button>
-                                    <Button
-                                        ml={4}
-                                        bg="brand.primary"
-                                        color="brand.primaryText"
-                                        _hover={{ bg: "brand.primaryHover" }}
-                                        borderRadius={8}
-                                        size="lg"
-                                        _focus={{
-                                            boxShadow:
-                                                "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
-                                        }}
-                                    >
-                                        Register an account
                                     </Button>
                                 </Flex>
                             </Form>
