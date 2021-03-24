@@ -1,8 +1,6 @@
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { IconButton, Menu, MenuButton, MenuList } from "@chakra-ui/react";
-import React from "react";
 import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
-import ModalTest from "../Events/ModalTest/ModalTest";
 import UpdateStatus from "../Events/UpdateStatus";
 import ProjectView from "./ProjectView";
 import { useState, useEffect } from "react"
@@ -16,7 +14,6 @@ export const ProjectTableRow = ({
     authenticatedRole,
     project,
 }) => {
-
     const [IsSales, setIsSales] = useState(false)
 
     useEffect(() => {
@@ -52,7 +49,6 @@ export const ProjectTableRow = ({
                                     updateParent={updateParent}
                                     project={project}
                                 />
-                                <ModalTest />
                             </div>
                         )}
                     </MenuList>
