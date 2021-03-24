@@ -47,11 +47,11 @@ function getTechnicalLeadRoleID() {
 const getUsers = async (query, page) => {
     const searchTerm = query !== "" ? `&query=${query}` : "";
 
-    return await fetch(
-        `http://localhost:8081/api/users?page=${page}${searchTerm}`
-    )
-        .then((res) => (res.ok ? res : Promise.reject(res)))
-        .then((res) => res.json());
+    return await axios
+        .get(`http://localhost:8081/api/users?page=${page}${searchTerm}`)
+        .then(function (res) {
+            return res.data;
+        });
 };
 
 const UserService = {
