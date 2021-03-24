@@ -48,36 +48,57 @@ const UpdateStatus = (props) => {
             isClosable: true,
         })
     }
+    function sendNotificationEmail(projects) {
+        ProjectService.sendMail(
+            projects.customer.name,
+            projects.customer.email,
+            props.projectId
+        ).then(
+            (response) => {
+                console.log("mail sent");
+            },
+            (error) => {
+                const resMessage =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+                console.log("error sending mail");
+            }
+        );
+    }
 
 
     function handleSubmit() {
         const toast = createStandaloneToast()
+        ProjectService.sendMail(
+            projects,
+            projects.customer.email,
+            projects.customer.name,
+
+        ).then(
+            (response) => {
+                console.log("mail sent");
+            },
+            (error) => {
+                const resMessage =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+                console.log("error sending mail");
+            }
+        );
         if (typeof projects !== "undefined") {
-            console.log("APPROVAL IS" + projects.approved);
+            sendNotificationEmail(projects);
             if (statusSelected === "Design Complete" && projects.approved === "APPROVED") {
                 ProjectService.updateProjectStatus(props.projectId, statusSelected)
                     .then((updatedProject) => props.updateParent(updatedProject))
                     .then(onClose);
 
-                ProjectService.sendMail(
-                    projects.customer.name,
-                    projects.customer.email,
-                    props.projectId
-                ).then(
-                    (response) => {
-                        console.log("mail sent");
-                    },
-                    (error) => {
-                        const resMessage =
-                            (error.response &&
-                                error.response.data &&
-                                error.response.data.message) ||
-                            error.message ||
-                            error.toString();
-                        console.log("error sending mail");
-                    }
-                );
-                successStatusToast()
+                successStatusToast();
             } else if (statusSelected === "Design Complete" && projects.approved === "NONE") {
 
                 ProjectService.updateProjectApproval(props.projectId, "PENDING")
@@ -93,6 +114,7 @@ const UpdateStatus = (props) => {
                     isClosable: true,
                 })
 
+
             } else if (statusSelected === "Design Complete" && projects.approved === "PENDING") {
                 toast({
                     title: "Approval Request Sent",
@@ -106,7 +128,7 @@ const UpdateStatus = (props) => {
                 ProjectService.updateProjectStatus(props.projectId, statusSelected)
                     .then((updatedProject) => props.updateParent(updatedProject))
                     .then(onClose);
-                successStatusToast()
+                successStatusToast();
             }
         }
     }
