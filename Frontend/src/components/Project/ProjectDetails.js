@@ -1,20 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box, Container, Flex, Heading, Text } from "@chakra-ui/layout";
 import Timeline from "../Events/Timeline";
 import ProjectService from "../../services/project.service";
 import { SeparatedHeading } from "../Util/SeparatedHeading/SeparatedHeading";
+import UpdateStatus from "../Events/UpdateStatus";
 
 const ProjectDetails = (props) => {
-    const projectId = props.match.params.param1;
+    let projectId = useRef(props.match.params.param1);
     const [project, setProject] = useState(props.project);
 
     useEffect(() => {
-        if (projectId !== undefined) {
-            ProjectService.getProjectByID(projectId).then((projectReturned) => {
-                setProject(projectReturned);
-            });
+        if (projectId.current !== undefined) {
+            ProjectService.getProjectByID(projectId.current).then(
+                (projectReturned) => {
+                    setProject(projectReturned);
+                }
+            );
         }
-    }, [projectId]);
+    }, [projectId.current]);
+
+    const updateProjectDisplayed = (project) => {
+        setProject(project);
+    };
 
     return (
         <Container maxW="6xl" marginTop={12} marginBottom={12}>
@@ -24,19 +31,32 @@ const ProjectDetails = (props) => {
             />
 
             <Flex bg={"brand.background"} borderRadius="lg" boxShadow="lg">
-                {projectId ? (
+                {projectId.current ? (
                     <>
                         <Box marginBottom={1}>
                             <Box m={10}>
                                 {project ? (
                                     <Box marginBottom={8}>
-                                        <Heading>
-                                            {" "}
-                                            {project.name}{" "}
-                                            <Text color="grey">
-                                                #{project.number}
-                                            </Text>{" "}
-                                        </Heading>
+                                        <Flex>
+                                            <Heading w={"100%"}>
+                                                {" "}
+                                                {project.name}{" "}
+                                                <Text color="grey">
+                                                    #{project.number}
+                                                </Text>{" "}
+                                            </Heading>
+                                            <UpdateStatus
+                                                count={1000}
+                                                projectStatus={
+                                                    project.status.value
+                                                }
+                                                projectId={projectId.current}
+                                                updateParent={
+                                                    updateProjectDisplayed
+                                                }
+                                                inMenu={false}
+                                            />
+                                        </Flex>
                                     </Box>
                                 ) : (
                                     <></>

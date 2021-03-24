@@ -3,7 +3,7 @@ import { IconButton, Menu, MenuButton, MenuList } from "@chakra-ui/react";
 import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
 import UpdateStatus from "../Events/UpdateStatus";
 import ProjectView from "./ProjectView";
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 import authService from "../../services/auth.service";
 
 export const ProjectTableRow = ({
@@ -14,20 +14,22 @@ export const ProjectTableRow = ({
     authenticatedRole,
     project,
 }) => {
-    const [IsSales, setIsSales] = useState(false)
+    const [IsSales, setIsSales] = useState(false);
 
     useEffect(() => {
-        const user = authService.getCurrentUser()
-        setIsSales(user.roles.includes('ROLE_SALES') && user.roles.length === 1)
-    })
+        const user = authService.getCurrentUser();
+        setIsSales(
+            user.roles.includes("ROLE_SALES") && user.roles.length === 1
+        );
+    });
 
     return (
         <>
-            {IsSales ?
+            {IsSales ? (
                 <Menu>
-                    <ProjectView project={project}></ProjectView>
+                    <ProjectView project={project}/>
                 </Menu>
-                :
+            ) : (
                 <Menu placement="bottom-end">
                     <MenuButton
                         as={IconButton}
@@ -41,6 +43,7 @@ export const ProjectTableRow = ({
                             projectStatus={status_value}
                             projectId={_id}
                             updateParent={updateParent}
+                            inMenu={true}
                         />
                         <ProjectView project={project} />
                         {authenticatedRole.includes("ROLE_TECHNICAL") && (
@@ -52,7 +55,8 @@ export const ProjectTableRow = ({
                             </div>
                         )}
                     </MenuList>
-                </Menu>}
+                </Menu>
+            )}
         </>
     );
 };

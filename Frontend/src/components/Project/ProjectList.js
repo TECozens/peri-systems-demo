@@ -78,11 +78,7 @@ const ProjectList = (props) => {
                 </Thead>
                 <Tbody>
                     {projects.map((project) => (
-                        <Tr
-                            topBorder="1px"
-                            borderColor="#E2DCCD"
-                            key={project.name}
-                        >
+                        <Tr borderColor="#E2DCCD" key={project.name}>
                             <Td>{project.number}</Td>
                             <Td>{project.name}</Td>
 
