@@ -1,7 +1,8 @@
 default:
     image: node:14
+
 variables:
-  GIT_STRATEGY: clone
+  GIT_STRATEGY: fetch
 
 
 stages:
@@ -13,12 +14,9 @@ test:
     script:
         - npm set progress=false
         - cd Frontend
-        - npm i mocha -g
         - npm i jest -g
         - npm install
-        - npm install framer-motion@3.10.6
-        - npm fund
-        - npm test
+        - npm run test 
         - cd ../Backend
         - npm install
         - npm run test
