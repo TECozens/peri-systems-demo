@@ -81,9 +81,15 @@ const AssignEngineers = (props) => {
 
     return (
         <div key={"assign_engineer_modal"}>
-            <MenuItem icon={<BsFillPeopleFill />} onClick={onOpen}>
-                Assign Engineers
-            </MenuItem>
+            {props.inMenu ? (
+                <MenuItem icon={<BsFillPeopleFill />} onClick={onOpen}>
+                    Assign Engineers
+                </MenuItem>
+            ) : (
+                <Button onClick={onOpen} colorScheme={"green"} marginLeft={10}>
+                    Assign Engineers
+                </Button>
+            )}
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
@@ -114,10 +120,7 @@ const AssignEngineers = (props) => {
                             >
                                 Cancel
                             </Button>
-                            <Button
-                                colorScheme="green"
-                                onClick={handleSubmit}
-                            >
+                            <Button colorScheme="green" onClick={handleSubmit}>
                                 Submit
                             </Button>
                         </HStack>

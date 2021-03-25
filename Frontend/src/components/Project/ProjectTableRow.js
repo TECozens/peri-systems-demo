@@ -51,6 +51,7 @@ export const ProjectTableRow = ({
                                 <AssignEngineers
                                     updateParent={updateParent}
                                     project={project}
+                                    inMenu={true}
                                 />
                             </div>
                         )}

@@ -4,6 +4,7 @@ import Timeline from "../Events/Timeline";
 import ProjectService from "../../services/project.service";
 import { SeparatedHeading } from "../Util/SeparatedHeading/SeparatedHeading";
 import UpdateStatus from "../Events/UpdateStatus";
+import AssignEngineers from "../Events/AssigingEngineers/AssignEngineers";
 
 const ProjectDetails = (props) => {
     let projectId = useRef(props.match.params.param1);
@@ -54,6 +55,13 @@ const ProjectDetails = (props) => {
                                                 updateParent={
                                                     updateProjectDisplayed
                                                 }
+                                                inMenu={false}
+                                            />
+                                            <AssignEngineers
+                                                updateParent={
+                                                    updateProjectDisplayed
+                                                }
+                                                project={project}
                                                 inMenu={false}
                                             />
                                         </Flex>
