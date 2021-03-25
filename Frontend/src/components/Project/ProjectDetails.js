@@ -103,6 +103,40 @@ const ProjectDetails = (props) => {
                                                 Sector
                                             </Heading>
                                             <Text>{project.sector}</Text>
+                                            <Heading as="h4" size="md" mt={3}>
+                                                Technical Team Lead
+                                            </Heading>
+                                            <Text>
+                                                {project.engineers
+                                                    .technical_lead_id
+                                                    .firstname +
+                                                    " " +
+                                                    project.engineers
+                                                        .technical_lead_id
+                                                        .lastname}
+                                            </Text>
+                                            <Heading as="h4" size="md" mt={3}>
+                                                Design Engineer
+                                            </Heading>
+                                            <Text>
+                                                {project.engineers.designer_id
+                                                    .firstname +
+                                                    " " +
+                                                    project.engineers
+                                                        .designer_id.lastname}
+                                            </Text>
+                                            <Heading as="h4" size="md" mt={3}>
+                                                Design Checker
+                                            </Heading>
+                                            <Text>
+                                                {project.engineers
+                                                    .design_checker_id
+                                                    .firstname +
+                                                    " " +
+                                                    project.engineers
+                                                        .design_checker_id
+                                                        .lastname}
+                                            </Text>
                                         </Box>
                                     </Box>
                                 </>

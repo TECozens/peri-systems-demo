@@ -306,6 +306,7 @@ router.get(
             projects
                 .findById({ _id: projectId })
                 .populate("customer")
+                .populate("engineers.technical_lead_id")
                 .populate("engineers.designer_id")
                 .populate("engineers.design_checker_id")
                 .exec(function (err, data) {
