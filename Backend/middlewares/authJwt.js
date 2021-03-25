@@ -5,13 +5,13 @@ const User = db.user;
 const Role = db.role;
 
 verifyToken = (req, res, next) => {
-    let token = req.headers["x-access-token"];
+    let token = req.headers["authorization"];
 
     if (!token) {
         return res.status(403).send({ message: "No token provided!" });
     }
 
-    jwt.verify(token, config.secret, (err, decoded) => {
+    jwt.verify(token.split(" ")[1], config.secret, (err, decoded) => {
         if (err) {
             return res.status(401).send({ message: "Unauthorized!" });
         }
@@ -29,7 +29,7 @@ isAdmin = (req, res, next) => {
 
         Role.find(
             {
-                _id: { $in: user.roles }
+                _id: { $in: user.roles },
             },
             (err, roles) => {
                 if (err) {
@@ -45,7 +45,6 @@ isAdmin = (req, res, next) => {
                 }
 
                 res.status(403).send({ message: "Require Admin Role!" });
-                return;
             }
         );
     });
@@ -60,7 +59,7 @@ isTechnical = (req, res, next) => {
 
         Role.find(
             {
-                _id: { $in: user.roles }
+                _id: { $in: user.roles },
             },
             (err, roles) => {
                 if (err) {
@@ -76,7 +75,6 @@ isTechnical = (req, res, next) => {
                 }
 
                 res.status(403).send({ message: "Require technical Role!" });
-                return;
             }
         );
     });
@@ -91,7 +89,7 @@ isDesigner = (req, res, next) => {
 
         Role.find(
             {
-                _id: { $in: user.roles }
+                _id: { $in: user.roles },
             },
             (err, roles) => {
                 if (err) {
@@ -107,18 +105,15 @@ isDesigner = (req, res, next) => {
                 }
 
                 res.status(403).send({ message: "Require Designer Role!" });
-                return;
             }
         );
     });
 };
 
-
-
 const authJwt = {
     verifyToken,
     isAdmin,
     isTechnical,
-    isDesigner
+    isDesigner,
 };
 module.exports = authJwt;

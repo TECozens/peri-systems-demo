@@ -14,9 +14,18 @@ module.exports = function(app) {
         "/api/auth/signup",
         [
             verifySignUp.checkDuplicateEmail,
-            verifySignUp.checkRolesExisted
         ],
         controller.signup
+    );
+
+    app.delete(
+        "/api/auth/delete/:email",
+        controller.deleteUser
+    );
+
+    app.patch(
+        "/api/auth/patch/:email",
+        controller.updateUser
     );
 
     app.post("/api/auth/signin", controller.signin);

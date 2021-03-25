@@ -1,26 +1,36 @@
-import React, {useEffect, useState} from "react";
-import { Box, Heading, Flex, Button, Spacer } from "@chakra-ui/react";
-import {ReactComponent as ReactLogo} from "../icons/Pericon.svg";
-import '.././App.css';
+import React, { useEffect, useState } from "react";
+import {
+    Box,
+    Button,
+    Container,
+    HStack,
+    IconButton,
+    useMediaQuery,
+} from "@chakra-ui/react";
+import { ReactComponent as ReactLogo } from "../icons/Pericon.svg";
+import ".././App.css";
 import AuthService from "../services/auth.service";
-import {Link, Router, Switch, Route} from "react-router-dom";
-import {Menu, MenuButton, MenuGroup, MenuItem, MenuList} from "@chakra-ui/menu";
-import Dashboard from "../components/Dashboard";
-import Private from "../components/Private";
-import BoardAdmin from "../components/Dashboards/BoardAdmin";
-
+import { Link, useLocation } from "react-router-dom";
+import {
+    Menu,
+    MenuButton,
+    MenuGroup,
+    MenuItem,
+    MenuList,
+} from "@chakra-ui/menu";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 
 const PeriNavbar = () => {
-    const [showTechnicalBoard, setShowTechnicalBoard] = useState(false);
     const [showAdminBoard, setShowAdminBoard] = useState(false);
     const [currentUser, setCurrentUser] = useState(undefined);
+    const location = useLocation();
+    const [showFullMenu] = useMediaQuery("(min-width: 800px)");
 
     useEffect(() => {
         const user = AuthService.getCurrentUser();
 
         if (user) {
             setCurrentUser(user);
-            setShowTechnicalBoard(user.roles.includes("ROLE_TECHNICAL"));
             setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
         }
     }, []);
@@ -30,60 +40,108 @@ const PeriNavbar = () => {
         window.location.reload();
     };
 
+    const isCurrentPage = (route) => {
+        const { pathname } = location;
+        return pathname === route;
+    };
+
     return (
-    <Box bg="brand.background" boxShadow="lg">
-        <Flex alignItems="center" justifyContent="center">
-            <Box ml="15%">
-                <ReactLogo className="Logo"/>
-            </Box>
-            <Spacer/>
-
-            <Box mr="10%">
-                {currentUser ? (
-                <div>
-                    <Menu>
-                        <MenuButton mr={10} as={Button} bg="brand.accents" color="brand.primary">
-                            Menu
-                        </MenuButton>
-                        <MenuList>
-                            <MenuGroup title="Access">
-                                <MenuItem>
-                                    <Link to="/Dashboard">
-                                        Dashboard
-                                    </Link>
-                                </MenuItem>
-                                {showAdminBoard && (
-                                    <MenuItem>
-                                        <Link to="/Register">
-                                            Register
+        <Box bg="brand.background" boxShadow="lg">
+            <Container maxW="6xl">
+                <HStack justifyContent="space-between">
+                    <ReactLogo className="Logo" />
+                    <Box mr="1em">
+                        {currentUser ? (
+                            <HStack>
+                                {showFullMenu ? (
+                                    <>
+                                        <Link to="/Dashboard">
+                                            <Button
+                                                colorScheme="red"
+                                                variant="ghost"
+                                                to="/Dashboard"
+                                                isActive={isCurrentPage(
+                                                    "/Dashboard"
+                                                )}
+                                            >
+                                                Project Dashboard
+                                            </Button>
                                         </Link>
-                                    </MenuItem>
+                                        {showAdminBoard ? (
+                                            <Link to="/Register">
+                                                <Button
+                                                    colorScheme="red"
+                                                    variant="ghost"
+                                                    to="/Register"
+                                                    isActive={isCurrentPage(
+                                                        "/Register"
+                                                    )}
+                                                >
+                                                    Manage Users
+                                                </Button>
+                                            </Link>
+                                        ) : (
+                                            <></>
+                                        )}
+                                    </>
+                                ) : (
+                                    <></>
                                 )}
-                            </MenuGroup>
-                        </MenuList>
-                    </Menu>
 
-                    <Button bg="brand.accents" color="brand.primary" onClick={logOut}>
-                        <Link to="/Login" >
-                            LogOut
-                        </Link>
-                    </Button>
-                </div>
-                ) : (
-                <Button bg="brand.secondary" color="brand.primary">
-                    <Link to="/Login">
-                        Login
-                    </Link>
-                </Button>
-                )}
-            </Box>
-
-
-        </Flex>
-
-    </Box>
-    )
-
+                                {currentUser ? (
+                                    <Menu isLazy>
+                                        <MenuButton
+                                            as={IconButton}
+                                            colorScheme="red"
+                                            variant="ghost"
+                                            icon={<ChevronDownIcon />}
+                                        />
+                                        <MenuList>
+                                            {!showFullMenu ? (
+                                                <MenuGroup title="Navigation">
+                                                    <Link to="/Dashboard">
+                                                        <MenuItem>
+                                                            Project Dashboard
+                                                        </MenuItem>
+                                                    </Link>
+                                                    {showAdminBoard ? (
+                                                        <Link to="/Register">
+                                                            <MenuItem>
+                                                                Manage Users
+                                                            </MenuItem>
+                                                        </Link>
+                                                    ) : (
+                                                        <></>
+                                                    )}
+                                                </MenuGroup>
+                                            ) : (
+                                                <></>
+                                            )}
+                                            <MenuGroup title="Access">
+                                                <MenuItem onClick={logOut}>
+                                                    Logout
+                                                </MenuItem>
+                                            </MenuGroup>
+                                        </MenuList>
+                                    </Menu>
+                                ) : (
+                                    <></>
+                                )}
+                            </HStack>
+                        ) : (
+                            <Button
+                                colorScheme="red"
+                                variant="ghost"
+                                isActive={isCurrentPage("/Login")}
+                            >
+                                <Link to="/Login">Login</Link>
+                            </Button>
+                        )}
+                    </Box>
+                </HStack>
+            </Container>
+        </Box>
+    );
 };
 
 export default PeriNavbar;
